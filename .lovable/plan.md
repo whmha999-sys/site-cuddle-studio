@@ -1,62 +1,85 @@
-# Fix mobile layout for the storefront
+## V-70 Hero Promo — Vikusha Edition
 
-## Problem (visible in the screenshots)
-On phone-width viewports, multiple sections still use desktop-only grids and fixed inline widths, which forces text into ultra-narrow columns:
-- "We don't just sell devices..." stacks one word per line because the `WhyChooseUs` section is locked to a 2-column grid (`1fr 1px 1fr`).
-- The footer and the perks strip stay multi-column even on phones.
-- The "Meet the Teclast P50 / Vikusha V-70" hero scrollytelling scenes use absolute positioning sized for desktop, leaving the watch/tablet image floating off-canvas.
-- The hero carousel keeps a fixed 300px tall 2-column layout, squeezing eyebrow + title + CTAs into ~150px wide.
-- The header search input is forced to `width: 320px` and the nav row wraps awkwardly.
+Apply Option A (Limited Drop / urgency) but rebuilt in the Vikusha visual language taken from `vikusha-scroll.jsx`: white-on-amber palette (`#FFB800` accent, deep brown `#1a1200` ink), serif italic display + mono eyebrows, hairline rules, minimal geometry. Promotional, but quiet and premium — not loud sticker-style.
 
-The single existing `@media (max-width: 700px)` block in `styles.css` only patches the header/hero/footer/page padding, so everything else inherits desktop layout.
+### Visual direction
 
-## Approach
-Add a real mobile breakpoint pass — keep the desktop look intact, but at `≤ 768px` collapse to single-column, allow text to flow, and shrink padding/typography. Most fixes go into `styles.css` plus a small set of inline-style overrides via new CSS classes on the worst offenders.
+```text
+┌───────────────────────────────────────────────────────────┐
+│ ◆ VIKUSHA V-70 · LIMITED DROP        [● LIVE]             │  ← mono eyebrow + pulsing dot
+│                                                           │
+│   Time.                                                   │
+│   Reimagined.            ┌──────────────┐                 │
+│   ─── 44px amber bar     │              │                 │
+│                          │   [watch]    │                 │
+│   1.43" AMOLED · NFC     │              │                 │
+│   Heart rate · IP67      └──────────────┘                 │
+│                                                           │
+│   JOD 75  →  JOD 50      ┌─────────────────────┐          │
+│   strike     bold         │ 02 : 14 : 33 : 09  │          │
+│                           │ DAYS HRS MIN SEC   │          │
+│                           └─────────────────────┘          │
+│                                                           │
+│   [ Claim Yours → ]   [ Explore Vikusha ]                 │
+│                                                           │
+│ ─────────────────────────────────────────────────────────  │
+│ FREE SHIPPING · 1-YR WARRANTY · COD · SHIPS TODAY · ▸▸▸   │  ← mono marquee
+└───────────────────────────────────────────────────────────┘
+```
 
-## Changes
+### Changes (V-70 slide only — other slides untouched)
 
-### 1. `src/storefront/styles.css` — expand the mobile media block
-Replace the current `@media (max-width: 700px)` block with a richer one at `≤ 768px`:
-- `.header-inner` → single column, smaller padding, hide divider chips.
-- `.nav-search` → full width, remove the inline 320px hard-coded width via a `.nav-search-wrap` class (added in chrome.jsx).
-- `.hero` → already collapses; also reduce `.hero-title` font-size to ~28px, allow `height: auto`.
-- `.grid` → 1 column at ≤480px, keep 2 columns 481–768px (already exists).
-- `.pdp-title` → 32px on mobile.
-- `.pdp-perks`, `.specs-grid`, `.checkout-layout`, `.footer-inner` → single column.
-- New `.mobile-stack` utility: `display:block !important` to override grid columns inline.
+1. **`src/storefront/home.jsx` — V-70 slide data**
+   - Add promo fields: `promo: true`, `oldPrice: 75`, `endsAt` (48h from mount), `ribbon: 'LIMITED DROP'`
+   - Keep mustard `#c49a00` background but layer a subtle amber→deeper-amber radial gradient on top for depth
 
-### 2. `src/storefront/home.jsx`
-Add a `mobile-stack` className to the inline-grid sections so the CSS media query can flatten them on phones:
-- `WhyChooseUs` section (line ~181): give it `className="wcu-grid"`, move its 3-column grid into CSS so the mobile rule can switch to a single column and remove the 1px divider.
-- `BrandStory` section (line ~337): give it `className="brand-story-grid"`, single column on mobile, hide the vertical dividers.
-- `HeroSlide` (line ~377): add `className="hero-slide-inner"`; on mobile, switch to single column with the product image shown smaller below text, reduce left padding from 52px → 20px.
-- `Hero` wrapper (line ~523): on mobile let `height` grow (`min-height: 360px`, `height: auto`).
-- The bottom 3-perks strip (line ~727): give it `className="home-perks"`, single column on mobile.
+2. **New component `VikushaPromoBadge`** (inline in home.jsx)
+   - Mono eyebrow row: `◆ VIKUSHA V-70 · LIMITED DROP` + pulsing `●` dot in `#1a1200`
+   - Style mirrors `vikusha-scroll.jsx` line 114 (mono, 10px, 0.2em letter-spacing, uppercase)
 
-### 3. `src/storefront/chrome.jsx`
-- Replace the inline `width: 320` on `.nav-search` (line 46) with the existing `nav-search` class so mobile CSS controls width.
-- Wrap nav + search in a flex container that wraps cleanly on small screens.
-- Footer columns already use `.footer-inner` (CSS) — covered by step 1.
+3. **Price treatment**
+   - Old price `JOD 75` with strikethrough in muted brown `#1a120080`
+   - New price `JOD 50` in serif italic, large, dark brown — matches the V-70 italic title style
+   - Small "-33%" tag using a 1px hairline border (no fill), mono font — quiet, not a sticker
 
-### 4. `src/storefront/pdp.jsx` (marketing strip + gallery)
-- `.pdp` grid already collapses at 900px — leave that.
-- Marketing strip images use `maxWidth: 900` which is fine; just make sure their containing section has horizontal padding on mobile so they don't bleed past the page (already fine since `.page` adds 20px padding ≤700px).
-- Reduce `marginTop: 72` → `clamp(40px, 8vw, 72px)` between strip blocks so they breathe on phones.
+4. **Countdown timer**
+   - 4 cells (DD : HH : MM : SS) with hairline borders, white-translucent background `rgba(255,255,255,0.12)`
+   - Numbers in serif, labels in mono uppercase below
+   - Live `setInterval(1000)` updating from `endsAt`
+   - Cleans up on slide change/unmount
 
-### 5. Scroll scenes (`tablet-scroll.jsx`, `vikusha-scroll.jsx`, `teclast-scroll.jsx`)
-These contain absolutely-positioned hero text + product images sized for desktop (visible in screenshots 3 and 4 — tablet floats off-screen, "Meet the Teclast P50" wraps awkwardly).
-- Wrap each scene in a container with a CSS class (e.g. `.scroll-scene`).
-- At `≤ 768px`: switch from absolute positioning to a vertical stack (text above, image below at `width: 90%`), reduce display-font-size to ~36px, and remove the rotated/offset transforms.
-- Keep desktop behavior identical.
+5. **CTAs**
+   - Primary "Claim Yours →" — solid dark brown `#1a1200` bg, amber text, subtle shadow + hover-lift
+   - Secondary "Explore Vikusha" — ghost (transparent + 1px hairline)
 
-## Technical notes
-- Single breakpoint at 768px is enough — the existing 800/900/1100px breakpoints handle tablet sizes already.
-- All changes are CSS-driven where possible; inline styles only get a new `className` so we avoid touching JSX layout logic.
-- No new dependencies, no design-token changes.
+6. **Bottom marquee strip**
+   - Thin band inside the slide, just above the dots indicator
+   - Mono uppercase, 10px, 0.2em tracking — same type system as Vikusha section
+   - Infinite horizontal scroll using existing animation pattern (CSS keyframe, ~30s loop, paused on hover)
+   - Items: `FREE SHIPPING · 1-YR WARRANTY · COD AVAILABLE · SHIPS TODAY · ▸`
 
-## Verification
-After changes I'll open the preview at viewport 390×844 (iPhone) using the browser tool and screenshot:
-- Home (hero, grid, WhyChooseUs, BrandStory, scroll scenes, footer)
-- A PDP (e.g. V-70) to confirm the marketing strip + gallery stack cleanly.
+7. **Conditional rendering**
+   - Existing hero renderer reads `slide.promo === true` → renders the new promo layout
+   - Other two slides (VZ-80 PLUS, Teclast P50) keep current rendering — zero regression
 
-If anything still wraps badly I'll iterate before reporting done.
+### Animations (reuse existing keyframes)
+- Eyebrow + pulsing dot: `pulse` (already in tailwind config)
+- Countdown cells: `hero-fade-up` staggered 60ms (already defined in home.jsx line 66)
+- Old price → new price: brief `scale-in` on mount
+- Marquee: new keyframe `promo-marquee` (linear infinite translateX)
+
+### Mobile (≤768px)
+- Stack: eyebrow → title → price+countdown row (countdown shrinks to HH:MM:SS, drops days if <24h) → CTAs (full width)
+- Marquee stays at bottom, smaller font (9px)
+- Watch image scales down to fit alongside text per existing responsive rules
+
+### Files touched
+- `src/storefront/home.jsx` — V-70 slide data + promo render branch + countdown component + marquee
+- `src/storefront/styles.css` — `@keyframes promo-marquee` + `.promo-marquee` class + mobile overrides
+
+### Out of scope
+- VZ-80 PLUS and Teclast P50 slides
+- PDP page changes
+- Backend/inventory wiring (countdown is visual only, configurable via `endsAt` constant)
+
+Ready to build on approval.

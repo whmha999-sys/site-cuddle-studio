@@ -90,10 +90,8 @@ function Footer({ t, lang }) {
     <footer className="footer">
       <div className="footer-inner">
         <div>
-          <div className="stamp">
-            <div className="stamp-mark">
-              <div>SMART<br/>LEADERS<br/>CO.</div>
-            </div>
+          <div className="stamp" style={{ display:'flex', alignItems:'center', gap:14 }}>
+            <img src="/uploads/smart-leaders-logo.svg" alt="Smart Leaders Co." style={{ height: 72, width: 'auto', display:'block' }}/>
             <div>
               <div style={{ fontFamily:'var(--font-display)', fontSize:22, color:'#f0ede2', marginBottom: 4 }}>Smart Leaders Co.</div>
               <div style={{ color:'#8a948e', fontSize: 12, fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>MOBILE TRADING · JORDAN</div>

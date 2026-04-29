@@ -695,22 +695,6 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         }}/>
       </div>
 
-      {/* Bottom marquee */}
-      <div className="vk-promo-marquee" style={{
-        position:'absolute', left:0, right:0, bottom:0,
-        background:'rgba(0,0,0,0.55)',
-        backdropFilter:'blur(8px)',
-        color: ink,
-        fontFamily:'var(--font-mono, monospace)', fontSize:10,
-        letterSpacing:'0.24em', textTransform:'uppercase',
-        padding:'9px 0', overflow:'hidden', whiteSpace:'nowrap',
-        borderTop:`1px solid ${accent}44`,
-      }}>
-        <div className="vk-promo-marquee-track">
-          {marqueeRow}
-          {marqueeRow}
-        </div>
-      </div>
     </div>
   );
 }

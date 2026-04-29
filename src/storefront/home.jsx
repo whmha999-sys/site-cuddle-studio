@@ -422,7 +422,7 @@ function BrandStory({ lang }) {
 // (export at bottom)
 
 // ── Vikusha promo: countdown + marquee helpers ──
-function VkCountdown({ endsAt, accent='#1a1200' }) {
+function VkCountdown({ endsAt, accent='#FF6B00', ink='#fff' }) {
   const [now, setNow] = React.useState(Date.now());
   React.useEffect(() => {
     const id = setInterval(() => setNow(Date.now()), 1000);
@@ -440,29 +440,39 @@ function VkCountdown({ endsAt, accent='#1a1200' }) {
     { v: s, label: 'SEC' },
   ];
   return (
-    <div style={{ display:'inline-flex', gap:6, alignItems:'stretch' }}>
+    <div style={{ display:'inline-flex', gap:8, alignItems:'stretch' }}>
       {cells.map((c, i) => (
         <React.Fragment key={c.label}>
           <div style={{
-            minWidth:42, padding:'6px 8px 4px',
-            border:`1px solid ${accent}55`,
-            background:'rgba(255,255,255,0.18)',
-            borderRadius:6, textAlign:'center',
-            backdropFilter:'blur(2px)',
+            minWidth:50, padding:'8px 10px 6px',
+            border:`1px solid rgba(255,255,255,0.12)`,
+            background:'rgba(255,255,255,0.04)',
+            borderRadius:10, textAlign:'center',
+            backdropFilter:'blur(6px)',
+            boxShadow:'inset 0 1px 0 rgba(255,255,255,0.06)',
           }}>
-            <div style={{
-              fontFamily:'var(--font-display, serif)',
-              fontSize:18, fontWeight:700, lineHeight:1, color:accent,
-              fontVariantNumeric:'tabular-nums', letterSpacing:'-0.02em',
-            }}>{String(c.v).padStart(2,'0')}</div>
+            <div
+              key={c.v}
+              className="vk-tick"
+              style={{
+                fontFamily:'var(--font-display, serif)',
+                fontSize:22, fontWeight:700, lineHeight:1, color:ink,
+                fontVariantNumeric:'tabular-nums', letterSpacing:'-0.02em',
+              }}
+            >{String(c.v).padStart(2,'0')}</div>
             <div style={{
               fontFamily:'var(--font-mono, monospace)',
-              fontSize:8, letterSpacing:'0.18em', color:`${accent}99`,
-              marginTop:2,
+              fontSize:8, letterSpacing:'0.22em',
+              color:'rgba(255,255,255,0.5)', marginTop:4,
             }}>{c.label}</div>
           </div>
           {i < cells.length-1 && (
-            <div style={{ display:'flex', alignItems:'center', color:`${accent}66`, fontFamily:'var(--font-display, serif)', fontSize:16, fontWeight:600 }}>:</div>
+            <div style={{
+              display:'flex', alignItems:'center',
+              color:`${accent}aa`,
+              fontFamily:'var(--font-display, serif)', fontSize:18, fontWeight:600,
+              animation: 'vk-promo-pulse 1.1s ease-in-out infinite',
+            }}>:</div>
           )}
         </React.Fragment>
       ))}
@@ -472,18 +482,20 @@ function VkCountdown({ endsAt, accent='#1a1200' }) {
 
 function VkPromoSlide({ slide, active, animKey, t, lang }) {
   const k = animKey;
-  const ink = '#1a1200';
+  const accent = '#FF6B00';
+  const ink    = '#ffffff';
+  const muted  = 'rgba(255,255,255,0.62)';
   const endsAtRef = React.useRef(Date.now() + (slide.promoDurationMs || 48*3600*1000));
 
   const marqueeItems = lang === 'ar'
     ? ['شحن مجاني', 'ضمان سنة', 'الدفع عند الاستلام', 'شحن اليوم', 'إصدار محدود']
     : ['FREE SHIPPING', '1-YEAR WARRANTY', 'CASH ON DELIVERY', 'SHIPS TODAY', 'LIMITED EDITION'];
   const marqueeRow = (
-    <span style={{ display:'inline-flex', gap:42, alignItems:'center' }}>
+    <span style={{ display:'inline-flex', gap:48, alignItems:'center' }}>
       {marqueeItems.map((it, i) => (
-        <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:42 }}>
-          {it}
-          <span style={{ opacity:0.4 }}>◆</span>
+        <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:48 }}>
+          <span>{it}</span>
+          <span style={{ color: accent, opacity:0.85 }}>◆</span>
         </span>
       ))}
     </span>
@@ -496,40 +508,54 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         background: slide.bg,
         opacity: active ? 1 : 0,
         pointerEvents: active ? 'auto' : 'none',
-        transition: 'opacity 0.6s ease',
+        transition: 'opacity 0.7s cubic-bezier(0.22,1,0.36,1)',
         position:'absolute', inset:0,
-        display:'grid', gridTemplateColumns:'1fr 1fr',
+        display:'grid', gridTemplateColumns:'1.05fr 1fr',
         alignItems:'center',
-        padding:'0 0 0 52px',
+        padding:'0 0 0 56px',
         overflow:'hidden',
+        color: ink,
       }}
     >
-      {/* Layered radial highlights for depth */}
+      {/* Layered background — deep gradient + warm accent glow */}
       <div style={{
         position:'absolute', inset:0, pointerEvents:'none',
-        background: `radial-gradient(ellipse at 20% 20%, #FFB80044, transparent 55%), radial-gradient(ellipse at 90% 80%, #00000022, transparent 60%)`,
+        background: `
+          radial-gradient(ellipse 70% 60% at 85% 30%, rgba(255,107,0,0.32), transparent 60%),
+          radial-gradient(ellipse 60% 80% at 15% 90%, rgba(255,107,0,0.10), transparent 65%),
+          linear-gradient(135deg, #141416 0%, #0a0a0c 100%)
+        `,
+      }}/>
+
+      {/* Subtle grain / noise via SVG */}
+      <div style={{
+        position:'absolute', inset:0, pointerEvents:'none', opacity:0.06, mixBlendMode:'overlay',
+        backgroundImage:`url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>")`,
       }}/>
 
       {/* LEFT */}
-      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
+      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24, paddingBottom:48 }}>
         {/* Eyebrow row */}
         <div style={{
-          display:'inline-flex', alignItems:'center', gap:10,
+          display:'inline-flex', alignItems:'center', gap:12,
           fontFamily:'var(--font-mono, monospace)', fontSize:10,
-          letterSpacing:'0.22em', textTransform:'uppercase', color:ink,
-          marginBottom:14,
-          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) both' : 'none',
+          letterSpacing:'0.24em', textTransform:'uppercase', color: muted,
+          marginBottom:18,
+          animation: active ? 'hero-slide-left 0.7s cubic-bezier(0.22,1,0.36,1) both' : 'none',
         }}>
-          <span style={{ opacity:0.85 }}>◆ Vikusha V-70</span>
-          <span style={{ opacity:0.45 }}>·</span>
-          <span style={{ fontWeight:700 }}>{slide.ribbon}</span>
+          <span style={{ color: accent }}>◆</span>
+          <span>Vikusha V-70</span>
+          <span style={{ opacity:0.35 }}>/</span>
+          <span style={{ color: accent, fontWeight:700 }}>{slide.ribbon}</span>
           <span style={{
-            display:'inline-flex', alignItems:'center', gap:5,
-            marginLeft:4, padding:'2px 8px', border:`1px solid ${ink}66`, borderRadius:999,
+            display:'inline-flex', alignItems:'center', gap:6,
+            marginLeft:2, padding:'3px 9px',
+            border:`1px solid ${accent}66`, borderRadius:999,
+            color: accent, background:'rgba(255,107,0,0.08)',
           }}>
             <span style={{
-              width:6, height:6, borderRadius:'50%', background:ink,
-              animation:'vk-promo-pulse 1.4s ease-in-out infinite',
+              width:6, height:6, borderRadius:'50%', background: accent,
+              animation:'vk-promo-pulse 1.4s ease-in-out infinite, vk-promo-glow 1.8s ease-in-out infinite',
             }}/>
             LIVE
           </span>
@@ -537,71 +563,92 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
 
         {/* Title */}
         <h2 style={{
-          fontFamily:'var(--font-display, serif)', fontSize:42, lineHeight:1.04,
-          fontWeight:700, margin:'0 0 6px', letterSpacing:'-0.03em', color:ink,
-          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) 0.05s both' : 'none',
+          fontFamily:'var(--font-display, serif)', fontSize:'clamp(34px, 4.2vw, 52px)',
+          lineHeight:1.02, fontWeight:700, margin:'0 0 10px',
+          letterSpacing:'-0.035em', color: ink,
+          animation: active ? 'hero-slide-left 0.7s cubic-bezier(0.22,1,0.36,1) 0.08s both' : 'none',
         }}>
-          {slide.title} <em style={{ fontStyle:'italic', color:'#fff' }}>{slide.titleItalic}</em>
+          {slide.title}{' '}
+          <em style={{
+            fontStyle:'italic',
+            background:`linear-gradient(135deg, ${accent} 0%, #ffaa55 100%)`,
+            WebkitBackgroundClip:'text', backgroundClip:'text',
+            WebkitTextFillColor:'transparent', color:'transparent',
+          }}>{slide.titleItalic}</em>
         </h2>
 
-        {/* Amber bar */}
+        {/* Accent bar */}
         <div style={{
-          width:44, height:3, background:ink, borderRadius:2, margin:'10px 0 14px',
-          animation: active ? 'hero-fade-up 0.5s ease 0.15s both' : 'none',
+          width:48, height:2, background: accent, borderRadius:2, margin:'12px 0 16px',
+          boxShadow:`0 0 18px ${accent}99`,
+          animation: active ? 'hero-fade-up 0.6s ease 0.18s both' : 'none',
         }}/>
 
         {/* Sub */}
         <p style={{
-          fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.08em',
-          textTransform:'uppercase', color:`${ink}cc`, margin:'0 0 16px', maxWidth:'44ch',
-          animation: active ? 'hero-fade-up 0.5s ease 0.2s both' : 'none',
+          fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.12em',
+          textTransform:'uppercase', color: muted, margin:'0 0 22px', maxWidth:'46ch',
+          animation: active ? 'hero-fade-up 0.6s ease 0.24s both' : 'none',
         }}>{slide.sub}</p>
 
         {/* Price + countdown row */}
         <div style={{
-          display:'flex', alignItems:'center', gap:18, flexWrap:'wrap', marginBottom:18,
-          animation: active ? 'hero-fade-up 0.5s ease 0.3s both' : 'none',
+          display:'flex', alignItems:'center', gap:24, flexWrap:'wrap', marginBottom:24,
+          animation: active ? 'hero-fade-up 0.6s ease 0.32s both' : 'none',
         }}>
-          <div style={{ display:'flex', alignItems:'baseline', gap:10 }}>
+          <div style={{ display:'flex', alignItems:'baseline', gap:12 }}>
             <span style={{
-              fontFamily:'var(--font-mono, monospace)', fontSize:11, color:`${ink}88`,
-              textDecoration:'line-through',
+              fontFamily:'var(--font-mono, monospace)', fontSize:12,
+              color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
             }}>JOD {slide.oldPrice}</span>
             <span style={{
               fontFamily:'var(--font-display, serif)', fontStyle:'italic',
-              fontSize:34, fontWeight:700, color:ink, letterSpacing:'-0.02em', lineHeight:1,
+              fontSize:40, fontWeight:700,
+              background:`linear-gradient(135deg, ${accent} 0%, #ffb380 100%)`,
+              WebkitBackgroundClip:'text', backgroundClip:'text',
+              WebkitTextFillColor:'transparent', color:'transparent',
+              letterSpacing:'-0.02em', lineHeight:1,
             }}>JOD {slide.price}</span>
             <span style={{
-              fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.18em',
-              padding:'3px 7px', border:`1px solid ${ink}`, borderRadius:4, color:ink, fontWeight:700,
+              fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
+              padding:'4px 9px', borderRadius:999, color: accent, fontWeight:700,
+              background:'rgba(255,107,0,0.12)', border:`1px solid ${accent}55`,
             }}>−33%</span>
           </div>
-          <VkCountdown endsAt={endsAtRef.current} accent={ink}/>
+          <VkCountdown endsAt={endsAtRef.current} accent={accent} ink={ink}/>
         </div>
 
         {/* CTAs */}
         <div style={{
-          display:'flex', gap:10, flexWrap:'wrap',
-          animation: active ? 'hero-fade-up 0.5s ease 0.4s both' : 'none',
+          display:'flex', gap:12, flexWrap:'wrap',
+          animation: active ? 'hero-fade-up 0.6s ease 0.4s both' : 'none',
         }}>
           <button
             className="vk-cta-primary"
             style={{
-              background:ink, color:'#FFB800',
-              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.18em',
+              background:`linear-gradient(135deg, ${accent} 0%, #ff8533 100%)`,
+              color:'#fff',
+              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.2em',
               textTransform:'uppercase', fontWeight:700,
-              padding:'11px 18px', border:'none', borderRadius:999, cursor:'pointer',
-              display:'inline-flex', alignItems:'center', gap:8,
+              padding:'13px 22px', border:'none', borderRadius:999, cursor:'pointer',
+              display:'inline-flex', alignItems:'center', gap:10,
+              boxShadow:'0 8px 22px rgba(255,107,0,0.32)',
             }}
             onClick={()=>window.navigate('pdp', {id: slide.id})}
-          >{slide.cta} <span style={{ fontSize:13 }}>→</span></button>
+          >
+            <span>{slide.cta}</span>
+            <span style={{ fontSize:14, lineHeight:1 }}>→</span>
+          </button>
           <button
             className="vk-cta-ghost"
             style={{
-              background:'transparent', color:ink,
-              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.18em',
+              background:'rgba(255,255,255,0.04)', color: muted,
+              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.2em',
               textTransform:'uppercase', fontWeight:600,
-              padding:'10px 16px', border:`1px solid ${ink}88`, borderRadius:999, cursor:'pointer',
+              padding:'12px 20px',
+              border:`1px solid rgba(255,255,255,0.18)`,
+              borderRadius:999, cursor:'pointer',
+              backdropFilter:'blur(6px)',
             }}
             onClick={()=>window.navigate('home', {brand: slide.brand})}
           >{slide.cta2}</button>
@@ -615,9 +662,20 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         overflow:'hidden',
         display:'flex', alignItems:'center', justifyContent:'center',
       }}>
-        <div key={`img-${k}`} style={{
-          position:'relative', zIndex:1, height:'90%', display:'flex', alignItems:'center',
-          animation: active ? 'hero-slide-right 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
+        {/* Soft circular spotlight behind product */}
+        <div style={{
+          position:'absolute',
+          width:'70%', aspectRatio:'1/1',
+          background:`radial-gradient(circle, ${accent}33 0%, transparent 65%)`,
+          filter:'blur(8px)',
+          pointerEvents:'none',
+        }}/>
+        <div key={`img-${k}`} className="vk-product-float" style={{
+          position:'relative', zIndex:1, height:'88%',
+          display:'flex', alignItems:'center',
+          animation: active
+            ? 'hero-slide-right 0.7s cubic-bezier(0.22,1,0.36,1) 0.14s both, vk-promo-float 5.5s ease-in-out 0.9s infinite'
+            : 'none',
         }}>
           <img
             src={slide.imgSrc}
@@ -625,14 +683,14 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
             style={{
               height:'100%', width:'auto', maxWidth:'100%',
               objectFit:'contain',
-              filter:'drop-shadow(0 24px 44px rgba(0,0,0,0.45))',
+              filter:`drop-shadow(0 28px 48px rgba(0,0,0,0.55)) drop-shadow(0 0 32px ${accent}33)`,
             }}
           />
         </div>
-        {/* Left fade so text is legible */}
+        {/* Left fade for legibility */}
         <div style={{
           position:'absolute', inset:0,
-          background:`linear-gradient(to right, ${slide.bg} 0%, ${slide.bg}88 18%, transparent 48%)`,
+          background:`linear-gradient(to right, ${slide.bg} 0%, rgba(13,13,15,0.55) 22%, transparent 55%)`,
           pointerEvents:'none',
         }}/>
       </div>
@@ -640,11 +698,13 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       {/* Bottom marquee */}
       <div className="vk-promo-marquee" style={{
         position:'absolute', left:0, right:0, bottom:0,
-        background:`${ink}`, color:'#FFB800',
+        background:'rgba(0,0,0,0.55)',
+        backdropFilter:'blur(8px)',
+        color: ink,
         fontFamily:'var(--font-mono, monospace)', fontSize:10,
-        letterSpacing:'0.22em', textTransform:'uppercase',
-        padding:'8px 0', overflow:'hidden', whiteSpace:'nowrap',
-        borderTop:`1px solid #FFB80055`,
+        letterSpacing:'0.24em', textTransform:'uppercase',
+        padding:'9px 0', overflow:'hidden', whiteSpace:'nowrap',
+        borderTop:`1px solid ${accent}44`,
       }}>
         <div className="vk-promo-marquee-track">
           {marqueeRow}

@@ -1,5 +1,6 @@
 // SVG silhouettes for product imagery. Generic + brand-neutral.
-// Exposes: window.Silhouette({ product, size, bg })
+import React from 'react';
+import { PRODUCT_IMAGES, COLOR_SWATCH } from './data.js';
 
 const TABLET_COLORS = {
   graphite: { body: '#2c2c30', bezel: '#0f0f12', screen: '#1a2030' },

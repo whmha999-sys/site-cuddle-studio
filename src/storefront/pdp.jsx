@@ -1,0 +1,167 @@
+// Product Detail Page
+function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
+  const [color, setColor] = React.useState(product.colors[0]);
+  const [qty, setQty] = React.useState(1);
+  const [thumb, setThumb] = React.useState(0);
+
+  const realImgs = window.PRODUCT_IMAGES?.[product.id]?.[color] || null;
+
+  React.useEffect(()=>{
+    setColor(product.colors[0]);
+    setQty(1);
+    setThumb(0);
+    window.scrollTo(0,0);
+  }, [product.id]);
+
+  // Reset thumb index when color changes
+  React.useEffect(()=>{ setThumb(0); }, [color]);
+
+  const [generalSpecs, detailSpecs] = React.useMemo(() => {
+    const entries = Object.entries(product.specs);
+    const half = Math.ceil(entries.length / 2);
+    return [entries.slice(0, half), entries.slice(half)];
+  }, [product]);
+
+  const similar = products.filter(p => p.id !== product.id && p.category === product.category).slice(0, 4);
+  const brandLabel = product.brand === 'vikusha' ? 'Vikusha' : 'Teclast';
+
+  return (
+    <>
+      <nav className="breadcrumb">
+        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
+        <span className="sep">/</span>
+        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{cat:product.category});}}>{t['cat_'+product.category]}s</a>
+        <span className="sep">/</span>
+        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{brand:product.brand});}}>{brandLabel}</a>
+        <span className="sep">/</span>
+        <span className="current">{product.name}</span>
+      </nav>
+
+      <section className="pdp">
+        <div className="pdp-gallery">
+          <div className="pdp-main-img">
+            {realImgs ? (
+              <img src={realImgs[thumb]} alt={product.name + ' ' + color}
+                style={{ width:'100%', height:'100%', objectFit:'contain', display:'block' }}/>
+            ) : (
+              <Silhouette product={product} color={color}/>
+            )}
+          </div>
+          <div className="pdp-thumbs">
+            {realImgs ? realImgs.map((src, i) => (
+              <div key={i} className={`pdp-thumb ${thumb===i?'active':''}`} onClick={()=>setThumb(i)}>
+                <img src={src} alt={product.name + ' view ' + (i+1)}
+                  style={{ width:'100%', height:'100%', objectFit:'contain', display:'block' }}/>
+              </div>
+            )) : (
+              (product.colors.length >= 4 ? product.colors : [...product.colors, ...product.colors, ...product.colors, ...product.colors]).slice(0,4).map((c,i) => (
+                <div key={i} className={`pdp-thumb ${thumb===i?'active':''}`} onClick={()=>{ setThumb(i); if(product.colors[i]) setColor(product.colors[i]); }}>
+                  <Silhouette product={product} color={product.colors[i] || c}/>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div className="pdp-info">
+          <div className={`pdp-brand-pill ${product.brand}`}>
+            {product.brand === 'vikusha'
+              ? <img src="uploads/1.png" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
+              : <img src="uploads/2.png" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
+            }
+            <span>· {t['cat_'+product.category]}</span>
+          </div>
+          <h1 className="pdp-title">{product.name}</h1>
+          <p className="pdp-tagline">{product.tagline}</p>
+
+          <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:8 }}>
+            <Stars rating={4.7} count={121}/>
+          </div>
+
+          <div className="pdp-price"><Price value={product.price}/></div>
+          <div className="pdp-stock">{t.only_n_left.replace('{n}', 12)}</div>
+
+          {product.colors.length > 1 && (
+            <div className="pdp-field">
+              <div className="pdp-field-label">{t.color} — <b style={{color:'var(--fg)', textTransform:'capitalize'}}>{color}</b></div>
+              <div className="pdp-colors">
+                {product.colors.map(c => (
+                  <ColorDot key={c} color={c} selected={color===c} onClick={()=>{ setColor(c); const i = product.colors.indexOf(c); if(i>=0) setThumb(i); }} size={32}/>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="pdp-field">
+            <div className="pdp-field-label">{t.quantity}</div>
+            <div className="qty">
+              <button onClick={()=>setQty(Math.max(1, qty-1))}>−</button>
+              <span>{qty}</span>
+              <button onClick={()=>setQty(qty+1)}>+</button>
+            </div>
+          </div>
+
+          <div className="pdp-ctas">
+            <button className="btn btn-green btn-lg" onClick={()=>onBuyNow(product, color, qty)}>{t.buy_now}</button>
+            <button className="btn btn-outline btn-lg" onClick={()=>onAddToCart(product, color, qty)}>{t.add_to_cart}</button>
+          </div>
+
+          <div className="pdp-perks">
+            <div className="perk">
+              <div className="perk-icon"><Icon name="truck" size={18}/></div>
+              <div>
+                <div className="perk-title">{t.free_delivery}</div>
+                <div className="perk-sub">{lang==='ar'?'لطلبات ١٠٠ د.أ وأكثر':'On orders over JOD 100'}</div>
+              </div>
+            </div>
+            <div className="perk">
+              <div className="perk-icon"><Icon name="shield" size={18}/></div>
+              <div>
+                <div className="perk-title">{t.returns}</div>
+                <div className="perk-sub">{lang==='ar'?'استبدال بدون متاعب':'Hassle-free exchanges'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="specs-section">
+        <h3 className="specs-title">{product.name} — {t.specs}</h3>
+        <div className="specs-grid">
+          <div className="specs-card">
+            <h4>{lang==='ar'?'عام':'General'}</h4>
+            {generalSpecs.map(([k,v])=>(
+              <div key={k} className="spec-row"><span className="k">{k}</span><span className="v">{v}</span></div>
+            ))}
+            <div className="spec-row"><span className="k">{lang==='ar'?'العلامة':'Brand'}</span><span className="v">{brandLabel}</span></div>
+          </div>
+          <div className="specs-card">
+            <h4>{lang==='ar'?'التفاصيل':'Product details'}</h4>
+            {detailSpecs.map(([k,v])=>(
+              <div key={k} className="spec-row"><span className="k">{k}</span><span className="v">{v}</span></div>
+            ))}
+            <div className="spec-row"><span className="k">SKU</span><span className="v" style={{fontFamily:'var(--font-mono)'}}>{product.id.toUpperCase()}</span></div>
+            <div className="spec-row"><span className="k">{lang==='ar'?'السعر':'Price'}</span><span className="v"><Price value={product.price}/></span></div>
+          </div>
+        </div>
+      </section>
+
+      {similar.length > 0 && (
+        <section style={{ marginTop: 72 }}>
+          <div className="section-head"><h2>{lang==='ar'?'منتجات مشابهة':'Similar items'}</h2></div>
+          <div className="grid">
+            {similar.map(p => (
+              <ProductCard
+                key={p.id} p={p} t={t}
+                inCart={false}
+                onAdd={(prod,c)=>onAddToCart(prod,c,1)}
+                onOpen={(prod)=>window.navigate('pdp',{id:prod.id})}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  );
+}
+window.PDP = PDP;

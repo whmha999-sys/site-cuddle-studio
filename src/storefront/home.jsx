@@ -1,4 +1,10 @@
 // Home page: hero, filters, grid, CTA strip
+import React from 'react';
+import { Icon, Price } from './atoms.jsx';
+import { Silhouette, ColorDot } from './silhouettes.jsx';
+import { TeclastScroll } from './teclast-scroll.jsx';
+import { VikushaScroll } from './vikusha-scroll.jsx';
+import { PromoReel } from './promo.jsx';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -268,7 +274,7 @@ function WhyChooseUs({ lang }) {
     </section>
   );
 }
-window.WhyChooseUs = WhyChooseUs;
+// (export at bottom)
 
 // Brand story section
 function BrandStory({ lang }) {
@@ -361,7 +367,7 @@ function BrandStory({ lang }) {
     </section>
   );
 }
-window.BrandStory = BrandStory;
+// (export at bottom)
 
 function HeroSlide({ slide, products, active, animKey, t }) {
   const product = products.find(p => p.id === slide.id);
@@ -740,5 +746,4 @@ function Home({ t, products, onAddToCart, cart, lang }) {
     </>
   );
 }
-window.Home = Home;
-window.ProductCard = ProductCard;
+export { Home, ProductCard };

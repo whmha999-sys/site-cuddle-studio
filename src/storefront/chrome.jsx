@@ -172,7 +172,7 @@ function TweaksPanel({ lang, setLang, dir, setDir, theme, setTheme, t, onClose }
 }
 export { TweaksPanel };
 
-function AuthModal({ t, onClose, onSignin }) {
+function AuthModal({ t, onClose, onSignin, lang = 'en' }) {
   const [mode, setMode] = useStateH('signin');
   const [name, setName] = useStateH('');
   const [email, setEmail] = useStateH('');

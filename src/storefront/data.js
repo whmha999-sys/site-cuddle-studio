@@ -94,6 +94,10 @@ export const PRODUCT_IMAGES = {
     midnight: ['/uploads/vm1-navy-main.png','/uploads/vm1-navy-views.png','/uploads/vm1-keyboard.png'],
     mint:     ['/uploads/vm1-mint-main.png','/uploads/vm1-mint-views.png','/uploads/vm1-keyboard.png'],
   },
+  'vn-7-kids': {
+    blue: ['/uploads/vn7-blue-front.png','/uploads/vn7-blue-right.png','/uploads/vn7-blue-left.png','/uploads/vn7-blue-back.png','/uploads/vn7-blue-bare.png'],
+    pink: ['/uploads/vn7-pink-front.png','/uploads/vn7-pink-right.png','/uploads/vn7-pink-left.png','/uploads/vn7-pink-back.png','/uploads/vn7-pink-bare.png'],
+  },
 };
 
 export const COLOR_SWATCH = {

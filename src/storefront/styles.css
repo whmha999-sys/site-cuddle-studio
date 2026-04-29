@@ -779,26 +779,10 @@ input, select, textarea { font-family: inherit; color: inherit; }
   /* Page wrap */
   .page { padding: 0 16px 60px; }
 
-  /* Hero carousel */
+  /* Hero carousel — base mobile (promo specifics in dedicated block below) */
   .hero { grid-template-columns: 1fr; padding: 28px 20px; height: auto; min-height: 220px; }
   .hero-title { font-size: 32px; }
-  .hero-slide-inner {
-    grid-template-columns: 1fr !important;
-    padding: 28px 20px !important;
-    gap: 20px;
-    height: auto !important;
-    min-height: 380px;
-  }
-  .hero-slide-inner .hero-slide-img {
-    height: 180px !important;
-    border-radius: 0 !important;
-  }
-  .hero-slide-inner .hero-slide-img > div { height: 100% !important; }
-  .hero-wrap { height: auto !important; min-height: 460px; }
-
-  /* Vikusha promo slide tweaks */
-  .hero-slide-inner .vk-promo-marquee { font-size: 9px !important; padding: 6px 0 !important; }
-  .hero-slide-inner h2 { font-size: 28px !important; }
+  .hero-wrap { height: auto !important; min-height: 560px; }
 
   /* Product grid */
   .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
@@ -846,38 +830,96 @@ input, select, textarea { font-family: inherit; color: inherit; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
 
-/* ── VkPromoSlide ("Time. Reimagined.") — mobile fix ── */
+/* ── PromoSlide — unified mobile layout (≤ 768px) ── */
 @media (max-width: 768px) {
   .vk-promo-slide {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto;
-    padding: 22px 18px !important;
-    gap: 16px;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    padding: 22px 18px 18px !important;
+    gap: 18px;
     align-items: stretch !important;
+    min-height: 560px;
   }
-  .vk-promo-slide h2 { font-size: 26px !important; line-height: 1.05 !important; }
-  .vk-promo-slide .vk-product-float img,
-  .vk-promo-slide .hero-slide-img img { max-height: 200px !important; height: auto !important; width: auto !important; }
+
+  /* Text column on top */
+  .vk-promo-slide .vk-promo-text {
+    order: 1;
+    padding-right: 0 !important;
+    width: 100%;
+  }
+  .vk-promo-slide .vk-promo-title {
+    font-size: clamp(28px, 7.5vw, 38px) !important;
+    line-height: 1.04 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Product stage as a centered card */
   .vk-promo-slide .hero-slide-img {
-    height: 220px !important;
-    border-radius: 12px !important;
     order: 2;
+    position: relative !important;
+    height: 240px !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
   }
-  .vk-promo-slide > div:first-of-type + div + div { order: 1; }  /* text first */
-  /* Compact price row */
-  .vk-promo-slide span[style*="JOD"] { font-size: 36px !important; }
-  /* Hide marquee on mobile to save vertical space */
+  .vk-promo-slide .hero-slide-img > div { height: 100% !important; }
+  .vk-promo-slide .vk-product-float img {
+    max-height: 220px !important;
+    height: auto !important;
+    width: auto !important;
+    max-width: 86% !important;
+  }
+  /* Hide left-fade overlay on mobile (no overlap with text) */
+  .vk-promo-slide .hero-slide-img > div:last-child {
+    background: none !important;
+  }
+
+  /* Price row: smaller countdown, bigger price */
+  .vk-promo-slide .vk-promo-price {
+    font-size: clamp(36px, 11vw, 52px) !important;
+  }
+  .vk-promo-slide .vk-promo-pricerow {
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* CTA pair: full-width primary, ghost below */
+  .vk-promo-slide .vk-promo-ctas {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .vk-promo-slide .vk-promo-ctas > button {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+  }
+
+  /* Marquee: smaller, slower (already 60s) */
+  .vk-promo-slide .vk-promo-marquee {
+    font-size: 9px !important;
+    padding: 6px 0 !important;
+  }
+
+  /* Hide desktop carousel arrows on mobile (swipe by drag on indicators) */
+  .vk-hero-arrow { display: none !important; }
+  .vk-hero-progress { bottom: 10px !important; }
+}
+
+/* ── Extra-small phones (≤ 480px) ── */
+@media (max-width: 480px) {
+  .vk-promo-slide { padding: 20px 16px 16px !important; min-height: 580px; }
+  .vk-promo-slide .hero-slide-img { height: 220px !important; }
   .vk-promo-slide .vk-promo-marquee { display: none !important; }
+  .grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 28px; }
+  .pdp-title { font-size: 28px; }
 }
 
 /* Hide "Scroll to explore" hint on mobile (scroll-scrub disabled there) */
 @media (max-width: 768px) {
   .scroll-scene-sticky > div[style*="Scroll to explore"],
   .scroll-scene-section [style*="pointer-events:none"][style*="Scroll to explore"] { display: none !important; }
-}
-
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-  .hero-title { font-size: 28px; }
-  .pdp-title { font-size: 28px; }
 }

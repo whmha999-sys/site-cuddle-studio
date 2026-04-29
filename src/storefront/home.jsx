@@ -12,25 +12,29 @@ function getHeroSlides(lang) {
     id: 'v-70',
     bg: '#0d0d0f',
     accent: '#FF6B00',
+    accentSoft: '#ffaa55',
     eyebrow: ar ? 'ساعة فيكوشا الذكية' : 'Vikusha Smartwatch',
     title: ar ? 'الوقت.' : 'Time.',
     titleItalic: ar ? 'بشكل مختلف.' : 'Reimagined.',
     sub: ar ? '١.٤٣" AMOLED · NFC · معدل ضربات القلب · IP67' : '1.43" AMOLED · NFC · Heart rate · IP67',
     price: 50,
     oldPrice: 75,
+    discountLabel: '−33%',
     cta: ar ? 'احجز الآن' : 'Claim Yours',
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',
-    imgType: 'photo',
     imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
     promo: true,
+    tag: ar ? 'مباشر' : 'LIVE',
+    tagKind: 'live',
     ribbon: ar ? 'عرض محدود' : 'LIMITED DROP',
     promoDurationMs: 48 * 60 * 60 * 1000, // 48h
   },
   {
     id: 'vz-30-pro-4g',
     bg: '#0a1628',
-    accent: '#FF6B00',
+    accent: '#d99258',
+    accentSoft: '#f0b577',
     eyebrow: ar ? 'جهاز فيكوشا اللوحي' : 'Vikusha Tablet',
     title: ar ? 'بطارية' : 'All-day',
     titleItalic: ar ? 'تدوم اليوم كله.' : 'battery life.',
@@ -39,13 +43,17 @@ function getHeroSlides(lang) {
     cta: ar ? 'تسوّق VZ-30 PRO' : 'Shop VZ-30 PRO',
     cta2: ar ? 'استعرض الأجهزة' : 'Explore Tablets',
     brand: 'vikusha',
-    imgType: 'photo',
     imgSrc: '/uploads/vz30-brown-main.png',
+    tag: ar ? 'إصدار جديد' : 'NEW DROP',
+    tagKind: 'new',
+    ribbon: ar ? 'إصدار جديد' : 'NEW DROP',
+    productBlend: 'screen', // mute the orange arch
   },
   {
     id: 'teclast-p50',
     bg: '#1a1208',
     accent: '#e86a1f',
+    accentSoft: '#ffb066',
     eyebrow: ar ? 'جهاز تيكلاست اللوحي' : 'Teclast Tablet',
     title: ar ? 'القوة تلتقي' : 'Power meets',
     titleItalic: ar ? 'الإمكانية.' : 'portability.',
@@ -54,8 +62,11 @@ function getHeroSlides(lang) {
     cta: ar ? 'تسوّق P50' : 'Shop P50',
     cta2: ar ? 'استعرض تيكلاست' : 'Explore Teclast',
     brand: 'teclast',
-    imgType: 'photo',
     imgSrc: '/uploads/0f39d92f840194b3eb70333db1a89b38_46c26fc6e6aa4dd7b5cff127dbc89fcc-removebg-preview.png',
+    tag: ar ? 'الأكثر مبيعًا' : 'BESTSELLER',
+    tagKind: 'best',
+    ribbon: ar ? 'الأكثر مبيعًا' : 'BESTSELLER',
+    productBlend: 'screen',
   },
   ];}
 
@@ -102,9 +113,13 @@ if (!document.getElementById('hero-anim-styles')) {
       from { transform: translateY(-6px); opacity: 0; }
       to   { transform: translateY(0);    opacity: 1; }
     }
+    @keyframes vk-spot-pulse {
+      0%,100% { opacity: 0.85; transform: scale(1); }
+      50%     { opacity: 1;    transform: scale(1.05); }
+    }
     .vk-promo-marquee-track {
       display:inline-flex; gap:48px; padding-right:48px;
-      animation: vk-promo-marquee 48s linear infinite;
+      animation: vk-promo-marquee 60s linear infinite;
       will-change: transform;
     }
     .vk-promo-marquee:hover .vk-promo-marquee-track { animation-play-state: paused; }
@@ -112,7 +127,7 @@ if (!document.getElementById('hero-anim-styles')) {
       position:relative; overflow:hidden;
       transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
     }
-    .vk-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,107,0,0.45); }
+    .vk-cta-primary:hover { transform: translateY(-2px); }
     .vk-cta-primary::after {
       content:''; position:absolute; top:0; left:0; height:100%; width:40%;
       background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
@@ -122,9 +137,16 @@ if (!document.getElementById('hero-anim-styles')) {
     .vk-cta-ghost {
       transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
-    .vk-cta-ghost:hover { background: rgba(255,107,0,0.12); border-color: #FF6B00; color: #fff; }
+    .vk-cta-ghost:hover { background: rgba(255,255,255,0.10); color: #fff; }
     .vk-tick { animation: vk-tick-flip 0.32s cubic-bezier(0.22,1,0.36,1); }
     .vk-product-float { animation: vk-promo-float 5.5s ease-in-out infinite; }
+    .vk-spot { animation: vk-spot-pulse 8s ease-in-out infinite; }
+    .vk-hero-arrow { opacity: 0; transition: opacity 0.25s ease, background 0.2s ease; }
+    .hero-wrap:hover .vk-hero-arrow { opacity: 1; }
+    .vk-hero-arrow:hover { background: rgba(255,255,255,0.22) !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .vk-product-float, .vk-spot, .vk-promo-marquee-track { animation: none !important; }
+    }
   `;
   document.head.appendChild(s);
 }
@@ -480,11 +502,13 @@ function VkCountdown({ endsAt, accent='#FF6B00', ink='#fff' }) {
   );
 }
 
-function VkPromoSlide({ slide, active, animKey, t, lang }) {
+function PromoSlide({ slide, active, animKey, t, lang }) {
   const k = animKey;
-  const accent = '#FF6B00';
-  const ink    = '#ffffff';
-  const muted  = 'rgba(255,255,255,0.62)';
+  const accent = slide.accent || '#FF6B00';
+  const accentSoft = slide.accentSoft || '#ffaa55';
+  const ink   = '#ffffff';
+  const muted = 'rgba(255,255,255,0.62)';
+  const isPromo = !!slide.promo;
   const endsAtRef = React.useRef(Date.now() + (slide.promoDurationMs || 48*3600*1000));
 
   const marqueeItems = lang === 'ar'
@@ -500,6 +524,14 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       ))}
     </span>
   );
+
+  // Tag pill style varies by kind
+  const tagStyles = {
+    live: { color: accent, bg: 'rgba(255,107,0,0.10)', border: `${accent}66`, dot: true },
+    new:  { color: accentSoft, bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.18)', dot: false },
+    best: { color: accentSoft, bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.18)', dot: false },
+  };
+  const tagStyle = tagStyles[slide.tagKind] || tagStyles.new;
 
   return (
     <div
@@ -521,9 +553,9 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       <div style={{
         position:'absolute', inset:0, pointerEvents:'none',
         background: `
-          radial-gradient(ellipse 70% 60% at 85% 30%, rgba(255,107,0,0.32), transparent 60%),
-          radial-gradient(ellipse 60% 80% at 15% 90%, rgba(255,107,0,0.10), transparent 65%),
-          linear-gradient(135deg, #141416 0%, #0a0a0c 100%)
+          radial-gradient(ellipse 70% 60% at 85% 30%, ${accent}55, transparent 60%),
+          radial-gradient(ellipse 60% 80% at 15% 90%, ${accent}22, transparent 65%),
+          linear-gradient(135deg, ${slide.bg} 0%, #07070a 100%)
         `,
       }}/>
 
@@ -534,36 +566,40 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       }}/>
 
       {/* LEFT */}
-      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
+      <div className="vk-promo-text" key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
         {/* Eyebrow row */}
         <div style={{
-          display:'inline-flex', alignItems:'center', gap:12,
+          display:'inline-flex', alignItems:'center', gap:12, flexWrap:'wrap',
           fontFamily:'var(--font-mono, monospace)', fontSize:10,
           letterSpacing:'0.24em', textTransform:'uppercase', color: muted,
           marginBottom:18,
           animation: active ? 'hero-slide-left 0.7s cubic-bezier(0.22,1,0.36,1) both' : 'none',
         }}>
           <span style={{ color: accent }}>◆</span>
-          <span>Vikusha V-70</span>
-          <span style={{ opacity:0.35 }}>/</span>
-          <span style={{ color: accent, fontWeight:700 }}>{slide.ribbon}</span>
-          <span style={{
+          <span>{slide.eyebrow}</span>
+          {slide.ribbon && slide.ribbon !== slide.tag && (
+            <>
+              <span style={{ opacity:0.35 }}>/</span>
+              <span style={{ color: accent, fontWeight:700 }}>{slide.ribbon}</span>
+            </>
+          )}
+          <span role="status" style={{
             display:'inline-flex', alignItems:'center', gap:6,
             marginLeft:2, padding:'3px 9px',
-            border:`1px solid ${accent}66`, borderRadius:999,
-            color: accent, background:'rgba(255,107,0,0.08)',
+            border:`1px solid ${tagStyle.border}`, borderRadius:999,
+            color: tagStyle.color, background: tagStyle.bg,
           }}>
-            <span style={{
+            {tagStyle.dot && <span style={{
               width:6, height:6, borderRadius:'50%', background: accent,
               animation:'vk-promo-pulse 1.4s ease-in-out infinite, vk-promo-glow 1.8s ease-in-out infinite',
-            }}/>
-            LIVE
+            }}/>}
+            {slide.tag}
           </span>
         </div>
 
         {/* Title */}
-        <h2 style={{
-          fontFamily:'var(--font-display, serif)', fontSize:'clamp(34px, 4.2vw, 52px)',
+        <h2 className="vk-promo-title" style={{
+          fontFamily:'var(--font-display, serif)', fontSize:'clamp(28px, 4.2vw, 52px)',
           lineHeight:1.02, fontWeight:700, margin:'0 0 10px',
           letterSpacing:'-0.035em', color: ink,
           animation: active ? 'hero-slide-left 0.7s cubic-bezier(0.22,1,0.36,1) 0.08s both' : 'none',
@@ -571,7 +607,7 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
           {slide.title}{' '}
           <em style={{
             fontStyle:'italic',
-            background:`linear-gradient(135deg, ${accent} 0%, #ffaa55 100%)`,
+            background:`linear-gradient(135deg, ${accent} 0%, ${accentSoft} 100%)`,
             WebkitBackgroundClip:'text', backgroundClip:'text',
             WebkitTextFillColor:'transparent', color:'transparent',
           }}>{slide.titleItalic}</em>
@@ -592,47 +628,56 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         }}>{slide.sub}</p>
 
         {/* Price + countdown row */}
-        <div style={{
+        <div className="vk-promo-pricerow" style={{
           display:'flex', alignItems:'center', gap:24, flexWrap:'wrap', marginBottom:24,
           animation: active ? 'hero-fade-up 0.6s ease 0.32s both' : 'none',
         }}>
           <div style={{ display:'flex', alignItems:'baseline', gap:12 }}>
-            <span style={{
-              fontFamily:'var(--font-mono, monospace)', fontSize:12,
-              color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
-            }}>JOD {slide.oldPrice}</span>
-            <span style={{
+            {slide.oldPrice ? (
+              <span style={{
+                fontFamily:'var(--font-mono, monospace)', fontSize:12,
+                color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
+              }}>JOD {slide.oldPrice}</span>
+            ) : (
+              <span style={{
+                fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
+                color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
+              }}>{lang === 'ar' ? 'يبدأ من' : 'Starting at'}</span>
+            )}
+            <span className="vk-promo-price" style={{
               fontFamily:'var(--font-display, serif)', fontStyle:'italic',
-              fontSize:'clamp(48px, 5.2vw, 64px)', fontWeight:700,
-              background:`linear-gradient(135deg, ${accent} 0%, #ffb380 100%)`,
+              fontSize:'clamp(40px, 5.2vw, 64px)', fontWeight:700,
+              background:`linear-gradient(135deg, ${accent} 0%, ${accentSoft} 100%)`,
               WebkitBackgroundClip:'text', backgroundClip:'text',
               WebkitTextFillColor:'transparent', color:'transparent',
               letterSpacing:'-0.03em', lineHeight:1,
             }}>JOD {slide.price}</span>
-            <span style={{
-              fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
-              padding:'4px 9px', borderRadius:999, color: accent, fontWeight:700,
-              background:'rgba(255,107,0,0.12)', border:`1px solid ${accent}55`,
-            }}>−33%</span>
+            {slide.discountLabel && (
+              <span style={{
+                fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
+                padding:'4px 9px', borderRadius:999, color: accent, fontWeight:700,
+                background:`${accent}1f`, border:`1px solid ${accent}55`,
+              }}>{slide.discountLabel}</span>
+            )}
           </div>
-          <VkCountdown endsAt={endsAtRef.current} accent={accent} ink={ink}/>
+          {isPromo && <VkCountdown endsAt={endsAtRef.current} accent={accent} ink={ink}/>}
         </div>
 
         {/* CTAs */}
-        <div style={{
+        <div className="vk-promo-ctas" style={{
           display:'flex', gap:12, flexWrap:'wrap',
           animation: active ? 'hero-fade-up 0.6s ease 0.4s both' : 'none',
         }}>
           <button
             className="vk-cta-primary"
             style={{
-              background:`linear-gradient(135deg, ${accent} 0%, #ff8533 100%)`,
+              background:`linear-gradient(135deg, ${accent} 0%, ${accentSoft} 100%)`,
               color:'#fff',
               fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.2em',
               textTransform:'uppercase', fontWeight:700,
               padding:'13px 22px', border:'none', borderRadius:999, cursor:'pointer',
-              display:'inline-flex', alignItems:'center', gap:10,
-              boxShadow:'0 8px 22px rgba(255,107,0,0.32)',
+              display:'inline-flex', alignItems:'center', justifyContent:'center', gap:10,
+              boxShadow:`0 8px 22px ${accent}55`,
             }}
             onClick={()=>window.navigate('pdp', {id: slide.id})}
           >
@@ -655,24 +700,24 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         </div>
       </div>
 
-      {/* RIGHT — product image */}
+      {/* RIGHT — product image stage */}
       <div className="hero-slide-img" style={{
         position:'relative', height:'100%',
         borderRadius:'0 var(--radius-lg) var(--radius-lg) 0',
         overflow:'hidden',
         display:'flex', alignItems:'center', justifyContent:'center',
       }}>
-        {/* Soft circular spotlight behind product */}
-        <div style={{
+        {/* Soft circular spotlight behind product (pulses gently) */}
+        <div className="vk-spot" style={{
           position:'absolute',
-          width:'70%', aspectRatio:'1/1',
-          background:`radial-gradient(circle, ${accent}33 0%, transparent 65%)`,
-          filter:'blur(8px)',
+          width:'72%', aspectRatio:'1/1',
+          background:`radial-gradient(circle, ${accent}44 0%, ${accent}11 35%, transparent 65%)`,
+          filter:'blur(6px)',
           pointerEvents:'none',
         }}/>
         <div key={`img-${k}`} className="vk-product-float" style={{
           position:'relative', zIndex:1, height:'88%',
-          display:'flex', alignItems:'center',
+          display:'flex', alignItems:'center', justifyContent:'center',
           animation: active
             ? 'hero-slide-right 0.7s cubic-bezier(0.22,1,0.36,1) 0.14s both, vk-promo-float 5.5s ease-in-out 0.9s infinite'
             : 'none',
@@ -680,152 +725,48 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
           <img
             src={slide.imgSrc}
             alt={slide.eyebrow}
+            loading={active ? 'eager' : 'lazy'}
             style={{
               height:'100%', width:'auto', maxWidth:'100%',
               objectFit:'contain',
-              filter:`drop-shadow(0 28px 48px rgba(0,0,0,0.55)) drop-shadow(0 0 32px ${accent}33)`,
+              mixBlendMode: slide.productBlend === 'screen' ? 'normal' : 'normal',
+              filter:`drop-shadow(0 28px 48px rgba(0,0,0,0.55)) drop-shadow(0 0 32px ${accent}55)`,
             }}
           />
         </div>
         {/* Left fade for legibility */}
         <div style={{
           position:'absolute', inset:0,
-          background:`linear-gradient(to right, ${slide.bg} 0%, rgba(13,13,15,0.55) 22%, transparent 55%)`,
+          background:`linear-gradient(to right, ${slide.bg} 0%, ${slide.bg}cc 18%, transparent 55%)`,
           pointerEvents:'none',
         }}/>
       </div>
 
+      {/* Bottom marquee — only on promo slides */}
+      {isPromo && (
+        <div className="vk-promo-marquee" style={{
+          position:'absolute', bottom:0, left:0, right:0,
+          padding:'8px 0',
+          background:'rgba(0,0,0,0.35)',
+          borderTop:`1px solid ${accent}33`,
+          overflow:'hidden',
+          fontFamily:'var(--font-mono, monospace)', fontSize:10,
+          letterSpacing:'0.22em', textTransform:'uppercase',
+          color:'rgba(255,255,255,0.7)',
+          whiteSpace:'nowrap',
+          zIndex:2,
+        }}>
+          <div className="vk-promo-marquee-track">
+            {marqueeRow}{marqueeRow}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 function HeroSlide({ slide, products, active, animKey, t, lang }) {
-  if (slide.promo) {
-    return <VkPromoSlide slide={slide} active={active} animKey={animKey} t={t} lang={lang}/>;
-  }
-  const product = products.find(p => p.id === slide.id);
-  const k = animKey; // changes each time slide becomes active → re-triggers animations
-
-  return (
-    <div
-      className="hero-slide hero-slide-inner"
-      style={{
-        background: slide.bg,
-        opacity: active ? 1 : 0,
-        pointerEvents: active ? 'auto' : 'none',
-        transition: 'opacity 0.6s ease',
-        position: 'absolute', inset: 0,
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        alignItems: 'center',
-        padding: '0 0 0 52px',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Subtle radial glow */}
-      <div style={{
-        position:'absolute', inset:0,
-        background: slide.id === 'vz-80-plus'
-          ? `radial-gradient(ellipse at top right, #c44a0055, transparent 50%), radial-gradient(ellipse at bottom left, #0d2a5044, transparent 50%)`
-          : `radial-gradient(ellipse at top right, ${slide.accent}22, transparent 55%)`,
-        pointerEvents:'none',
-      }}/>
-
-      {/* Left: text — slides in from left */}
-      <div key={`text-${k}`} style={{ position:'relative', zIndex:1 }}>
-        <div style={{
-          display:'inline-flex', alignItems:'center', gap:8,
-          fontFamily:'var(--font-mono)', fontSize:10, letterSpacing:'0.16em',
-          textTransform:'uppercase', color: slide.accent, marginBottom:10,
-          background:'rgba(255,255,255,0.08)', padding:'4px 10px', borderRadius:999,
-          border:`1px solid ${slide.accent}44`,
-          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) both' : 'none',
-        }}>
-          <span style={{ width:6, height:6, borderRadius:'50%', background:slide.accent, display:'inline-block' }}/>
-          {slide.eyebrow}
-        </div>
-
-        <h2 style={{
-          fontFamily:'var(--font-display)', fontSize:40, lineHeight:1.05,
-          fontWeight:400, margin:'0 0 10px', letterSpacing:'-0.02em',
-          color:'#f3f1e7', textWrap:'balance',
-          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) 0.05s both' : 'none',
-        }}>
-          {slide.title} <em style={{ color: slide.accent === '#d7a528' ? '#f4e6b8' : slide.accent }}>{slide.titleItalic}</em>
-        </h2>
-
-        <p style={{
-          fontSize:13, color:'rgba(255,255,255,0.65)', margin:'0 0 20px', maxWidth:'44ch',
-          animation: active ? 'hero-fade-up 0.5s ease 0.2s both' : 'none',
-        }}>{slide.sub}</p>
-
-        <div style={{
-          display:'flex', gap:10, flexWrap:'wrap',
-          animation: active ? 'hero-fade-up 0.5s ease 0.4s both' : 'none',
-        }}>
-          <button
-            className="btn btn-sm"
-            style={{ background:slide.accent, color: slide.accent === '#d7a528' ? '#0f2a20' : '#fff', borderRadius:999, fontWeight:600 }}
-            onClick={()=>window.navigate('pdp', {id: slide.id})}
-          >{slide.cta} <Icon name="chev" size={14}/></button>
-          <button
-            className="btn btn-sm btn-outline"
-            style={{ color:'rgba(255,255,255,0.8)', borderColor:'rgba(255,255,255,0.25)', borderRadius:999 }}
-            onClick={()=>window.navigate('home', {brand: slide.brand})}
-          >{slide.cta2}</button>
-        </div>
-      </div>
-
-      {/* Right: product image — slides in from right */}
-      <div className="hero-slide-img" style={{
-        position:'relative', height:'100%',
-        borderRadius:'0 var(--radius-lg) var(--radius-lg) 0',
-        overflow:'hidden',
-        display:'flex', alignItems:'center', justifyContent:'center',
-      }}>
-        <div key={`img-${k}`} style={{
-          position:'relative', zIndex:1, height:'90%', display:'flex', alignItems:'center',
-          animation: active ? 'hero-slide-right 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
-        }}>
-          {slide.imgType === 'photo' ? (
-            <img
-              src={slide.imgSrc}
-              alt={slide.eyebrow}
-              style={{
-                height:'100%', width:'auto', maxWidth:'100%',
-                objectFit:'contain',
-                filter:'drop-shadow(0 20px 40px rgba(0,0,0,0.45))',
-              }}
-            />
-          ) : (
-            <div style={{
-              width:220, height: product?.category === 'watch' ? 280 : 240,
-              filter:'drop-shadow(0 20px 40px rgba(0,0,0,0.5))',
-              transform:'rotate(-4deg)',
-            }}>
-              {product && <Silhouette product={product} color={product.colors[0]}/>}
-            </div>
-          )}
-        </div>
-
-        {/* Left gradient fade */}
-        <div style={{
-          position:'absolute', inset:0,
-          background:`linear-gradient(to right, ${slide.bg} 0%, ${slide.bg}88 20%, transparent 50%)`,
-          pointerEvents:'none',
-        }}/>
-
-        {/* Price badge — bounce in */}
-        <div key={`badge-${k}`} style={{
-          position:'absolute', top:16, right:16,
-          background:slide.accent, color: slide.accent==='#d7a528'?'#0f2a20':'#fff',
-          fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.1em',
-          padding:'5px 12px', borderRadius:999, fontWeight:600,
-          animation: active ? 'hero-badge-bounce 0.6s cubic-bezier(0.22,1,0.36,1) 0.3s both' : 'none',
-          transformOrigin: 'top right',
-        }}>JOD {slide.price.toFixed(0)}</div>
-      </div>
-    </div>
-  );
+  return <PromoSlide slide={slide} active={active} animKey={animKey} t={t} lang={lang}/>;
 }
 
 const INTERVAL = 5000;
@@ -875,62 +816,65 @@ function Hero({ t, products, lang }) {
         />
       ))}
 
-      {/* Prev / Next arrows */}
+      {/* Prev / Next arrows — ghost, fade in on hover, hidden on mobile via CSS */}
       <button
+        aria-label="Previous slide"
+        className="vk-hero-arrow vk-hero-arrow-prev"
         onClick={() => goTo(cur - 1)}
         style={{
           position:'absolute', left:14, top:'50%', transform:'translateY(-50%)',
-          width:36, height:36, borderRadius:'50%',
-          background:'rgba(255,255,255,0.15)', color:'#fff',
-          backdropFilter:'blur(4px)', border:'1px solid rgba(255,255,255,0.2)',
+          width:40, height:40, borderRadius:'50%',
+          background:'rgba(255,255,255,0.10)', color:'#fff',
+          backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)',
           display:'flex', alignItems:'center', justifyContent:'center',
           zIndex:10, cursor:'pointer',
         }}
       ><Icon name="back" size={18}/></button>
       <button
+        aria-label="Next slide"
+        className="vk-hero-arrow vk-hero-arrow-next"
         onClick={() => goTo(cur + 1)}
         style={{
           position:'absolute', right:14, top:'50%', transform:'translateY(-50%)',
-          width:36, height:36, borderRadius:'50%',
-          background:'rgba(255,255,255,0.15)', color:'#fff',
-          backdropFilter:'blur(4px)', border:'1px solid rgba(255,255,255,0.2)',
+          width:40, height:40, borderRadius:'50%',
+          background:'rgba(255,255,255,0.10)', color:'#fff',
+          backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)',
           display:'flex', alignItems:'center', justifyContent:'center',
           zIndex:10, cursor:'pointer',
         }}
       ><Icon name="chev" size={18}/></button>
 
-      {/* Dot indicators */}
-      <div style={{
-        position:'absolute', bottom:14, left:'50%', transform:'translateX(-50%)',
-        display:'flex', gap:8, zIndex:10,
+      {/* Progress-bar indicators (one per slide; active fills with autoplay timer) */}
+      <div className="vk-hero-progress" style={{
+        position:'absolute', bottom:18, left:'50%', transform:'translateX(-50%)',
+        display:'flex', gap:8, zIndex:11,
       }}>
         {HERO_SLIDES.map((_, i) => (
           <button
             key={i}
+            aria-label={`Go to slide ${i+1}`}
             onClick={() => goTo(i)}
             style={{
-              width: i===cur ? 24 : 8, height:8, borderRadius:4,
-              background: i===cur ? '#fff' : 'rgba(255,255,255,0.4)',
-              transition:'all 0.3s ease', border:'none', padding:0, cursor:'pointer',
+              width: i===cur ? 44 : 22, height:3, borderRadius:2,
+              background:'rgba(255,255,255,0.22)',
+              border:'none', padding:0, cursor:'pointer',
+              position:'relative', overflow:'hidden',
+              transition:'width 0.4s cubic-bezier(0.22,1,0.36,1)',
             }}
-          />
+          >
+            {i === cur && (
+              <span
+                key={progressKey}
+                style={{
+                  position:'absolute', inset:0,
+                  background:'#fff',
+                  transformOrigin:'left center',
+                  animation: paused ? 'none' : `hero-progress ${INTERVAL}ms linear both`,
+                }}
+              />
+            )}
+          </button>
         ))}
-      </div>
-
-      {/* Gold progress bar */}
-      <div style={{
-        position:'absolute', bottom:0, left:0, right:0,
-        height:3, background:'rgba(255,255,255,0.12)', zIndex:10,
-      }}>
-        <div
-          key={progressKey}
-          style={{
-            height:'100%',
-            background:'#FFB800',
-            transformOrigin:'left center',
-            animation: paused ? 'none' : `hero-progress ${INTERVAL}ms linear both`,
-          }}
-        />
       </div>
     </section>
   );

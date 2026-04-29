@@ -59,7 +59,7 @@ export const PRODUCT_IMAGES = {
   'vz-80-plus': {
     graphite: [
       '/uploads/main brown.png',
-      '/uploads/vz80-graphite-main.webp',
+      '/uploads/vz80-graphite-back.png',
       '/uploads/vz80-graphite-L45.webp',
       '/uploads/vz80-graphite-R45.webp',
       '/uploads/vz80-keyboard-1.webp',
@@ -68,7 +68,7 @@ export const PRODUCT_IMAGES = {
     ],
     silver: [
       '/uploads/main silver .png',
-      '/uploads/vz80-blue-main.webp',
+      '/uploads/vz80-silver-back.png',
       '/uploads/vz80-blue-L45.webp',
       '/uploads/vz80-blue-R45.webp',
       '/uploads/vz80-keyboard-1.webp',

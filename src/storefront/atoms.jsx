@@ -1,6 +1,5 @@
 // Small presentational components
 import React from 'react';
-import logoUrl from '/uploads/image-removebg-preview.png?url';
 
 function Icon({ name, size = 18 }) {
   const s = { width: size, height: size, fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };
@@ -26,7 +25,7 @@ function Icon({ name, size = 18 }) {
   };
   return map[name] || null;
 }
-window.Icon = Icon;
+export { Icon };
 
 function Price({ value, size = 'md' }) {
   return (
@@ -35,7 +34,7 @@ function Price({ value, size = 'md' }) {
     </span>
   );
 }
-window.Price = Price;
+export { Price };
 
 function Stars({ n = 5, rating = 4.7, count }) {
   return (
@@ -45,15 +44,13 @@ function Stars({ n = 5, rating = 4.7, count }) {
     </span>
   );
 }
-window.Stars = Stars;
+export { Stars };
 
 function Logo() {
   return (
-    <a className="logo" onClick={(e)=>{ e.preventDefault(); window.navigate('home'); }} href="#">
-      <img src="uploads/image-removebg-preview.png" alt="Smart Leaders Co." style={{ height: 48, width: 'auto', display: 'block' }}/>
+    <a className="logo" onClick={(e)=>{ e.preventDefault(); window.navigate?.('home'); }} href="#">
+      <img src="/uploads/image-removebg-preview.png" alt="Smart Leaders Co." style={{ height: 48, width: 'auto', display: 'block' }}/>
     </a>
   );
 }
-window.Logo = Logo;
-
-Object.assign(window, { Icon, Price, Stars, Logo });
+export { Logo };

@@ -5,6 +5,7 @@ import './styles.css';
 import { CATALOG, I18N } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
+import { PDP } from './pdp.jsx';
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {
@@ -20,22 +21,21 @@ export default function StorefrontApp() {
   const [cartOpen, setCartOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
+  const [route, setRoute] = useState({ name: 'home', params: {} });
 
   const t = I18N[lang];
 
-  // Navigation shim — only Home is wired today; PDP/Checkout deferred.
-  useEffect(() => {
-    window.navigate = (page, params = {}) => {
-      window.__routeParams = params;
-      window.scrollTo(0, 0);
-      // Other pages not wired yet; surface a soft hint instead of broken nav.
-      if (page !== 'home') {
-        // eslint-disable-next-line no-console
-        console.info('[storefront] route deferred:', page, params);
-      }
-    };
-    return () => { try { delete window.navigate; } catch {} };
+  const navigate = React.useCallback((page, params = {}) => {
+    setRoute({ name: page || 'home', params: params || {} });
+    window.__routeParams = params;
+    window.scrollTo(0, 0);
   }, []);
+
+  // Expose navigate globally for in-component links that use window.navigate(...)
+  useEffect(() => {
+    window.navigate = navigate;
+    return () => { try { delete window.navigate; } catch {} };
+  }, [navigate]);
 
   // Persist
   useEffect(() => { localStorage.setItem('sl_cart', JSON.stringify(cart)); }, [cart]);
@@ -73,6 +73,14 @@ export default function StorefrontApp() {
     setCartOpen(true);
   };
 
+  const buyNow = (product, color, qty = 1) => {
+    addToCart(product, color, qty);
+  };
+
+  const currentProduct = route.name === 'pdp'
+    ? CATALOG.find(p => p.id === route.params?.id)
+    : null;
+
   return (
     <>
       <Header
@@ -87,13 +95,25 @@ export default function StorefrontApp() {
       />
 
       <main className="page">
-        <Home
-          t={t}
-          products={CATALOG}
-          onAddToCart={addToCart}
-          cart={cart}
-          lang={lang}
-        />
+        {route.name === 'pdp' && currentProduct ? (
+          <PDP
+            t={t}
+            lang={lang}
+            product={currentProduct}
+            products={CATALOG}
+            onAddToCart={addToCart}
+            onBuyNow={buyNow}
+            onNavigate={navigate}
+          />
+        ) : (
+          <Home
+            t={t}
+            products={CATALOG}
+            onAddToCart={addToCart}
+            cart={cart}
+            lang={lang}
+          />
+        )}
       </main>
 
       <Footer t={t} lang={lang} />

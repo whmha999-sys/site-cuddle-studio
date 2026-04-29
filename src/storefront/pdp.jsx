@@ -1,10 +1,17 @@
 // Product Detail Page
-function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
+import React from 'react';
+import { Icon, Price, Stars } from './atoms.jsx';
+import { Silhouette, ColorDot } from './silhouettes.jsx';
+import { ProductCard } from './home.jsx';
+import { PRODUCT_IMAGES } from './data.js';
+
+export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavigate }) {
+  const nav = onNavigate || ((p, params) => window.navigate?.(p, params));
   const [color, setColor] = React.useState(product.colors[0]);
   const [qty, setQty] = React.useState(1);
   const [thumb, setThumb] = React.useState(0);
 
-  const realImgs = window.PRODUCT_IMAGES?.[product.id]?.[color] || null;
+  const realImgs = PRODUCT_IMAGES?.[product.id]?.[color] || null;
 
   React.useEffect(()=>{
     setColor(product.colors[0]);
@@ -28,11 +35,11 @@ function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
   return (
     <>
       <nav className="breadcrumb">
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
         <span className="sep">/</span>
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{cat:product.category});}}>{t['cat_'+product.category]}s</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home',{cat:product.category});}}>{t['cat_'+product.category]}s</a>
         <span className="sep">/</span>
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{brand:product.brand});}}>{brandLabel}</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home',{brand:product.brand});}}>{brandLabel}</a>
         <span className="sep">/</span>
         <span className="current">{product.name}</span>
       </nav>
@@ -155,7 +162,7 @@ function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
                 key={p.id} p={p} t={t}
                 inCart={false}
                 onAdd={(prod,c)=>onAddToCart(prod,c,1)}
-                onOpen={(prod)=>window.navigate('pdp',{id:prod.id})}
+                onOpen={(prod)=>nav('pdp',{id:prod.id})}
               />
             ))}
           </div>
@@ -164,4 +171,5 @@ function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
     </>
   );
 }
-window.PDP = PDP;
+
+export default PDP;

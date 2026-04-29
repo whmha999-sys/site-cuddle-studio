@@ -41,11 +41,8 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
           <Logo/>
           <div style={{ display:'flex', alignItems:'center', gap:4, justifyContent:'center', flexWrap:'wrap' }}>
             <nav className="nav">
-              <a className="nav-link" href="VIKUSHA Tablets.html">{t.nav_tablets}</a>
+              <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home', {cat:'tablet'});}}>{t.nav_tablets}</a>
               <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home', {cat:'watch'});}}>{t.nav_watches}</a>
-              <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home', {cat:'accessory'});}}>{t.nav_accessories}</a>
-              <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home');}}>{t.nav_brands}</a>
-              <a className="nav-link" href="#">{t.nav_support}</a>
             </nav>
             <div className="nav-search" style={{ marginInlineStart: 16, width: 320 }}>
               <span className="search-icon"><Icon name="search" size={16}/></span>
@@ -74,15 +71,6 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
             </div>
           </div>
           <div className="header-right">
-            {user ? (
-              <button className="icon-btn" onClick={onSignout}>
-                <Icon name="user"/> <span>{user.name.split(' ')[0]}</span>
-              </button>
-            ) : (
-              <button className="icon-btn" onClick={onOpenAuth}>
-                <Icon name="user"/> <span>{t.signin}</span>
-              </button>
-            )}
             <button className="icon-btn" onClick={onOpenCart}>
               <Icon name="bag"/> <span>{t.cart}</span>
               {cartCount > 0 && <span className="count">{cartCount}</span>}

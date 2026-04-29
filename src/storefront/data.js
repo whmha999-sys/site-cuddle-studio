@@ -1,5 +1,5 @@
 // Smart Leaders product catalog. JOD prices.
-window.CATALOG = [
+export const CATALOG = [
   // VIKUSHA tablets
   { id: 'vz-80-plus', brand: 'vikusha', category: 'tablet', name: 'VZ-80 PLUS', tagline: 'Flagship 11" performance tablet with 4G LTE', price: 260, hero: true,
     colors: ['graphite','silver'],
@@ -50,7 +50,7 @@ window.CATALOG = [
 ];
 
 // Real product images keyed by product-id → color → [main, ...angles]
-window.PRODUCT_IMAGES = {
+export const PRODUCT_IMAGES = {
   'v-70': {
     black:  ['uploads/VIKUSHA Watch V70 main black .png','uploads/VIKUSHA Watch V70 black 1.png','uploads/VIKUSHA Watch V70 black 2.png','uploads/VIKUSHA Watch V70 black 3.png'],
     pink:   ['uploads/VIKUSHA Watch V70 main pink.png','uploads/VIKUSHA Watch V70 pink 1.png','uploads/VIKUSHA Watch V70 pink 2.png','uploads/VIKUSHA Watch V70 pink 3.png'],
@@ -70,14 +70,14 @@ window.PRODUCT_IMAGES = {
   },
 };
 
-window.COLOR_SWATCH = {
+export const COLOR_SWATCH = {
   graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2030',
   black: '#17181b', white: '#f2f2f0', gray: '#8a8d93',
   blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a24b',
 };
 
 // Translations
-window.I18N = {
+export const I18N = {
   en: {
     promo: 'Free delivery on orders over JOD 100 · Call +962 6 000 0000',
     lang: 'EN', ar: 'العربية',

@@ -1051,7 +1051,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
 
       <BrandStory lang={lang}/>
 
-      <WhyChooseUs lang={lang}/>
+      
 
       <TeclastScroll lang={lang}/>
 

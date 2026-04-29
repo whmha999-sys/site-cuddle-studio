@@ -2,7 +2,7 @@
 export const CATALOG = [
   // VIKUSHA tablets
   { id: 'vz-80-plus', brand: 'vikusha', category: 'tablet', name: 'VZ-80 PLUS', tagline: 'Flagship 11" performance tablet with 4G LTE', price: 260, hero: true,
-    colors: ['graphite','silver'],
+    colors: ['graphite','silver','blue'],
     specs: { 'RAM': '12 + 12 GB (virtual)', 'Storage': '256 GB', 'Display': '10.95" 2K · 60 Hz', 'Network': '4G LTE + WiFi', 'Camera': '13 MP + 5 MP', 'Battery': '8500 mAh', 'OS': 'Android 14' } },
   { id: 'vz-70', brand: 'vikusha', category: 'tablet', name: 'VZ-70', tagline: '90 Hz LTE tablet for daily productivity', price: 199,
     colors: ['graphite','silver'],
@@ -57,8 +57,32 @@ export const PRODUCT_IMAGES = {
     silver: ['/uploads/VIKUSHA Watch V70 main white.png','/uploads/VIKUSHA Watch V70 white 1.png','/uploads/VIKUSHA Watch V70 white 2.png','/uploads/VIKUSHA Watch V70 white 3.png'],
   },
   'vz-80-plus': {
-    graphite: ['/uploads/main brown.png'],
-    silver:   ['/uploads/main silver .png'],
+    graphite: [
+      '/uploads/main brown.png',
+      '/uploads/vz80-graphite-main.webp',
+      '/uploads/vz80-graphite-L45.webp',
+      '/uploads/vz80-graphite-R45.webp',
+      '/uploads/vz80-keyboard-1.webp',
+      '/uploads/vz80-keyboard-2.webp',
+      '/uploads/vz80-keyboard-3.webp',
+    ],
+    silver: [
+      '/uploads/main silver .png',
+      '/uploads/vz80-graphite-main.webp',
+      '/uploads/vz80-graphite-L45.webp',
+      '/uploads/vz80-graphite-R45.webp',
+      '/uploads/vz80-keyboard-1.webp',
+      '/uploads/vz80-keyboard-2.webp',
+      '/uploads/vz80-keyboard-3.webp',
+    ],
+    blue: [
+      '/uploads/vz80-blue-main.webp',
+      '/uploads/vz80-blue-L45.webp',
+      '/uploads/vz80-blue-R45.webp',
+      '/uploads/vz80-keyboard-1.webp',
+      '/uploads/vz80-keyboard-2.webp',
+      '/uploads/vz80-keyboard-3.webp',
+    ],
   },
   'vz-70': {
     graphite: ['/uploads/VIKUSHA Tablet V-Z70 main.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],

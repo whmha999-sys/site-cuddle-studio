@@ -1,7 +1,7 @@
+import React from 'react';
 // SwipeScene — scroll-driven finger swipe animation for Vikusha keyboard/trackpad
 // 200vh tall sticky section; finger swipes across trackpad as user scrolls
 
-(function () {
   const { useRef, useEffect } = React;
 
   const SWIPE_BLOB_PATHS = [
@@ -354,5 +354,4 @@
     );
   }
 
-  window.SwipeScene = SwipeScene;
-})();
+  export { SwipeScene };

@@ -1,5 +1,5 @@
+import React from 'react';
 // TeclastScroll — lazy-loaded, intersection-observed scroll-scrubbed video
-(function () {
   const { useRef, useEffect, useState } = React;
 
   if (!document.getElementById('teclast-scroll-styles')) {
@@ -161,5 +161,4 @@
     );
   }
 
-  window.TeclastScroll = TeclastScroll;
-})();
+  export { TeclastScroll };

@@ -1,7 +1,7 @@
+import React from 'react';
 // TabletScrollScene — Apple-style scroll-driven 3D rotation
 // Sticky 100vh section; tablet rotates from flat-horizontal to upright as user scrolls
 
-(function () {
   const { useRef, useEffect } = React;
 
   // SVG blob morph paths — 4 keyframes that interpolate
@@ -266,5 +266,4 @@
     );
   }
 
-  window.TabletScrollScene = TabletScrollScene;
-})();
+  export { TabletScrollScene };

@@ -1,5 +1,5 @@
+import React from 'react';
 // VikushaScroll — lazy-loaded, intersection-observed scroll-scrubbed video
-(function () {
   const { useRef, useEffect, useState } = React;
 
   if (!document.getElementById('vikusha-scroll-styles')) {
@@ -161,5 +161,4 @@
     );
   }
 
-  window.VikushaScroll = VikushaScroll;
-})();
+  export { VikushaScroll };

@@ -1,7 +1,6 @@
+import React from 'react';
 // Cinematic promo reel — two-product animated showcase
 // Uses CSS keyframe animations (no external deps)
-
-(function() {
 
 const promoStyles = `
   @keyframes promo-fade-in {
@@ -489,5 +488,4 @@ function PromoReel({ lang }) {
   );
 }
 
-window.PromoReel = PromoReel;
-})();
+export { PromoReel };

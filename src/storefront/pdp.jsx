@@ -312,6 +312,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
+      {product.id === 'teclast-p50' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {['01','03','04','02','07','08','11','14','15','16'].map(n => (
+            <img
+              key={n}
+              src={`/uploads/p50-feature-${n}.jpg`}
+              alt={`Teclast P50 feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
+
       {product.id === 'v-70' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
           {[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22].map(n => (

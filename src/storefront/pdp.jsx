@@ -250,6 +250,12 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
             />
           ))}
+          <img
+            src="/uploads/vm1-parameters.webp"
+            alt="V-M1 product parameters"
+            loading="lazy"
+            style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+          />
         </section>
       )}
     </>

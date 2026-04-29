@@ -376,7 +376,7 @@ function HeroSlide({ slide, products, active, animKey, t }) {
 
   return (
     <div
-      className="hero-slide"
+      className="hero-slide hero-slide-inner"
       style={{
         background: slide.bg,
         opacity: active ? 1 : 0,
@@ -444,7 +444,7 @@ function HeroSlide({ slide, products, active, animKey, t }) {
       </div>
 
       {/* Right: product image — slides in from right */}
-      <div style={{
+      <div className="hero-slide-img" style={{
         position:'relative', height:'100%',
         borderRadius:'0 var(--radius-lg) var(--radius-lg) 0',
         overflow:'hidden',
@@ -523,6 +523,7 @@ function Hero({ t, products, lang }) {
 
   return (
     <section
+      className="hero-wrap"
       style={{
         position:'relative', height:300, borderRadius:'var(--radius-lg)',
         overflow:'hidden', margin:'12px 0 0',
@@ -725,7 +726,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
 
       <PromoReel lang={lang}/>
 
-      <div style={{
+      <div className="home-perks" style={{
         marginTop: 60, padding: '36px 44px',
         background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)',
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, alignItems: 'center'

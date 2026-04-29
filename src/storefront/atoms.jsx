@@ -1,5 +1,6 @@
 // Small presentational components
-const { useState, useEffect, useRef, useMemo } = React;
+import React from 'react';
+import logoUrl from '/uploads/image-removebg-preview.png?url';
 
 function Icon({ name, size = 18 }) {
   const s = { width: size, height: size, fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };

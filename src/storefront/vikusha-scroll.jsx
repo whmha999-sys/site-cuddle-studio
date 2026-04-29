@@ -35,12 +35,57 @@ import React from 'react';
     const featRefs   = useRef([]);
     const headRef    = useRef(null);
     const [loading, setLoading] = useState(true);
+    const [isMobile, setIsMobile] = useState(() =>
+      typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+    );
+
+    useEffect(() => {
+      const mq = window.matchMedia('(max-width: 768px)');
+      const onChange = e => setIsMobile(e.matches);
+      mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange);
+      return () => {
+        mq.removeEventListener ? mq.removeEventListener('change', onChange) : mq.removeListener(onChange);
+      };
+    }, []);
 
     useEffect(() => {
       const vid     = videoRef.current;
       const section = sectionRef.current;
       if (!vid || !section) return;
 
+      // ── Mobile: simple autoplay loop, no scroll-scrub ──
+      if (isMobile) {
+        let cancelled = false;
+        const src = vid.getAttribute('data-src');
+        const start = () => {
+          if (cancelled) return;
+          vid.muted = true;
+          vid.loop = true;
+          vid.playsInline = true;
+          vid.autoplay = true;
+          setLoading(false);
+          const playPromise = vid.play();
+          if (playPromise && playPromise.catch) playPromise.catch(() => {});
+        };
+        if (!vid.src) {
+          vid.src = src;
+          vid.load();
+          vid.addEventListener('loadeddata', start, { once: true });
+        } else {
+          start();
+        }
+        FEATURES.forEach((_, i) => {
+          const el = featRefs.current[i];
+          if (el) el.classList.add('visible');
+        });
+        if (headRef.current) {
+          headRef.current.style.opacity = 1;
+          headRef.current.style.transform = 'translateY(0)';
+        }
+        return () => { cancelled = true; };
+      }
+
+      // ── Desktop: scroll-scrub ──
       let loaded = false;
       let active = false;
 
@@ -97,7 +142,7 @@ import React from 'react';
 
       io.observe(section);
       return () => { io.disconnect(); window.removeEventListener('scroll', scrub); };
-    }, []);
+    }, [isMobile]);
 
     return (
       <section ref={sectionRef} className="scroll-scene-section" style={{

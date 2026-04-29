@@ -503,7 +503,7 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
 
   return (
     <div
-      className="hero-slide hero-slide-inner"
+      className="hero-slide hero-slide-inner vk-promo-slide"
       style={{
         background: slide.bg,
         opacity: active ? 1 : 0,

@@ -49,7 +49,7 @@ export { Stars };
 function Logo() {
   return (
     <a className="logo" onClick={(e)=>{ e.preventDefault(); window.navigate?.('home'); }} href="#">
-      <img src="/uploads/image-removebg-preview.png" alt="Smart Leaders Co." style={{ height: 192, width: 'auto', display: 'block' }}/>
+      <img src="/uploads/image-removebg-preview.png" alt="Smart Leaders Co." style={{ height: 96, width: 'auto', display: 'block' }}/>
     </a>
   );
 }

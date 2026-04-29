@@ -179,7 +179,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
 
 /* ===== Hero ===== */
 .hero {
-  margin: 12px 0 0;
+  margin: 0;
   background: var(--green-800);
   color: #f3f1e7;
   border-radius: var(--radius-lg);

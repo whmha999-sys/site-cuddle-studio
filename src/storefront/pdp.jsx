@@ -66,8 +66,8 @@ function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
         <div className="pdp-info">
           <div className={`pdp-brand-pill ${product.brand}`}>
             {product.brand === 'vikusha'
-              ? <img src="uploads/1.png" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
-              : <img src="uploads/2.png" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
+              ? <img src="/uploads/1.png" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
+              : <img src="/uploads/2.png" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
             }
             <span>· {t['cat_'+product.category]}</span>
           </div>

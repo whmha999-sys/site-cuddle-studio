@@ -129,7 +129,7 @@
             )}
             <video
               ref={videoRef}
-              data-src="uploads/u5144992196_httpss.mj.run9q3xAeFJpVc_Add_a_scroll-triggered_V_e56a9984-0d82-4a08-be67-8502b794f667_2.mp4"
+              data-src="/uploads/u5144992196_httpss.mj.run9q3xAeFJpVc_Add_a_scroll-triggered_V_e56a9984-0d82-4a08-be67-8502b794f667_2.mp4"
               muted playsInline preload="metadata"
               style={{ width:400, maxHeight:'82vh', objectFit:'contain', display:'block', mixBlendMode:'multiply', opacity: loading ? 0 : 1, transition:'opacity 0.4s ease' }}
             />

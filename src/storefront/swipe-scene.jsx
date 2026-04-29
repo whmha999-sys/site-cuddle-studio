@@ -273,7 +273,7 @@
               }}
             >
               <img
-                src="uploads/file_00000000b87071f5a910d5f48a4cd8cd.png"
+                src="/uploads/file_00000000b87071f5a910d5f48a4cd8cd.png"
                 alt="Vikusha Tablet with Keyboard Case"
                 style={{
                   height: 'clamp(260px, 38vh, 420px)',
@@ -322,7 +322,7 @@
               }}
             >
               <img
-                src="uploads/file_00000000169c71f5a6773cffff446159.png"
+                src="/uploads/file_00000000169c71f5a6773cffff446159.png"
                 alt="finger swiping trackpad"
                 style={{
                   width: '100%',

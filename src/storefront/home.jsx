@@ -15,7 +15,7 @@ function getHeroSlides(lang) {
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',
     imgType: 'photo',
-    imgSrc: 'uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
+    imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
   },
   {
     id: 'vz-80-plus',
@@ -30,7 +30,7 @@ function getHeroSlides(lang) {
     cta2: ar ? 'استعرض الأجهزة' : 'Explore Tablets',
     brand: 'vikusha',
     imgType: 'photo',
-    imgSrc: 'uploads/04d9883d725a093586b7b7b1518ac3dd_abbcf2340001434b9a4d564263254942-removebg-preview.png',
+    imgSrc: '/uploads/04d9883d725a093586b7b7b1518ac3dd_abbcf2340001434b9a4d564263254942-removebg-preview.png',
   },
   {
     id: 'teclast-p50',
@@ -45,7 +45,7 @@ function getHeroSlides(lang) {
     cta2: ar ? 'استعرض تيكلاست' : 'Explore Teclast',
     brand: 'teclast',
     imgType: 'photo',
-    imgSrc: 'uploads/0f39d92f840194b3eb70333db1a89b38_46c26fc6e6aa4dd7b5cff127dbc89fcc-removebg-preview.png',
+    imgSrc: '/uploads/0f39d92f840194b3eb70333db1a89b38_46c26fc6e6aa4dd7b5cff127dbc89fcc-removebg-preview.png',
   },
   ];}
 
@@ -280,7 +280,7 @@ function BrandStory({ lang }) {
       content: (
         <>
           <img
-            src="uploads/1.png"
+            src="/uploads/1.png"
             alt="Vikusha"
             style={{ height: 52, width: 'auto', marginBottom: 20, display: 'block' }}
           />
@@ -305,7 +305,7 @@ function BrandStory({ lang }) {
       content: (
         <>
           <img
-            src="uploads/2.png"
+            src="/uploads/2.png"
             alt="Teclast"
             style={{ height: 42, width: 'auto', marginBottom: 20, display: 'block' }}
           />
@@ -603,8 +603,8 @@ function ProductCard({ p, t, inCart, onAdd, onOpen }) {
       <div className="card-img" onClick={()=>onOpen(p)}>
         <span className={`card-brand-tag ${p.brand}`}>
           {p.brand === 'vikusha'
-            ? <img src="uploads/1.png" alt="Vikusha" style={{ height: 22, width: 'auto', borderRadius: 4, display:'block' }}/>
-            : <img src="uploads/2.png" alt="Teclast" style={{ height: 18, width: 'auto', display:'block' }}/>
+            ? <img src="/uploads/1.png" alt="Vikusha" style={{ height: 22, width: 'auto', borderRadius: 4, display:'block' }}/>
+            : <img src="/uploads/2.png" alt="Teclast" style={{ height: 18, width: 'auto', display:'block' }}/>
           }
         </span>
         <button className={`card-wish ${wish?'active':''}`} onClick={(e)=>{e.stopPropagation(); setWish(!wish);}}><Icon name="heart" size={15}/></button>

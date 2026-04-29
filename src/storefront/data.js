@@ -52,21 +52,21 @@ export const CATALOG = [
 // Real product images keyed by product-id → color → [main, ...angles]
 export const PRODUCT_IMAGES = {
   'v-70': {
-    black:  ['uploads/VIKUSHA Watch V70 main black .png','uploads/VIKUSHA Watch V70 black 1.png','uploads/VIKUSHA Watch V70 black 2.png','uploads/VIKUSHA Watch V70 black 3.png'],
-    pink:   ['uploads/VIKUSHA Watch V70 main pink.png','uploads/VIKUSHA Watch V70 pink 1.png','uploads/VIKUSHA Watch V70 pink 2.png','uploads/VIKUSHA Watch V70 pink 3.png'],
-    silver: ['uploads/VIKUSHA Watch V70 main white.png','uploads/VIKUSHA Watch V70 white 1.png','uploads/VIKUSHA Watch V70 white 2.png','uploads/VIKUSHA Watch V70 white 3.png'],
+    black:  ['/uploads/VIKUSHA Watch V70 main black .png','/uploads/VIKUSHA Watch V70 black 1.png','/uploads/VIKUSHA Watch V70 black 2.png','/uploads/VIKUSHA Watch V70 black 3.png'],
+    pink:   ['/uploads/VIKUSHA Watch V70 main pink.png','/uploads/VIKUSHA Watch V70 pink 1.png','/uploads/VIKUSHA Watch V70 pink 2.png','/uploads/VIKUSHA Watch V70 pink 3.png'],
+    silver: ['/uploads/VIKUSHA Watch V70 main white.png','/uploads/VIKUSHA Watch V70 white 1.png','/uploads/VIKUSHA Watch V70 white 2.png','/uploads/VIKUSHA Watch V70 white 3.png'],
   },
   'vz-80-plus': {
-    graphite: ['uploads/main brown.png'],
-    silver:   ['uploads/main silver .png'],
+    graphite: ['/uploads/main brown.png'],
+    silver:   ['/uploads/main silver .png'],
   },
   'vz-70': {
-    graphite: ['uploads/VIKUSHA Tablet V-Z70 main.png','uploads/VIKUSHA Tablet V-Z70-3.png','uploads/VIKUSHA Tablet V-Z70-4.png'],
-    silver:   ['uploads/VIKUSHA Tablet V-Z70 main 2.png','uploads/VIKUSHA Tablet V-Z70-3.png','uploads/VIKUSHA Tablet V-Z70-4.png'],
+    graphite: ['/uploads/VIKUSHA Tablet V-Z70 main.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],
+    silver:   ['/uploads/VIKUSHA Tablet V-Z70 main 2.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],
   },
   'vz-60-4g': {
-    graphite: ['uploads/VIKUSHA Tablet V-Z60-2 main.jpg','uploads/VIKUSHA Tablet V-Z60-3.jpg','uploads/VIKUSHA Tablet V-Z60-5.jpg','uploads/VIKUSHA Tablet V-Z60-4.png'],
-    silver:   ['uploads/VIKUSHA Tablet V-Z60-1 main.jpg','uploads/VIKUSHA Tablet V-Z60-3.jpg','uploads/VIKUSHA Tablet V-Z60-5.jpg','uploads/VIKUSHA Tablet V-Z60-4.png'],
+    graphite: ['/uploads/VIKUSHA Tablet V-Z60-2 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
+    silver:   ['/uploads/VIKUSHA Tablet V-Z60-1 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
   },
 };
 

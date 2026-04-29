@@ -35,7 +35,6 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
 
   return (
     <header>
-      <PromoBar t={t} onLangToggle={onLangToggle} />
       <div className="header">
         <div className="header-inner">
           <Logo/>
@@ -74,6 +73,9 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
             <button className="icon-btn" onClick={onOpenCart}>
               <Icon name="bag"/> <span>{t.cart}</span>
               {cartCount > 0 && <span className="count">{cartCount}</span>}
+            </button>
+            <button className="icon-btn" onClick={onLangToggle} aria-label="Toggle language">
+              <Icon name="globe" size={16}/> <span>{t.ar}</span>
             </button>
           </div>
         </div>

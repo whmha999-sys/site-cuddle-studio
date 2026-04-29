@@ -102,7 +102,7 @@ export const PRODUCT_IMAGES = {
     pink: ['/uploads/vn7-pink-main.png','/uploads/vn7-pink-front.png','/uploads/vn7-pink-back.png','/uploads/vn7-pink-left.png','/uploads/vn7-pink-right.png'],
   },
   'teclast-t65': {
-    graphite: ['/uploads/teclast-t65-back.png', '/uploads/teclast-t65-front.png', '/uploads/teclast-t65-angle.png'],
+    graphite: ['/uploads/teclast-t65-back.png', '/uploads/teclast-t65-front.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png'],
   },
 };
 

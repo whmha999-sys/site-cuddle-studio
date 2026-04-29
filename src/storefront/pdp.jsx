@@ -161,11 +161,11 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
-      {(product.id === 'vz-80-plus' || product.id === 'vz-70') && (
+      {(product.id === 'vz-80-plus' || product.id === 'vz-70' || product.id === 'vz-60-4g') && (
         <section style={{ marginTop: 48, display:'flex', justifyContent:'center' }}>
           <div style={{ width:'100%', maxWidth: 900, aspectRatio:'16 / 9', borderRadius: 12, overflow:'hidden', boxShadow:'0 8px 30px rgba(0,0,0,0.15)' }}>
             <iframe
-              src={product.id === 'vz-80-plus' ? 'https://www.youtube.com/embed/2MaWT7_jjeg' : 'https://www.youtube.com/embed/AEQFdvcYt0A'}
+              src={product.id === 'vz-80-plus' ? 'https://www.youtube.com/embed/2MaWT7_jjeg' : product.id === 'vz-70' ? 'https://www.youtube.com/embed/AEQFdvcYt0A' : 'https://www.youtube.com/embed/YIuv1YCkiAQ'}
               title={product.name}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -198,6 +198,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
               key={n}
               src={`/uploads/vz70-feature-${n}.png`}
               alt={`VZ-70 feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
+
+      {product.id === 'vz-60-4g' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {['1','4','4b','5','6','7','8','10','10b','11'].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vz60-feature-${n}.png`}
+              alt={`VZ-60 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
             />

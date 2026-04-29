@@ -35,9 +35,9 @@ export const CATALOG = [
   { id: 'v-70', brand: 'vikusha', category: 'watch', name: 'V-70', tagline: 'AMOLED smartwatch with NFC + heart rate', price: 50,
     colors: ['black','pink','silver'],
     specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.43" AMOLED', 'Features': 'BT · G-Sensor · HR · NFC', 'Battery': '260 mAh' } },
-  { id: 'vb-1-4g', brand: 'vikusha', category: 'watch', name: 'VB-1 4G', tagline: 'Full-touch smartwatch with GPS + WiFi', price: 51,
-    colors: ['black','silver'],
-    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.69" Full Touch', 'Features': 'BT · GPS · AGPS · WiFi', 'Battery': '700 mAh' } },
+  { id: 'vb-1-4g', brand: 'vikusha', category: 'watch', name: 'VB-1 4G', tagline: 'Kids 4G smartwatch with GPS + WiFi', price: 51,
+    colors: ['pink','yellow','blue'],
+    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.69" Full Touch', 'Features': 'BT · GPS · AGPS · WiFi · 4G', 'Battery': '700 mAh' } },
 
   // Accessories
   { id: 'p200', brand: 'vikusha', category: 'accessory', name: 'Power Bank P200', tagline: '20,000 mAh fast-charging power bank', price: 35, colors: ['black','white'], specs: { 'Capacity': '20,000 mAh', 'Output': 'USB-A + USB-C PD', 'Input': 'USB-C' } },
@@ -107,6 +107,11 @@ export const PRODUCT_IMAGES = {
   'teclast-p50': {
     mint: ['/uploads/teclast-p50-main.png','/uploads/teclast-p50-back.png','/uploads/teclast-p50-front.png','/uploads/teclast-p50-angle.png','/uploads/teclast-p50-duo.png','/uploads/teclast-p50-stack.png','/uploads/teclast-p50-portrait.png','/uploads/teclast-p50-side.png','/uploads/teclast-p50-layflat.png','/uploads/teclast-p50-duo-alt.png','/uploads/teclast-p50-front-stand.png','/uploads/teclast-p50-back-flat.png'],
   },
+  'vb-1-4g': {
+    pink:   ['/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-angle.png','/uploads/vb1-pink-back.png'],
+    yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
+    blue:   ['/uploads/vb1-blue-front.png','/uploads/vb1-blue-back.png'],
+  },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
   },
@@ -115,7 +120,7 @@ export const PRODUCT_IMAGES = {
 export const COLOR_SWATCH = {
   graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2a3a',
   black: '#17181b', white: '#f2f2f0', gray: '#8a8d93',
-  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a16a', mint: '#9ad3c5',
+  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a16a', mint: '#9ad3c5', yellow: '#f5cf3a',
 };
 
 // Translations

@@ -286,7 +286,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'teclast-t65' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {['05','06','14','15','16','17','18','19','20','21'].map(n => (
+          {['01','02','05','06','07','08','09','10','11','12','13','14b','14','15','16','17','18','19','20','21'].map(n => (
             <img
               key={n}
               src={`/uploads/t65-feature-${n}.jpg`}

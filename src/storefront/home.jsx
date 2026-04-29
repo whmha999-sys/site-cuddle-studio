@@ -534,7 +534,7 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       }}/>
 
       {/* LEFT */}
-      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24, paddingBottom:48 }}>
+      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
         {/* Eyebrow row */}
         <div style={{
           display:'inline-flex', alignItems:'center', gap:12,
@@ -857,7 +857,7 @@ function Hero({ t, products, lang }) {
     <section
       className="hero-wrap"
       style={{
-        position:'relative', height:300, borderRadius:'var(--radius-lg)',
+        position:'relative', height:420, borderRadius:'var(--radius-lg)',
         overflow:'hidden', margin:'12px 0 0',
       }}
       onMouseEnter={() => setPaused(true)}

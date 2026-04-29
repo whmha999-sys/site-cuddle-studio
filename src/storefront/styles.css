@@ -846,6 +846,36 @@ input, select, textarea { font-family: inherit; color: inherit; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
 
+/* ── VkPromoSlide ("Time. Reimagined.") — mobile fix ── */
+@media (max-width: 768px) {
+  .vk-promo-slide {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto;
+    padding: 22px 18px !important;
+    gap: 16px;
+    align-items: stretch !important;
+  }
+  .vk-promo-slide h2 { font-size: 26px !important; line-height: 1.05 !important; }
+  .vk-promo-slide .vk-product-float img,
+  .vk-promo-slide .hero-slide-img img { max-height: 200px !important; height: auto !important; width: auto !important; }
+  .vk-promo-slide .hero-slide-img {
+    height: 220px !important;
+    border-radius: 12px !important;
+    order: 2;
+  }
+  .vk-promo-slide > div:first-of-type + div + div { order: 1; }  /* text first */
+  /* Compact price row */
+  .vk-promo-slide span[style*="JOD"] { font-size: 36px !important; }
+  /* Hide marquee on mobile to save vertical space */
+  .vk-promo-slide .vk-promo-marquee { display: none !important; }
+}
+
+/* Hide "Scroll to explore" hint on mobile (scroll-scrub disabled there) */
+@media (max-width: 768px) {
+  .scroll-scene-sticky > div[style*="Scroll to explore"],
+  .scroll-scene-section [style*="pointer-events:none"][style*="Scroll to explore"] { display: none !important; }
+}
+
 @media (max-width: 480px) {
   .grid { grid-template-columns: 1fr; }
   .hero-title { font-size: 28px; }

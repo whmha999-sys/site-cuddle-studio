@@ -238,6 +238,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           />
         </section>
       )}
+
+      {product.id === 'v-m1' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {[1,2,3,4,5,6,7,8,9,10].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vm1-feature-${n}.webp`}
+              alt={`V-M1 feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
     </>
   );
 }

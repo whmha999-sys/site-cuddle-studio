@@ -138,7 +138,6 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
                   <tr key={k}><th>{k}</th><td>{v}</td></tr>
                 ))}
                 <tr><th>SKU</th><td style={{fontFamily:'var(--font-mono)'}}>{product.id.toUpperCase()}</td></tr>
-                <tr><th>{lang==='ar'?'السعر':'Price'}</th><td><Price value={product.price}/></td></tr>
               </tbody>
             </table>
           </div>
@@ -282,6 +281,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             loading="lazy"
             style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
           />
+        </section>
+      )}
+
+      {product.id === 'teclast-t65' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {['05','06','14','15','16','17','18','19','20','21'].map(n => (
+            <img
+              key={n}
+              src={`/uploads/t65-feature-${n}.jpg`}
+              alt={`Teclast T65 feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
         </section>
       )}
 

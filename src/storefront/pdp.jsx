@@ -121,18 +121,26 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         <div className="specs-grid">
           <div className="specs-card">
             <h4>{lang==='ar'?'عام':'General'}</h4>
-            {generalSpecs.map(([k,v])=>(
-              <div key={k} className="spec-row"><span className="k">{k}</span><span className="v">{v}</span></div>
-            ))}
-            <div className="spec-row"><span className="k">{lang==='ar'?'العلامة':'Brand'}</span><span className="v">{brandLabel}</span></div>
+            <table className="spec-table">
+              <tbody>
+                {generalSpecs.map(([k,v])=>(
+                  <tr key={k}><th>{k}</th><td>{v}</td></tr>
+                ))}
+                <tr><th>{lang==='ar'?'العلامة':'Brand'}</th><td>{brandLabel}</td></tr>
+              </tbody>
+            </table>
           </div>
           <div className="specs-card">
             <h4>{lang==='ar'?'التفاصيل':'Product details'}</h4>
-            {detailSpecs.map(([k,v])=>(
-              <div key={k} className="spec-row"><span className="k">{k}</span><span className="v">{v}</span></div>
-            ))}
-            <div className="spec-row"><span className="k">SKU</span><span className="v" style={{fontFamily:'var(--font-mono)'}}>{product.id.toUpperCase()}</span></div>
-            <div className="spec-row"><span className="k">{lang==='ar'?'السعر':'Price'}</span><span className="v"><Price value={product.price}/></span></div>
+            <table className="spec-table">
+              <tbody>
+                {detailSpecs.map(([k,v])=>(
+                  <tr key={k}><th>{k}</th><td>{v}</td></tr>
+                ))}
+                <tr><th>SKU</th><td style={{fontFamily:'var(--font-mono)'}}>{product.id.toUpperCase()}</td></tr>
+                <tr><th>{lang==='ar'?'السعر':'Price'}</th><td><Price value={product.price}/></td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </section>

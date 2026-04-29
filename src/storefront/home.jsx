@@ -180,6 +180,7 @@ function WhyChooseUs({ lang }) {
   return (
     <section
       ref={sectionRef}
+      className="wcu-grid"
       style={{
         width: '100%',
         background: '#fff',
@@ -241,7 +242,7 @@ function WhyChooseUs({ lang }) {
       </div>
 
       {/* Divider */}
-      <div style={{ background: '#FFB80033' }}/>
+      <div className="wcu-divider" style={{ background: '#FFB80033' }}/>
 
       {/* RIGHT — benefits */}
       <div style={{
@@ -334,14 +335,14 @@ function BrandStory({ lang }) {
   ];
 
   return (
-    <section style={{
+    <section className="brand-story-grid" style={{
       width: '100%',
       background: '#fff',
       borderTop: '1px solid #FFB80033',
       borderBottom: '1px solid #FFB80033',
       margin: '48px 0 0',
       display: 'grid',
-      gridTemplateColumns: '1fr 1px 1fr 1px 1fr',
+      gridTemplateColumns: '1fr 1px 1fr',
     }}>
       {panels.map((panel, i) => (
         <React.Fragment key={panel.id}>
@@ -360,7 +361,7 @@ function BrandStory({ lang }) {
             {panel.content}
           </div>
           {i < panels.length - 1 && (
-            <div style={{ background: '#FFB80044', alignSelf: 'stretch' }}/>
+            <div className="brand-story-divider" style={{ background: '#FFB80044', alignSelf: 'stretch' }}/>
           )}
         </React.Fragment>
       ))}

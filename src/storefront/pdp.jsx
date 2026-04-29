@@ -162,7 +162,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
                 key={p.id} p={p} t={t}
                 inCart={false}
                 onAdd={(prod,c)=>onAddToCart(prod,c,1)}
-                onOpen={(prod)=>window.navigate('pdp',{id:prod.id})}
+                onOpen={(prod)=>nav('pdp',{id:prod.id})}
               />
             ))}
           </div>
@@ -171,4 +171,5 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
     </>
   );
 }
-window.PDP = PDP;
+
+export default PDP;

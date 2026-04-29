@@ -75,14 +75,6 @@ export const PRODUCT_IMAGES = {
       '/uploads/vz80-keyboard-2.webp',
       '/uploads/vz80-keyboard-3.webp',
     ],
-    blue: [
-      '/uploads/vz80-blue-main.webp',
-      '/uploads/vz80-blue-L45.webp',
-      '/uploads/vz80-blue-R45.webp',
-      '/uploads/vz80-keyboard-1.webp',
-      '/uploads/vz80-keyboard-2.webp',
-      '/uploads/vz80-keyboard-3.webp',
-    ],
   },
   'vz-70': {
     graphite: ['/uploads/VIKUSHA Tablet V-Z70 main.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],

@@ -81,8 +81,8 @@ export const PRODUCT_IMAGES = {
     silver:   ['/uploads/VIKUSHA Tablet V-Z70 main 2.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],
   },
   'vz-60-4g': {
-    graphite: ['/uploads/VIKUSHA Tablet V-Z60-2 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
-    silver:   ['/uploads/VIKUSHA Tablet V-Z60-1 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
+    graphite: ['/uploads/vz60-gray-main.png','/uploads/vz60-view-3.png','/uploads/vz60-view-5.png','/uploads/vz60-view-4.png'],
+    silver:   ['/uploads/vz60-blue-main.png','/uploads/vz60-view-3.png','/uploads/vz60-view-5.png','/uploads/vz60-view-4.png'],
   },
   'vz-30-pro-4g': {
     gold: ['/uploads/vz30-brown-main.png','/uploads/vz30-brown-2.png','/uploads/vz30-brown-3.png','/uploads/vz30-front.png'],

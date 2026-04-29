@@ -337,7 +337,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'vb-1-4g' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {['02','04','06','08','10','12','14','16','18','20'].map(n => (
+          {['02','04','06','08','10','12','14','16','18','20','22','24','25'].map(n => (
             <img
               key={n}
               src={`/uploads/vb1-feature-${n}.webp`}

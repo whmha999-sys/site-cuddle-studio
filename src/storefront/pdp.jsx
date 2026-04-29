@@ -170,6 +170,22 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
       )}
 
       {product.id === 'vz-80-plus' && (
+        <section style={{ marginTop: 48, display:'flex', justifyContent:'center' }}>
+          <div style={{ width:'100%', maxWidth: 900, aspectRatio:'16 / 9', borderRadius: 12, overflow:'hidden', boxShadow:'0 8px 30px rgba(0,0,0,0.15)' }}>
+            <iframe
+              src="https://www.youtube.com/embed/2MaWT7_jjeg"
+              title="VIKUSHA Tablet V-Z80 Plus"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              style={{ width:'100%', height:'100%', border:0, display:'block' }}
+            />
+          </div>
+        </section>
+      )}
+
+      {product.id === 'vz-80-plus' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
           {[1,2,3,4,5,7,8,9,10,11,12].map(n => (
             <img

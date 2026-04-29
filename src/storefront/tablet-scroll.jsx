@@ -102,16 +102,18 @@ import React from 'react';
     return (
       <section
         ref={sectionRef}
+        className="scroll-scene-section"
         style={{
           position: 'relative',
-          height: '300vh',  // scroll height = 3× viewport
+          height: '300vh',
           background: '#fff',
-          margin: '0 -16px',  // break out of page padding
+          margin: '0 -16px',
         }}
       >
         {/* Sticky viewport */}
         <div
           ref={stickyRef}
+          className="tablet-scene-sticky"
           style={{
             position: 'sticky',
             top: 0,

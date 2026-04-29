@@ -161,11 +161,11 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
-      {(product.id === 'vz-80-plus' || product.id === 'vz-70' || product.id === 'vz-60-4g' || product.id === 'vz-30-pro-4g') && (
+      {(product.id === 'vz-80-plus' || product.id === 'vz-70' || product.id === 'vz-60-4g' || product.id === 'vz-30-pro-4g' || product.id === 'vn-7-kids') && (
         <section style={{ marginTop: 48, display:'flex', justifyContent:'center' }}>
           <div style={{ width:'100%', maxWidth: 900, aspectRatio:'16 / 9', borderRadius: 12, overflow:'hidden', boxShadow:'0 8px 30px rgba(0,0,0,0.15)' }}>
             <iframe
-              src={product.id === 'vz-80-plus' ? 'https://www.youtube.com/embed/2MaWT7_jjeg' : product.id === 'vz-70' ? 'https://www.youtube.com/embed/AEQFdvcYt0A' : product.id === 'vz-60-4g' ? 'https://www.youtube.com/embed/YIuv1YCkiAQ' : 'https://www.youtube.com/embed/AlhPo-wxnWg'}
+              src={product.id === 'vz-80-plus' ? 'https://www.youtube.com/embed/2MaWT7_jjeg' : product.id === 'vz-70' ? 'https://www.youtube.com/embed/AEQFdvcYt0A' : product.id === 'vz-60-4g' ? 'https://www.youtube.com/embed/YIuv1YCkiAQ' : product.id === 'vz-30-pro-4g' ? 'https://www.youtube.com/embed/AlhPo-wxnWg' : 'https://www.youtube.com/embed/JCeSEW6wyc4'}
               title={product.name}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -253,6 +253,32 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           <img
             src="/uploads/vm1-parameters.webp"
             alt="V-M1 product parameters"
+            loading="lazy"
+            style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+          />
+        </section>
+      )}
+
+      {product.id === 'vn-7-kids' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          <img
+            src="/uploads/vn7-feature-main.webp"
+            alt="V-N7 Kids hero"
+            loading="lazy"
+            style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+          />
+          {[1,2,3,4,5,6,7,8].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vn7-feature-${n}.webp`}
+              alt={`V-N7 Kids feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+          <img
+            src="/uploads/vn7-parameters.png"
+            alt="V-N7 Kids product parameters"
             loading="lazy"
             style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
           />

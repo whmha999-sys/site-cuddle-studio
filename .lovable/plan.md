@@ -1,85 +1,75 @@
-## V-70 Hero Promo — Vikusha Edition
+## What's actually broken on mobile
 
-Apply Option A (Limited Drop / urgency) but rebuilt in the Vikusha visual language taken from `vikusha-scroll.jsx`: white-on-amber palette (`#FFB800` accent, deep brown `#1a1200` ink), serif italic display + mono eyebrows, hairline rules, minimal geometry. Promotional, but quiet and premium — not loud sticker-style.
+I traced both issues to the same root cause: **layouts hardcoded for desktop with no real mobile fallback**, plus a scroll-math bug that silently kills the animations.
 
-### Visual direction
+### 1. Laptop & watch animations frozen on phones
+
+`TeclastScroll` (laptop/tablet) and `VikushaScroll` (watch) work by:
+1. Measuring `section.offsetHeight - window.innerHeight` → total scrollable distance
+2. Dividing scroll progress into `p` (0 → 1)
+3. Setting `video.currentTime = p × video.duration`
+
+The mobile CSS at `styles.css:826-841` overrides the section to `height: auto` and the sticky container to `overflow-y: auto`. Result:
+- `section.offsetHeight - window.innerHeight` becomes near zero or negative
+- `p` clamps to 0 forever, so the video sits on frame 1 — looks "frozen"
+- The 560px-wide centre column also overflows, which is why the laptop/watch feel cut off
+
+### 2. First promo slide ("Time. Reimagined.") broken on mobile
+
+`VkPromoSlide` (home.jsx:483) uses its own grid (`1.05fr 1fr`), absolute background layers, and `padding: 0 0 0 56px`. The mobile rule in `styles.css:785` was written for the simpler `HeroSlide` and only forces `grid-template-columns: 1fr`. On VkPromoSlide that:
+- Doesn't reset the 56px left padding → text gets cropped
+- Doesn't reset the `hero-slide-img` height → the V-70 image area renders at 180px which clips the watch
+- The price row (`clamp(48px, 5.2vw, 64px)` × 3 elements) overflows on a 360px viewport because nothing wraps the price/old-price/badge group
+
+## The fix
+
+### A. Make the scroll-scrub animations actually run on mobile
+
+Two options — I recommend **Option 1** because the videos are 5–10 MB and scrubbing them on a phone is heavy anyway:
+
+**Option 1 (recommended): On mobile, swap the scroll-scrub video for autoplay loop.**
+In `TeclastScroll` and `VikushaScroll`, detect `window.matchMedia('(max-width: 768px)').matches`. If mobile:
+- Remove the sticky/300vh wrapper, render a normal stacked section
+- Set `video.autoplay = true; video.loop = true; video.muted = true; video.playsInline = true`
+- Show all features at once (no threshold gating)
+
+**Option 2: Keep scroll-scrub but fix the math.**
+Recompute progress against the section's natural scroll range and remove the `overflow-y: auto` override, keep `300vh` height on mobile too. Heavier but preserves the effect.
+
+### B. Fix the V-70 promo slide on mobile
+
+Add a mobile-specific override in `styles.css` that targets `VkPromoSlide`'s structure (it has the `.hero-slide-inner` class plus a unique pattern):
+- Reset its padding to `24px 18px`
+- Force `grid-template-columns: 1fr`, `gap: 18px`
+- Cap the title to `clamp(26px, 7vw, 32px)`
+- Cap the price to `clamp(36px, 9vw, 44px)` and let the price row wrap properly
+- Set the image container to a fixed `height: 220px` with `object-fit: contain`
+- Hide or shrink the countdown's day-cell padding so the four cells fit on one row
+
+I'll add a dedicated `.vk-promo-slide` class to VkPromoSlide's root so the mobile rules don't accidentally hit anything else.
+
+### C. While I'm in there
+
+- The "scroll to explore" hint is invisible on mobile when the section collapses — hide it under 768px.
+- The hero carousel auto-advance interval (5s) is a bit fast for the dense V-70 slide on mobile; bump to 7s only on the promo slide. (Optional — say if you want this.)
+
+## Files to change
 
 ```text
-┌───────────────────────────────────────────────────────────┐
-│ ◆ VIKUSHA V-70 · LIMITED DROP        [● LIVE]             │  ← mono eyebrow + pulsing dot
-│                                                           │
-│   Time.                                                   │
-│   Reimagined.            ┌──────────────┐                 │
-│   ─── 44px amber bar     │              │                 │
-│                          │   [watch]    │                 │
-│   1.43" AMOLED · NFC     │              │                 │
-│   Heart rate · IP67      └──────────────┘                 │
-│                                                           │
-│   JOD 75  →  JOD 50      ┌─────────────────────┐          │
-│   strike     bold         │ 02 : 14 : 33 : 09  │          │
-│                           │ DAYS HRS MIN SEC   │          │
-│                           └─────────────────────┘          │
-│                                                           │
-│   [ Claim Yours → ]   [ Explore Vikusha ]                 │
-│                                                           │
-│ ─────────────────────────────────────────────────────────  │
-│ FREE SHIPPING · 1-YR WARRANTY · COD · SHIPS TODAY · ▸▸▸   │  ← mono marquee
-└───────────────────────────────────────────────────────────┘
+src/storefront/teclast-scroll.jsx   — branch on mobile: simple autoplay layout
+src/storefront/vikusha-scroll.jsx   — branch on mobile: simple autoplay layout
+src/storefront/home.jsx             — add className="vk-promo-slide" to VkPromoSlide root
+src/storefront/styles.css           — new @media (max-width: 768px) block for .vk-promo-slide;
+                                       remove the overflow-y:auto override that kills scroll math
+                                       (only needed if you pick Option 2 above)
 ```
 
-### Changes (V-70 slide only — other slides untouched)
+No new dependencies, no asset changes.
 
-1. **`src/storefront/home.jsx` — V-70 slide data**
-   - Add promo fields: `promo: true`, `oldPrice: 75`, `endsAt` (48h from mount), `ribbon: 'LIMITED DROP'`
-   - Keep mustard `#c49a00` background but layer a subtle amber→deeper-amber radial gradient on top for depth
+## What I need from you
 
-2. **New component `VikushaPromoBadge`** (inline in home.jsx)
-   - Mono eyebrow row: `◆ VIKUSHA V-70 · LIMITED DROP` + pulsing `●` dot in `#1a1200`
-   - Style mirrors `vikusha-scroll.jsx` line 114 (mono, 10px, 0.2em letter-spacing, uppercase)
+Pick the animation strategy:
+- **Option 1** (autoplay loop on mobile) — fast, smooth, recommended
+- **Option 2** (keep the scroll-scrub on mobile) — preserves the effect but heavier on phones
 
-3. **Price treatment**
-   - Old price `JOD 75` with strikethrough in muted brown `#1a120080`
-   - New price `JOD 50` in serif italic, large, dark brown — matches the V-70 italic title style
-   - Small "-33%" tag using a 1px hairline border (no fill), mono font — quiet, not a sticker
-
-4. **Countdown timer**
-   - 4 cells (DD : HH : MM : SS) with hairline borders, white-translucent background `rgba(255,255,255,0.12)`
-   - Numbers in serif, labels in mono uppercase below
-   - Live `setInterval(1000)` updating from `endsAt`
-   - Cleans up on slide change/unmount
-
-5. **CTAs**
-   - Primary "Claim Yours →" — solid dark brown `#1a1200` bg, amber text, subtle shadow + hover-lift
-   - Secondary "Explore Vikusha" — ghost (transparent + 1px hairline)
-
-6. **Bottom marquee strip**
-   - Thin band inside the slide, just above the dots indicator
-   - Mono uppercase, 10px, 0.2em tracking — same type system as Vikusha section
-   - Infinite horizontal scroll using existing animation pattern (CSS keyframe, ~30s loop, paused on hover)
-   - Items: `FREE SHIPPING · 1-YR WARRANTY · COD AVAILABLE · SHIPS TODAY · ▸`
-
-7. **Conditional rendering**
-   - Existing hero renderer reads `slide.promo === true` → renders the new promo layout
-   - Other two slides (VZ-80 PLUS, Teclast P50) keep current rendering — zero regression
-
-### Animations (reuse existing keyframes)
-- Eyebrow + pulsing dot: `pulse` (already in tailwind config)
-- Countdown cells: `hero-fade-up` staggered 60ms (already defined in home.jsx line 66)
-- Old price → new price: brief `scale-in` on mount
-- Marquee: new keyframe `promo-marquee` (linear infinite translateX)
-
-### Mobile (≤768px)
-- Stack: eyebrow → title → price+countdown row (countdown shrinks to HH:MM:SS, drops days if <24h) → CTAs (full width)
-- Marquee stays at bottom, smaller font (9px)
-- Watch image scales down to fit alongside text per existing responsive rules
-
-### Files touched
-- `src/storefront/home.jsx` — V-70 slide data + promo render branch + countdown component + marquee
-- `src/storefront/styles.css` — `@keyframes promo-marquee` + `.promo-marquee` class + mobile overrides
-
-### Out of scope
-- VZ-80 PLUS and Teclast P50 slides
-- PDP page changes
-- Backend/inventory wiring (countdown is visual only, configurable via `endsAt` constant)
-
-Ready to build on approval.
+If you don't pick, I'll go with Option 1.

@@ -85,9 +85,9 @@ export const PRODUCT_IMAGES = {
     silver:   ['/uploads/VIKUSHA Tablet V-Z60-1 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
   },
   'vz-30-pro-4g': {
-    gold: ['/uploads/vz30-brown-main.webp','/uploads/vz30-brown-2.webp','/uploads/vz30-brown-3.webp','/uploads/vz30-front.webp'],
-    blue: ['/uploads/vz30-blue-main.webp','/uploads/vz30-blue-5.webp','/uploads/vz30-blue-6.webp','/uploads/vz30-front.webp'],
-    gray: ['/uploads/vz30-gray-main.webp','/uploads/vz30-gray-7.webp','/uploads/vz30-gray-8.webp','/uploads/vz30-front.webp'],
+    gold: ['/uploads/vz30-brown-main.png','/uploads/vz30-brown-2.png','/uploads/vz30-brown-3.png','/uploads/vz30-front.png'],
+    blue: ['/uploads/vz30-blue-main.png','/uploads/vz30-blue-5.png','/uploads/vz30-blue-6.png','/uploads/vz30-front.png'],
+    gray: ['/uploads/vz30-gray-main.png','/uploads/vz30-gray-7.png','/uploads/vz30-gray-8.png','/uploads/vz30-front.png'],
   },
   'v-m1': {
     graphite: ['/uploads/vm1-graphite-main.png','/uploads/vm1-graphite-views.png','/uploads/vm1-graphite-keyboard.png','/uploads/vm1-graphite-keyboard2.png'],

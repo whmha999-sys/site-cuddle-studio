@@ -80,22 +80,51 @@ if (!document.getElementById('hero-anim-styles')) {
     }
     @keyframes vk-promo-pulse {
       0%,100% { opacity:1; transform:scale(1); }
-      50%     { opacity:0.45; transform:scale(0.85); }
+      50%     { opacity:0.4; transform:scale(0.7); }
+    }
+    @keyframes vk-promo-glow {
+      0%,100% { box-shadow: 0 0 0 0 rgba(255,107,0,0.35); }
+      50%     { box-shadow: 0 0 0 6px rgba(255,107,0,0); }
     }
     @keyframes vk-promo-marquee {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      from { transform: translate3d(0,0,0); }
+      to   { transform: translate3d(-50%,0,0); }
+    }
+    @keyframes vk-promo-shimmer {
+      0%   { transform: translateX(-120%); }
+      100% { transform: translateX(220%); }
+    }
+    @keyframes vk-promo-float {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-8px); }
+    }
+    @keyframes vk-tick-flip {
+      from { transform: translateY(-6px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
     }
     .vk-promo-marquee-track {
-      display:inline-flex; gap:42px; padding-right:42px;
-      animation: vk-promo-marquee 32s linear infinite;
+      display:inline-flex; gap:48px; padding-right:48px;
+      animation: vk-promo-marquee 48s linear infinite;
       will-change: transform;
     }
     .vk-promo-marquee:hover .vk-promo-marquee-track { animation-play-state: paused; }
-    .vk-cta-primary { transition: transform 0.18s ease, box-shadow 0.18s ease; }
-    .vk-cta-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(26,18,0,0.35); }
-    .vk-cta-ghost { transition: background 0.18s ease, border-color 0.18s ease; }
-    .vk-cta-ghost:hover { background: rgba(26,18,0,0.08); border-color: rgba(26,18,0,0.55); }
+    .vk-cta-primary {
+      position:relative; overflow:hidden;
+      transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
+    }
+    .vk-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,107,0,0.45); }
+    .vk-cta-primary::after {
+      content:''; position:absolute; top:0; left:0; height:100%; width:40%;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+      transform:translateX(-120%); pointer-events:none;
+    }
+    .vk-cta-primary:hover::after { animation: vk-promo-shimmer 0.9s ease forwards; }
+    .vk-cta-ghost {
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .vk-cta-ghost:hover { background: rgba(255,107,0,0.12); border-color: #FF6B00; color: #fff; }
+    .vk-tick { animation: vk-tick-flip 0.32s cubic-bezier(0.22,1,0.36,1); }
+    .vk-product-float { animation: vk-promo-float 5.5s ease-in-out infinite; }
   `;
   document.head.appendChild(s);
 }

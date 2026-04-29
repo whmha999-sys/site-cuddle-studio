@@ -113,9 +113,13 @@ if (!document.getElementById('hero-anim-styles')) {
       from { transform: translateY(-6px); opacity: 0; }
       to   { transform: translateY(0);    opacity: 1; }
     }
+    @keyframes vk-spot-pulse {
+      0%,100% { opacity: 0.85; transform: scale(1); }
+      50%     { opacity: 1;    transform: scale(1.05); }
+    }
     .vk-promo-marquee-track {
       display:inline-flex; gap:48px; padding-right:48px;
-      animation: vk-promo-marquee 48s linear infinite;
+      animation: vk-promo-marquee 60s linear infinite;
       will-change: transform;
     }
     .vk-promo-marquee:hover .vk-promo-marquee-track { animation-play-state: paused; }
@@ -123,7 +127,7 @@ if (!document.getElementById('hero-anim-styles')) {
       position:relative; overflow:hidden;
       transition: transform 0.25s cubic-bezier(0.22,1,0.36,1), box-shadow 0.25s ease;
     }
-    .vk-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(255,107,0,0.45); }
+    .vk-cta-primary:hover { transform: translateY(-2px); }
     .vk-cta-primary::after {
       content:''; position:absolute; top:0; left:0; height:100%; width:40%;
       background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
@@ -133,9 +137,16 @@ if (!document.getElementById('hero-anim-styles')) {
     .vk-cta-ghost {
       transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     }
-    .vk-cta-ghost:hover { background: rgba(255,107,0,0.12); border-color: #FF6B00; color: #fff; }
+    .vk-cta-ghost:hover { background: rgba(255,255,255,0.10); color: #fff; }
     .vk-tick { animation: vk-tick-flip 0.32s cubic-bezier(0.22,1,0.36,1); }
     .vk-product-float { animation: vk-promo-float 5.5s ease-in-out infinite; }
+    .vk-spot { animation: vk-spot-pulse 8s ease-in-out infinite; }
+    .vk-hero-arrow { opacity: 0; transition: opacity 0.25s ease, background 0.2s ease; }
+    .hero-wrap:hover .vk-hero-arrow { opacity: 1; }
+    .vk-hero-arrow:hover { background: rgba(255,255,255,0.22) !important; }
+    @media (prefers-reduced-motion: reduce) {
+      .vk-product-float, .vk-spot, .vk-promo-marquee-track { animation: none !important; }
+    }
   `;
   document.head.appendChild(s);
 }

@@ -812,62 +812,65 @@ function Hero({ t, products, lang }) {
         />
       ))}
 
-      {/* Prev / Next arrows */}
+      {/* Prev / Next arrows — ghost, fade in on hover, hidden on mobile via CSS */}
       <button
+        aria-label="Previous slide"
+        className="vk-hero-arrow vk-hero-arrow-prev"
         onClick={() => goTo(cur - 1)}
         style={{
           position:'absolute', left:14, top:'50%', transform:'translateY(-50%)',
-          width:36, height:36, borderRadius:'50%',
-          background:'rgba(255,255,255,0.15)', color:'#fff',
-          backdropFilter:'blur(4px)', border:'1px solid rgba(255,255,255,0.2)',
+          width:40, height:40, borderRadius:'50%',
+          background:'rgba(255,255,255,0.10)', color:'#fff',
+          backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)',
           display:'flex', alignItems:'center', justifyContent:'center',
           zIndex:10, cursor:'pointer',
         }}
       ><Icon name="back" size={18}/></button>
       <button
+        aria-label="Next slide"
+        className="vk-hero-arrow vk-hero-arrow-next"
         onClick={() => goTo(cur + 1)}
         style={{
           position:'absolute', right:14, top:'50%', transform:'translateY(-50%)',
-          width:36, height:36, borderRadius:'50%',
-          background:'rgba(255,255,255,0.15)', color:'#fff',
-          backdropFilter:'blur(4px)', border:'1px solid rgba(255,255,255,0.2)',
+          width:40, height:40, borderRadius:'50%',
+          background:'rgba(255,255,255,0.10)', color:'#fff',
+          backdropFilter:'blur(8px)', border:'1px solid rgba(255,255,255,0.18)',
           display:'flex', alignItems:'center', justifyContent:'center',
           zIndex:10, cursor:'pointer',
         }}
       ><Icon name="chev" size={18}/></button>
 
-      {/* Dot indicators */}
-      <div style={{
-        position:'absolute', bottom:14, left:'50%', transform:'translateX(-50%)',
-        display:'flex', gap:8, zIndex:10,
+      {/* Progress-bar indicators (one per slide; active fills with autoplay timer) */}
+      <div className="vk-hero-progress" style={{
+        position:'absolute', bottom:18, left:'50%', transform:'translateX(-50%)',
+        display:'flex', gap:8, zIndex:11,
       }}>
         {HERO_SLIDES.map((_, i) => (
           <button
             key={i}
+            aria-label={`Go to slide ${i+1}`}
             onClick={() => goTo(i)}
             style={{
-              width: i===cur ? 24 : 8, height:8, borderRadius:4,
-              background: i===cur ? '#fff' : 'rgba(255,255,255,0.4)',
-              transition:'all 0.3s ease', border:'none', padding:0, cursor:'pointer',
+              width: i===cur ? 44 : 22, height:3, borderRadius:2,
+              background:'rgba(255,255,255,0.22)',
+              border:'none', padding:0, cursor:'pointer',
+              position:'relative', overflow:'hidden',
+              transition:'width 0.4s cubic-bezier(0.22,1,0.36,1)',
             }}
-          />
+          >
+            {i === cur && (
+              <span
+                key={progressKey}
+                style={{
+                  position:'absolute', inset:0,
+                  background:'#fff',
+                  transformOrigin:'left center',
+                  animation: paused ? 'none' : `hero-progress ${INTERVAL}ms linear both`,
+                }}
+              />
+            )}
+          </button>
         ))}
-      </div>
-
-      {/* Gold progress bar */}
-      <div style={{
-        position:'absolute', bottom:0, left:0, right:0,
-        height:3, background:'rgba(255,255,255,0.12)', zIndex:10,
-      }}>
-        <div
-          key={progressKey}
-          style={{
-            height:'100%',
-            background:'#FFB800',
-            transformOrigin:'left center',
-            animation: paused ? 'none' : `hero-progress ${INTERVAL}ms linear both`,
-          }}
-        />
       </div>
     </section>
   );

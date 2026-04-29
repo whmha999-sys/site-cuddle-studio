@@ -138,7 +138,6 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
                   <tr key={k}><th>{k}</th><td>{v}</td></tr>
                 ))}
                 <tr><th>SKU</th><td style={{fontFamily:'var(--font-mono)'}}>{product.id.toUpperCase()}</td></tr>
-                <tr><th>{lang==='ar'?'السعر':'Price'}</th><td><Price value={product.price}/></td></tr>
               </tbody>
             </table>
           </div>

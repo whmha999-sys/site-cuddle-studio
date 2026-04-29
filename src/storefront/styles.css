@@ -912,17 +912,14 @@ input, select, textarea { font-family: inherit; color: inherit; }
 @media (max-width: 480px) {
   .vk-promo-slide { padding: 20px 16px 16px !important; min-height: 580px; }
   .vk-promo-slide .hero-slide-img { height: 220px !important; }
-  .vk-promo-slide .vk-promo-marquee { display: none !important; } /* save vertical space on tiny screens */
+  .vk-promo-slide .vk-promo-marquee { display: none !important; }
+  .grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 28px; }
+  .pdp-title { font-size: 28px; }
 }
 
 /* Hide "Scroll to explore" hint on mobile (scroll-scrub disabled there) */
 @media (max-width: 768px) {
   .scroll-scene-sticky > div[style*="Scroll to explore"],
   .scroll-scene-section [style*="pointer-events:none"][style*="Scroll to explore"] { display: none !important; }
-}
-
-@media (max-width: 480px) {
-  .grid { grid-template-columns: 1fr; }
-  .hero-title { font-size: 28px; }
-  .pdp-title { font-size: 28px; }
 }

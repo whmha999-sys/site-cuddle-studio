@@ -78,6 +78,24 @@ if (!document.getElementById('hero-anim-styles')) {
       from { transform: scaleX(0); }
       to   { transform: scaleX(1); }
     }
+    @keyframes vk-promo-pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%     { opacity:0.45; transform:scale(0.85); }
+    }
+    @keyframes vk-promo-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .vk-promo-marquee-track {
+      display:inline-flex; gap:42px; padding-right:42px;
+      animation: vk-promo-marquee 32s linear infinite;
+      will-change: transform;
+    }
+    .vk-promo-marquee:hover .vk-promo-marquee-track { animation-play-state: paused; }
+    .vk-cta-primary { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .vk-cta-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(26,18,0,0.35); }
+    .vk-cta-ghost { transition: background 0.18s ease, border-color 0.18s ease; }
+    .vk-cta-ghost:hover { background: rgba(26,18,0,0.08); border-color: rgba(26,18,0,0.55); }
   `;
   document.head.appendChild(s);
 }

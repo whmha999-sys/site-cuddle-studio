@@ -577,8 +577,12 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
         }}>
           <span style={{ color: accent }}>◆</span>
           <span>{slide.eyebrow}</span>
-          <span style={{ opacity:0.35 }}>/</span>
-          <span style={{ color: accent, fontWeight:700 }}>{slide.ribbon || slide.tag}</span>
+          {slide.ribbon && slide.ribbon !== slide.tag && (
+            <>
+              <span style={{ opacity:0.35 }}>/</span>
+              <span style={{ color: accent, fontWeight:700 }}>{slide.ribbon}</span>
+            </>
+          )}
           <span role="status" style={{
             display:'inline-flex', alignItems:'center', gap:6,
             marginLeft:2, padding:'3px 9px',

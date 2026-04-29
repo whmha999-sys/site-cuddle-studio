@@ -603,11 +603,11 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
             }}>JOD {slide.oldPrice}</span>
             <span style={{
               fontFamily:'var(--font-display, serif)', fontStyle:'italic',
-              fontSize:40, fontWeight:700,
+              fontSize:'clamp(48px, 5.2vw, 64px)', fontWeight:700,
               background:`linear-gradient(135deg, ${accent} 0%, #ffb380 100%)`,
               WebkitBackgroundClip:'text', backgroundClip:'text',
               WebkitTextFillColor:'transparent', color:'transparent',
-              letterSpacing:'-0.02em', lineHeight:1,
+              letterSpacing:'-0.03em', lineHeight:1,
             }}>JOD {slide.price}</span>
             <span style={{
               fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
@@ -695,22 +695,6 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
         }}/>
       </div>
 
-      {/* Bottom marquee */}
-      <div className="vk-promo-marquee" style={{
-        position:'absolute', left:0, right:0, bottom:0,
-        background:'rgba(0,0,0,0.55)',
-        backdropFilter:'blur(8px)',
-        color: ink,
-        fontFamily:'var(--font-mono, monospace)', fontSize:10,
-        letterSpacing:'0.24em', textTransform:'uppercase',
-        padding:'9px 0', overflow:'hidden', whiteSpace:'nowrap',
-        borderTop:`1px solid ${accent}44`,
-      }}>
-        <div className="vk-promo-marquee-track">
-          {marqueeRow}
-          {marqueeRow}
-        </div>
-      </div>
     </div>
   );
 }

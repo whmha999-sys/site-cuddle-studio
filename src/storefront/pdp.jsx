@@ -207,7 +207,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'vz-60-4g' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {['1','4','4b','5','6','7','8','10','10b','11'].map(n => (
+          {['1','4','4b','5','6','7','8','10','10b','11','12','12b','13'].map(n => (
             <img
               key={n}
               src={`/uploads/vz60-feature-${n}.png`}

@@ -830,28 +830,89 @@ input, select, textarea { font-family: inherit; color: inherit; }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
 }
 
-/* ── VkPromoSlide ("Time. Reimagined.") — mobile fix ── */
+/* ── PromoSlide — unified mobile layout (≤ 768px) ── */
 @media (max-width: 768px) {
   .vk-promo-slide {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto;
-    padding: 22px 18px !important;
-    gap: 16px;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    padding: 22px 18px 18px !important;
+    gap: 18px;
     align-items: stretch !important;
+    min-height: 560px;
   }
-  .vk-promo-slide h2 { font-size: 26px !important; line-height: 1.05 !important; }
-  .vk-promo-slide .vk-product-float img,
-  .vk-promo-slide .hero-slide-img img { max-height: 200px !important; height: auto !important; width: auto !important; }
+
+  /* Text column on top */
+  .vk-promo-slide .vk-promo-text {
+    order: 1;
+    padding-right: 0 !important;
+    width: 100%;
+  }
+  .vk-promo-slide .vk-promo-title {
+    font-size: clamp(28px, 7.5vw, 38px) !important;
+    line-height: 1.04 !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* Product stage as a centered card */
   .vk-promo-slide .hero-slide-img {
-    height: 220px !important;
-    border-radius: 12px !important;
     order: 2;
+    position: relative !important;
+    height: 240px !important;
+    width: 100% !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
   }
-  .vk-promo-slide > div:first-of-type + div + div { order: 1; }  /* text first */
-  /* Compact price row */
-  .vk-promo-slide span[style*="JOD"] { font-size: 36px !important; }
-  /* Hide marquee on mobile to save vertical space */
-  .vk-promo-slide .vk-promo-marquee { display: none !important; }
+  .vk-promo-slide .hero-slide-img > div { height: 100% !important; }
+  .vk-promo-slide .vk-product-float img {
+    max-height: 220px !important;
+    height: auto !important;
+    width: auto !important;
+    max-width: 86% !important;
+  }
+  /* Hide left-fade overlay on mobile (no overlap with text) */
+  .vk-promo-slide .hero-slide-img > div:last-child {
+    background: none !important;
+  }
+
+  /* Price row: smaller countdown, bigger price */
+  .vk-promo-slide .vk-promo-price {
+    font-size: clamp(36px, 11vw, 52px) !important;
+  }
+  .vk-promo-slide .vk-promo-pricerow {
+    gap: 14px !important;
+    margin-bottom: 18px !important;
+  }
+
+  /* CTA pair: full-width primary, ghost below */
+  .vk-promo-slide .vk-promo-ctas {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  .vk-promo-slide .vk-promo-ctas > button {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+  }
+
+  /* Marquee: smaller, slower (already 60s) */
+  .vk-promo-slide .vk-promo-marquee {
+    font-size: 9px !important;
+    padding: 6px 0 !important;
+  }
+
+  /* Hide desktop carousel arrows on mobile (swipe by drag on indicators) */
+  .vk-hero-arrow { display: none !important; }
+  .vk-hero-progress { bottom: 10px !important; }
+}
+
+/* ── Extra-small phones (≤ 480px) ── */
+@media (max-width: 480px) {
+  .vk-promo-slide { padding: 20px 16px 16px !important; min-height: 580px; }
+  .vk-promo-slide .hero-slide-img { height: 220px !important; }
+  .vk-promo-slide .vk-promo-marquee { display: none !important; } /* save vertical space on tiny screens */
 }
 
 /* Hide "Scroll to explore" hint on mobile (scroll-scrub disabled there) */

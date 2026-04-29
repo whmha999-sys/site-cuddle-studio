@@ -314,7 +314,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'teclast-p50' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {['01','03','04','02','14','15','2-01','16','07','08','06','13','11','2-03','2-04','2-05','2-06'].map(n => (
+          {['01','03','04','02','1-02','14','15','1-15','2-01','16','1-05','07','08','2-02','06','13','1-09','11','1-10','1-12','2-03','2-04','2-05','2-06'].map(n => (
             <img
               key={n}
               src={`/uploads/p50-feature-${n}.jpg`}

@@ -101,6 +101,9 @@ export const PRODUCT_IMAGES = {
     blue: ['/uploads/vn7-blue-main.png','/uploads/vn7-blue-front.png','/uploads/vn7-blue-left.png','/uploads/vn7-blue-right.png'],
     pink: ['/uploads/vn7-pink-main.png','/uploads/vn7-pink-front.png','/uploads/vn7-pink-back.png','/uploads/vn7-pink-left.png','/uploads/vn7-pink-right.png'],
   },
+  'teclast-p30t': {
+    graphite: ['/uploads/teclast-p30t-back.png','/uploads/teclast-p30t-duo.png','/uploads/teclast-p30t-angle.png'],
+  },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-back.png', '/uploads/teclast-t65-front.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
   },

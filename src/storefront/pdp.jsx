@@ -113,22 +113,6 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             <button className="btn btn-outline btn-lg" onClick={()=>onAddToCart(product, color, qty)}>{t.add_to_cart}</button>
           </div>
 
-          <div className="pdp-perks">
-            <div className="perk">
-              <div className="perk-icon"><Icon name="truck" size={18}/></div>
-              <div>
-                <div className="perk-title">{t.free_delivery}</div>
-                <div className="perk-sub">{lang==='ar'?'لطلبات ١٠٠ د.أ وأكثر':'On orders over JOD 100'}</div>
-              </div>
-            </div>
-            <div className="perk">
-              <div className="perk-icon"><Icon name="shield" size={18}/></div>
-              <div>
-                <div className="perk-title">{t.returns}</div>
-                <div className="perk-sub">{lang==='ar'?'استبدال بدون متاعب':'Hassle-free exchanges'}</div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

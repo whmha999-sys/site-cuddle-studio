@@ -35,11 +35,11 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
   return (
     <>
       <nav className="breadcrumb">
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
         <span className="sep">/</span>
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{cat:product.category});}}>{t['cat_'+product.category]}s</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home',{cat:product.category});}}>{t['cat_'+product.category]}s</a>
         <span className="sep">/</span>
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home',{brand:product.brand});}}>{brandLabel}</a>
+        <a href="#" onClick={(e)=>{e.preventDefault(); nav('home',{brand:product.brand});}}>{brandLabel}</a>
         <span className="sep">/</span>
         <span className="current">{product.name}</span>
       </nav>

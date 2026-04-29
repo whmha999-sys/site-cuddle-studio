@@ -89,12 +89,17 @@ export const PRODUCT_IMAGES = {
     blue: ['/uploads/vz30-blue-main.webp','/uploads/vz30-blue-5.webp','/uploads/vz30-blue-6.webp','/uploads/vz30-front.webp'],
     gray: ['/uploads/vz30-gray-main.webp','/uploads/vz30-gray-7.webp','/uploads/vz30-gray-8.webp','/uploads/vz30-front.webp'],
   },
+  'v-m1': {
+    graphite: ['/uploads/vm1-graphite-main.png','/uploads/vm1-graphite-views.png','/uploads/vm1-graphite-keyboard.png','/uploads/vm1-graphite-keyboard2.png'],
+    midnight: ['/uploads/vm1-navy-main.png','/uploads/vm1-navy-views.png','/uploads/vm1-keyboard.png'],
+    mint:     ['/uploads/vm1-mint-main.png','/uploads/vm1-mint-views.png','/uploads/vm1-keyboard.png'],
+  },
 };
 
 export const COLOR_SWATCH = {
-  graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2030',
+  graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2a3a',
   black: '#17181b', white: '#f2f2f0', gray: '#8a8d93',
-  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a16a',
+  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a16a', mint: '#9ad3c5',
 };
 
 // Translations

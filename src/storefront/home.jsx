@@ -10,8 +10,8 @@ function getHeroSlides(lang) {
   return [
   {
     id: 'v-70',
-    bg: '#c49a00',
-    accent: '#d7a528',
+    bg: '#0d0d0f',
+    accent: '#FF6B00',
     eyebrow: ar ? 'ساعة فيكوشا الذكية' : 'Vikusha Smartwatch',
     title: ar ? 'الوقت.' : 'Time.',
     titleItalic: ar ? 'بشكل مختلف.' : 'Reimagined.',

@@ -794,7 +794,11 @@ input, select, textarea { font-family: inherit; color: inherit; }
     border-radius: 0 !important;
   }
   .hero-slide-inner .hero-slide-img > div { height: 100% !important; }
-  .hero-wrap { height: auto !important; min-height: 420px; }
+  .hero-wrap { height: auto !important; min-height: 460px; }
+
+  /* Vikusha promo slide tweaks */
+  .hero-slide-inner .vk-promo-marquee { font-size: 9px !important; padding: 6px 0 !important; }
+  .hero-slide-inner h2 { font-size: 28px !important; }
 
   /* Product grid */
   .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }

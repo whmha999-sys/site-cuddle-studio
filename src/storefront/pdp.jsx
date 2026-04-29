@@ -161,12 +161,12 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
-      {product.id === 'vz-80-plus' && (
+      {(product.id === 'vz-80-plus' || product.id === 'vz-70') && (
         <section style={{ marginTop: 48, display:'flex', justifyContent:'center' }}>
           <div style={{ width:'100%', maxWidth: 900, aspectRatio:'16 / 9', borderRadius: 12, overflow:'hidden', boxShadow:'0 8px 30px rgba(0,0,0,0.15)' }}>
             <iframe
-              src="https://www.youtube.com/embed/2MaWT7_jjeg"
-              title="VIKUSHA Tablet V-Z80 Plus"
+              src={product.id === 'vz-80-plus' ? 'https://www.youtube.com/embed/2MaWT7_jjeg' : 'https://www.youtube.com/embed/AEQFdvcYt0A'}
+              title={product.name}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
@@ -184,6 +184,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
               key={n}
               src={`/uploads/vz80-feature-${n}.png`}
               alt={`VZ-80 PLUS feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
+
+      {product.id === 'vz-70' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {[1,2,3,4,8,9,10,11].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vz70-feature-${n}.png`}
+              alt={`VZ-70 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
             />

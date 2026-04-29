@@ -334,6 +334,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           ))}
         </section>
       )}
+
+      {product.id === 'vb-1-4g' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {['02','04','06','08','10','12','14','16','18','20'].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vb1-feature-${n}.webp`}
+              alt={`VB-1 4G feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
     </>
   );
 }

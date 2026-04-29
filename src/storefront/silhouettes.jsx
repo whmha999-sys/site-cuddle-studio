@@ -134,10 +134,10 @@ function CableSVG() {
   );
 }
 
-window.Silhouette = function Silhouette({ product, color, size = 'md', imgIndex = 0 }) {
+export function Silhouette({ product, color, size = 'md', imgIndex = 0 }) {
   const c = color || product.colors[0];
   // Use real photo if available
-  const imgs = window.PRODUCT_IMAGES?.[product.id]?.[c];
+  const imgs = PRODUCT_IMAGES?.[product.id]?.[c];
   if (imgs) {
     const src = imgs[imgIndex] || imgs[0];
     return (
@@ -163,10 +163,10 @@ window.Silhouette = function Silhouette({ product, color, size = 'md', imgIndex 
     else inner = <CableSVG/>;
   }
   return <div className={`silhouette silhouette-${size}`}>{inner}</div>;
-};
+}
 
-window.ColorDot = function ColorDot({ color, selected, onClick, size = 20 }) {
-  const bg = window.COLOR_SWATCH[color] || '#999';
+export function ColorDot({ color, selected, onClick, size = 20 }) {
+  const bg = COLOR_SWATCH[color] || '#999';
   return (
     <button
       onClick={onClick}
@@ -175,4 +175,4 @@ window.ColorDot = function ColorDot({ color, selected, onClick, size = 20 }) {
       aria-label={color}
     />
   );
-};
+}

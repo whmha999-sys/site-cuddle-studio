@@ -1,10 +1,17 @@
 // Product Detail Page
-function PDP({ t, product, onAddToCart, onBuyNow, products, lang }) {
+import React from 'react';
+import { Icon, Price, Stars } from './atoms.jsx';
+import { Silhouette, ColorDot } from './silhouettes.jsx';
+import { ProductCard } from './home.jsx';
+import { PRODUCT_IMAGES } from './data.js';
+
+export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavigate }) {
+  const nav = onNavigate || ((p, params) => window.navigate?.(p, params));
   const [color, setColor] = React.useState(product.colors[0]);
   const [qty, setQty] = React.useState(1);
   const [thumb, setThumb] = React.useState(0);
 
-  const realImgs = window.PRODUCT_IMAGES?.[product.id]?.[color] || null;
+  const realImgs = PRODUCT_IMAGES?.[product.id]?.[color] || null;
 
   React.useEffect(()=>{
     setColor(product.colors[0]);

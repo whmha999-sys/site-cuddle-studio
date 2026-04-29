@@ -38,12 +38,12 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
       <div className="header">
         <div className="header-inner">
           <Logo/>
-          <div style={{ display:'flex', alignItems:'center', gap:4, justifyContent:'center', flexWrap:'wrap' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:4, justifyContent:'center', flexWrap:'wrap', minWidth: 0 }}>
             <nav className="nav">
               <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home', {cat:'tablet'});}}>{t.nav_tablets}</a>
               <a className="nav-link" href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home', {cat:'watch'});}}>{t.nav_watches}</a>
             </nav>
-            <div className="nav-search" style={{ marginInlineStart: 16, width: 320 }}>
+            <div className="nav-search" style={{ marginInlineStart: 16 }}>
               <span className="search-icon"><Icon name="search" size={16}/></span>
               <input
                 placeholder={t.search_ph}

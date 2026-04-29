@@ -100,11 +100,11 @@ import React from 'react';
     }, []);
 
     return (
-      <section ref={sectionRef} style={{
+      <section ref={sectionRef} className="scroll-scene-section" style={{
         position:'relative', height:'300vh', background:'#ffffff',
         margin:'0 -16px', borderTop:'1px solid #FF6B0022', borderBottom:'1px solid #FF6B0022',
       }}>
-        <div style={{
+        <div className="scroll-scene-sticky" style={{
           position:'sticky', top:0, height:'100vh', overflow:'hidden', background:'#ffffff',
           display:'grid', gridTemplateColumns:'1fr 560px 1fr', alignItems:'center',
         }}>
@@ -136,7 +136,7 @@ import React from 'react';
           </div>
 
           {/* RIGHT */}
-          <div style={{ paddingRight:'clamp(24px,5vw,64px)', display:'flex', flexDirection:'column', justifyContent:'center', gap:26, background:'#ffffff' }}>
+          <div className="scroll-scene-features" style={{ paddingRight:'clamp(24px,5vw,64px)', display:'flex', flexDirection:'column', justifyContent:'center', gap:26, background:'#ffffff' }}>
             {FEATURES.map((f,i) => (
               <div key={i} ref={el=>featRefs.current[i]=el} className="tc-feature" style={{ transitionDelay:`${i*0.04}s` }}>
                 <div style={{ display:'flex', alignItems:'flex-start', gap:14 }}>

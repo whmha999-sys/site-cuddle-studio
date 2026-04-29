@@ -180,6 +180,7 @@ function WhyChooseUs({ lang }) {
   return (
     <section
       ref={sectionRef}
+      className="wcu-grid"
       style={{
         width: '100%',
         background: '#fff',
@@ -241,7 +242,7 @@ function WhyChooseUs({ lang }) {
       </div>
 
       {/* Divider */}
-      <div style={{ background: '#FFB80033' }}/>
+      <div className="wcu-divider" style={{ background: '#FFB80033' }}/>
 
       {/* RIGHT — benefits */}
       <div style={{
@@ -334,14 +335,14 @@ function BrandStory({ lang }) {
   ];
 
   return (
-    <section style={{
+    <section className="brand-story-grid" style={{
       width: '100%',
       background: '#fff',
       borderTop: '1px solid #FFB80033',
       borderBottom: '1px solid #FFB80033',
       margin: '48px 0 0',
       display: 'grid',
-      gridTemplateColumns: '1fr 1px 1fr 1px 1fr',
+      gridTemplateColumns: '1fr 1px 1fr',
     }}>
       {panels.map((panel, i) => (
         <React.Fragment key={panel.id}>
@@ -360,7 +361,7 @@ function BrandStory({ lang }) {
             {panel.content}
           </div>
           {i < panels.length - 1 && (
-            <div style={{ background: '#FFB80044', alignSelf: 'stretch' }}/>
+            <div className="brand-story-divider" style={{ background: '#FFB80044', alignSelf: 'stretch' }}/>
           )}
         </React.Fragment>
       ))}
@@ -375,7 +376,7 @@ function HeroSlide({ slide, products, active, animKey, t }) {
 
   return (
     <div
-      className="hero-slide"
+      className="hero-slide hero-slide-inner"
       style={{
         background: slide.bg,
         opacity: active ? 1 : 0,
@@ -443,7 +444,7 @@ function HeroSlide({ slide, products, active, animKey, t }) {
       </div>
 
       {/* Right: product image — slides in from right */}
-      <div style={{
+      <div className="hero-slide-img" style={{
         position:'relative', height:'100%',
         borderRadius:'0 var(--radius-lg) var(--radius-lg) 0',
         overflow:'hidden',
@@ -522,6 +523,7 @@ function Hero({ t, products, lang }) {
 
   return (
     <section
+      className="hero-wrap"
       style={{
         position:'relative', height:300, borderRadius:'var(--radius-lg)',
         overflow:'hidden', margin:'12px 0 0',
@@ -724,7 +726,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
 
       <PromoReel lang={lang}/>
 
-      <div style={{
+      <div className="home-perks" style={{
         marginTop: 60, padding: '36px 44px',
         background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)',
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, alignItems: 'center'

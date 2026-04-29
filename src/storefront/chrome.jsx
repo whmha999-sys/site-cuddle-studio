@@ -1,4 +1,7 @@
 // Header + Footer + Tweaks + Auth + Search dropdown
+import React from 'react';
+import { Icon, Price, Logo } from './atoms.jsx';
+import { Silhouette } from './silhouettes.jsx';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 function PromoBar({ t, onLangToggle }) {
@@ -90,7 +93,7 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
     </header>
   );
 }
-window.Header = Header;
+export { Header };
 
 function Footer({ t, lang }) {
   return (
@@ -137,7 +140,7 @@ function Footer({ t, lang }) {
     </footer>
   );
 }
-window.Footer = Footer;
+export { Footer };
 
 function TweaksPanel({ lang, setLang, dir, setDir, theme, setTheme, t, onClose }) {
   return (
@@ -167,7 +170,7 @@ function TweaksPanel({ lang, setLang, dir, setDir, theme, setTheme, t, onClose }
     </div>
   );
 }
-window.TweaksPanel = TweaksPanel;
+export { TweaksPanel };
 
 function AuthModal({ t, onClose, onSignin }) {
   const [mode, setMode] = useStateH('signin');
@@ -204,4 +207,4 @@ function AuthModal({ t, onClose, onSignin }) {
     </div>
   );
 }
-window.AuthModal = AuthModal;
+export { AuthModal };

@@ -27,6 +27,9 @@ export const CATALOG = [
   { id: 'teclast-p30t', brand: 'teclast', category: 'tablet', name: 'Teclast P30T', tagline: 'WiFi tablet with 90 Hz display', price: 109,
     colors: ['graphite'],
     specs: { 'RAM': '4 + 8 GB', 'Storage': '128 GB', 'Display': '10.1" · 90 Hz', 'Network': 'WiFi', 'Camera': '2 MP + 5 MP + 0.3 MP', 'Battery': '6000 mAh', 'OS': 'Android 14' } },
+  { id: 'teclast-t65', brand: 'teclast', category: 'tablet', name: 'Teclast T65', tagline: 'Android 15 tablet · Unisoc T7280 · 8000 mAh', price: 150,
+    colors: ['graphite'],
+    specs: { 'OS': 'Android 15', 'Processor': 'Unisoc T7280 (2×A75 @2.2GHz + 6×A55 @1.8GHz)', 'RAM': '8 GB', 'Storage': '128 GB', 'Micro SD': 'up to 1 TB', 'Audio': 'Mic', 'Speakers': '2 Speakers', 'Battery': '8000 mAh', 'Video playback': 'Up to 8 hours', 'Web browsing': 'Up to 7 hours', 'Music playback': 'Up to 10 hours' } },
 
   // VIKUSHA watches
   { id: 'v-70', brand: 'vikusha', category: 'watch', name: 'V-70', tagline: 'AMOLED smartwatch with NFC + heart rate', price: 50,
@@ -97,6 +100,9 @@ export const PRODUCT_IMAGES = {
   'vn-7-kids': {
     blue: ['/uploads/vn7-blue-main.png','/uploads/vn7-blue-front.png','/uploads/vn7-blue-left.png','/uploads/vn7-blue-right.png'],
     pink: ['/uploads/vn7-pink-main.png','/uploads/vn7-pink-front.png','/uploads/vn7-pink-back.png','/uploads/vn7-pink-left.png','/uploads/vn7-pink-right.png'],
+  },
+  'teclast-t65': {
+    graphite: ['/uploads/teclast-t65-back.png'],
   },
 };
 

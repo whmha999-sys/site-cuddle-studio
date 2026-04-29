@@ -110,7 +110,7 @@ export const PRODUCT_IMAGES = {
   'vb-1-4g': {
     pink:   ['/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-angle.png','/uploads/vb1-pink-back.png'],
     yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
-    blue:   ['/uploads/vb1-blue-front.png','/uploads/vb1-blue-back.png'],
+    blue:   ['/uploads/vb1-blue-main.png','/uploads/vb1-blue-front.png','/uploads/vb1-blue-angle.png','/uploads/vb1-blue-back.png'],
   },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],

@@ -108,7 +108,7 @@ export const PRODUCT_IMAGES = {
     mint: ['/uploads/teclast-p50-main.png','/uploads/teclast-p50-back.png','/uploads/teclast-p50-front.png','/uploads/teclast-p50-angle.png','/uploads/teclast-p50-duo.png','/uploads/teclast-p50-stack.png','/uploads/teclast-p50-portrait.png','/uploads/teclast-p50-side.png','/uploads/teclast-p50-layflat.png','/uploads/teclast-p50-duo-alt.png','/uploads/teclast-p50-front-stand.png','/uploads/teclast-p50-back-flat.png'],
   },
   'vb-1-4g': {
-    pink:   ['/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-angle.png','/uploads/vb1-pink-back.png'],
+    pink:   ['/uploads/vb1-pink-angle.png','/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-back.png'],
     yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
     blue:   ['/uploads/vb1-blue-main.png','/uploads/vb1-blue-front.png','/uploads/vb1-blue-angle.png','/uploads/vb1-blue-back.png'],
   },

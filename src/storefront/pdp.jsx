@@ -81,12 +81,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           <h1 className="pdp-title">{product.name}</h1>
           <p className="pdp-tagline">{product.tagline}</p>
 
-          <div style={{ display:'flex', alignItems:'center', gap:14, marginBottom:8 }}>
-            <Stars rating={4.7} count={121}/>
-          </div>
-
           <div className="pdp-price"><Price value={product.price}/></div>
-          <div className="pdp-stock">{t.only_n_left.replace('{n}', 12)}</div>
 
           {product.colors.length > 1 && (
             <div className="pdp-field">

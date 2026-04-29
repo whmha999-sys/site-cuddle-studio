@@ -857,7 +857,7 @@ function Hero({ t, products, lang }) {
     <section
       className="hero-wrap"
       style={{
-        position:'relative', height:300, borderRadius:'var(--radius-lg)',
+        position:'relative', height:420, borderRadius:'var(--radius-lg)',
         overflow:'hidden', margin:'12px 0 0',
       }}
       onMouseEnter={() => setPaused(true)}

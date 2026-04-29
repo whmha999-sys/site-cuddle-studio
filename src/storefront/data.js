@@ -104,6 +104,9 @@ export const PRODUCT_IMAGES = {
   'teclast-p30t': {
     graphite: ['/uploads/teclast-p30t-duo2.png','/uploads/p30t-feature-00.jpg','/uploads/teclast-p30t-back.png','/uploads/teclast-p30t-front.png','/uploads/teclast-p30t-duo.png','/uploads/teclast-p30t-angle.png','/uploads/teclast-p30t-views.png'],
   },
+  'teclast-p50': {
+    mint: ['/uploads/teclast-p50-main.png'],
+  },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-back.png', '/uploads/teclast-t65-front.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
   },

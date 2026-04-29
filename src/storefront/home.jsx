@@ -17,11 +17,15 @@ function getHeroSlides(lang) {
     titleItalic: ar ? 'بشكل مختلف.' : 'Reimagined.',
     sub: ar ? '١.٤٣" AMOLED · NFC · معدل ضربات القلب · IP67' : '1.43" AMOLED · NFC · Heart rate · IP67',
     price: 50,
-    cta: ar ? 'تسوّق V-70' : 'Shop V-70',
+    oldPrice: 75,
+    cta: ar ? 'احجز الآن' : 'Claim Yours',
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',
     imgType: 'photo',
     imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
+    promo: true,
+    ribbon: ar ? 'عرض محدود' : 'LIMITED DROP',
+    promoDurationMs: 48 * 60 * 60 * 1000, // 48h
   },
   {
     id: 'vz-80-plus',

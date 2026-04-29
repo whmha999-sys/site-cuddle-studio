@@ -11,8 +11,8 @@ export const CATALOG = [
     colors: ['graphite','silver'],
     specs: { 'RAM': '8 + 8 GB', 'Storage': '128 GB', 'Display': '10.1" FHD', 'Network': '4G LTE', 'Camera': '8 MP + 5 MP', 'Battery': '6000 mAh', 'OS': 'Android 13' } },
   { id: 'vz-30-pro-4g', brand: 'vikusha', category: 'tablet', name: 'VZ-30 PRO 4G', tagline: 'Entry 4G tablet with all-day battery', price: 120,
-    colors: ['graphite'],
-    specs: { 'RAM': '4 + 4 GB', 'Storage': '64 GB', 'Display': '10.1" HD', 'Network': '4G LTE', 'Camera': '5 MP + 2 MP', 'Battery': '6000 mAh', 'OS': 'Android 13' } },
+    colors: ['gold','blue','gray'],
+    specs: { 'RAM': '4 + 4 GB', 'Storage': '64 GB', 'Display': '10.1" HD', 'Network': '4G LTE', 'Camera': '13 MP + 5 MP', 'Battery': '6000 mAh', 'OS': 'Android 13' } },
   { id: 'v-m1', brand: 'vikusha', category: 'tablet', name: 'V-M1', tagline: 'Compact WiFi tablet for home & travel', price: 110,
     colors: ['graphite','silver'],
     specs: { 'RAM': '4 + 4 GB', 'Storage': '128 GB', 'Display': '10.1" HD', 'Network': 'WiFi', 'Camera': '5 MP + 2 MP', 'Battery': '5000 mAh', 'OS': 'Android 13' } },
@@ -84,12 +84,17 @@ export const PRODUCT_IMAGES = {
     graphite: ['/uploads/VIKUSHA Tablet V-Z60-2 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
     silver:   ['/uploads/VIKUSHA Tablet V-Z60-1 main.jpg','/uploads/VIKUSHA Tablet V-Z60-3.jpg','/uploads/VIKUSHA Tablet V-Z60-5.jpg','/uploads/VIKUSHA Tablet V-Z60-4.png'],
   },
+  'vz-30-pro-4g': {
+    gold: ['/uploads/vz30-brown-main.webp','/uploads/vz30-brown-2.webp','/uploads/vz30-brown-3.webp','/uploads/vz30-front.webp'],
+    blue: ['/uploads/vz30-blue-main.webp','/uploads/vz30-blue-5.webp','/uploads/vz30-blue-6.webp','/uploads/vz30-front.webp'],
+    gray: ['/uploads/vz30-gray-main.webp','/uploads/vz30-gray-7.webp','/uploads/vz30-gray-8.webp','/uploads/vz30-front.webp'],
+  },
 };
 
 export const COLOR_SWATCH = {
   graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2030',
   black: '#17181b', white: '#f2f2f0', gray: '#8a8d93',
-  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a24b',
+  blue: '#3a6bd6', pink: '#e8a0b8', gold: '#c9a16a',
 };
 
 // Translations

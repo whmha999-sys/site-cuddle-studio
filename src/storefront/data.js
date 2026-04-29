@@ -22,7 +22,7 @@ export const CATALOG = [
 
   // TECLAST tablets
   { id: 'teclast-p50', brand: 'teclast', category: 'tablet', name: 'Teclast P50', tagline: '90 Hz LTE tablet with 7000 mAh battery', price: 135,
-    colors: ['graphite','silver'],
+    colors: ['mint'],
     specs: { 'RAM': '8 + 12 GB', 'Storage': '128 GB', 'Display': '10.95" · 90 Hz', 'Network': '4G LTE', 'Camera': '8 MP + 5 MP', 'Battery': '7000 mAh', 'OS': 'Android 14' } },
   { id: 'teclast-p30t', brand: 'teclast', category: 'tablet', name: 'Teclast P30T', tagline: 'WiFi tablet with 90 Hz display', price: 109,
     colors: ['graphite'],

@@ -17,11 +17,15 @@ function getHeroSlides(lang) {
     titleItalic: ar ? 'بشكل مختلف.' : 'Reimagined.',
     sub: ar ? '١.٤٣" AMOLED · NFC · معدل ضربات القلب · IP67' : '1.43" AMOLED · NFC · Heart rate · IP67',
     price: 50,
-    cta: ar ? 'تسوّق V-70' : 'Shop V-70',
+    oldPrice: 75,
+    cta: ar ? 'احجز الآن' : 'Claim Yours',
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',
     imgType: 'photo',
     imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
+    promo: true,
+    ribbon: ar ? 'عرض محدود' : 'LIMITED DROP',
+    promoDurationMs: 48 * 60 * 60 * 1000, // 48h
   },
   {
     id: 'vz-80-plus',
@@ -74,6 +78,24 @@ if (!document.getElementById('hero-anim-styles')) {
       from { transform: scaleX(0); }
       to   { transform: scaleX(1); }
     }
+    @keyframes vk-promo-pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%     { opacity:0.45; transform:scale(0.85); }
+    }
+    @keyframes vk-promo-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .vk-promo-marquee-track {
+      display:inline-flex; gap:42px; padding-right:42px;
+      animation: vk-promo-marquee 32s linear infinite;
+      will-change: transform;
+    }
+    .vk-promo-marquee:hover .vk-promo-marquee-track { animation-play-state: paused; }
+    .vk-cta-primary { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+    .vk-cta-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(26,18,0,0.35); }
+    .vk-cta-ghost { transition: background 0.18s ease, border-color 0.18s ease; }
+    .vk-cta-ghost:hover { background: rgba(26,18,0,0.08); border-color: rgba(26,18,0,0.55); }
   `;
   document.head.appendChild(s);
 }
@@ -370,7 +392,244 @@ function BrandStory({ lang }) {
 }
 // (export at bottom)
 
-function HeroSlide({ slide, products, active, animKey, t }) {
+// ── Vikusha promo: countdown + marquee helpers ──
+function VkCountdown({ endsAt, accent='#1a1200' }) {
+  const [now, setNow] = React.useState(Date.now());
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const diff = Math.max(0, endsAt - now);
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  const cells = [
+    { v: d, label: 'DAYS' },
+    { v: h, label: 'HRS' },
+    { v: m, label: 'MIN' },
+    { v: s, label: 'SEC' },
+  ];
+  return (
+    <div style={{ display:'inline-flex', gap:6, alignItems:'stretch' }}>
+      {cells.map((c, i) => (
+        <React.Fragment key={c.label}>
+          <div style={{
+            minWidth:42, padding:'6px 8px 4px',
+            border:`1px solid ${accent}55`,
+            background:'rgba(255,255,255,0.18)',
+            borderRadius:6, textAlign:'center',
+            backdropFilter:'blur(2px)',
+          }}>
+            <div style={{
+              fontFamily:'var(--font-display, serif)',
+              fontSize:18, fontWeight:700, lineHeight:1, color:accent,
+              fontVariantNumeric:'tabular-nums', letterSpacing:'-0.02em',
+            }}>{String(c.v).padStart(2,'0')}</div>
+            <div style={{
+              fontFamily:'var(--font-mono, monospace)',
+              fontSize:8, letterSpacing:'0.18em', color:`${accent}99`,
+              marginTop:2,
+            }}>{c.label}</div>
+          </div>
+          {i < cells.length-1 && (
+            <div style={{ display:'flex', alignItems:'center', color:`${accent}66`, fontFamily:'var(--font-display, serif)', fontSize:16, fontWeight:600 }}>:</div>
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+function VkPromoSlide({ slide, active, animKey, t, lang }) {
+  const k = animKey;
+  const ink = '#1a1200';
+  const endsAtRef = React.useRef(Date.now() + (slide.promoDurationMs || 48*3600*1000));
+
+  const marqueeItems = lang === 'ar'
+    ? ['شحن مجاني', 'ضمان سنة', 'الدفع عند الاستلام', 'شحن اليوم', 'إصدار محدود']
+    : ['FREE SHIPPING', '1-YEAR WARRANTY', 'CASH ON DELIVERY', 'SHIPS TODAY', 'LIMITED EDITION'];
+  const marqueeRow = (
+    <span style={{ display:'inline-flex', gap:42, alignItems:'center' }}>
+      {marqueeItems.map((it, i) => (
+        <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:42 }}>
+          {it}
+          <span style={{ opacity:0.4 }}>◆</span>
+        </span>
+      ))}
+    </span>
+  );
+
+  return (
+    <div
+      className="hero-slide hero-slide-inner"
+      style={{
+        background: slide.bg,
+        opacity: active ? 1 : 0,
+        pointerEvents: active ? 'auto' : 'none',
+        transition: 'opacity 0.6s ease',
+        position:'absolute', inset:0,
+        display:'grid', gridTemplateColumns:'1fr 1fr',
+        alignItems:'center',
+        padding:'0 0 0 52px',
+        overflow:'hidden',
+      }}
+    >
+      {/* Layered radial highlights for depth */}
+      <div style={{
+        position:'absolute', inset:0, pointerEvents:'none',
+        background: `radial-gradient(ellipse at 20% 20%, #FFB80044, transparent 55%), radial-gradient(ellipse at 90% 80%, #00000022, transparent 60%)`,
+      }}/>
+
+      {/* LEFT */}
+      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
+        {/* Eyebrow row */}
+        <div style={{
+          display:'inline-flex', alignItems:'center', gap:10,
+          fontFamily:'var(--font-mono, monospace)', fontSize:10,
+          letterSpacing:'0.22em', textTransform:'uppercase', color:ink,
+          marginBottom:14,
+          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) both' : 'none',
+        }}>
+          <span style={{ opacity:0.85 }}>◆ Vikusha V-70</span>
+          <span style={{ opacity:0.45 }}>·</span>
+          <span style={{ fontWeight:700 }}>{slide.ribbon}</span>
+          <span style={{
+            display:'inline-flex', alignItems:'center', gap:5,
+            marginLeft:4, padding:'2px 8px', border:`1px solid ${ink}66`, borderRadius:999,
+          }}>
+            <span style={{
+              width:6, height:6, borderRadius:'50%', background:ink,
+              animation:'vk-promo-pulse 1.4s ease-in-out infinite',
+            }}/>
+            LIVE
+          </span>
+        </div>
+
+        {/* Title */}
+        <h2 style={{
+          fontFamily:'var(--font-display, serif)', fontSize:42, lineHeight:1.04,
+          fontWeight:700, margin:'0 0 6px', letterSpacing:'-0.03em', color:ink,
+          animation: active ? 'hero-slide-left 0.6s cubic-bezier(0.22,1,0.36,1) 0.05s both' : 'none',
+        }}>
+          {slide.title} <em style={{ fontStyle:'italic', color:'#fff' }}>{slide.titleItalic}</em>
+        </h2>
+
+        {/* Amber bar */}
+        <div style={{
+          width:44, height:3, background:ink, borderRadius:2, margin:'10px 0 14px',
+          animation: active ? 'hero-fade-up 0.5s ease 0.15s both' : 'none',
+        }}/>
+
+        {/* Sub */}
+        <p style={{
+          fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.08em',
+          textTransform:'uppercase', color:`${ink}cc`, margin:'0 0 16px', maxWidth:'44ch',
+          animation: active ? 'hero-fade-up 0.5s ease 0.2s both' : 'none',
+        }}>{slide.sub}</p>
+
+        {/* Price + countdown row */}
+        <div style={{
+          display:'flex', alignItems:'center', gap:18, flexWrap:'wrap', marginBottom:18,
+          animation: active ? 'hero-fade-up 0.5s ease 0.3s both' : 'none',
+        }}>
+          <div style={{ display:'flex', alignItems:'baseline', gap:10 }}>
+            <span style={{
+              fontFamily:'var(--font-mono, monospace)', fontSize:11, color:`${ink}88`,
+              textDecoration:'line-through',
+            }}>JOD {slide.oldPrice}</span>
+            <span style={{
+              fontFamily:'var(--font-display, serif)', fontStyle:'italic',
+              fontSize:34, fontWeight:700, color:ink, letterSpacing:'-0.02em', lineHeight:1,
+            }}>JOD {slide.price}</span>
+            <span style={{
+              fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.18em',
+              padding:'3px 7px', border:`1px solid ${ink}`, borderRadius:4, color:ink, fontWeight:700,
+            }}>−33%</span>
+          </div>
+          <VkCountdown endsAt={endsAtRef.current} accent={ink}/>
+        </div>
+
+        {/* CTAs */}
+        <div style={{
+          display:'flex', gap:10, flexWrap:'wrap',
+          animation: active ? 'hero-fade-up 0.5s ease 0.4s both' : 'none',
+        }}>
+          <button
+            className="vk-cta-primary"
+            style={{
+              background:ink, color:'#FFB800',
+              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.18em',
+              textTransform:'uppercase', fontWeight:700,
+              padding:'11px 18px', border:'none', borderRadius:999, cursor:'pointer',
+              display:'inline-flex', alignItems:'center', gap:8,
+            }}
+            onClick={()=>window.navigate('pdp', {id: slide.id})}
+          >{slide.cta} <span style={{ fontSize:13 }}>→</span></button>
+          <button
+            className="vk-cta-ghost"
+            style={{
+              background:'transparent', color:ink,
+              fontFamily:'var(--font-mono, monospace)', fontSize:11, letterSpacing:'0.18em',
+              textTransform:'uppercase', fontWeight:600,
+              padding:'10px 16px', border:`1px solid ${ink}88`, borderRadius:999, cursor:'pointer',
+            }}
+            onClick={()=>window.navigate('home', {brand: slide.brand})}
+          >{slide.cta2}</button>
+        </div>
+      </div>
+
+      {/* RIGHT — product image */}
+      <div className="hero-slide-img" style={{
+        position:'relative', height:'100%',
+        borderRadius:'0 var(--radius-lg) var(--radius-lg) 0',
+        overflow:'hidden',
+        display:'flex', alignItems:'center', justifyContent:'center',
+      }}>
+        <div key={`img-${k}`} style={{
+          position:'relative', zIndex:1, height:'90%', display:'flex', alignItems:'center',
+          animation: active ? 'hero-slide-right 0.5s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
+        }}>
+          <img
+            src={slide.imgSrc}
+            alt={slide.eyebrow}
+            style={{
+              height:'100%', width:'auto', maxWidth:'100%',
+              objectFit:'contain',
+              filter:'drop-shadow(0 24px 44px rgba(0,0,0,0.45))',
+            }}
+          />
+        </div>
+        {/* Left fade so text is legible */}
+        <div style={{
+          position:'absolute', inset:0,
+          background:`linear-gradient(to right, ${slide.bg} 0%, ${slide.bg}88 18%, transparent 48%)`,
+          pointerEvents:'none',
+        }}/>
+      </div>
+
+      {/* Bottom marquee */}
+      <div className="vk-promo-marquee" style={{
+        position:'absolute', left:0, right:0, bottom:0,
+        background:`${ink}`, color:'#FFB800',
+        fontFamily:'var(--font-mono, monospace)', fontSize:10,
+        letterSpacing:'0.22em', textTransform:'uppercase',
+        padding:'8px 0', overflow:'hidden', whiteSpace:'nowrap',
+        borderTop:`1px solid #FFB80055`,
+      }}>
+        <div className="vk-promo-marquee-track">
+          {marqueeRow}
+          {marqueeRow}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroSlide({ slide, products, active, animKey, t, lang }) {
+  if (slide.promo) {
+    return <VkPromoSlide slide={slide} active={active} animKey={animKey} t={t} lang={lang}/>;
+  }
   const product = products.find(p => p.id === slide.id);
   const k = animKey; // changes each time slide becomes active → re-triggers animations
 
@@ -539,6 +798,7 @@ function Hero({ t, products, lang }) {
           active={i === cur}
           animKey={i === cur ? animKey : 0}
           t={t}
+          lang={lang}
         />
       ))}
 

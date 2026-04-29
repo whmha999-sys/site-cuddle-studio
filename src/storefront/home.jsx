@@ -603,11 +603,11 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
             }}>JOD {slide.oldPrice}</span>
             <span style={{
               fontFamily:'var(--font-display, serif)', fontStyle:'italic',
-              fontSize:40, fontWeight:700,
+              fontSize:'clamp(48px, 5.2vw, 64px)', fontWeight:700,
               background:`linear-gradient(135deg, ${accent} 0%, #ffb380 100%)`,
               WebkitBackgroundClip:'text', backgroundClip:'text',
               WebkitTextFillColor:'transparent', color:'transparent',
-              letterSpacing:'-0.02em', lineHeight:1,
+              letterSpacing:'-0.03em', lineHeight:1,
             }}>JOD {slide.price}</span>
             <span style={{
               fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',

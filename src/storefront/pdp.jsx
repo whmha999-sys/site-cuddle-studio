@@ -168,6 +168,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           </div>
         </section>
       )}
+
+      {product.id === 'vz-80-plus' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {[1,2,3,4,5,7,8,9,10,11].map(n => (
+            <img
+              key={n}
+              src={`/uploads/vz80-feature-${n}.png`}
+              alt={`VZ-80 PLUS feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
     </>
   );
 }

@@ -2,7 +2,7 @@
 export const CATALOG = [
   // VIKUSHA tablets
   { id: 'vz-80-plus', brand: 'vikusha', category: 'tablet', name: 'VZ-80 PLUS', tagline: 'Flagship 11" performance tablet with 4G LTE', price: 260, hero: true,
-    colors: ['graphite','silver','blue'],
+    colors: ['graphite','silver'],
     specs: { 'RAM': '12 + 12 GB (virtual)', 'Storage': '256 GB', 'Display': '10.95" 2K · 60 Hz', 'Network': '4G LTE + WiFi', 'Camera': '13 MP + 5 MP', 'Battery': '8500 mAh', 'OS': 'Android 14' } },
   { id: 'vz-70', brand: 'vikusha', category: 'tablet', name: 'VZ-70', tagline: '90 Hz LTE tablet for daily productivity', price: 199,
     colors: ['graphite','silver'],

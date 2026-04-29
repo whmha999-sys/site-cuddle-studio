@@ -73,6 +73,14 @@ export default function StorefrontApp() {
     setCartOpen(true);
   };
 
+  const buyNow = (product, color, qty = 1) => {
+    addToCart(product, color, qty);
+  };
+
+  const currentProduct = route.name === 'pdp'
+    ? CATALOG.find(p => p.id === route.params?.id)
+    : null;
+
   return (
     <>
       <Header
@@ -87,13 +95,25 @@ export default function StorefrontApp() {
       />
 
       <main className="page">
-        <Home
-          t={t}
-          products={CATALOG}
-          onAddToCart={addToCart}
-          cart={cart}
-          lang={lang}
-        />
+        {route.name === 'pdp' && currentProduct ? (
+          <PDP
+            t={t}
+            lang={lang}
+            product={currentProduct}
+            products={CATALOG}
+            onAddToCart={addToCart}
+            onBuyNow={buyNow}
+            onNavigate={navigate}
+          />
+        ) : (
+          <Home
+            t={t}
+            products={CATALOG}
+            onAddToCart={addToCart}
+            cart={cart}
+            lang={lang}
+          />
+        )}
       </main>
 
       <Footer t={t} lang={lang} />

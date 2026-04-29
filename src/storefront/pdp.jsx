@@ -300,7 +300,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'teclast-p30t' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {['01','02','04','06','05','07','08','14','15','16'].map(n => (
+          {['01','02','04','05','06','07','08','09-1','09-2','09-3','09-4','09-5','09-6','09-7','11','12','13','14','15','16'].map(n => (
             <img
               key={n}
               src={`/uploads/p30t-feature-${n}.jpg`}

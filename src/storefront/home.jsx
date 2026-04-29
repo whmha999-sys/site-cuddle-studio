@@ -534,7 +534,7 @@ function VkPromoSlide({ slide, active, animKey, t, lang }) {
       }}/>
 
       {/* LEFT */}
-      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24, paddingBottom:48 }}>
+      <div key={`text-${k}`} style={{ position:'relative', zIndex:1, paddingRight:24 }}>
         {/* Eyebrow row */}
         <div style={{
           display:'inline-flex', alignItems:'center', gap:12,

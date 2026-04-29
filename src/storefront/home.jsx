@@ -798,6 +798,7 @@ function Hero({ t, products, lang }) {
           active={i === cur}
           animKey={i === cur ? animKey : 0}
           t={t}
+          lang={lang}
         />
       ))}
 

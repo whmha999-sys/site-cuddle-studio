@@ -174,7 +174,16 @@ function Footer({ t, lang }) {
       </div>
       <div className="footer-bottom">
         <div>{t.footer_rights}</div>
-        <div>Amman · Jordan · تأسست ٢٠١٨</div>
+        <div>
+          Amman · Jordan · تأسست ٢٠١٨
+          <a
+            href="/auth"
+            style={{ marginInlineStart: 12, opacity: 0.4, fontSize: 12 }}
+            title="Admin"
+          >
+            {lang === 'ar' ? 'الإدارة' : 'Admin'}
+          </a>
+        </div>
       </div>
     </footer>
   );

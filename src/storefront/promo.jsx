@@ -50,6 +50,70 @@ const promoStyles = `
     border-radius: var(--radius-lg, 16px);
     margin-top: 48px;
   }
+
+  /* ── Mobile (≤ 768px): flatten the cinematic stage into a vertical stack ── */
+  @media (max-width: 768px) {
+    .promo-section {
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 24px 16px 64px !important;
+      margin-top: 28px !important;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    /* Hide non-active scenes entirely on mobile so they don't double the page height */
+    .promo-scene { position: relative !important; inset: auto !important;
+      display: none !important; opacity: 1 !important;
+      flex-direction: column; align-items: stretch !important;
+      gap: 18px; pointer-events: auto !important; }
+    .promo-scene.is-visible { display: flex !important; }
+
+    /* Reset every absolute child inside a scene back to flow */
+    .promo-scene > div {
+      position: static !important;
+      transform: none !important;
+      left: auto !important; right: auto !important;
+      top: auto !important; bottom: auto !important;
+      max-width: none !important;
+      text-align: start !important;
+    }
+    /* Decorative bg/grid layers — keep behind everything */
+    .promo-scene-bg { position: absolute !important; inset: 0 !important; }
+    .promo-section svg { display: none !important; }
+
+    /* Image: centered, capped */
+    .promo-scene-image { display: flex !important; justify-content: center; align-items: center;
+      order: 2; padding: 8px 0; }
+    .promo-scene-image img { height: clamp(180px, 46vw, 240px) !important; width: auto !important; max-width: 86% !important; }
+    .promo-scene-image, .promo-scene-image > * { animation: none !important; }
+
+    /* Text column on top */
+    .promo-scene-text { order: 1; }
+    .promo-scene-text > div[style*="font-size: 42"],
+    .promo-scene-text .promo-title { font-size: clamp(28px, 7.5vw, 38px) !important; line-height: 1.04 !important; }
+
+    /* Badges become a 2-col grid below image */
+    .promo-scene-badges { order: 3;
+      display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      margin: 0 !important; }
+    .promo-scene-badges > div { text-align: start !important; padding: 10px 12px !important; }
+
+    /* Duo scene: stack the two products */
+    .promo-scene-duo { display: flex !important; flex-direction: column; gap: 18px; }
+    .promo-scene-duo .promo-duo-side { width: 100% !important; flex: none !important; }
+    .promo-scene-duo .promo-duo-x { display: none !important; }
+    .promo-scene-duo .promo-duo-cta {
+      position: static !important; transform: none !important;
+      margin-top: 8px;
+    }
+
+    /* Section label moves under dots so it stops fighting eyebrow */
+    .promo-section .promo-scene-label {
+      top: auto !important; right: auto !important;
+      bottom: 36px !important; left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+  }
 `;
 
 // inject styles once

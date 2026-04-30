@@ -98,15 +98,6 @@ const promoStyles = `
       margin: 0 !important; }
     .promo-scene-badges > div { text-align: start !important; padding: 10px 12px !important; }
 
-    /* Duo scene: stack the two products */
-    .promo-scene-duo { display: flex !important; flex-direction: column; gap: 18px; }
-    .promo-scene-duo .promo-duo-side { width: 100% !important; flex: none !important; }
-    .promo-scene-duo .promo-duo-x { display: none !important; }
-    .promo-scene-duo .promo-duo-cta {
-      position: static !important; transform: none !important;
-      margin-top: 8px;
-    }
-
     /* Section label moves under dots so it stops fighting eyebrow */
     .promo-section .promo-scene-label {
       top: auto !important; right: auto !important;
@@ -496,10 +487,30 @@ function SceneDuo({ visible }) {
 
 // Main promo component
 function PromoReel({ lang }) {
-  const SCENES = ['watch', 'tablet', 'duo'];
-  const DURATIONS = [5000, 5000, 6000]; // ms per scene
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 768px)').matches : false
+  );
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mql = window.matchMedia('(max-width: 768px)');
+    const onChange = (e) => setIsMobile(e.matches);
+    mql.addEventListener ? mql.addEventListener('change', onChange) : mql.addListener(onChange);
+    return () => {
+      mql.removeEventListener ? mql.removeEventListener('change', onChange) : mql.removeListener(onChange);
+    };
+  }, []);
+
+  // On mobile drop the Duo scene so each product appears exactly once.
+  const SCENES = isMobile ? ['watch', 'tablet'] : ['watch', 'tablet', 'duo'];
+  const DURATIONS = isMobile ? [5000, 5000] : [5000, 5000, 6000];
+
   const [scene, setScene] = useState(0);
   const timerRef = useRef(null);
+
+  // Clamp scene index if breakpoint changes
+  useEffect(() => {
+    if (scene >= SCENES.length) setScene(0);
+  }, [isMobile]);
 
   const go = (idx) => {
     clearTimeout(timerRef.current);
@@ -509,9 +520,10 @@ function PromoReel({ lang }) {
   };
 
   useEffect(() => {
-    timerRef.current = setTimeout(() => go(1), DURATIONS[0]);
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => go(scene + 1), DURATIONS[scene] || 5000);
     return () => clearTimeout(timerRef.current);
-  }, []);
+  }, [isMobile]);
 
   const goTo = (idx) => {
     clearTimeout(timerRef.current);
@@ -519,11 +531,16 @@ function PromoReel({ lang }) {
     timerRef.current = setTimeout(() => go(idx + 1), DURATIONS[idx]);
   };
 
+  const sceneIdx = (name) => SCENES.indexOf(name);
+
   return (
-    <section className="promo-section" style={{ height: 480 }}>
-      <SceneWatch   visible={scene === 0} />
-      <SceneTablet  visible={scene === 1} />
-      <SceneDuo     visible={scene === 2} />
+    <section className="promo-section" style={{
+      height: isMobile ? 'auto' : 480,
+      minHeight: isMobile ? 420 : undefined,
+    }}>
+      <SceneWatch   visible={scene === sceneIdx('watch')} />
+      <SceneTablet  visible={scene === sceneIdx('tablet')} />
+      {!isMobile && <SceneDuo visible={scene === sceneIdx('duo')} />}
 
       {/* Scene dots */}
       <div style={{
@@ -546,7 +563,7 @@ function PromoReel({ lang }) {
         fontFamily:'var(--font-mono,monospace)', fontSize:9,
         color:'rgba(255,255,255,0.25)', letterSpacing:'0.14em', textTransform:'uppercase',
       }}>
-        {scene === 0 ? 'Watch' : scene === 1 ? 'Tablet' : 'The Kit'} · {scene+1}/{SCENES.length}
+        {SCENES[scene] === 'watch' ? 'Watch' : SCENES[scene] === 'tablet' ? 'Tablet' : 'The Kit'} · {scene+1}/{SCENES.length}
       </div>
     </section>
   );

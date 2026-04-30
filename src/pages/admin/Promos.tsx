@@ -118,6 +118,27 @@ export default function Promos() {
                   placeholder="Link URL (optional)"
                   onChange={(e) => update(p.id, { link_url: e.target.value })}
                 />
+                <div className="flex items-center gap-2 pt-1 border-t">
+                  <Switch
+                    checked={p.button_enabled}
+                    onCheckedChange={(v) => update(p.id, { button_enabled: v })}
+                  />
+                  <span className="text-sm">Show button</span>
+                </div>
+                {p.button_enabled && (
+                  <>
+                    <Input
+                      value={p.button_label || ""}
+                      placeholder="Button label (e.g. Shop now)"
+                      onChange={(e) => update(p.id, { button_label: e.target.value })}
+                    />
+                    <Input
+                      value={p.button_url || ""}
+                      placeholder="Button URL (https://… or /products)"
+                      onChange={(e) => update(p.id, { button_url: e.target.value })}
+                    />
+                  </>
+                )}
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-2 text-sm">
                     <Switch checked={p.active}

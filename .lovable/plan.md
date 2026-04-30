@@ -1,46 +1,79 @@
-## Why your promo isn't showing
+## Goal
 
-There are **two unrelated "promo" things** in the project, and the admin uploader is wired to the wrong one:
+Add an optional **call-to-action button** to each promo banner. Each banner in the admin gets:
+- a **"Show button" toggle**
+- a **button label** field (e.g. "Shop now")
+- a **button link** field (URL the button opens)
 
-| Where | What it is | Source of content |
-|---|---|---|
-| `src/storefront/promo.jsx` (`PromoReel`) | The cinematic Watch / Tablet / Duo animated showcase rendered on the home page | **Hardcoded** in JSX |
-| `/admin/promos` + `promos` table + `promos` storage bucket | The admin uploader you just used | Database |
+On the storefront, a slide renders its button **only when its own toggle is on**. Each banner is fully independent — turning the button on/off for banner #1 has no effect on banner #2.
 
-The storefront's home page only renders `<PromoReel/>`, which never reads from the `promos` table. So your uploaded banner is saved correctly, marked Active — but **nothing on the storefront ever queries it**, which is why you don't see it.
+## Database
 
-## Fix
+Add three columns to the `promos` table (migration):
 
-Add a real **PromoBanners** strip on the storefront that reads from the `promos` table and renders the active rows the admin uploads.
+- `button_enabled boolean not null default false`
+- `button_label text` (nullable)
+- `button_url text` (nullable)
 
-Concretely:
+No RLS changes needed — existing policies cover the new columns.
 
-1. **New component** `src/storefront/PromoBanners.jsx`
-   - Calls `usePromos()` (already exists, already filters `active=true`, ordered by `sort_order`).
-   - Renders a horizontal/stacked banner section:
-     - One banner: full-width responsive image card.
-     - Multiple banners: simple auto-rotating carousel with prev/next dots (same dot style as `PromoReel`) — 6s per slide.
-   - Each banner is a clickable `<a>` if `link_url` is set, otherwise a plain image. Title shown as overlay caption only if present.
-   - Hides itself completely when there are no active promos (so the page looks unchanged for you until you actually add one).
+## Admin UI — `src/pages/admin/Promos.tsx`
 
-2. **Wire it into the home page** (`src/storefront/home.jsx`)
-   - Insert `<PromoBanners lang={lang}/>` near the top of the home layout, just under the hero slider and above the product grid (this is where merchandising banners belong, and matches the screenshot you shared).
-   - Leave the existing `<PromoReel/>` cinematic section in place — it's a different design feature.
+Inside each promo card, below the existing "Link URL" input, add:
 
-3. **Styling**
-   - Match existing storefront tokens (`var(--radius-lg)`, `var(--border)`, `var(--bg-2)`).
-   - Aspect ratio ~ 16/6 desktop, 16/9 mobile, `object-fit: cover`, rounded corners, subtle shadow.
-   - RTL-friendly (the storefront has Arabic mode).
+- A `Switch` labeled **"Show button"** bound to `button_enabled`.
+- When the switch is **on**, reveal two inputs:
+  - **Button label** (placeholder: "Shop now")
+  - **Button URL** (placeholder: "https://… or /products")
+- Wire all three through the existing `update(id, patch)` helper so changes save immediately.
 
-4. **No DB changes needed** — `promos` table, RLS, `usePromos` hook, and the `promos` storage bucket are already in place and working (we just confirmed your upload succeeded).
+Layout stays in the same card; no other admin changes.
 
-## After this
+## Storefront — `src/storefront/PromoBanners.jsx`
 
-- Your existing uploaded banner will appear on the home page immediately.
-- Toggling Active off in `/admin/promos` hides it on the storefront.
-- Reordering with the up/down arrows changes the carousel order.
-- Uploading more banners turns the section into a rotating carousel automatically.
+Per-slide rendering changes:
 
-Optional follow-ups (not in this change unless you ask):
-- Make the cinematic `PromoReel` data-driven too.
-- Add a separate "Position" field (top of home / between sections / footer strip).
+1. When `promo.button_enabled && promo.button_label`, render a **CTA button overlay** on that slide (bottom-left area, near the existing caption).
+2. The button is an `<a href={promo.button_url || promo.link_url || '#'}>` styled with the storefront's accent tokens (orange pill, matching the "CLAIM YOURS" style from the hero) so it feels native.
+3. The whole slide is no longer wrapped in `<a>` when a button is present — instead the slide is a `<div>` and only the button is clickable. This avoids nested-anchor issues and matches the user's intent ("the button" is the action, not the whole banner).
+4. If `button_enabled` is **off** for a slide, render exactly as today (image + optional caption, whole slide clickable if `link_url` exists).
+5. External URLs (starting with `http`) open in a new tab; internal paths open in same tab.
+
+New CSS additions (appended to the existing injected `pb-styles` block):
+
+- `.pb-cta` — orange pill button, white text, uppercase tracking, hover lift, RTL-safe positioning (use `inset-inline-start` / logical properties so it sits on the correct side in Arabic).
+- Mobile: smaller padding, slightly smaller font.
+
+## Types
+
+Update the `Promo` type in `src/hooks/usePromos.ts` to include:
+
+```ts
+button_enabled: boolean;
+button_label: string | null;
+button_url: string | null;
+```
+
+No query changes needed (`select("*")` already returns the new columns).
+
+## Out of scope
+
+- No changes to the cinematic `PromoReel` or hero slider.
+- No changes to ordering, active toggle, upload flow, or storage buckets — all already working.
+
+## Result
+
+In `/admin/promos` you'll see, per banner:
+
+```text
+[ image preview ]
+[ title ]
+[ link url ]
+[ ⚪ Active ]              [ ↑ ↓ 🗑 ]
+[ ⚪ Show button ]
+   ↳ when on:
+   [ Button label ]
+   [ Button URL ]
+```
+
+On the home page, banner #1 with "Show button" on shows its CTA; banner #2 with it off shows just the image. Toggling is fully independent per banner.

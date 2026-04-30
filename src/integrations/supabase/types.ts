@@ -193,6 +193,9 @@ export type Database = {
       promos: {
         Row: {
           active: boolean
+          button_enabled: boolean
+          button_label: string | null
+          button_url: string | null
           created_at: string
           id: string
           image_url: string
@@ -204,6 +207,9 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          button_enabled?: boolean
+          button_label?: string | null
+          button_url?: string | null
           created_at?: string
           id?: string
           image_url: string
@@ -215,6 +221,9 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          button_enabled?: boolean
+          button_label?: string | null
+          button_url?: string | null
           created_at?: string
           id?: string
           image_url?: string

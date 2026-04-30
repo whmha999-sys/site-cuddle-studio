@@ -5,6 +5,7 @@ import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
+import { PromoBanners } from './PromoBanners.jsx';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -960,6 +961,8 @@ function Home({ t, products, onAddToCart, cart, lang }) {
   return (
     <>
       <Hero t={t} products={products} lang={lang}/>
+
+      <PromoBanners/>
 
       <div className="toolbar">
         <div className="chips">

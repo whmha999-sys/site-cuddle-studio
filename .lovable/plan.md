@@ -1,46 +1,46 @@
-## Problem
+## Why your promo isn't showing
 
-Uploading a promo banner fails with toast: **"Upload failed — database error, code: 08P01"**.
+There are **two unrelated "promo" things** in the project, and the admin uploader is wired to the wrong one:
 
-Root cause: a previous hardening migration (`20260430132250_*.sql`) ran:
+| Where | What it is | Source of content |
+|---|---|---|
+| `src/storefront/promo.jsx` (`PromoReel`) | The cinematic Watch / Tablet / Duo animated showcase rendered on the home page | **Hardcoded** in JSX |
+| `/admin/promos` + `promos` table + `promos` storage bucket | The admin uploader you just used | Database |
 
-```sql
-REVOKE EXECUTE ON FUNCTION public.has_role(UUID, public.app_role)
-  FROM PUBLIC, anon, authenticated;
-```
-
-But the storage RLS policies on `storage.objects` (e.g. `Admins write promos`, `Admins list promos`) still call `public.has_role(auth.uid(), 'admin')`. Because the `authenticated` role no longer has EXECUTE on that function, the policy check raises a permission error during the storage insert, which the storage layer surfaces as Postgres error `08P01`.
-
-The same issue affects:
-- Uploading product images
-- Listing/deleting/updating any storage object that uses these admin policies
-
-It does NOT currently break table RLS because those policies were rewritten to use `app_private.has_role` in the latest migration, but the storage policies were left pointing at `public.has_role`.
+The storefront's home page only renders `<PromoReel/>`, which never reads from the `promos` table. So your uploaded banner is saved correctly, marked Active — but **nothing on the storefront ever queries it**, which is why you don't see it.
 
 ## Fix
 
-Single small migration that restores execute access on the role-check functions to `authenticated` (the function is `SECURITY DEFINER` + `STABLE`, so it only ever returns a boolean from `user_roles` — safe to expose):
+Add a real **PromoBanners** strip on the storefront that reads from the `promos` table and renders the active rows the admin uploads.
 
-```sql
-GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role)
-  TO authenticated;
+Concretely:
 
-GRANT EXECUTE ON FUNCTION app_private.has_role(uuid, public.app_role)
-  TO authenticated;
-```
+1. **New component** `src/storefront/PromoBanners.jsx`
+   - Calls `usePromos()` (already exists, already filters `active=true`, ordered by `sort_order`).
+   - Renders a horizontal/stacked banner section:
+     - One banner: full-width responsive image card.
+     - Multiple banners: simple auto-rotating carousel with prev/next dots (same dot style as `PromoReel`) — 6s per slide.
+   - Each banner is a clickable `<a>` if `link_url` is set, otherwise a plain image. Title shown as overlay caption only if present.
+   - Hides itself completely when there are no active promos (so the page looks unchanged for you until you actually add one).
 
-That immediately unblocks:
-- Promo image upload (`storage.objects` INSERT policy on bucket `promos`)
-- Product image upload (same pattern, bucket `product-images`)
-- Admin list/delete/update on those buckets
+2. **Wire it into the home page** (`src/storefront/home.jsx`)
+   - Insert `<PromoBanners lang={lang}/>` near the top of the home layout, just under the hero slider and above the product grid (this is where merchandising banners belong, and matches the screenshot you shared).
+   - Leave the existing `<PromoReel/>` cinematic section in place — it's a different design feature.
 
-No frontend changes needed. After the migration runs, retry "Upload promo" and it should succeed and appear in the grid.
+3. **Styling**
+   - Match existing storefront tokens (`var(--radius-lg)`, `var(--border)`, `var(--bg-2)`).
+   - Aspect ratio ~ 16/6 desktop, 16/9 mobile, `object-fit: cover`, rounded corners, subtle shadow.
+   - RTL-friendly (the storefront has Arabic mode).
 
-## Why not rewrite the storage policies to use `app_private.has_role`?
+4. **No DB changes needed** — `promos` table, RLS, `usePromos` hook, and the `promos` storage bucket are already in place and working (we just confirmed your upload succeeded).
 
-We could, but:
-1. It's more churn for the same effect.
-2. `public.has_role` is the function the auto-generated types and other policies still expect.
-3. Granting EXECUTE on a STABLE SECURITY DEFINER boolean check is the standard Supabase pattern and is safe.
+## After this
 
-If you'd prefer, I can also rewrite all storage policies to call `app_private.has_role` instead — let me know, otherwise I'll proceed with the GRANT-only fix above.
+- Your existing uploaded banner will appear on the home page immediately.
+- Toggling Active off in `/admin/promos` hides it on the storefront.
+- Reordering with the up/down arrows changes the carousel order.
+- Uploading more banners turns the section into a rotating carousel automatically.
+
+Optional follow-ups (not in this change unless you ask):
+- Make the cinematic `PromoReel` data-driven too.
+- Add a separate "Position" field (top of home / between sections / footer strip).

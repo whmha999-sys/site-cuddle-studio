@@ -88,10 +88,35 @@ function Checkout({ t, cart, onComplete, lang, user }) {
     else setApplied({ code: c, pct: 0, invalid: true });
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    const txId = 'SL-' + Math.floor(100000 + Math.random()*900000);
-    onComplete({ id: txId, total, items: cart, pay, at: new Date().toISOString() });
+    const items = cart.map(it => {
+      const p = (window.CATALOG || []).find(x => x.id === it.id);
+      return { id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty, price: it.price };
+    });
+    const orderRow = {
+      customer_first: form.first, customer_last: form.last,
+      customer_email: form.email, customer_mobile: form.mobile,
+      customer_address: form.address, customer_city: form.city,
+      customer_zip: form.zip || null,
+      items, subtotal: sub, tax, shipping, discount, total,
+      payment_method: pay, status: 'pending',
+    };
+    let orderId = 'SL-' + Math.floor(100000 + Math.random()*900000);
+    let orderNumber = null;
+    try {
+      const { data, error } = await supabase.from('orders').insert(orderRow).select('id, order_number').single();
+      if (error) throw error;
+      orderId = data.id;
+      orderNumber = data.order_number;
+      // Fire-and-forget n8n notification
+      supabase.functions.invoke('notify-n8n', {
+        body: { ...orderRow, id: data.id, order_number: data.order_number },
+      }).catch((err) => console.warn('n8n notify failed:', err));
+    } catch (err) {
+      console.error('Order save failed, completing locally:', err);
+    }
+    onComplete({ id: orderNumber ? `SL-${orderNumber}` : orderId, total, items: cart, pay, at: new Date().toISOString() });
   };
 
   if (cart.length === 0) {

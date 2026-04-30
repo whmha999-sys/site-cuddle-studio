@@ -247,6 +247,7 @@ export default function Promos() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

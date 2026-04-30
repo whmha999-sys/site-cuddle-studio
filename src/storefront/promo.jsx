@@ -466,7 +466,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Bottom CTA */}
-      <div style={{
+      <div className="promo-duo-cta" style={{
         position:'absolute', bottom:36, left:0, right:0,
         display:'flex', flexDirection:'column', alignItems:'center', gap:14, zIndex:4,
         animation: visible ? 'promo-word-up 0.7s cubic-bezier(0.22,1,0.36,1) 1.1s both' : 'none',

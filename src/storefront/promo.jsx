@@ -299,7 +299,7 @@ function SceneTablet({ visible }) {
       </div>
 
       {/* Right text column */}
-      <div style={{
+      <div className="promo-scene-text" style={{
         position:'absolute', right:'8%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, maxWidth:240, textAlign:'right',
       }}>

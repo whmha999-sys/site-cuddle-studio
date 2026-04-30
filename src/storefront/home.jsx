@@ -7,6 +7,7 @@ import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
 import { PromoBanners } from './PromoBanners.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
+import { useSectionVisibility } from '@/hooks/useSectionVisibility';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -972,11 +973,15 @@ function Home({ t, products, onAddToCart, cart, lang }) {
   const flagship = products.find(p => p.id === 'vz-80-plus');
   const isInCart = (id) => cart.some(c => c.id === id);
 
+  const { data: visibility } = useSectionVisibility();
+  const showHero = visibility?.hero !== false;
+  const showPromoBanners = visibility?.promo_banners !== false;
+
   return (
     <>
-      <Hero t={t} products={products} lang={lang}/>
+      {showHero && <Hero t={t} products={products} lang={lang}/>}
 
-      <PromoBanners/>
+      {showPromoBanners && <PromoBanners/>}
 
       <div className="toolbar">
         <div className="chips">

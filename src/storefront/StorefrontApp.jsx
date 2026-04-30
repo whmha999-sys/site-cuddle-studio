@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 
-import { CATALOG, I18N } from './data.js';
+import { CATALOG, I18N, syncCatalogFromDb } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
+import { useCatalog } from '@/hooks/useCatalog';
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {
@@ -24,6 +25,17 @@ export default function StorefrontApp() {
   const [route, setRoute] = useState({ name: 'home', params: {} });
 
   const t = I18N[lang];
+
+  // Sync DB catalog into in-memory CATALOG/PRODUCT_IMAGES so all child
+  // components (which import these directly) see the latest data.
+  const { data: dbCat } = useCatalog();
+  const [, forceRerender] = useState(0);
+  useEffect(() => {
+    if (dbCat) {
+      syncCatalogFromDb(dbCat.catalog, dbCat.images);
+      forceRerender((x) => x + 1);
+    }
+  }, [dbCat]);
 
   const navigate = React.useCallback((page, params = {}) => {
     setRoute({ name: page || 'home', params: params || {} });

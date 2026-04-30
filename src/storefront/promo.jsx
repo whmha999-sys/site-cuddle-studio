@@ -541,7 +541,7 @@ function PromoReel({ lang }) {
       </div>
 
       {/* Scene label */}
-      <div style={{
+      <div className="promo-scene-label" style={{
         position:'absolute', top:16, right:20, zIndex:20,
         fontFamily:'var(--font-mono,monospace)', fontSize:9,
         color:'rgba(255,255,255,0.25)', letterSpacing:'0.14em', textTransform:'uppercase',

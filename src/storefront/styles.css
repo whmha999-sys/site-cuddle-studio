@@ -881,6 +881,8 @@ input, select, textarea { font-family: inherit; color: inherit; }
   .vk-promo-slide .vk-promo-price {
     font-size: clamp(36px, 11vw, 52px) !important;
     display: inline-block !important;
+    padding-inline-start: 0.14em !important;
+    margin-inline-start: -0.05em !important;
     padding-inline-end: 0.2em !important;
     margin-inline-end: -0.06em !important;
     line-height: 1.05 !important;

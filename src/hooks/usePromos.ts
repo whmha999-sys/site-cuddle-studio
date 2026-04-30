@@ -9,6 +9,9 @@ export type Promo = {
   link_url: string | null;
   active: boolean;
   sort_order: number;
+  button_enabled: boolean;
+  button_label: string | null;
+  button_url: string | null;
 };
 
 export function usePromos() {

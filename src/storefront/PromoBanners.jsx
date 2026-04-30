@@ -3,7 +3,7 @@ import { usePromos } from '@/hooks/usePromos';
 
 // Inject styles once
 const promoBannerStyles = `
-  @keyframes pb-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pb-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .pb-section {
     width: 100%;
     margin-top: 32px;
@@ -37,8 +37,8 @@ const promoBannerStyles = `
   }
   .pb-caption {
     position: absolute;
-    left: 24px;
-    bottom: 20px;
+    inset-inline-start: 24px;
+    bottom: 70px;
     padding: 10px 16px;
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(8px);
@@ -50,11 +50,37 @@ const promoBannerStyles = `
     max-width: 70%;
     animation: pb-fade-in 0.6s ease both;
   }
+  .pb-cta {
+    position: absolute;
+    inset-inline-start: 24px;
+    bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 26px;
+    background: linear-gradient(180deg, #FF7A1A 0%, #FF6B00 100%);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    box-shadow: 0 8px 24px rgba(255,107,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    animation: pb-fade-in 0.7s ease both;
+    z-index: 3;
+  }
+  .pb-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255,107,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
+    filter: brightness(1.05);
+  }
+  .pb-cta-arrow { font-size: 16px; line-height: 1; }
   .pb-dots {
     position: absolute;
     bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
+    inset-inline-end: 18px;
     display: flex;
     gap: 8px;
     z-index: 4;
@@ -69,7 +95,8 @@ const promoBannerStyles = `
 
   @media (max-width: 768px) {
     .pb-frame { aspect-ratio: 16 / 9; border-radius: 14px; }
-    .pb-caption { left: 14px; bottom: 14px; font-size: 14px; padding: 8px 12px; }
+    .pb-caption { inset-inline-start: 14px; bottom: 60px; font-size: 13px; padding: 7px 11px; }
+    .pb-cta { inset-inline-start: 14px; bottom: 14px; padding: 10px 18px; font-size: 11px; }
   }
 `;
 if (typeof document !== 'undefined' && !document.getElementById('pb-styles')) {
@@ -77,6 +104,10 @@ if (typeof document !== 'undefined' && !document.getElementById('pb-styles')) {
   s.id = 'pb-styles';
   s.textContent = promoBannerStyles;
   document.head.appendChild(s);
+}
+
+function isExternal(url) {
+  return typeof url === 'string' && /^https?:\/\//i.test(url);
 }
 
 export function PromoBanners() {
@@ -93,7 +124,6 @@ export function PromoBanners() {
     return () => clearTimeout(timerRef.current);
   }, [idx, promos.length]);
 
-  // Reset index if list shrinks
   useEffect(() => {
     if (idx >= promos.length) setIdx(0);
   }, [promos.length, idx]);
@@ -105,7 +135,11 @@ export function PromoBanners() {
       <div className="pb-frame">
         {promos.map((p, i) => {
           const isActive = i === idx;
-          const Inner = (
+          const showBtn = !!(p.button_enabled && p.button_label);
+          const btnHref = p.button_url || p.link_url || '#';
+          const wholeSlideLink = !showBtn && p.link_url;
+
+          const inner = (
             <>
               <img
                 src={p.image_url}
@@ -114,26 +148,41 @@ export function PromoBanners() {
                 loading={i === 0 ? 'eager' : 'lazy'}
               />
               {p.title ? <div className="pb-caption">{p.title}</div> : null}
+              {showBtn ? (
+                <a
+                  href={btnHref}
+                  className="pb-cta"
+                  target={isExternal(btnHref) ? '_blank' : undefined}
+                  rel={isExternal(btnHref) ? 'noopener noreferrer' : undefined}
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span>{p.button_label}</span>
+                  <span className="pb-cta-arrow" aria-hidden>→</span>
+                </a>
+              ) : null}
             </>
           );
+
           const className = `pb-slide ${isActive ? 'is-active' : ''}`;
           const style = { pointerEvents: isActive ? 'auto' : 'none' };
-          return p.link_url ? (
+
+          return wholeSlideLink ? (
             <a
               key={p.id}
               href={p.link_url}
               className={className}
               style={style}
-              target={p.link_url.startsWith('http') ? '_blank' : undefined}
-              rel={p.link_url.startsWith('http') ? 'noopener noreferrer' : undefined}
+              target={isExternal(p.link_url) ? '_blank' : undefined}
+              rel={isExternal(p.link_url) ? 'noopener noreferrer' : undefined}
               aria-hidden={!isActive}
               tabIndex={isActive ? 0 : -1}
             >
-              {Inner}
+              {inner}
             </a>
           ) : (
             <div key={p.id} className={className} style={style} aria-hidden={!isActive}>
-              {Inner}
+              {inner}
             </div>
           );
         })}

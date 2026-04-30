@@ -1,79 +1,76 @@
 ## Goal
 
-Add an optional **call-to-action button** to each promo banner. Each banner in the admin gets:
-- a **"Show button" toggle**
-- a **button label** field (e.g. "Shop now")
-- a **button link** field (URL the button opens)
+In the screenshot you sent, the hero has **two buttons**:
+- **SHOP P50 →** (orange, primary)
+- **EXPLORE TECLAST** (outlined, secondary)
 
-On the storefront, a slide renders its button **only when its own toggle is on**. Each banner is fully independent — turning the button on/off for banner #1 has no effect on banner #2.
+You want admin controls to **show or hide each button independently**, per hero slide (Vikusha Watch, VZ-30 PRO, Teclast P50). Each slide gets its own toggles — turning a button off on one slide doesn't affect others.
+
+## Why a new section in the dashboard
+
+The hero slides today are **built into the code** (not in the database like Promo banners). So the admin can't edit their text or links — but we can store **per-slide button visibility flags** in the database and the hero will respect them.
+
+Result: a new card in `/admin/promos` (or its own page) called **"Hero buttons"** with three rows (one per slide), each showing two toggles:
+
+```
+Vikusha Smartwatch
+  [✓] Show "Claim Yours" button
+  [✓] Show "Explore Vikusha" button
+
+Vikusha VZ-30 PRO
+  [✓] Show "Shop VZ-30 PRO" button
+  [ ] Show "Explore Tablets" button
+
+Teclast P50
+  [✓] Show "Shop P50" button
+  [✓] Show "Explore Teclast" button
+```
 
 ## Database
 
-Add three columns to the `promos` table (migration):
+New table `hero_slide_settings`:
 
-- `button_enabled boolean not null default false`
-- `button_label text` (nullable)
-- `button_url text` (nullable)
+- `slide_id text primary key` — `'v-70'`, `'vz-30-pro-4g'`, `'teclast-p50'`
+- `primary_button_enabled boolean not null default true`
+- `secondary_button_enabled boolean not null default true`
+- `updated_at timestamptz not null default now()`
 
-No RLS changes needed — existing policies cover the new columns.
+RLS:
+- Anyone can `SELECT` (storefront needs to read it)
+- Admins can `INSERT/UPDATE/DELETE` via `app_private.has_role(auth.uid(), 'admin')`
 
-## Admin UI — `src/pages/admin/Promos.tsx`
+Seed three rows (one per existing slide id) with both buttons enabled by default — so nothing changes visually until you toggle.
 
-Inside each promo card, below the existing "Link URL" input, add:
+## Admin UI
 
-- A `Switch` labeled **"Show button"** bound to `button_enabled`.
-- When the switch is **on**, reveal two inputs:
-  - **Button label** (placeholder: "Shop now")
-  - **Button URL** (placeholder: "https://… or /products")
-- Wire all three through the existing `update(id, patch)` helper so changes save immediately.
+Add a new section at the top of `src/pages/admin/Promos.tsx` (above the existing "Promo banners" list) titled **"Hero buttons"**:
 
-Layout stays in the same card; no other admin changes.
+- Fetch all rows from `hero_slide_settings`.
+- For each of the 3 known slides (Vikusha Watch / VZ-30 PRO / Teclast P50), render a small card with the slide name and two `Switch` toggles ("Show primary button" / "Show secondary button").
+- Each toggle calls `update(slide_id, { primary_button_enabled: v })` etc., saving immediately.
 
-## Storefront — `src/storefront/PromoBanners.jsx`
+Slide display names are hardcoded in the admin component (English labels) so you instantly recognize which row is which.
 
-Per-slide rendering changes:
+## Storefront
 
-1. When `promo.button_enabled && promo.button_label`, render a **CTA button overlay** on that slide (bottom-left area, near the existing caption).
-2. The button is an `<a href={promo.button_url || promo.link_url || '#'}>` styled with the storefront's accent tokens (orange pill, matching the "CLAIM YOURS" style from the hero) so it feels native.
-3. The whole slide is no longer wrapped in `<a>` when a button is present — instead the slide is a `<div>` and only the button is clickable. This avoids nested-anchor issues and matches the user's intent ("the button" is the action, not the whole banner).
-4. If `button_enabled` is **off** for a slide, render exactly as today (image + optional caption, whole slide clickable if `link_url` exists).
-5. External URLs (starting with `http`) open in a new tab; internal paths open in same tab.
+In `src/storefront/home.jsx`:
 
-New CSS additions (appended to the existing injected `pb-styles` block):
-
-- `.pb-cta` — orange pill button, white text, uppercase tracking, hover lift, RTL-safe positioning (use `inset-inline-start` / logical properties so it sits on the correct side in Arabic).
-- Mobile: smaller padding, slightly smaller font.
-
-## Types
-
-Update the `Promo` type in `src/hooks/usePromos.ts` to include:
-
-```ts
-button_enabled: boolean;
-button_label: string | null;
-button_url: string | null;
-```
-
-No query changes needed (`select("*")` already returns the new columns).
+1. Add a new hook `useHeroSettings()` (in `src/hooks/useHeroSettings.ts`) that fetches the table and returns a `{ [slide_id]: { primary, secondary } }` map.
+2. In the hero slide renderer (lines ~671–705), wrap each button:
+   - Render the **primary** button only if `settings[slide.id]?.primary_button_enabled !== false`
+   - Render the **secondary** button only if `settings[slide.id]?.secondary_button_enabled !== false`
+3. If both are off, the CTA row collapses cleanly (no empty space).
+4. Default to **on** if the row is missing — no broken state on first load.
 
 ## Out of scope
 
-- No changes to the cinematic `PromoReel` or hero slider.
-- No changes to ordering, active toggle, upload flow, or storage buckets — all already working.
+- Editing button **text** or **links** (those stay in code for now). If you want that too, say the word and I'll extend the schema with `primary_label`, `primary_url`, etc.
+- The promo banner buttons (already done in the previous step).
+- Hero slide images, prices, badges — unchanged.
 
-## Result
+## Files touched
 
-In `/admin/promos` you'll see, per banner:
-
-```text
-[ image preview ]
-[ title ]
-[ link url ]
-[ ⚪ Active ]              [ ↑ ↓ 🗑 ]
-[ ⚪ Show button ]
-   ↳ when on:
-   [ Button label ]
-   [ Button URL ]
-```
-
-On the home page, banner #1 with "Show button" on shows its CTA; banner #2 with it off shows just the image. Toggling is fully independent per banner.
+- New migration: create `hero_slide_settings` + RLS + seed
+- New: `src/hooks/useHeroSettings.ts`
+- Edit: `src/pages/admin/Promos.tsx` — add "Hero buttons" section at top
+- Edit: `src/storefront/home.jsx` — conditionally render the two CTAs per slide

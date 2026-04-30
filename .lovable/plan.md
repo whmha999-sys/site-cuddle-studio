@@ -1,26 +1,35 @@
-# Fix clipped "J" on left side of promo price
+# Remove duplicate inner scrollbars on mobile (Vikusha + Teclast sections)
 
 ## What's happening
 
-The `J` in `JOD 50` (and the other slides) is getting clipped on its **left** side. Same root cause as the right-side clipping we just fixed: italic glyphs lean past their box on **both** sides — descenders lean left at the bottom, the top of the `J` curls left, and `background-clip: text` cuts whatever falls outside the box.
+On mobile, the Vikusha (watch) and Teclast P50 marketing sections each show their own vertical scrollbar inside the page — so there are **two scrollbars stacked on top of each other**: the main page scrollbar on the right, and a smaller inner one for the section content.
 
-The previous fix only added breathing room on the right (`padding-inline-end`). The left edge still clips.
+## Root cause
+
+These sections (`src/storefront/vikusha-scroll.jsx`, `src/storefront/teclast-scroll.jsx`, `src/storefront/tablet-scroll.jsx`) use a desktop "scroll-scrubbed video" pattern: the outer `<section>` is `height: 300vh` and the inner `.scroll-scene-sticky` is `position: sticky; height: 100vh; overflow: hidden`.
+
+On mobile, the existing CSS in `src/storefront/styles.css` (around line 809) tries to flatten the layout but does it half-way:
+- It sets `.scroll-scene-section { height: auto }` ✅
+- But it leaves `.scroll-scene-sticky` with its inline `height: 100vh` + `position: sticky`, and adds `overflow-y: auto !important` — which **forces an inner scroll container** when the stacked content is taller than 100vh. That's the second scrollbar.
 
 ## The fix
 
-Mirror the right-side padding on the start side of `.vk-promo-price`:
+Rewrite the mobile (`@media (max-width: 768px)`) block for `.scroll-scene-sticky` so it fully surrenders to the main page scroll:
 
-**`src/storefront/home.jsx`** (price span ~line 647) — add:
-- `paddingInlineStart: '0.12em'`
-- `marginInlineStart: '-0.04em'` (so layout doesn't visibly shift)
+- `position: static` (drop sticky)
+- `height: auto`, `max-height: none` (drop the 100vh cap)
+- `overflow: visible` (no inner scroll container — kills the second scrollbar)
+- Keep the existing `grid-template-columns: 1fr`, padding, and gap so the stacked layout still looks right
+- Also reset `.tablet-scene-sticky` (currently `height: 60vh`) the same way so it doesn't introduce its own scroll
+- Reset child `> div` to `height: auto` and the video `max-height: none` so nothing inside re-introduces a fixed viewport-height clip
 
-**`src/storefront/styles.css`** (mobile override ~line 881) — add the same two properties with `!important` so they survive the mobile font-size override.
+## Files to edit
 
-The negative margin offsets the padding so surrounding elements (the strikethrough `JOD 75` and the `-33%` chip) keep their current spacing — only the gradient paint box grows.
+- `src/storefront/styles.css` — replace the `.scroll-scene-sticky` mobile block (~lines 809–825) with the new flow-with-page rules above.
 
 ## Out of scope
 
-- Changing the font, weight, or italic styling.
-- Touching the title gradient (titles have leading whitespace so the `T` in `Time.` doesn't clip).
+- Desktop scroll-scrub behavior stays exactly as-is (still uses 300vh section + sticky 100vh).
+- No JS changes needed — `teclast-scroll.jsx` already detects `isMobile` and switches the video to autoplay loop.
 
-After approval I'll apply both edits and we can verify on slide 1.
+After approval I'll apply the edit and the only scrollbar visible on mobile will be the main page one.

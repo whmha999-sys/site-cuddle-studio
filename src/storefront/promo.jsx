@@ -403,7 +403,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Watch side */}
-      <div style={{
+      <div className="promo-duo-side" style={{
         flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
         position:'relative', zIndex:2,
       }}>

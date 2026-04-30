@@ -429,7 +429,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Center "×" connector */}
-      <div style={{
+      <div className="promo-duo-x" style={{
         width:56, height:56, borderRadius:'50%', flexShrink:0,
         border:'1px solid rgba(255,255,255,0.15)',
         display:'flex', alignItems:'center', justifyContent:'center',

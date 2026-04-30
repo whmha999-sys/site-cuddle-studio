@@ -7,10 +7,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 
 export default function Auth() {
-  const { signIn, user, isAdmin, loading } = useAuth();
+  const { signIn, signUp, user, isAdmin, loading } = useAuth();
   const nav = useNavigate();
   const [params] = useSearchParams();
   const { toast } = useToast();
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -24,10 +25,17 @@ export default function Auth() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
-    const { error } = await signIn(email, password);
+    const { error } = mode === "signin"
+      ? await signIn(email, password)
+      : await signUp(email, password);
     setBusy(false);
     if (error) {
-      toast({ title: "Sign in failed", description: error, variant: "destructive" });
+      toast({ title: mode === "signin" ? "Sign in failed" : "Sign up failed", description: error, variant: "destructive" });
+    } else if (mode === "signup") {
+      toast({
+        title: "Account created",
+        description: "Send your email to the site owner to be granted admin access.",
+      });
     } else {
       toast({ title: "Signed in" });
     }
@@ -38,7 +46,9 @@ export default function Auth() {
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Smart Leaders Admin</CardTitle>
-          <CardDescription>Sign in to manage the store.</CardDescription>
+          <CardDescription>
+            {mode === "signin" ? "Sign in to manage the store." : "Create an account (admin access granted by site owner)."}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit} className="space-y-4">
@@ -52,16 +62,26 @@ export default function Auth() {
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium">Password</label>
               <Input
-                id="password" type="password" required autoComplete="current-password"
+                id="password" type="password" required autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                minLength={6}
                 value={password} onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <Button type="submit" className="w-full" disabled={busy}>
-              {busy ? "Signing in…" : "Sign in"}
+              {busy ? "Please wait…" : mode === "signin" ? "Sign in" : "Create account"}
             </Button>
           </form>
+          <div className="text-center mt-4">
+            <button
+              type="button"
+              onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+              className="text-xs text-muted-foreground underline"
+            >
+              {mode === "signin" ? "Need an account? Sign up" : "Already have an account? Sign in"}
+            </button>
+          </div>
           <p className="text-xs text-muted-foreground mt-6 text-center">
-            Accounts are created by the site owner. <Link to="/" className="underline">Back to store</Link>
+            <Link to="/" className="underline">Back to store</Link>
           </p>
         </CardContent>
       </Card>

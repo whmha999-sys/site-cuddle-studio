@@ -260,7 +260,7 @@ function SceneWatch({ visible }) {
 // Scene 2: Tablet focus
 function SceneTablet({ visible }) {
   return (
-    <div style={{
+    <div className={`promo-scene ${visible?'is-visible':''}`} style={{
       position:'absolute', inset:0,
       opacity: visible ? 1 : 0,
       transition: 'opacity 1s ease',

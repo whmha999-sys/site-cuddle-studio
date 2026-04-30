@@ -1,103 +1,41 @@
-# Promo Hero — Cinematic Upgrade Plan
+# Fix clipped price text in promo hero
 
-Right now the first slide (V-70 watch) is rich and editorial, but slides 2 and 3 (VZ-30 tablet, Teclast P50) are flat — just a title, price chip, and two buttons. On mobile, slide 1 works but feels cramped, and slides 2/3 look unfinished. Goal: make all three feel like one premium product showcase, and look gorgeous from 360px to 1920px.
+## What you're seeing
 
-## The vision
+On slides 2 and 3 (VZ-30 → `JOD 120`, Teclast P50 → `JOD 135`), the right edge of the last digit is sliced off — the "0" looks like a "C" and the "5" looks chopped. Slide 1 (`JOD 50`) doesn't show it because the "0" is rounder and any clipping is invisible.
 
-A unified "Editorial Drop" template every slide uses:
+## Why it happens
 
-```text
-DESKTOP (≥1024px)                          MOBILE (≤768px)
-┌──────────────────────────────────┐       ┌──────────────────┐
-│ ◆ EYEBROW · BRAND   [LIVE / NEW] │       │ ◆ EYEBROW [TAG]  │
-│                                  │       │                  │
-│ Big Title.                       │       │ Big Title.       │
-│ italic accent.        [PRODUCT]  │       │ italic accent.   │
-│ ────                             │       │ ────             │
-│ Spec line · spec · spec          │       │ Spec · spec      │
-│                                  │       │                  │
-│ JOD 50  −33%   [00:23:44:48]     │       │  [PRODUCT IMG]   │
-│ ▸ CLAIM YOURS    Explore →       │       │   (floating,     │
-│                                  │       │    spotlit)      │
-│ ░░ marquee · marquee · marquee ░ │       │                  │
-└──────────────────────────────────┘       │ JOD 50  −33%     │
-                                           │ ▸ CLAIM YOURS    │
-                                           │   Explore →      │
-                                           └──────────────────┘
-```
+The price uses three things together:
 
-Every slide gets the same signature treatment: tinted radial glow behind the product, soft floating animation, gradient italic title accent, mono eyebrow row, accent rule under the title, and a clear CTA pair.
+1. A heavy **italic serif** (`var(--font-display)`) — italic glyphs visually lean past their advance-width box on the right.
+2. A **gradient fill** via `background-clip: text` + `-webkit-text-fill-color: transparent`.
+3. Negative letter-spacing (`-0.03em`) and `line-height: 1`.
 
-## What changes
+WebKit/Blink clips the gradient to the element's content box, not to the ink (visible glyph) box. When italic glyphs spill past their advance, the gradient stops where the box ends, so the rightmost slanted edge of the last character renders as transparent — looking "cut off." This is a known browser rendering quirk with italic + `background-clip: text`, not a layout/overflow problem.
 
-### 1. One promo template, three slides
-Promote the existing `VkPromoSlide` design into a generic `PromoSlide` component that all three slides use. Each slide gets:
+It's also why `flex` baseline alignment doesn't help: the box itself is the wrong width for italic ink.
 
-- **Status pill** — `LIVE` (V-70), `NEW DROP` (VZ-30), `BESTSELLER` (P50). Color follows slide accent.
-- **Eyebrow row** — `◆ Brand · Model / TAG`
-- **Gradient italic title** — accent gradient on the italic word for visual signature
-- **Accent rule** — 48px glowing line under title
-- **Spec line** — current `sub` text, mono caps
-- **Price block** — old price (strike) + big italic gradient price + discount chip when applicable. VZ-30 and P50 get a "starting at" tag instead of a discount chip.
-- **CTA pair** — primary gradient pill (shimmer on hover) + ghost outline button
-- **Countdown** — only on slides flagged `promo: true` (V-70 stays the urgency slide)
-- **Marquee strip** — only on slides flagged `promo: true`, sits at the bottom edge
+## The fix
 
-### 2. Per-slide accent palette
-Instead of every slide using the same orange, derive each slide's glow/gradient from its own accent so they feel distinct but consistent:
+Two small, targeted changes to the `.vk-promo-price` span (in `src/storefront/home.jsx` around line 647 and `src/storefront/styles.css` around line 881):
 
-- V-70 — warm orange `#FF6B00` → `#ffaa55` (current)
-- VZ-30 — copper-bronze `#C97B3D` → `#f0b577` against the deep navy `#0a1628`
-- P50 — amber `#e86a1f` → `#ffb066` against the warm brown `#1a1208`
+1. **Extend the paint box past the italic slant.** Add `padding-inline-end: 0.18em` and a matching negative `margin-inline-end: -0.05em` so the gradient has room to render the leaning glyph edge without pushing surrounding layout (countdown chip, discount pill).
+2. **Stop the parent from clipping it.** Ensure the price's flex parent uses `overflow: visible` (it should already, but lock it in) and remove `lineHeight: 1` in favor of `line-height: 1.05` — `line-height: 1` is the other common cause of italic descender/ascender clipping on big serif sizes.
 
-Keep all dark backgrounds; the accent does the talking.
+Optional extra polish: add `display: inline-block` to `.vk-promo-price` so padding actually applies (inline elements ignore vertical padding for layout, but `inline-block` makes the gradient box behave predictably).
 
-### 3. Product image stage
-Right now slide 1's product floats with a soft spotlight; slides 2 and 3 just have the orange arch shape from the source PNG. Apply the same stage to all:
+Apply the same overrides inside the mobile media query (≤768px) where the price is re-sized to `clamp(36px, 11vw, 52px)`, since the clipping is even more visible at large mobile sizes.
 
-- Soft circular radial spotlight in the slide accent
-- Subtle drop shadow + accent glow filter
-- 5.5s float loop
-- Left-to-right fade overlay so the title side stays legible
+## Files to edit
 
-For the tablet slides (VZ-30, P50) the PNGs already include an orange shape — we'll mute that shape with a low-opacity blend so it sits in the new stage instead of fighting it.
-
-### 4. Mobile that actually feels designed
-Current mobile is "stack it vertically and shrink fonts." Upgrade to a deliberate phone layout:
-
-- **Order**: status pill → title → spec → product (centered, floating, ~240px tall) → price → CTAs
-- **Product card**: rounded 16px tile with the radial spotlight, sits between text and price for visual rhythm — not banished to a tiny strip
-- **Title**: `clamp(28px, 7.5vw, 38px)` so it breathes on 320px screens
-- **Price**: `clamp(36px, 11vw, 52px)` italic gradient stays the hero number
-- **CTAs**: full-width primary, ghost below it, both 44px tap targets
-- **Countdown**: compact 4-cell row, smaller digits, still legible
-- **Marquee**: keep but slow down to 60s and shrink to 9px
-
-### 5. Carousel chrome polish
-- **Dots**: replace current pill dots with thin progress bars that fill while a slide is active (so users feel autoplay timing).
-- **Arrows**: hide on mobile (swipe only); on desktop make them subtle ghost circles that fade in on hover.
-- **Swipe**: confirm touch swipe works on mobile; add it if missing.
-
-### 6. Motion (subtle, not busy)
-Reuse existing keyframes — no new heavy animations:
-- Title slides in from left, image from right, with 80–140ms stagger
-- Spotlight pulses very gently (8s loop, 0.95→1.05 opacity)
-- LIVE dot keeps its pulse; remove pulse on non-promo slides
-- Respect `prefers-reduced-motion`: disable float and pulse, keep fade-in
-
-## Technical notes
-
-- **Files**: `src/storefront/home.jsx` (refactor `VkPromoSlide` → generic `PromoSlide`, update `getHeroSlides` data with `accent`, `accentSoft`, `tag`, `tagKind` fields), `src/storefront/styles.css` (rewrite the two `@media (max-width: 768px)` promo blocks into one clean block; add `@media (max-width: 480px)` refinements).
-- **No new deps.** All animation via existing keyframes in `home.jsx`.
-- **Backwards compat**: keep `slide.promo` flag — only promo slides render countdown + marquee. Other slides render a "starting at" label in the same spot so the layout rhythm is identical.
-- **Image handling**: add a `productBlend` option per slide (`normal` | `screen`) so the orange-arch tablets can blend into the dark stage cleanly without re-exporting PNGs.
-- **A11y**: status pill gets `role="status"`, countdown gets `aria-label`, CTAs already buttons.
-- **Perf**: marquee pauses on hover (already), pauses entirely on `prefers-reduced-motion`, image uses `loading="eager"` only for the first slide.
+- `src/storefront/home.jsx` — update the `.vk-promo-price` inline style (lines ~647-654): add `display:'inline-block'`, `paddingInlineEnd:'0.18em'`, `marginInlineEnd:'-0.05em'`, change `lineHeight:1` → `lineHeight:1.05`.
+- `src/storefront/styles.css` — in the `@media (max-width: 768px)` block (lines ~881-883), reinforce the same `padding-inline-end` and `display: inline-block` so the mobile font-size override doesn't strip them.
 
 ## Out of scope
-- Changing product photography
-- Adding a 4th slide
-- Replacing the carousel library/logic itself
-- Dark/light theming (promo stays dark by design)
 
-After approval I'll implement, then verify at 1440px, 1024px, 768px, 414px, and 360px viewports.
+- Switching to a non-italic price (would change the editorial look).
+- Replacing the gradient with a solid color (would lose the brand accent treatment).
+- Touching the title gradient — titles have natural trailing whitespace so they don't clip.
+
+After approval I'll implement and verify visually at desktop (1440px) and mobile (414px) widths.

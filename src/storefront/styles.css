@@ -880,6 +880,11 @@ input, select, textarea { font-family: inherit; color: inherit; }
   /* Price row: smaller countdown, bigger price */
   .vk-promo-slide .vk-promo-price {
     font-size: clamp(36px, 11vw, 52px) !important;
+    display: inline-block !important;
+    padding-inline-end: 0.2em !important;
+    margin-inline-end: -0.06em !important;
+    line-height: 1.05 !important;
+    overflow: visible !important;
   }
   .vk-promo-slide .vk-promo-pricerow {
     gap: 14px !important;

@@ -650,7 +650,9 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
               background:`linear-gradient(135deg, ${accent} 0%, ${accentSoft} 100%)`,
               WebkitBackgroundClip:'text', backgroundClip:'text',
               WebkitTextFillColor:'transparent', color:'transparent',
-              letterSpacing:'-0.03em', lineHeight:1,
+              letterSpacing:'-0.03em', lineHeight:1.05,
+              display:'inline-block', paddingInlineEnd:'0.18em', marginInlineEnd:'-0.05em',
+              overflow:'visible',
             }}>JOD {slide.price}</span>
             {slide.discountLabel && (
               <span style={{

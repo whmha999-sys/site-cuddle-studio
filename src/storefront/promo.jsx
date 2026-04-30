@@ -342,7 +342,7 @@ function SceneTablet({ visible }) {
       </div>
 
       {/* Left spec badges */}
-      <div style={{
+      <div className="promo-scene-badges" style={{
         position:'absolute', left:'7%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, display:'flex', flexDirection:'column', gap:10,
       }}>

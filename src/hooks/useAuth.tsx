@@ -62,13 +62,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error: error?.message ?? null };
   }
 
+  async function signUp(email: string, password: string) {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { emailRedirectTo: `${window.location.origin}/auth` },
+    });
+    return { error: error?.message ?? null };
+  }
+
   async function signOut() {
     await supabase.auth.signOut();
     setIsAdmin(false);
   }
 
   return (
-    <Ctx.Provider value={{ user, session, isAdmin, loading, signIn, signOut }}>
+    <Ctx.Provider value={{ user, session, isAdmin, loading, signIn, signUp, signOut }}>
       {children}
     </Ctx.Provider>
   );

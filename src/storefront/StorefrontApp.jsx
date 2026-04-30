@@ -26,6 +26,17 @@ export default function StorefrontApp() {
 
   const t = I18N[lang];
 
+  // Sync DB catalog into in-memory CATALOG/PRODUCT_IMAGES so all child
+  // components (which import these directly) see the latest data.
+  const { data: dbCat } = useCatalog();
+  const [, forceRerender] = useState(0);
+  useEffect(() => {
+    if (dbCat) {
+      syncCatalogFromDb(dbCat.catalog, dbCat.images);
+      forceRerender((x) => x + 1);
+    }
+  }, [dbCat]);
+
   const navigate = React.useCallback((page, params = {}) => {
     setRoute({ name: page || 'home', params: params || {} });
     window.__routeParams = params;

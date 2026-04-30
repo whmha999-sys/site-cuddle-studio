@@ -284,7 +284,7 @@ function SceneTablet({ visible }) {
       </svg>
 
       {/* Tablet image */}
-      <div style={{
+      <div className="promo-scene-image" style={{
         position:'relative', zIndex:2,
         animation: visible ? 'promo-float 4.5s ease-in-out infinite, promo-slide-left 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>

@@ -21,6 +21,61 @@ type HeroSetting = {
   secondary_button_enabled: boolean;
 };
 
+function SectionsVisibilitySection() {
+  const [vis, setVis] = useState<Record<string, boolean>>({ hero: true, promo_banners: true });
+  const qc = useQueryClient();
+
+  async function load() {
+    const { data } = await supabase.from("section_visibility").select("section_key, visible");
+    const map: Record<string, boolean> = { hero: true, promo_banners: true };
+    (data as { section_key: string; visible: boolean }[] | null)?.forEach((r) => {
+      map[r.section_key] = r.visible;
+    });
+    setVis(map);
+  }
+
+  useEffect(() => { load(); }, []);
+
+  async function toggle(key: "hero" | "promo_banners", value: boolean) {
+    setVis((v) => ({ ...v, [key]: value }));
+    await supabase.from("section_visibility").upsert({
+      section_key: key,
+      visible: value,
+      updated_at: new Date().toISOString(),
+    });
+    qc.invalidateQueries({ queryKey: ["section-visibility"] });
+  }
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight">Sections visibility</h2>
+        <p className="text-sm text-muted-foreground">
+          Master switches to show or hide entire sections on the home page.
+        </p>
+      </div>
+      <Card>
+        <CardContent className="p-4 space-y-4">
+          <label className="flex items-center justify-between gap-3">
+            <div>
+              <div className="font-medium text-sm">Show Hero section</div>
+              <div className="text-xs text-muted-foreground">The big rotating banner at the top of the home page.</div>
+            </div>
+            <Switch checked={vis.hero} onCheckedChange={(v) => toggle("hero", v)} />
+          </label>
+          <label className="flex items-center justify-between gap-3">
+            <div>
+              <div className="font-medium text-sm">Show Promo Banners section</div>
+              <div className="text-xs text-muted-foreground">The promo banner strip below the hero.</div>
+            </div>
+            <Switch checked={vis.promo_banners} onCheckedChange={(v) => toggle("promo_banners", v)} />
+          </label>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 function HeroButtonsSection() {
   const [settings, setSettings] = useState<Record<string, HeroSetting>>({});
   const qc = useQueryClient();
@@ -157,6 +212,7 @@ export default function Promos() {
 
   return (
     <div className="p-6 space-y-8">
+      <SectionsVisibilitySection />
       <HeroButtonsSection />
       <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">

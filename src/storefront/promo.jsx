@@ -141,7 +141,7 @@ function WordReveal({ text, delay = 0, style = {} }) {
 // Scene 1: Watch focus
 function SceneWatch({ visible }) {
   return (
-    <div style={{
+    <div className={`promo-scene ${visible?'is-visible':''}`} style={{
       position:'absolute', inset:0,
       opacity: visible ? 1 : 0,
       transition: 'opacity 1s ease',

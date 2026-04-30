@@ -6,6 +6,7 @@ import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
 import { PromoBanners } from './PromoBanners.jsx';
+import { useHeroSettings } from '@/hooks/useHeroSettings';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -503,7 +504,7 @@ function VkCountdown({ endsAt, accent='#FF6B00', ink='#fff' }) {
   );
 }
 
-function PromoSlide({ slide, active, animKey, t, lang }) {
+function PromoSlide({ slide, active, animKey, t, lang, settings }) {
   const k = animKey;
   const accent = slide.accent || '#FF6B00';
   const accentSoft = slide.accentSoft || '#ffaa55';
@@ -669,10 +670,16 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
         </div>
 
         {/* CTAs */}
+        {(() => {
+          const showPrimary = settings?.primary_button_enabled !== false;
+          const showSecondary = settings?.secondary_button_enabled !== false;
+          if (!showPrimary && !showSecondary) return null;
+          return (
         <div className="vk-promo-ctas" style={{
           display:'flex', gap:12, flexWrap:'wrap',
           animation: active ? 'hero-fade-up 0.6s ease 0.4s both' : 'none',
         }}>
+          {showPrimary && (
           <button
             className="vk-cta-primary"
             style={{
@@ -689,6 +696,8 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
             <span>{slide.cta}</span>
             <span style={{ fontSize:14, lineHeight:1 }}>→</span>
           </button>
+          )}
+          {showSecondary && (
           <button
             className="vk-cta-ghost"
             style={{
@@ -702,7 +711,10 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
             }}
             onClick={()=>window.navigate('home', {brand: slide.brand})}
           >{slide.cta2}</button>
+          )}
         </div>
+          );
+        })()}
       </div>
 
       {/* RIGHT — product image stage */}
@@ -770,14 +782,15 @@ function PromoSlide({ slide, active, animKey, t, lang }) {
   );
 }
 
-function HeroSlide({ slide, products, active, animKey, t, lang }) {
-  return <PromoSlide slide={slide} active={active} animKey={animKey} t={t} lang={lang}/>;
+function HeroSlide({ slide, products, active, animKey, t, lang, settings }) {
+  return <PromoSlide slide={slide} active={active} animKey={animKey} t={t} lang={lang} settings={settings}/>;
 }
 
 const INTERVAL = 5000;
 
 function Hero({ t, products, lang }) {
   const HERO_SLIDES = getHeroSlides(lang);
+  const { data: heroSettings = {} } = useHeroSettings();
   const [cur, setCur] = React.useState(0);
   const [animKey, setAnimKey] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
@@ -818,6 +831,7 @@ function Hero({ t, products, lang }) {
           animKey={i === cur ? animKey : 0}
           t={t}
           lang={lang}
+          settings={heroSettings[slide.id]}
         />
       ))}
 

@@ -14,6 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
+      hero_slide_settings: {
+        Row: {
+          primary_button_enabled: boolean
+          secondary_button_enabled: boolean
+          slide_id: string
+          updated_at: string
+        }
+        Insert: {
+          primary_button_enabled?: boolean
+          secondary_button_enabled?: boolean
+          slide_id: string
+          updated_at?: string
+        }
+        Update: {
+          primary_button_enabled?: boolean
+          secondary_button_enabled?: boolean
+          slide_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string

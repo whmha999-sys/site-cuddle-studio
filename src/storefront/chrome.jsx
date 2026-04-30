@@ -21,6 +21,7 @@ function PromoBar({ t, onLangToggle }) {
 function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangToggle, user, onSignout }) {
   const [q, setQ] = useStateH('');
   const [open, setOpen] = useStateH(false);
+  const [navOpen, setNavOpen] = useStateH(false);
   const results = useMemoH(() => {
     if (!q.trim()) return [];
     const qq = q.toLowerCase();
@@ -32,6 +33,16 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
   }, [q, products]);
 
   const cartCount = cart.reduce((s,i)=>s+i.qty, 0);
+
+  // Lock body scroll while drawer open
+  useEffectH(() => {
+    if (!navOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [navOpen]);
+
+  const goCat = (cat) => { setNavOpen(false); window.navigate('home', { cat }); };
 
   return (
     <header>
@@ -70,16 +81,56 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
             </div>
           </div>
           <div className="header-right">
-            <button className="icon-btn" onClick={onOpenCart}>
-              <Icon name="bag"/> <span>{t.cart}</span>
+            <button className="icon-btn" onClick={onOpenCart} aria-label={t.cart}>
+              <Icon name="bag"/> <span className="hide-on-mobile">{t.cart}</span>
               {cartCount > 0 && <span className="count">{cartCount}</span>}
             </button>
-            <button className="icon-btn" onClick={onLangToggle} aria-label="Toggle language">
+            <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Toggle language">
               <Icon name="globe" size={16}/> <span>{t.ar}</span>
+            </button>
+            <button
+              className="icon-btn mobile-only"
+              onClick={()=>setNavOpen(true)}
+              aria-label="Menu"
+            >
+              <Icon name="menu" size={20}/>
             </button>
           </div>
         </div>
       </div>
+
+      {navOpen && (
+        <>
+          <div className="mobile-nav-scrim" onClick={()=>setNavOpen(false)}/>
+          <aside className="mobile-nav-drawer" role="dialog" aria-label="Menu">
+            <div className="mobile-nav-head">
+              <span className="mobile-nav-title">{t.nav_brands || 'Menu'}</span>
+              <button className="icon-btn" onClick={()=>setNavOpen(false)} aria-label="Close">
+                <Icon name="close" size={18}/>
+              </button>
+            </div>
+            <nav className="mobile-nav-links">
+              <a href="#" className="mobile-nav-link" onClick={(e)=>{e.preventDefault(); goCat('tablet');}}>{t.nav_tablets}</a>
+              <a href="#" className="mobile-nav-link" onClick={(e)=>{e.preventDefault(); goCat('watch');}}>{t.nav_watches}</a>
+              <a href="#" className="mobile-nav-link" onClick={(e)=>{e.preventDefault(); goCat('accessory');}}>{t.nav_accessories}</a>
+            </nav>
+            <div className="mobile-nav-divider"/>
+            <button
+              className="mobile-nav-link mobile-nav-row"
+              onClick={()=>{ setNavOpen(false); onLangToggle?.(); }}
+            >
+              <Icon name="globe" size={16}/> <span>{t.ar}</span>
+            </button>
+            <a
+              href="#"
+              className="mobile-nav-link mobile-nav-row"
+              onClick={(e)=>{ e.preventDefault(); setNavOpen(false); window.navigate?.('home'); setTimeout(()=>{ const el = document.querySelector('.footer'); el?.scrollIntoView({behavior:'smooth'}); }, 50); }}
+            >
+              <Icon name="phone" size={16}/> <span>{t.footer_contact}</span>
+            </a>
+          </aside>
+        </>
+      )}
     </header>
   );
 }

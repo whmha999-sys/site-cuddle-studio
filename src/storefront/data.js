@@ -117,6 +117,26 @@ export const PRODUCT_IMAGES = {
   },
 };
 
+/**
+ * Replace the in-memory CATALOG and PRODUCT_IMAGES with fresh data from the database.
+ * Mutates in place so existing imports of these constants see the new data.
+ */
+export function syncCatalogFromDb(dbCatalog, dbImages) {
+  if (Array.isArray(dbCatalog)) {
+    CATALOG.length = 0;
+    for (const p of dbCatalog) CATALOG.push(p);
+  }
+  if (dbImages && typeof dbImages === 'object') {
+    for (const k of Object.keys(PRODUCT_IMAGES)) delete PRODUCT_IMAGES[k];
+    Object.assign(PRODUCT_IMAGES, dbImages);
+  }
+  // Some legacy components read from window.CATALOG (e.g. cart drawer)
+  if (typeof window !== 'undefined') {
+    window.CATALOG = CATALOG;
+    window.PRODUCT_IMAGES = PRODUCT_IMAGES;
+  }
+}
+
 export const COLOR_SWATCH = {
   graphite: '#6b6560', silver: '#a8b8cc', midnight: '#1a2a3a',
   black: '#17181b', white: '#f2f2f0', gray: '#8a8d93',

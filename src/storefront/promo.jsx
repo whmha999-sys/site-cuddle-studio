@@ -98,15 +98,6 @@ const promoStyles = `
       margin: 0 !important; }
     .promo-scene-badges > div { text-align: start !important; padding: 10px 12px !important; }
 
-    /* Duo scene: stack the two products */
-    .promo-scene-duo { display: flex !important; flex-direction: column; gap: 18px; }
-    .promo-scene-duo .promo-duo-side { width: 100% !important; flex: none !important; }
-    .promo-scene-duo .promo-duo-x { display: none !important; }
-    .promo-scene-duo .promo-duo-cta {
-      position: static !important; transform: none !important;
-      margin-top: 8px;
-    }
-
     /* Section label moves under dots so it stops fighting eyebrow */
     .promo-section .promo-scene-label {
       top: auto !important; right: auto !important;

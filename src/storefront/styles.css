@@ -806,23 +806,35 @@ input, select, textarea { font-family: inherit; color: inherit; }
   .brand-story-grid .brand-story-divider { display: none; }
   .home-perks { grid-template-columns: 1fr !important; gap: 16px !important; padding: 24px !important; }
 
-  /* Scroll scenes — collapse to a vertical stack */
+  /* Scroll scenes — collapse to a vertical stack, flow with main page scroll */
+  .scroll-scene-section { height: auto !important; margin: 0 !important; }
   .scroll-scene-sticky {
+    position: static !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
     grid-template-columns: 1fr !important;
     gap: 20px;
     padding: 24px 16px;
-    overflow-y: auto !important;
   }
-  .scroll-scene-sticky > div { padding: 0 !important; }
+  .scroll-scene-sticky > div {
+    padding: 0 !important;
+    height: auto !important;
+  }
   .scroll-scene-sticky video,
   .scroll-scene-sticky .scroll-scene-media {
     width: 100% !important;
     max-width: 320px;
+    max-height: none !important;
     margin: 0 auto;
   }
-  .scroll-scene-section { height: auto !important; margin: 0 !important; }
   .scroll-scene-features { gap: 16px !important; }
-  .tablet-scene-sticky { height: 60vh !important; }
+  .tablet-scene-sticky {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
 
   /* Footer */
   .footer { padding: 40px 20px 24px; }

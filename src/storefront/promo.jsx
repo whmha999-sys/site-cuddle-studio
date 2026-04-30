@@ -50,6 +50,70 @@ const promoStyles = `
     border-radius: var(--radius-lg, 16px);
     margin-top: 48px;
   }
+
+  /* ── Mobile (≤ 768px): flatten the cinematic stage into a vertical stack ── */
+  @media (max-width: 768px) {
+    .promo-section {
+      height: auto !important;
+      min-height: 0 !important;
+      padding: 24px 16px 64px !important;
+      margin-top: 28px !important;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    /* Hide non-active scenes entirely on mobile so they don't double the page height */
+    .promo-scene { position: relative !important; inset: auto !important;
+      display: none !important; opacity: 1 !important;
+      flex-direction: column; align-items: stretch !important;
+      gap: 18px; pointer-events: auto !important; }
+    .promo-scene.is-visible { display: flex !important; }
+
+    /* Reset every absolute child inside a scene back to flow */
+    .promo-scene > div {
+      position: static !important;
+      transform: none !important;
+      left: auto !important; right: auto !important;
+      top: auto !important; bottom: auto !important;
+      max-width: none !important;
+      text-align: start !important;
+    }
+    /* Decorative bg/grid layers — keep behind everything */
+    .promo-scene-bg { position: absolute !important; inset: 0 !important; }
+    .promo-section svg { display: none !important; }
+
+    /* Image: centered, capped */
+    .promo-scene-image { display: flex !important; justify-content: center; align-items: center;
+      order: 2; padding: 8px 0; }
+    .promo-scene-image img { height: clamp(180px, 46vw, 240px) !important; width: auto !important; max-width: 86% !important; }
+    .promo-scene-image, .promo-scene-image > * { animation: none !important; }
+
+    /* Text column on top */
+    .promo-scene-text { order: 1; }
+    .promo-scene-text > div[style*="font-size: 42"],
+    .promo-scene-text .promo-title { font-size: clamp(28px, 7.5vw, 38px) !important; line-height: 1.04 !important; }
+
+    /* Badges become a 2-col grid below image */
+    .promo-scene-badges { order: 3;
+      display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 8px;
+      margin: 0 !important; }
+    .promo-scene-badges > div { text-align: start !important; padding: 10px 12px !important; }
+
+    /* Duo scene: stack the two products */
+    .promo-scene-duo { display: flex !important; flex-direction: column; gap: 18px; }
+    .promo-scene-duo .promo-duo-side { width: 100% !important; flex: none !important; }
+    .promo-scene-duo .promo-duo-x { display: none !important; }
+    .promo-scene-duo .promo-duo-cta {
+      position: static !important; transform: none !important;
+      margin-top: 8px;
+    }
+
+    /* Section label moves under dots so it stops fighting eyebrow */
+    .promo-section .promo-scene-label {
+      top: auto !important; right: auto !important;
+      bottom: 36px !important; left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+  }
 `;
 
 // inject styles once
@@ -77,7 +141,7 @@ function WordReveal({ text, delay = 0, style = {} }) {
 // Scene 1: Watch focus
 function SceneWatch({ visible }) {
   return (
-    <div style={{
+    <div className={`promo-scene ${visible?'is-visible':''}`} style={{
       position:'absolute', inset:0,
       opacity: visible ? 1 : 0,
       transition: 'opacity 1s ease',
@@ -102,7 +166,7 @@ function SceneWatch({ visible }) {
       </svg>
 
       {/* Watch image */}
-      <div style={{
+      <div className="promo-scene-image" style={{
         position:'relative', zIndex:2,
         animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>
@@ -124,7 +188,7 @@ function SceneWatch({ visible }) {
       </div>
 
       {/* Left text column */}
-      <div style={{
+      <div className="promo-scene-text" style={{
         position:'absolute', left:'8%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, maxWidth:220,
       }}>
@@ -168,7 +232,7 @@ function SceneWatch({ visible }) {
       </div>
 
       {/* Right spec badges */}
-      <div style={{
+      <div className="promo-scene-badges" style={{
         position:'absolute', right:'7%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, display:'flex', flexDirection:'column', gap:10, alignItems:'flex-end',
       }}>
@@ -196,7 +260,7 @@ function SceneWatch({ visible }) {
 // Scene 2: Tablet focus
 function SceneTablet({ visible }) {
   return (
-    <div style={{
+    <div className={`promo-scene ${visible?'is-visible':''}`} style={{
       position:'absolute', inset:0,
       opacity: visible ? 1 : 0,
       transition: 'opacity 1s ease',
@@ -220,7 +284,7 @@ function SceneTablet({ visible }) {
       </svg>
 
       {/* Tablet image */}
-      <div style={{
+      <div className="promo-scene-image" style={{
         position:'relative', zIndex:2,
         animation: visible ? 'promo-float 4.5s ease-in-out infinite, promo-slide-left 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>
@@ -235,7 +299,7 @@ function SceneTablet({ visible }) {
       </div>
 
       {/* Right text column */}
-      <div style={{
+      <div className="promo-scene-text" style={{
         position:'absolute', right:'8%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, maxWidth:240, textAlign:'right',
       }}>
@@ -278,7 +342,7 @@ function SceneTablet({ visible }) {
       </div>
 
       {/* Left spec badges */}
-      <div style={{
+      <div className="promo-scene-badges" style={{
         position:'absolute', left:'7%', top:'50%', transform:'translateY(-50%)',
         zIndex:3, display:'flex', flexDirection:'column', gap:10,
       }}>
@@ -306,7 +370,7 @@ function SceneTablet({ visible }) {
 // Scene 3: Both together — Power Duo
 function SceneDuo({ visible }) {
   return (
-    <div style={{
+    <div className={`promo-scene promo-scene-duo ${visible?'is-visible':''}`} style={{
       position:'absolute', inset:0,
       opacity: visible ? 1 : 0,
       transition: 'opacity 1s ease',
@@ -339,7 +403,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Watch side */}
-      <div style={{
+      <div className="promo-duo-side" style={{
         flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
         position:'relative', zIndex:2,
       }}>
@@ -365,7 +429,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Center "×" connector */}
-      <div style={{
+      <div className="promo-duo-x" style={{
         width:56, height:56, borderRadius:'50%', flexShrink:0,
         border:'1px solid rgba(255,255,255,0.15)',
         display:'flex', alignItems:'center', justifyContent:'center',
@@ -376,7 +440,7 @@ function SceneDuo({ visible }) {
       }}>×</div>
 
       {/* Tablet side */}
-      <div style={{
+      <div className="promo-duo-side" style={{
         flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center',
         position:'relative', zIndex:2,
       }}>
@@ -402,7 +466,7 @@ function SceneDuo({ visible }) {
       </div>
 
       {/* Bottom CTA */}
-      <div style={{
+      <div className="promo-duo-cta" style={{
         position:'absolute', bottom:36, left:0, right:0,
         display:'flex', flexDirection:'column', alignItems:'center', gap:14, zIndex:4,
         animation: visible ? 'promo-word-up 0.7s cubic-bezier(0.22,1,0.36,1) 1.1s both' : 'none',
@@ -477,7 +541,7 @@ function PromoReel({ lang }) {
       </div>
 
       {/* Scene label */}
-      <div style={{
+      <div className="promo-scene-label" style={{
         position:'absolute', top:16, right:20, zIndex:20,
         fontFamily:'var(--font-mono,monospace)', fontSize:9,
         color:'rgba(255,255,255,0.25)', letterSpacing:'0.14em', textTransform:'uppercase',

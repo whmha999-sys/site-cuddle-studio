@@ -1,70 +1,99 @@
-# Compact mobile header — single-line layout
+# Fix the cinematic Promo Reel on mobile (the "Your wrist Alive" section)
 
-## What's wrong now
+## My honest take: keep it, but rebuild it for mobile
 
-On mobile the header stacks into 3 rows: a giant 96px logo, a full-width search bar, then the Cart + العربية buttons on a third row. It eats the entire first screen before any content shows.
+This `PromoReel` (`src/storefront/promo.jsx`) is one of the strongest brand moments on the site — the cinematic watch / tablet / "the kit" scenes with floating spec badges and the gold accent. **Don't remove it.** What's broken is purely the mobile layout, not the idea.
 
-## My recommendation: do BOTH — one tight row + a hamburger for nav
+### What's wrong (visible in your screenshot)
 
-A pure hamburger that hides search hurts a storefront (search is the #1 mobile action). But search shouldn't dominate the viewport either. Best pattern for a shop on mobile:
+The section is one fixed-height stage (`height: 480`) with everything **absolutely positioned in % coordinates** designed for a 16:9 desktop viewport:
+
+- Watch image is centered, 340px tall
+- Left text column: `position:absolute; left:8%; top:50%`
+- Right badges column: `position:absolute; right:7%; top:50%`
+
+On a 360–390px phone, all three layers collide on top of the watch:
+- "Your wrist Alive" sits **on** the watch face
+- The 4 badges (AMOLED, BATTERY, WATER, SENSORS) overlap the watch's right edge
+- "1.43″ AMOLED · NFC · Heart rate · IP67" wraps into the dial
+- Price `JOD 50` is half-eaten by the strap
+
+There are zero `@media` rules for this section, which is why the previous mobile work didn't touch it.
+
+## The fix — responsive scene layout
+
+Add a mobile breakpoint (≤ 768px) that converts each scene from "absolute overlay" to a **vertical stack** inside the same section, while keeping the desktop cinematic look 100% unchanged.
+
+### Per-scene mobile layout
 
 ```text
-[logo] [────── search ──────] [🛒] [☰]
+┌────────────────────────────┐
+│  VIKUSHA V70               │  ← eyebrow
+│  Your wrist                │  ← title
+│  Alive.                    │
+│  ─────                     │
+│  1.43″ AMOLED · NFC …      │  ← sub
+│  JOD 50                    │  ← price
+├────────────────────────────┤
+│                            │
+│         🕒  watch          │  ← image, centered, ~220px
+│                            │
+├────────────────────────────┤
+│  AMOLED  ·  1.43″          │  ← badges as a 2×2 grid
+│  BATTERY ·  300 mAh        │     (or horizontal scroll row)
+│  WATER   ·  IP67           │
+│  SENSORS ·  SpO2 · HR      │
+└────────────────────────────┘
 ```
 
-- Logo: shrunk to ~40px, just the seal
-- Search: flex-1, slim 36px pill, placeholder shortened
-- Cart: icon-only with the count badge (no "Cart" word)
-- Hamburger (☰): opens a slide-in drawer containing Tablets / Watches / Accessories + the language toggle (العربية)/ contact us 
+Same idea for `SceneTablet` and `SceneDuo`.
 
-This keeps the most-used controls (search + cart) one tap away and tucks secondary nav + language into a single, expected mobile pattern. Total header height drops from ~260px to ~56px.
+### Changes
 
-If you'd rather skip the drawer for now, I can do **just the one-line compaction** (logo + search + cart + globe icon, all icon-sized) — say the word.
+1. **`src/storefront/promo.jsx`** — small structural changes only:
+   - Wrap each absolute child with a class so CSS can re-layout it: add `className="promo-scene"` to the scene root, `promo-scene-image`, `promo-scene-text`, `promo-scene-badges` to the three layers in `SceneWatch`/`SceneTablet`/`SceneDuo`.
+   - Reduce inline `height: 340/320` on images to `height: clamp(180px, 38vw, 340px)` so they shrink naturally.
+   - Reduce inline title `fontSize: 42` → `clamp(26px, 6vw, 42px)`.
+   - Make the section height responsive: `style={{ height: 'auto', minHeight: 480 }}` and let CSS set a taller min-height on mobile (or `auto`).
 
-## Plan (assuming the recommended both-in-one)
+2. **`src/storefront/promo.jsx`** styles block (`promoStyles` template at top) — append a `@media (max-width: 768px)` rule:
+   ```css
+   .promo-section { min-height: auto; height: auto !important; padding: 24px 16px 56px; margin-top: 32px; }
+   .promo-scene { position: relative !important; inset: auto !important;
+     display: flex !important; flex-direction: column;
+     align-items: stretch !important; gap: 18px;
+     opacity: 1; }                  /* visibility now driven by display */
+   .promo-scene-text,
+   .promo-scene-image,
+   .promo-scene-badges {
+     position: static !important; transform: none !important;
+     left: auto !important; right: auto !important; top: auto !important;
+     max-width: none !important; text-align: start !important;
+   }
+   .promo-scene-image img { height: clamp(180px, 46vw, 240px) !important; margin: 0 auto; display: block; }
+   .promo-scene-badges { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+   .promo-scene-badges > div { text-align: start !important; }
+   .promo-section svg { display: none; }   /* hide grid/dot SVGs on mobile, they look noisy at small size */
+   ```
+   - Also gate the **non-active** scenes with `display: none` on mobile so stacking 3 scenes doesn't blow up the page height. Easiest: pass `visible` into `className` (`promo-scene ${visible?'is-visible':''}`) and add `.promo-scene:not(.is-visible){ display:none; }` inside the mobile media query only.
 
-### 1. `src/storefront/chrome.jsx` — Header
+3. **Animations stay on** — the keyframes don't conflict with the static layout, but disable the `transform`-based `promo-float-watch` rotation on mobile to avoid weird tilt in the stacked card:
+   ```css
+   @media (max-width: 768px) {
+     .promo-scene-image, .promo-scene-image > * { animation: none !important; }
+   }
+   ```
+   Words still fade in via `WordReveal`.
 
-- Add `mobileNavOpen` state.
-- Add a hamburger `<button className="icon-btn mobile-only">` to `.header-right`, after cart.
-- Reduce cart button to icon-only on mobile (wrap the "Cart" word in a `<span className="hide-on-mobile">`).
-- Hide the standalone language `icon-btn` on mobile (move it into the drawer).
-- Add a `<MobileNav>` slide-in drawer (right side, full-height, ~280px wide) rendered when `mobileNavOpen`. Contents:
-  - Tablets, Watches, Accessories, Brands links → call existing `window.navigate(...)`
-  - Language: العربية toggle row
-  - Close button + scrim that closes on click
+### Optional polish (low risk, big gain)
 
-### 2. `src/storefront/atoms.jsx` — Logo
+- On mobile, change the section background from a hard rectangle to a soft inset card by adding `border: 1px solid rgba(255,255,255,0.06)` and a subtle inner gradient — matches the rest of the mobile cards.
+- Move the scene-label ("WATCH · 1/3") from `top:16; right:20` to centered under the dots on mobile so it doesn't fight the eyebrow.
 
-- Wrap the `<img>` so its height is responsive: `height: clamp(36px, 8vw, 96px)`. Same SVG, just smaller on phones, unchanged on desktop.
+## Files to edit
 
-### 3. `src/storefront/styles.css` — mobile (`@media (max-width: 768px)`) block (~line 770)
+- `src/storefront/promo.jsx` — add classnames to existing divs, soften inline sizes, append mobile CSS to the `promoStyles` string.
 
-Replace the current 3-row stack with a single flex row:
+That's the only file. Desktop look is preserved — all overrides live behind `@media (max-width: 768px)`.
 
-```css
-.header-inner {
-  grid-template-columns: auto 1fr auto !important;
-  gap: 8px !important;
-  padding: 8px 12px !important;
-}
-.nav-search { width: 100% !important; max-width: none; min-width: 0; margin-inline-start: 0 !important; }
-.nav-search input { height: 36px; padding: 0 12px 0 36px; font-size: 13px; }
-.nav-search .search-icon { left: 12px; }
-
-.header-right { gap: 2px; }
-.icon-btn { padding: 8px; gap: 0; }       /* icon-only buttons */
-.icon-btn .hide-on-mobile { display: none; }
-.icon-btn-lang-desktop { display: none; }   /* hide globe button on mobile, lives in drawer */
-```
-
-Plus styles for the new `.mobile-nav-drawer`, `.mobile-nav-scrim`, `.mobile-nav-link`, and a `.mobile-only`/`.desktop-only` utility pair.
-
-Shorten the search placeholder for mobile by passing a shorter string when `window.matchMedia('(max-width:768px)').matches`, or simpler: rely on the input's natural truncation (placeholder gets cut by the input's width — acceptable).
-
-## Out of scope
-
-- Promo bar (already wraps fine).
-- Desktop layout — completely unchanged.
-
-After approval I'll apply the three file edits.
+After approval I'll apply the edits and you'll see: text → image → badges, vertically stacked, nothing overlapping, the cinematic feel preserved.

@@ -166,7 +166,7 @@ function SceneWatch({ visible }) {
       </svg>
 
       {/* Watch image */}
-      <div style={{
+      <div className="promo-scene-image" style={{
         position:'relative', zIndex:2,
         animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>

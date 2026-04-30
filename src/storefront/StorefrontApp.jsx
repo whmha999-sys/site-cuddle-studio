@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 
-import { CATALOG, I18N } from './data.js';
+import { CATALOG, I18N, syncCatalogFromDb } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
+import { useCatalog } from '@/hooks/useCatalog';
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {

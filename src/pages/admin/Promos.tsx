@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAllPromos, type Promo } from "@/hooks/usePromos";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,87 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2, Upload, ArrowUp, ArrowDown } from "lucide-react";
+
+const HERO_SLIDES_META = [
+  { id: "v-70", name: "Vikusha Smartwatch", primaryLabel: "Claim Yours", secondaryLabel: "Explore Vikusha" },
+  { id: "vz-30-pro-4g", name: "Vikusha VZ-30 PRO", primaryLabel: "Shop VZ-30 PRO", secondaryLabel: "Explore Tablets" },
+  { id: "teclast-p50", name: "Teclast P50", primaryLabel: "Shop P50", secondaryLabel: "Explore Teclast" },
+];
+
+type HeroSetting = {
+  slide_id: string;
+  primary_button_enabled: boolean;
+  secondary_button_enabled: boolean;
+};
+
+function HeroButtonsSection() {
+  const [settings, setSettings] = useState<Record<string, HeroSetting>>({});
+  const qc = useQueryClient();
+
+  async function load() {
+    const { data } = await supabase.from("hero_slide_settings").select("*");
+    const map: Record<string, HeroSetting> = {};
+    (data as HeroSetting[] | null)?.forEach((r) => { map[r.slide_id] = r; });
+    setSettings(map);
+  }
+
+  useEffect(() => { load(); }, []);
+
+  async function toggle(slideId: string, field: "primary_button_enabled" | "secondary_button_enabled", value: boolean) {
+    const current = settings[slideId] || {
+      slide_id: slideId,
+      primary_button_enabled: true,
+      secondary_button_enabled: true,
+    };
+    const next = { ...current, [field]: value };
+    setSettings((s) => ({ ...s, [slideId]: next }));
+    await supabase.from("hero_slide_settings").upsert({
+      slide_id: slideId,
+      primary_button_enabled: next.primary_button_enabled,
+      secondary_button_enabled: next.secondary_button_enabled,
+    });
+    qc.invalidateQueries({ queryKey: ["hero-slide-settings"] });
+  }
+
+  return (
+    <div className="space-y-3">
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight">Hero buttons</h2>
+        <p className="text-sm text-muted-foreground">
+          Show or hide each button on the home page hero slides.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {HERO_SLIDES_META.map((s) => {
+          const cfg = settings[s.id];
+          const primaryOn = cfg?.primary_button_enabled !== false;
+          const secondaryOn = cfg?.secondary_button_enabled !== false;
+          return (
+            <Card key={s.id}>
+              <CardContent className="p-4 space-y-3">
+                <div className="font-medium">{s.name}</div>
+                <label className="flex items-center justify-between gap-3 text-sm">
+                  <span>Show "{s.primaryLabel}"</span>
+                  <Switch
+                    checked={primaryOn}
+                    onCheckedChange={(v) => toggle(s.id, "primary_button_enabled", v)}
+                  />
+                </label>
+                <label className="flex items-center justify-between gap-3 text-sm">
+                  <span>Show "{s.secondaryLabel}"</span>
+                  <Switch
+                    checked={secondaryOn}
+                    onCheckedChange={(v) => toggle(s.id, "secondary_button_enabled", v)}
+                  />
+                </label>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 export default function Promos() {
   const { data: promos = [], refetch, isLoading } = useAllPromos();

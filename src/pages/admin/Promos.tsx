@@ -156,7 +156,9 @@ export default function Promos() {
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-8">
+      <HeroButtonsSection />
+      <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Promo banners</h1>

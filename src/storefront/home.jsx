@@ -1119,6 +1119,8 @@ function Home({ t, products, onAddToCart, cart, lang }) {
 
       <VikushaScroll lang={lang}/>
 
+      {showLifestyle && <LifestyleBanner lang={lang}/>}
+
       <PromoReel lang={lang}/>
 
       <div className="home-perks" style={{

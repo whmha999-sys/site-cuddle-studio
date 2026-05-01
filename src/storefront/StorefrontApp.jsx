@@ -29,11 +29,11 @@ export default function StorefrontApp() {
   // Sync DB catalog into in-memory CATALOG/PRODUCT_IMAGES so all child
   // components (which import these directly) see the latest data.
   const { data: dbCat } = useCatalog();
-  const [, forceRerender] = useState(0);
+  const [catalog, setCatalog] = useState(CATALOG);
   useEffect(() => {
     if (dbCat) {
       syncCatalogFromDb(dbCat.catalog, dbCat.images);
-      forceRerender((x) => x + 1);
+      setCatalog([...CATALOG]); // new reference triggers useMemo in Home
     }
   }, [dbCat]);
 
@@ -90,7 +90,7 @@ export default function StorefrontApp() {
   };
 
   const currentProduct = route.name === 'pdp'
-    ? CATALOG.find(p => p.id === route.params?.id)
+    ? catalog.find(p => p.id === route.params?.id)
     : null;
 
   return (
@@ -100,7 +100,7 @@ export default function StorefrontApp() {
         cart={cart}
         onOpenCart={() => setCartOpen(true)}
         onOpenAuth={() => setAuthOpen(true)}
-        products={CATALOG}
+        products={catalog}
         onLangToggle={() => setLang(lang === 'en' ? 'ar' : 'en')}
         user={user}
         onSignout={() => setUser(null)}
@@ -112,7 +112,7 @@ export default function StorefrontApp() {
             t={t}
             lang={lang}
             product={currentProduct}
-            products={CATALOG}
+            products={catalog}
             onAddToCart={addToCart}
             onBuyNow={buyNow}
             onNavigate={navigate}
@@ -120,7 +120,7 @@ export default function StorefrontApp() {
         ) : (
           <Home
             t={t}
-            products={CATALOG}
+            products={catalog}
             onAddToCart={addToCart}
             cart={cart}
             lang={lang}
@@ -189,7 +189,7 @@ export default function StorefrontApp() {
             ) : (
               <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0' }}>
                 {cart.map((item, idx) => {
-                  const p = CATALOG.find(x => x.id === item.id);
+                  const p = catalog.find(x => x.id === item.id);
                   return (
                     <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
                       <span>{p?.name || item.id} × {item.qty}</span>

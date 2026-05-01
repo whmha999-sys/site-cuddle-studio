@@ -976,6 +976,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
   const { data: visibility } = useSectionVisibility();
   const showHero = visibility?.hero !== false;
   const showPromoBanners = visibility?.promo_banners !== false;
+  const showLifestyle = visibility?.lifestyle_banner !== false;
 
   return (
     <>

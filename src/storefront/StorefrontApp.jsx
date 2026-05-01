@@ -29,11 +29,11 @@ export default function StorefrontApp() {
   // Sync DB catalog into in-memory CATALOG/PRODUCT_IMAGES so all child
   // components (which import these directly) see the latest data.
   const { data: dbCat } = useCatalog();
-  const [, forceRerender] = useState(0);
+  const [catalog, setCatalog] = useState(CATALOG);
   useEffect(() => {
     if (dbCat) {
       syncCatalogFromDb(dbCat.catalog, dbCat.images);
-      forceRerender((x) => x + 1);
+      setCatalog([...CATALOG]); // new reference triggers useMemo in Home
     }
   }, [dbCat]);
 

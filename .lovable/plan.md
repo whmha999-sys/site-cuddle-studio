@@ -1,57 +1,24 @@
-## Goal
 
-Add two master switches at the top of `/admin/promos`:
+## Lifestyle Banner Section
 
-- **Show Hero section** — hides/shows the entire homepage hero slider
-- **Show Promo Banners section** — hides/shows the entire promo banners strip
+Add a cinematic, full-width lifestyle banner section to the homepage featuring the Vikusha watch "on the wrist" photo. It will have a premium, Apple-style feel with a tagline and a CTA button.
 
-When a toggle is OFF, that whole section is removed from the homepage. When ON, it appears normally. Default: both ON.
+### What you'll get
 
-## Database
+- A full-bleed section with the lifestyle wrist photo as background
+- Dark overlay for readability
+- Tagline text (e.g. "Designed for every moment") with the Vikusha branding
+- A "Shop V-70" CTA button linking to the watch product page
+- Placed after the VikushaScroll section for natural flow
+- Responsive: looks great on mobile and desktop
+- Visibility toggle added to the admin Promos page (same pattern as Hero/Promo Banners)
 
-New table `section_visibility` (simple key/value flags so we can add more sections later):
+### Technical details
 
-- `section_key text primary key` — `'hero'` or `'promo_banners'`
-- `visible boolean not null default true`
-- `updated_at timestamptz not null default now()`
-
-RLS:
-- Anyone can `SELECT` (storefront reads it)
-- Admins can `INSERT/UPDATE` (via `has_role(auth.uid(), 'admin')`)
-
-Seed two rows: `('hero', true)` and `('promo_banners', true)`.
-
-## Admin UI (`src/pages/admin/Promos.tsx`)
-
-Add a new card at the very top of the page, above "Hero buttons":
-
-```
-Sections visibility
-  [✓] Show Hero section          (the big rotating banner on home)
-  [✓] Show Promo Banners section (the banner strip below the hero)
-```
-
-Each toggle saves immediately via `upsert` to `section_visibility`.
-
-## Storefront
-
-1. New hook `src/hooks/useSectionVisibility.ts` — fetches the table, returns `{ hero: boolean, promo_banners: boolean }` (defaults to `true` if missing).
-
-2. In `src/storefront/home.jsx`:
-   - If `hero === false` → don't render the `<Hero />` component.
-   - If `promo_banners === false` → don't render the `<PromoBanners />` component.
-
-Defaults to visible if the data hasn't loaded yet — no flash-of-empty.
-
-## Out of scope
-
-- The per-slide button toggles (already built, untouched).
-- The per-banner settings (already built, untouched).
-- These new switches are master overrides only.
-
-## Files touched
-
-- New migration: create `section_visibility` table + RLS + seed
-- New: `src/hooks/useSectionVisibility.ts`
-- Edit: `src/pages/admin/Promos.tsx` — add "Sections visibility" card at top
-- Edit: `src/storefront/home.jsx` — conditionally render Hero and PromoBanners
+1. **Copy the wrist photo** to `public/uploads/` for use on the site
+2. **Add a `LifestyleBanner` component** in `src/storefront/home.jsx` — full-width section with:
+   - Background image (object-fit cover)
+   - Semi-transparent dark gradient overlay
+   - Centered text block with brand name, tagline, and CTA
+3. **Insert the section** in the Home component after `<VikushaScroll />` 
+4. **Add visibility control**: Add `lifestyle_banner` key to the `section_visibility` table via migration, add a toggle in admin Promos page, and conditionally render based on `useSectionVisibility`

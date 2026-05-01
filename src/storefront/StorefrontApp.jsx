@@ -120,7 +120,7 @@ export default function StorefrontApp() {
         ) : (
           <Home
             t={t}
-            products={CATALOG}
+            products={catalog}
             onAddToCart={addToCart}
             cart={cart}
             lang={lang}

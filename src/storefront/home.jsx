@@ -948,6 +948,97 @@ function ProductCard({ p, t, inCart, onAdd, onOpen }) {
   );
 }
 
+function LifestyleBanner({ lang }) {
+  return (
+    <section style={{
+      position: 'relative',
+      width: '100%',
+      minHeight: 480,
+      overflow: 'hidden',
+      margin: '48px 0 0',
+    }}>
+      <img
+        src="/uploads/vikusha-lifestyle-wrist.png"
+        alt="Vikusha smartwatch on wrist"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+        }}
+      />
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.55) 100%)',
+      }} />
+      <div style={{
+        position: 'relative',
+        zIndex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 480,
+        padding: '60px 24px',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: '#FFB800',
+          marginBottom: 14,
+        }}>
+          {lang === 'ar' ? 'فيكوشا' : 'VIKUSHA'}
+        </div>
+        <h2 style={{
+          fontFamily: 'var(--font-display, serif)',
+          fontSize: 'clamp(28px, 5vw, 52px)',
+          fontWeight: 700,
+          color: '#fff',
+          lineHeight: 1.1,
+          letterSpacing: '-0.03em',
+          marginBottom: 16,
+          maxWidth: '14ch',
+        }}>
+          {lang === 'ar' ? 'مصمّمة لكل لحظة' : 'Designed for every moment'}
+        </h2>
+        <p style={{
+          fontSize: 15,
+          color: 'rgba(255,255,255,0.75)',
+          lineHeight: 1.6,
+          maxWidth: '36ch',
+          marginBottom: 28,
+        }}>
+          {lang === 'ar'
+            ? 'ساعة ذكية تجمع بين الأناقة والتكنولوجيا — على معصمك، أينما كنت.'
+            : 'A smartwatch that blends elegance with technology — on your wrist, wherever you go.'}
+        </p>
+        <button
+          className="vk-cta-primary"
+          onClick={() => window.navigate?.('pdp', { id: 'v-70' })}
+          style={{
+            padding: '13px 36px',
+            background: '#FFB800',
+            color: '#1a1200',
+            fontWeight: 700,
+            fontSize: 14,
+            border: 'none',
+            borderRadius: 28,
+            cursor: 'pointer',
+            letterSpacing: '0.02em',
+          }}
+        >
+          {lang === 'ar' ? 'تسوّق V-70' : 'Shop V-70'}
+        </button>
+      </div>
+    </section>
+  );
+}
+
 function Home({ t, products, onAddToCart, cart, lang }) {
   const [cat, setCat] = React.useState('all');
   const [brand, setBrand] = React.useState('all');
@@ -976,6 +1067,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
   const { data: visibility } = useSectionVisibility();
   const showHero = visibility?.hero !== false;
   const showPromoBanners = visibility?.promo_banners !== false;
+  const showLifestyle = visibility?.lifestyle_banner !== false;
 
   return (
     <>
@@ -1026,6 +1118,8 @@ function Home({ t, products, onAddToCart, cart, lang }) {
       <TeclastScroll lang={lang}/>
 
       <VikushaScroll lang={lang}/>
+
+      {showLifestyle && <LifestyleBanner lang={lang}/>}
 
       <PromoReel lang={lang}/>
 

@@ -70,6 +70,13 @@ function SectionsVisibilitySection() {
             </div>
             <Switch checked={vis.promo_banners} onCheckedChange={(v) => toggle("promo_banners", v)} />
           </label>
+          <label className="flex items-center justify-between gap-3">
+            <div>
+              <div className="font-medium text-sm">Show Lifestyle Banner</div>
+              <div className="text-xs text-muted-foreground">The full-width Vikusha watch lifestyle photo section.</div>
+            </div>
+            <Switch checked={vis.lifestyle_banner} onCheckedChange={(v) => toggle("lifestyle_banner", v)} />
+          </label>
         </CardContent>
       </Card>
     </div>

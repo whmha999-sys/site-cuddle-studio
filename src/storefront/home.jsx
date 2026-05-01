@@ -971,18 +971,21 @@ function LifestyleBanner({ lang }) {
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.25) 50%, rgba(0,0,0,0.55) 100%)',
+        background: lang === 'ar'
+          ? 'linear-gradient(to left, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 40%, transparent 68%)'
+          : 'linear-gradient(to right, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 40%, transparent 68%)',
       }} />
       <div style={{
         position: 'relative',
         zIndex: 1,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: lang === 'ar' ? 'flex-end' : 'flex-start',
         justifyContent: 'center',
         minHeight: 480,
-        padding: '60px 24px',
-        textAlign: 'center',
+        padding: '60px clamp(36px, 7vw, 96px)',
+        textAlign: lang === 'ar' ? 'right' : 'left',
+        maxWidth: '50%',
       }}>
         <div style={{
           fontSize: 11,

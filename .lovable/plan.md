@@ -1,24 +1,12 @@
 
-## Lifestyle Banner Section
+## Fix Lifestyle Banner layout
 
-Add a cinematic, full-width lifestyle banner section to the homepage featuring the Vikusha watch "on the wrist" photo. It will have a premium, Apple-style feel with a tagline and a CTA button.
+Move the text overlay from the center to the **left side** of the banner, so the Vikusha watch photo on the right stays fully visible and unobstructed.
 
-### What you'll get
+### Changes (single file: `src/storefront/home.jsx`)
 
-- A full-bleed section with the lifestyle wrist photo as background
-- Dark overlay for readability
-- Tagline text (e.g. "Designed for every moment") with the Vikusha branding
-- A "Shop V-70" CTA button linking to the watch product page
-- Placed after the VikushaScroll section for natural flow
-- Responsive: looks great on mobile and desktop
-- Visibility toggle added to the admin Promos page (same pattern as Hero/Promo Banners)
+1. **Gradient overlay**: Change from centered 135deg gradient to a left-to-right gradient that only darkens the left ~40% of the image (flipped for Arabic RTL).
+2. **Text container**: Align to `flex-start` (left) instead of `center`, with generous left padding. For Arabic, flip to right side.
+3. **Text alignment**: Change from `center` to `left` (or `right` for Arabic).
 
-### Technical details
-
-1. **Copy the wrist photo** to `public/uploads/` for use on the site
-2. **Add a `LifestyleBanner` component** in `src/storefront/home.jsx` — full-width section with:
-   - Background image (object-fit cover)
-   - Semi-transparent dark gradient overlay
-   - Centered text block with brand name, tagline, and CTA
-3. **Insert the section** in the Home component after `<VikushaScroll />` 
-4. **Add visibility control**: Add `lifestyle_banner` key to the `section_visibility` table via migration, add a toggle in admin Promos page, and conditionally render based on `useSectionVisibility`
+The watch photo on the right half will be completely clear with no overlay blocking it.

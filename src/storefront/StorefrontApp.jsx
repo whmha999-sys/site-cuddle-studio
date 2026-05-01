@@ -90,7 +90,7 @@ export default function StorefrontApp() {
   };
 
   const currentProduct = route.name === 'pdp'
-    ? CATALOG.find(p => p.id === route.params?.id)
+    ? catalog.find(p => p.id === route.params?.id)
     : null;
 
   return (

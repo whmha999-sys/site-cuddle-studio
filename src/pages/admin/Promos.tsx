@@ -22,12 +22,12 @@ type HeroSetting = {
 };
 
 function SectionsVisibilitySection() {
-  const [vis, setVis] = useState<Record<string, boolean>>({ hero: true, promo_banners: true });
+  const [vis, setVis] = useState<Record<string, boolean>>({ hero: true, promo_banners: true, lifestyle_banner: true });
   const qc = useQueryClient();
 
   async function load() {
     const { data } = await supabase.from("section_visibility").select("section_key, visible");
-    const map: Record<string, boolean> = { hero: true, promo_banners: true };
+    const map: Record<string, boolean> = { hero: true, promo_banners: true, lifestyle_banner: true };
     (data as { section_key: string; visible: boolean }[] | null)?.forEach((r) => {
       map[r.section_key] = r.visible;
     });
@@ -36,7 +36,7 @@ function SectionsVisibilitySection() {
 
   useEffect(() => { load(); }, []);
 
-  async function toggle(key: "hero" | "promo_banners", value: boolean) {
+  async function toggle(key: "hero" | "promo_banners" | "lifestyle_banner", value: boolean) {
     setVis((v) => ({ ...v, [key]: value }));
     await supabase.from("section_visibility").upsert({
       section_key: key,

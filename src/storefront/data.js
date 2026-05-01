@@ -127,8 +127,12 @@ export function syncCatalogFromDb(dbCatalog, dbImages) {
     for (const p of dbCatalog) CATALOG.push(p);
   }
   if (dbImages && typeof dbImages === 'object') {
-    for (const k of Object.keys(PRODUCT_IMAGES)) delete PRODUCT_IMAGES[k];
+    // Assign new data FIRST so there's no gap where images are missing
     Object.assign(PRODUCT_IMAGES, dbImages);
+    // Then remove keys that aren't in the DB set
+    for (const k of Object.keys(PRODUCT_IMAGES)) {
+      if (!(k in dbImages)) delete PRODUCT_IMAGES[k];
+    }
   }
   // Some legacy components read from window.CATALOG (e.g. cart drawer)
   if (typeof window !== 'undefined') {

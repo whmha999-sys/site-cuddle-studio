@@ -189,7 +189,7 @@ export default function StorefrontApp() {
             ) : (
               <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0' }}>
                 {cart.map((item, idx) => {
-                  const p = CATALOG.find(x => x.id === item.id);
+                  const p = catalog.find(x => x.id === item.id);
                   return (
                     <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
                       <span>{p?.name || item.id} × {item.qty}</span>

@@ -112,7 +112,7 @@ export default function StorefrontApp() {
             t={t}
             lang={lang}
             product={currentProduct}
-            products={CATALOG}
+            products={catalog}
             onAddToCart={addToCart}
             onBuyNow={buyNow}
             onNavigate={navigate}

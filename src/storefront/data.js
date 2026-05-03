@@ -136,6 +136,7 @@ export function syncCatalogFromDb(dbCatalog, dbImages) {
       if (!(k in dbImages)) delete PRODUCT_IMAGES[k];
     }
   }
+  imageVersion++;
   // Some legacy components read from window.CATALOG (e.g. cart drawer)
   if (typeof window !== 'undefined') {
     window.CATALOG = CATALOG;

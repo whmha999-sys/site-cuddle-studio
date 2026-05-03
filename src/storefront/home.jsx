@@ -1110,6 +1110,7 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
             inCart={isInCart(p.id)}
             onAdd={(prod, color) => onAddToCart(prod, color, 1)}
             onOpen={(prod) => window.navigate('pdp', {id: prod.id})}
+            imgVersion={imgVersion}
           />
         ))}
       </div>

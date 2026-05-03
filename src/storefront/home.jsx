@@ -1042,7 +1042,7 @@ function LifestyleBanner({ lang }) {
   );
 }
 
-function Home({ t, products, onAddToCart, cart, lang }) {
+function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
   const [cat, setCat] = React.useState('all');
   const [brand, setBrand] = React.useState('all');
   const [sort, setSort] = React.useState('featured');

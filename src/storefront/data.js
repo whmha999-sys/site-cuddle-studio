@@ -117,6 +117,8 @@ export const PRODUCT_IMAGES = {
   },
 };
 
+export let imageVersion = 0;
+
 /**
  * Replace the in-memory CATALOG and PRODUCT_IMAGES with fresh data from the database.
  * Mutates in place so existing imports of these constants see the new data.

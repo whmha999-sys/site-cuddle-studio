@@ -30,10 +30,12 @@ export default function StorefrontApp() {
   // components (which import these directly) see the latest data.
   const { data: dbCat } = useCatalog();
   const [catalog, setCatalog] = useState(CATALOG);
+  const [imgVersion, setImgVersion] = useState(0);
   useEffect(() => {
     if (dbCat) {
       syncCatalogFromDb(dbCat.catalog, dbCat.images);
       setCatalog([...CATALOG]); // new reference triggers useMemo in Home
+      setImgVersion(imageVersion);
     }
   }, [dbCat]);
 

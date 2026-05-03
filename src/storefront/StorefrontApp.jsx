@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 
-import { CATALOG, I18N, syncCatalogFromDb } from './data.js';
+import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';

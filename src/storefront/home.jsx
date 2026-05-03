@@ -900,7 +900,7 @@ function Hero({ t, products, lang }) {
   );
 }
 
-function ProductCard({ p, t, inCart, onAdd, onOpen }) {
+function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
   const [color, setColor] = React.useState(p.colors[0]);
   const [wish, setWish] = React.useState(false);
   return (
@@ -913,7 +913,7 @@ function ProductCard({ p, t, inCart, onAdd, onOpen }) {
           }
         </span>
         <button className={`card-wish ${wish?'active':''}`} onClick={(e)=>{e.stopPropagation(); setWish(!wish);}}><Icon name="heart" size={15}/></button>
-        <Silhouette product={p} color={color}/>
+        <Silhouette product={p} color={color} key={color + '-' + imgVersion}/>
       </div>
       <div className="card-body">
         <div className="card-meta">

@@ -1,57 +1,36 @@
 ## Problem
 
-When the site first loads, some product images don't appear. The root cause is a **race condition** in how the catalog data syncs from the database.
+Product images for some items (like VZ-80 PLUS and VZ-70) don't appear on initial page load. The root cause: `Silhouette` reads `PRODUCT_IMAGES` directly from a module-level global. When `syncCatalogFromDb` mutates this object, React has no way to know it changed — the `Silhouette` components that already rendered with empty/stale data never re-render.
 
-Here's what happens:
+The previous fix (fresh `catalog` array reference) only helps `useMemo` in `Home` recalculate the *product list*, but `Silhouette` still reads images from the same global object reference without triggering a re-render.
 
-1. The app renders immediately using **static** `CATALOG` and `PRODUCT_IMAGES` from `data.js` — images show up fine
-2. The database query (`useCatalog`) completes and `syncCatalogFromDb` runs
-3. `syncCatalogFromDb` **deletes all keys** from `PRODUCT_IMAGES` first, then assigns the DB images
-4. React 18 may batch/defer the `forceRerender` state update, so components can briefly read the **empty** `PRODUCT_IMAGES` object during this window — resulting in missing images and SVG silhouette fallbacks rendering instead
-5. Additionally, the `useMemo` in `Home` depends on the `products` array reference which never changes (it's always the same `CATALOG` array), so the grid may not fully re-render after the sync
+## Fix
 
-## Fix (2 files)
+Add an **image version counter** that increments whenever `syncCatalogFromDb` runs, and pass it through to `Silhouette` so React knows to re-render image components.
 
-### 1. `src/storefront/data.js` — safer `syncCatalogFromDb`
+### Changes
 
-Instead of delete-then-assign (which creates a gap), **assign first, then remove stale keys**:
-
+**1. `src/storefront/data.js`** — Export a mutable version counter that increments on each sync:
 ```js
-export function syncCatalogFromDb(dbCatalog, dbImages) {
-  if (Array.isArray(dbCatalog)) {
-    CATALOG.length = 0;
-    for (const p of dbCatalog) CATALOG.push(p);
-  }
-  if (dbImages && typeof dbImages === 'object') {
-    // Assign new data FIRST (no gap where images are missing)
-    Object.assign(PRODUCT_IMAGES, dbImages);
-    // Then remove keys that aren't in the DB set
-    for (const k of Object.keys(PRODUCT_IMAGES)) {
-      if (!(k in dbImages)) delete PRODUCT_IMAGES[k];
-    }
-  }
-  if (typeof window !== 'undefined') {
-    window.CATALOG = CATALOG;
-    window.PRODUCT_IMAGES = PRODUCT_IMAGES;
-  }
-}
+export let imageVersion = 0;
+// Inside syncCatalogFromDb, after updating PRODUCT_IMAGES:
+imageVersion++;
 ```
 
-### 2. `src/storefront/StorefrontApp.jsx` — use a fresh array reference to trigger proper re-renders
+**2. `src/storefront/StorefrontApp.jsx`** — Track image version in state and pass it down:
+```js
+import { imageVersion } from './data.js';
+// After syncCatalogFromDb call:
+setImgVersion(imageVersion);
+```
+Pass `imgVersion` to `Home` as a prop.
 
-Change the `products` prop from the mutated `CATALOG` reference to a fresh copy, so `useMemo` in `Home` properly recalculates:
-
+**3. `src/storefront/home.jsx`** — Pass `imgVersion` through `ProductCard` to `Silhouette`:
 ```jsx
-const [catalog, setCatalog] = useState(CATALOG);
-
-useEffect(() => {
-  if (dbCat) {
-    syncCatalogFromDb(dbCat.catalog, dbCat.images);
-    setCatalog([...CATALOG]); // new reference triggers useMemo
-  }
-}, [dbCat]);
+<Silhouette product={p} color={color} key={color + imgVersion} />
 ```
+Using `key` forces React to remount the component when images change.
 
-Then pass `catalog` instead of `CATALOG` to `Home` and other components.
+**4. `src/storefront/silhouettes.jsx`** — No logic change needed; the `key` change in the parent handles re-rendering.
 
-These two changes eliminate the window where images disappear and ensure the product grid fully re-renders after the database sync.
+This ensures that once DB images load, every product card re-renders with the correct photos.

@@ -900,7 +900,7 @@ function Hero({ t, products, lang }) {
   );
 }
 
-function ProductCard({ p, t, inCart, onAdd, onOpen }) {
+function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
   const [color, setColor] = React.useState(p.colors[0]);
   const [wish, setWish] = React.useState(false);
   return (
@@ -913,7 +913,7 @@ function ProductCard({ p, t, inCart, onAdd, onOpen }) {
           }
         </span>
         <button className={`card-wish ${wish?'active':''}`} onClick={(e)=>{e.stopPropagation(); setWish(!wish);}}><Icon name="heart" size={15}/></button>
-        <Silhouette product={p} color={color}/>
+        <Silhouette product={p} color={color} key={color + '-' + imgVersion}/>
       </div>
       <div className="card-body">
         <div className="card-meta">
@@ -1042,7 +1042,7 @@ function LifestyleBanner({ lang }) {
   );
 }
 
-function Home({ t, products, onAddToCart, cart, lang }) {
+function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
   const [cat, setCat] = React.useState('all');
   const [brand, setBrand] = React.useState('all');
   const [sort, setSort] = React.useState('featured');
@@ -1110,6 +1110,7 @@ function Home({ t, products, onAddToCart, cart, lang }) {
             inCart={isInCart(p.id)}
             onAdd={(prod, color) => onAddToCart(prod, color, 1)}
             onOpen={(prod) => window.navigate('pdp', {id: prod.id})}
+            imgVersion={imgVersion}
           />
         ))}
       </div>

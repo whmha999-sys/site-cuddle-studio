@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import './styles.css';
 
-import { CATALOG, I18N, syncCatalogFromDb } from './data.js';
+import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
@@ -30,10 +30,12 @@ export default function StorefrontApp() {
   // components (which import these directly) see the latest data.
   const { data: dbCat } = useCatalog();
   const [catalog, setCatalog] = useState(CATALOG);
+  const [imgVersion, setImgVersion] = useState(0);
   useEffect(() => {
     if (dbCat) {
       syncCatalogFromDb(dbCat.catalog, dbCat.images);
       setCatalog([...CATALOG]); // new reference triggers useMemo in Home
+      setImgVersion(imageVersion);
     }
   }, [dbCat]);
 
@@ -124,6 +126,7 @@ export default function StorefrontApp() {
             onAddToCart={addToCart}
             cart={cart}
             lang={lang}
+            imgVersion={imgVersion}
           />
         )}
       </main>

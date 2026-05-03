@@ -126,6 +126,7 @@ export default function StorefrontApp() {
             onAddToCart={addToCart}
             cart={cart}
             lang={lang}
+            imgVersion={imgVersion}
           />
         )}
       </main>

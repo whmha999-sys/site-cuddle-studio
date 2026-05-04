@@ -335,6 +335,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
+      {product.id === 'usb-type-c-66w' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {[1,2,3].map(n => (
+            <img
+              key={n}
+              src={`/uploads/usb-typec-66w-marketing-${n}.jpg`}
+              alt={`USB Type-C 66W feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
+
       {product.id === 'vb-1-4g' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
           {['02','04','06','08','10','12','14','16','18','20','22','24','25'].map(n => (

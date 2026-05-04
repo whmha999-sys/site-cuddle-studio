@@ -120,6 +120,19 @@ export const PRODUCT_IMAGES = {
   },
 };
 
+function cloneImageMap(map) {
+  return Object.fromEntries(
+    Object.entries(map).map(([productId, colors]) => [
+      productId,
+      Object.fromEntries(
+        Object.entries(colors || {}).map(([color, imgs]) => [color, [...(imgs || [])]])
+      ),
+    ])
+  );
+}
+
+const DEFAULT_PRODUCT_IMAGES = cloneImageMap(PRODUCT_IMAGES);
+
 export let imageVersion = 0;
 
 /**
@@ -132,12 +145,20 @@ export function syncCatalogFromDb(dbCatalog, dbImages) {
     for (const p of dbCatalog) CATALOG.push(p);
   }
   if (dbImages && typeof dbImages === 'object') {
-    // Assign new data FIRST so there's no gap where images are missing
-    Object.assign(PRODUCT_IMAGES, dbImages);
-    // Then remove keys that aren't in the DB set
-    for (const k of Object.keys(PRODUCT_IMAGES)) {
-      if (!(k in dbImages)) delete PRODUCT_IMAGES[k];
+    // Start from bundled image fallbacks, then layer dashboard/backend images on top.
+    // This prevents homepage blanks when the backend has a partial or broken image set.
+    const nextImages = cloneImageMap(DEFAULT_PRODUCT_IMAGES);
+    for (const [productId, colors] of Object.entries(dbImages)) {
+      nextImages[productId] ??= {};
+      for (const [color, imgs] of Object.entries(colors || {})) {
+        const cleanImgs = Array.isArray(imgs) ? imgs.filter(Boolean) : [];
+        if (cleanImgs.length) nextImages[productId][color] = cleanImgs;
+      }
     }
+    for (const k of Object.keys(PRODUCT_IMAGES)) {
+      delete PRODUCT_IMAGES[k];
+    }
+    Object.assign(PRODUCT_IMAGES, nextImages);
   }
   imageVersion++;
   // Some legacy components read from window.CATALOG (e.g. cart drawer)

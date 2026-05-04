@@ -363,6 +363,20 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         </section>
       )}
 
+      {product.id === 'p200' && (
+        <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          {[1,2,3,4,5].map(n => (
+            <img
+              key={n}
+              src={`/uploads/p200-feature-${n}.png`}
+              alt={`Power Bank P200 feature ${n}`}
+              loading="lazy"
+              style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
+            />
+          ))}
+        </section>
+      )}
+
       {product.id === 'vb-1-4g' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
           {['02','04','06','08','10','12','14','16','18','20','22','24','25'].map(n => (

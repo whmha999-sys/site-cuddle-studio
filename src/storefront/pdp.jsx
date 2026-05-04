@@ -388,7 +388,6 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           </div>
         </section>
       )}
-      )}
     </>
   );
 }

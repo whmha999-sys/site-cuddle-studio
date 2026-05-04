@@ -112,6 +112,9 @@ export const PRODUCT_IMAGES = {
     yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
     blue:   ['/uploads/vb1-blue-main.png','/uploads/vb1-blue-front.png','/uploads/vb1-blue-angle.png','/uploads/vb1-blue-back.png'],
   },
+  'usb-type-c-66w': {
+    white: ['/uploads/usb-typec-66w-white-main.png','/uploads/usb-typec-66w-white-2.png','/uploads/usb-typec-66w-white-3.png','/uploads/usb-typec-66w-white-4.png','/uploads/usb-typec-66w-white-5.png'],
+  },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
   },

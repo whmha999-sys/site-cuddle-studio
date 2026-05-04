@@ -1,36 +1,66 @@
-## Problem
+## The Problem
 
-Product images for some items (like VZ-80 PLUS and VZ-70) don't appear on initial page load. The root cause: `Silhouette` reads `PRODUCT_IMAGES` directly from a module-level global. When `syncCatalogFromDb` mutates this object, React has no way to know it changed — the `Silhouette` components that already rendered with empty/stale data never re-render.
+I found exactly what's wrong. Here are straight answers:
 
-The previous fix (fresh `catalog` array reference) only helps `useMemo` in `Home` recalculate the *product list*, but `Silhouette` still reads images from the same global object reference without triggering a re-render.
+### 1. VB-1 4G marketing strip showing on EVERY product
+
+**Root cause**: On line 366 of `pdp.jsx`, the VB-1 4G marketing strip (13 large images + a YouTube video) is **missing its `product.id === 'vb-1-4g'` condition**. It was accidentally stripped when I added the Type-C Cable marketing strip above it. Right now it renders unconditionally on every single product page.
+
+This means every product page loads 13 extra `.webp` images + a YouTube iframe it doesn't need. That's your slowness culprit.
+
+### 2. Is the dashboard causing problems?
+
+**No, the dashboard itself is fine.** The sync logic in `StorefrontApp.jsx` properly fetches catalog data once and merges it with local fallbacks. The real issues were:
+
+- My mistake dropping the VB-1 conditional wrapper (above)
+- Earlier filename issues with spaces that caused 404s (already fixed)
+
+The dashboard code is not the source of these problems. No need to delete it.
+
+### 3. Marketing strip audit - all products
+
+I checked every marketing strip condition in `pdp.jsx`. Here's the status:
+
+
+| Product          | Line    | Condition                         | Status                             |
+| ---------------- | ------- | --------------------------------- | ---------------------------------- |
+| VZ-80 PLUS       | 174     | `product.id === 'vz-80-plus'`     | OK                                 |
+| VZ-70            | 188     | `product.id === 'vz-70'`          | OK                                 |
+| VZ-60 4G         | 202     | `product.id === 'vz-60-4g'`       | OK                                 |
+| VZ-30 PRO        | 216     | `product.id === 'vz-30-pro-4g'`   | OK                                 |
+| V-M1             | 236     | `product.id === 'v-m1'`           | OK                                 |
+| VN-7 Kids        | 256     | `product.id === 'vn-7-kids'`      | OK                                 |
+| Teclast T65      | 282     | `product.id === 'teclast-t65'`    | OK                                 |
+| Teclast P30T     | 296     | `product.id === 'teclast-p30t'`   | OK                                 |
+| Teclast P50      | 310     | `product.id === 'teclast-p50'`    | OK                                 |
+| V-70             | 324     | `product.id === 'v-70'`           | OK                                 |
+| USB Type-C 66W   | 338     | `product.id === 'usb-type-c-66w'` | OK                                 |
+| Type-C Cable 66W | 352     | `product.id === 'type-c-66w'`     | OK                                 |
+| **VB-1 4G**      | **366** | **MISSING**                       | **BROKEN - shows on ALL products** |
+
+
+YouTube video section (line 158) is also properly gated to specific product IDs only.
 
 ## Fix
 
-Add an **image version counter** that increments whenever `syncCatalogFromDb` runs, and pass it through to `Silhouette` so React knows to re-render image components.
+One change in `pdp.jsx`:
 
-### Changes
+**Re-wrap the VB-1 4G section** (lines 366-388) with its missing condition:
 
-**1. `src/storefront/data.js`** — Export a mutable version counter that increments on each sync:
-```js
-export let imageVersion = 0;
-// Inside syncCatalogFromDb, after updating PRODUCT_IMAGES:
-imageVersion++;
-```
-
-**2. `src/storefront/StorefrontApp.jsx`** — Track image version in state and pass it down:
-```js
-import { imageVersion } from './data.js';
-// After syncCatalogFromDb call:
-setImgVersion(imageVersion);
-```
-Pass `imgVersion` to `Home` as a prop.
-
-**3. `src/storefront/home.jsx`** — Pass `imgVersion` through `ProductCard` to `Silhouette`:
 ```jsx
-<Silhouette product={p} color={color} key={color + imgVersion} />
+{product.id === 'vb-1-4g' && (
+  <section style={{ marginTop: 72, ... }}>
+    {['02','04','06','08',...].map(...)}
+    <div><!-- YouTube iframe --></div>
+  </section>
+)}
 ```
-Using `key` forces React to remount the component when images change.
 
-**4. `src/storefront/silhouettes.jsx`** — No logic change needed; the `key` change in the parent handles re-rendering.
+This single fix will:
 
-This ensures that once DB images load, every product card re-renders with the correct photos.
+- Stop the VB-1 images/video from appearing on every product
+- Dramatically improve page load speed for all other products
+- Restore the correct behavior where each product only shows its own marketing strip  
+  
+and make a quick check on all the site and see i there is any problems cause we can't have any other errors the dead line is so clos 
+  &nbsp;

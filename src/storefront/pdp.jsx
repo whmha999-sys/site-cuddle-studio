@@ -398,6 +398,11 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'p20' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
+          <video
+            src="/uploads/p20-video.mp4"
+            autoPlay muted loop playsInline
+            style={{ width:'100%', maxWidth: 900, height:'auto', display:'block', borderRadius: 12 }}
+          />
           {[1,2,3,4,5,6,7,8].map(n => (
             <img
               key={n}

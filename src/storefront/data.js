@@ -55,13 +55,13 @@ export const CATALOG = [
 // Real product images keyed by product-id → color → [main, ...angles]
 export const PRODUCT_IMAGES = {
   'v-70': {
-    black:  ['/uploads/VIKUSHA Watch V70 main black .png','/uploads/VIKUSHA Watch V70 black 1.png','/uploads/VIKUSHA Watch V70 black 2.png','/uploads/VIKUSHA Watch V70 black 3.png'],
-    pink:   ['/uploads/VIKUSHA Watch V70 main pink.png','/uploads/VIKUSHA Watch V70 pink 1.png','/uploads/VIKUSHA Watch V70 pink 2.png','/uploads/VIKUSHA Watch V70 pink 3.png'],
-    silver: ['/uploads/VIKUSHA Watch V70 main white.png','/uploads/VIKUSHA Watch V70 white 1.png','/uploads/VIKUSHA Watch V70 white 2.png','/uploads/VIKUSHA Watch V70 white 3.png'],
+    black:  ['/uploads/v70-black-main.png','/uploads/v70-black-1.png','/uploads/v70-black-2.png','/uploads/v70-black-3.png'],
+    pink:   ['/uploads/v70-pink-main.png','/uploads/v70-pink-1.png','/uploads/v70-pink-2.png','/uploads/v70-pink-3.png'],
+    silver: ['/uploads/v70-silver-main.png','/uploads/v70-silver-1.png','/uploads/v70-silver-2.png','/uploads/v70-silver-3.png'],
   },
   'vz-80-plus': {
     graphite: [
-      '/uploads/main brown.png',
+      '/uploads/vz80-graphite-main.png',
       '/uploads/vz80-graphite-back.png',
       '/uploads/vz80-graphite-L45.webp',
       '/uploads/vz80-graphite-R45.webp',
@@ -70,7 +70,7 @@ export const PRODUCT_IMAGES = {
       '/uploads/vz80-keyboard-3.webp',
     ],
     silver: [
-      '/uploads/main silver .png',
+      '/uploads/vz80-silver-main.png',
       '/uploads/vz80-silver-back.png',
       '/uploads/vz80-blue-L45.webp',
       '/uploads/vz80-blue-R45.webp',
@@ -80,8 +80,8 @@ export const PRODUCT_IMAGES = {
     ],
   },
   'vz-70': {
-    graphite: ['/uploads/VIKUSHA Tablet V-Z70 main.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],
-    silver:   ['/uploads/VIKUSHA Tablet V-Z70 main 2.png','/uploads/VIKUSHA Tablet V-Z70-3.png','/uploads/VIKUSHA Tablet V-Z70-4.png'],
+    graphite: ['/uploads/vz70-graphite-main.png','/uploads/vz70-view-3.png','/uploads/vz70-view-4.png'],
+    silver:   ['/uploads/vz70-silver-main.png','/uploads/vz70-view-3.png','/uploads/vz70-view-4.png'],
   },
   'vz-60-4g': {
     graphite: ['/uploads/vz60-gray-main.png','/uploads/vz60-view-3.png','/uploads/vz60-view-5.png','/uploads/vz60-view-4.png'],

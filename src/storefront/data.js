@@ -125,6 +125,9 @@ export const PRODUCT_IMAGES = {
   'p110': {
     black: ['/uploads/p110-black-main.png','/uploads/p110-black-2.png','/uploads/p110-black-3.png','/uploads/p110-black-4.png','/uploads/p110-black-5.png','/uploads/p110-black-6.png','/uploads/p110-black-7.png','/uploads/p110-black-8.png'],
   },
+  'p20': {
+    black: ['/uploads/p20-black-main.png','/uploads/p20-black-2.png','/uploads/p20-black-3.png','/uploads/p20-black-4.png','/uploads/p20-black-5.png','/uploads/p20-black-6.png','/uploads/p20-black-7.png','/uploads/p20-black-8.png'],
+  },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
   },

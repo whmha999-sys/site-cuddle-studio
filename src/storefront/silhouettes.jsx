@@ -139,7 +139,7 @@ export function Silhouette({ product, color, size = 'md', imgIndex = 0 }) {
   const c = color || product.colors[0];
   // Use real photo if available
   const imgs = PRODUCT_IMAGES?.[product.id]?.[c];
-  if (imgs) {
+  if (Array.isArray(imgs) && imgs.length > 0) {
     const src = imgs[imgIndex] || imgs[0];
     return (
       <div className={`silhouette silhouette-${size}`} style={{ display:'flex', alignItems:'center', justifyContent:'center', width:'100%', height:'100%' }}>

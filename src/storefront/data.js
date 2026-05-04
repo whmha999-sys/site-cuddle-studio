@@ -41,7 +41,7 @@ export const CATALOG = [
 
   // Accessories
   { id: 'p200', brand: 'vikusha', category: 'accessory', name: 'Power Bank P200', tagline: '20,000 mAh fast-charging power bank', price: 35, colors: ['black','white'], specs: { 'Capacity': '20,000 mAh', 'Output': 'USB-A + USB-C PD', 'Input': 'USB-C' } },
-  { id: 'p110', brand: 'vikusha', category: 'accessory', name: 'Power Bank P110', tagline: '10,000 mAh slim power bank', price: 25, colors: ['black','white'], specs: { 'Capacity': '10,000 mAh', 'Output': 'USB-A + USB-C', 'Input': 'USB-C' } },
+  { id: 'p110', brand: 'vikusha', category: 'accessory', name: 'Power Bank P110', tagline: '10,000 mAh slim power bank', price: 25, colors: ['black'], specs: { 'Capacity': '10,000 mAh', 'Output': 'USB-A + USB-C', 'Input': 'USB-C' } },
   { id: 'p20', brand: 'vikusha', category: 'accessory', name: 'Power Bank P20', tagline: 'Pocket 5,000 mAh power bank', price: 20, colors: ['black'], specs: { 'Capacity': '5,000 mAh', 'Output': 'USB-A', 'Input': 'Micro-USB' } },
   { id: 'mini-keyboard', brand: 'vikusha', category: 'accessory', name: 'Mini Keyboard', tagline: 'Bluetooth keyboard for tablets', price: 20, colors: ['black'], specs: { 'Connectivity': 'Bluetooth', 'Layout': 'Compact', 'Battery': 'Rechargeable' } },
   { id: 'stylus-pen', brand: 'vikusha', category: 'accessory', name: 'Stylus Pen', tagline: 'Active stylus for Vikusha tablets', price: 25, colors: ['black','silver'], specs: { 'Type': 'Active stylus', 'Tip': '1.5 mm', 'Battery': 'Rechargeable' } },

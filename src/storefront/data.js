@@ -119,8 +119,8 @@ export const PRODUCT_IMAGES = {
     white: ['/uploads/ctc66w-white-main.png','/uploads/ctc66w-white-2.png','/uploads/ctc66w-white-3.png','/uploads/ctc66w-white-4.png','/uploads/ctc66w-white-5.png'],
   },
   'p200': {
-    black: ['/uploads/p200-black-main.png','/uploads/p200-black-2.png','/uploads/p200-black-views.png','/uploads/p200-black-sixview.png'],
-    white: ['/uploads/p200-white-main.png','/uploads/p200-white-2.png','/uploads/p200-white-views.png','/uploads/p200-white-sixview.png','/uploads/p200-white-angle.png'],
+    black: ['/uploads/p200-black-main.png','/uploads/p200-black-2.png','/uploads/p200-black-sixview.png'],
+    white: ['/uploads/p200-white-main.png','/uploads/p200-white-2.png','/uploads/p200-white-sixview.png'],
   },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],

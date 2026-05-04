@@ -1,17 +1,32 @@
-## Add P200 Product Gallery Photos
+I checked it directly. The problem is clear: the P200 photos were added to the code fallback, but the live storefront is loading product images from the database and overriding that fallback.
 
-### What
-Add 3 new product reference images to the Power Bank P200 gallery (thumbnails + main image area). These are NOT marketing strips.
+Current database state for `Power Bank P200`:
 
-### Steps
+- Black has only:
+  - `/uploads/p200-black-main.png`
+  - `/uploads/p200-black-2.png`
+- White has only:
+  - `/uploads/p200-white-main.png`
 
-1. **Copy images to project**
-   - `user-uploads://six_view_White_01-2.png` → `public/uploads/p200-white-sixview.png`
-   - `user-uploads://Z2_White_01_1-2.png` → `public/uploads/p200-white-angle.png`
-   - `user-uploads://six_view_Black_01-2.png` → `public/uploads/p200-black-sixview.png`
+That exactly matches your screenshots: black shows 2 thumbnails, white shows 1 thumbnail.
 
-2. **Update `src/storefront/data.js`** — add the new images to `PRODUCT_IMAGES.p200`:
-   - `black` array: append `p200-black-sixview.png`
-   - `white` array: append `p200-white-sixview.png` and `p200-white-angle.png`
+The uploaded product reference images are present in the project files, and they are correctly listed in `src/storefront/data.js`, but they are not in the `product_images` database table. Because `StorefrontApp.jsx` calls `useCatalog()` and then `syncCatalogFromDb(...)`, the database image list replaces the fallback list on the live page.
 
-No changes to `pdp.jsx` needed — the gallery already renders all images from the array automatically.
+Plan to fix:
+
+1. Add the missing P200 product gallery photos to the database table `product_images` with the correct `product_id = 'p200'`.
+2. Use the correct color mapping:
+  - Black:
+    - `/uploads/p200-black-main.png`
+    - `/uploads/p200-black-2.png`
+    - `/uploads/p200-black-views.png`
+    - `/uploads/p200-black-sixview.png`
+  - White:
+    - `/uploads/p200-white-main.png`
+    - `/uploads/p200-white-2.png`
+    - `/uploads/p200-white-views.png`
+    - `/uploads/p200-white-sixview.png`
+    - `/uploads/p200-white-angle.png`
+3. Keep them as product gallery photos only. No marketing strip section will be added for P200 for now until you are able to upload the main pictures 
+4. After approval, I will apply this as a database migration/update so the product page uses the full image gallery immediately.
+5. don't repeate the same error again please 

@@ -49,7 +49,7 @@ export const CATALOG = [
   { id: 'tablet-bag-l', brand: 'vikusha', category: 'accessory', name: 'Tablet Bag (L)', tagline: 'Protective tablet sleeve — 11"', price: 15, colors: ['black','gray'], specs: { 'Size': '11 inch', 'Material': 'EVA + fabric' } },
   { id: 'u35d', brand: 'vikusha', category: 'accessory', name: 'U35D Charger', tagline: '35W USB-C wall charger', price: 7, colors: ['white'], specs: { 'Output': '35W', 'Port': 'USB-C' } },
   { id: 'type-c-66w', brand: 'vikusha', category: 'accessory', name: 'Type-C Cable 66W', tagline: 'Fast-charge Type-C cable', price: 6, colors: ['black','white'], specs: { 'Length': '1.0 m', 'Rating': '66W' } },
-  { id: 'usb-type-c-66w', brand: 'vikusha', category: 'accessory', name: 'USB→Type-C 66W', tagline: 'USB-A to Type-C fast cable', price: 6, colors: ['black','white'], specs: { 'Length': '1.0 m', 'Rating': '66W' } },
+  { id: 'usb-type-c-66w', brand: 'vikusha', category: 'accessory', name: 'USB→Type-C 66W', tagline: 'USB-A to Type-C fast cable', price: 6, colors: ['white'], specs: { 'Length': '1.0 m', 'Rating': '66W' } },
 ];
 
 // Real product images keyed by product-id → color → [main, ...angles]
@@ -111,6 +111,9 @@ export const PRODUCT_IMAGES = {
     pink:   ['/uploads/vb1-pink-angle.png','/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-back.png'],
     yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
     blue:   ['/uploads/vb1-blue-main.png','/uploads/vb1-blue-front.png','/uploads/vb1-blue-angle.png','/uploads/vb1-blue-back.png'],
+  },
+  'usb-type-c-66w': {
+    white: ['/uploads/usb-typec-66w-white-main.png','/uploads/usb-typec-66w-white-2.png','/uploads/usb-typec-66w-white-3.png','/uploads/usb-typec-66w-white-4.png','/uploads/usb-typec-66w-white-5.png'],
   },
   'teclast-t65': {
     graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],

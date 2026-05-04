@@ -351,7 +351,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       {product.id === 'type-c-66w' && (
         <section style={{ marginTop: 72, display:'flex', flexDirection:'column', alignItems:'center', gap: 0 }}>
-          {[0,1].map(n => (
+          {[0,1,2,3,4].map(n => (
             <img
               key={n}
               src={`/uploads/ctc66w-marketing-${n}.jpg`}

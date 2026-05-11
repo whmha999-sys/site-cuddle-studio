@@ -162,7 +162,7 @@ function SceneWatch({ visible }) {
         animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>
         <img
-          src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png"
+          src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.webp"
           alt="VIKUSHA Watch V70"
           style={{
             height: 340, width:'auto',
@@ -280,7 +280,7 @@ function SceneTablet({ visible }) {
         animation: visible ? 'promo-float 4.5s ease-in-out infinite, promo-slide-left 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
       }}>
         <img
-          src="/uploads/file_00000000ac7c71fdbdf9f307e9b75486-removebg-preview.png"
+          src="/uploads/file_00000000ac7c71fdbdf9f307e9b75486-removebg-preview.webp"
           alt="VZ-80 Plus Tablet"
           style={{
             height: 320, width:'auto',
@@ -402,7 +402,7 @@ function SceneDuo({ visible }) {
           animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-left 0.8s cubic-bezier(0.22,1,0.36,1) 0.3s both' : 'none',
         }}>
           <img
-            src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png"
+            src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.webp"
             alt="VIKUSHA Watch V70"
             style={{
               height:260, width:'auto',
@@ -439,7 +439,7 @@ function SceneDuo({ visible }) {
           animation: visible ? 'promo-float 4.5s ease-in-out infinite, promo-slide-right 0.8s cubic-bezier(0.22,1,0.36,1) 0.3s both' : 'none',
         }}>
           <img
-            src="/uploads/file_00000000ac7c71fdbdf9f307e9b75486-removebg-preview.png"
+            src="/uploads/file_00000000ac7c71fdbdf9f307e9b75486-removebg-preview.webp"
             alt="VZ-80 Plus"
             style={{
               height:240, width:'auto',

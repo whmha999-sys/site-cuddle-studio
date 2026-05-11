@@ -73,8 +73,8 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         <div className="pdp-info">
           <div className={`pdp-brand-pill ${product.brand}`}>
             {product.brand === 'vikusha'
-              ? <img src="/uploads/1.png" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
-              : <img src="/uploads/2.png" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
+              ? <img src="/uploads/1.webp" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
+              : <img src="/uploads/2.webp" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
             }
             <span>· {t['cat_'+product.category]}</span>
           </div>
@@ -176,7 +176,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[1,2,3,4,5,7,8,9,10,11,12].map(n => (
             <img
               key={n}
-              src={`/uploads/vz80-feature-${n}.png`}
+              src={`/uploads/vz80-feature-${n}.webp`}
               alt={`VZ-80 PLUS feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -190,7 +190,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[1,2,3,4,8,9,10,11].map(n => (
             <img
               key={n}
-              src={`/uploads/vz70-feature-${n}.png`}
+              src={`/uploads/vz70-feature-${n}.webp`}
               alt={`VZ-70 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -204,7 +204,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {['1','4','4b','5','6','7','8','10','10b','11','12','12b','13'].map(n => (
             <img
               key={n}
-              src={`/uploads/vz60-feature-${n}.png`}
+              src={`/uploads/vz60-feature-${n}.webp`}
               alt={`VZ-60 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -271,7 +271,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             />
           ))}
           <img
-            src="/uploads/vn7-parameters.png"
+            src="/uploads/vn7-parameters.webp"
             alt="V-N7 Kids product parameters"
             loading="lazy"
             style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -284,7 +284,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {['01','02','03','04','05','06','07','08','09','10','11','12','13','14b','14','15','16','17','18','19','20','21'].map(n => (
             <img
               key={n}
-              src={`/uploads/t65-feature-${n}.jpg`}
+              src={`/uploads/t65-feature-${n}.webp`}
               alt={`Teclast T65 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -298,7 +298,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {['00','01','02','04','05','06','07','08','09-1','09-2','09-3','09-4','09-5','09-6','09-7','11','12','13','14','15','16'].map(n => (
             <img
               key={n}
-              src={`/uploads/p30t-feature-${n}.jpg`}
+              src={`/uploads/p30t-feature-${n}.webp`}
               alt={`Teclast P30T feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -312,7 +312,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {['01','03','04','02','1-02','14','15','1-15','2-01','16','1-05','07','08','2-02','06','13','1-09','11','1-10','1-12','2-03','2-04','2-05','2-06'].map(n => (
             <img
               key={n}
-              src={`/uploads/p50-feature-${n}.jpg`}
+              src={`/uploads/p50-feature-${n}.webp`}
               alt={`Teclast P50 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -340,7 +340,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[0,1,2,4,3].map(n => (
             <img
               key={n}
-              src={`/uploads/usb-typec-66w-marketing-${n}.jpg`}
+              src={`/uploads/usb-typec-66w-marketing-${n}.webp`}
               alt={`USB Type-C 66W feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -354,7 +354,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[0,1,2,3,4].map(n => (
             <img
               key={n}
-              src={`/uploads/ctc66w-marketing-${n}.jpg`}
+              src={`/uploads/ctc66w-marketing-${n}.webp`}
               alt={`Type-C Cable 66W feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -368,7 +368,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[1,2,3,4,5,6,7,8].map(n => (
             <img
               key={n}
-              src={`/uploads/p200-feature-${n}.png`}
+              src={`/uploads/p200-feature-${n}.webp`}
               alt={`Power Bank P200 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -387,7 +387,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[1,2,3,4,5,6,7,8].map(n => (
             <img
               key={n}
-              src={`/uploads/p110-feature-${n}.jpg`}
+              src={`/uploads/p110-feature-${n}.webp`}
               alt={`Power Bank P110 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}
@@ -406,7 +406,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           {[1,2,3,4,5,6,7,8].map(n => (
             <img
               key={n}
-              src={`/uploads/p20-feature-${n}.jpg`}
+              src={`/uploads/p20-feature-${n}.webp`}
               alt={`Power Bank P20 feature ${n}`}
               loading="lazy"
               style={{ width:'100%', maxWidth: 900, height:'auto', display:'block' }}

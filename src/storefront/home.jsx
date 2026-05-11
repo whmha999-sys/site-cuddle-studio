@@ -6,6 +6,7 @@ import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
 import { PromoBanners } from './PromoBanners.jsx';
+import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
 function getHeroSlides(lang) {
@@ -1126,6 +1127,10 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
       {showLifestyle && <LifestyleBanner lang={lang}/>}
 
       <PromoReel lang={lang}/>
+
+      <BrandStoryStrip lang={lang}/>
+
+      <InstagramGrid lang={lang}/>
 
       <div className="home-perks" style={{
         marginTop: 60, padding: '36px 44px',

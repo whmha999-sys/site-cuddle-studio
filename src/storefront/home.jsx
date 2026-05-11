@@ -1132,25 +1132,6 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
 
       <InstagramGrid lang={lang}/>
 
-      <div className="home-perks" style={{
-        marginTop: 60, padding: '36px 44px',
-        background: 'var(--bg-2)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)',
-        display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24, alignItems: 'center'
-      }}>
-        {[
-          { icon: 'truck', title: lang==='ar'?'توصيل لكل الأردن':'Jordan-wide delivery', sub: lang==='ar'?'١–٣ أيام عمل':'1–3 business days' },
-          { icon: 'shield', title: lang==='ar'?'ضمان الوكيل':'Official warranty', sub: lang==='ar'?'حتى ٢٤ شهر':'Up to 24 months' },
-          { icon: 'spark', title: lang==='ar'?'أسعار موزع':'Dealer pricing', sub: lang==='ar'?'سجّل دخولك للوصول':'Sign in to access' },
-        ].map((x,i)=>(
-          <div key={i} style={{ display:'flex', gap:16, alignItems:'start' }}>
-            <div className="perk-icon" style={{ width:44, height:44 }}><Icon name={x.icon} size={20}/></div>
-            <div>
-              <div style={{ fontWeight:600, fontSize:15 }}>{x.title}</div>
-              <div style={{ color:'var(--fg-3)', fontSize:13 }}>{x.sub}</div>
-            </div>
-          </div>
-        ))}
-      </div>
     </>
   );
 }

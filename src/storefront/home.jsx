@@ -912,7 +912,7 @@ function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
             : <img src="/uploads/2.png" alt="Teclast" style={{ height: 18, width: 'auto', display:'block' }}/>
           }
         </span>
-        <button className={`card-wish ${wish?'active':''}`} onClick={(e)=>{e.stopPropagation(); setWish(!wish);}}><Icon name="heart" size={15}/></button>
+        
         <Silhouette product={p} color={color} key={color + '-' + imgVersion}/>
       </div>
       <div className="card-body">

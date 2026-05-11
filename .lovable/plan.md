@@ -1,39 +1,50 @@
-## Why the site is slow
+# Plan: Orange footer + 8 info pages
 
-Your `public/uploads/` folder is **277 MB across 457 files**, with:
+## 1. Footer color → Teclast orange
 
-- **72 images larger than 1 MB** (many PNGs are 2–5 MB each — e.g. `vz70-graphite-main.png` is 4.6 MB, `teclast-p50-*.png` are 2–3 MB each)
-- **23 MB of MP4 videos** (P110 + P20 marketing videos at 5–6 MB each set to autoplay)
-- Product cards, marketing strips, and PDP galleries all load these full-size PNGs directly with no compression, no responsive sizing, and no modern formats (WebP/AVIF)
+In `src/storefront/styles.css`, change the `.footer` background from `var(--green-900)` (dark green) to a Teclast-style orange. Proposed palette:
 
-Every visitor downloads tens of MB just to view one product page. On the home grid (21 products), the browser pulls dozens of multi-MB PNGs at once. That is the main cause — not code logic, not the database.
+- Background: `#e8590c` (Teclast vibrant orange)
+- Body text: `#fff5ec` (warm cream, was `#c9d1cb`)
+- Headings (`h5`): keep gold or switch to bright `#ffe8b3` for contrast
+- Hover (`a:hover`): `#ffffff`
+- About text + bottom-bar text: `rgba(255,255,255,0.85)` / `rgba(255,255,255,0.7)`
+- Top divider in `.footer-bottom`: `rgba(255,255,255,0.2)`
+- Stamp circle border + dashed inner ring: white / `rgba(255,255,255,0.6)` so the logo block reads on orange
 
-A secondary factor: the P110 and P20 marketing videos use `autoPlay` and start downloading immediately even before the user scrolls to them.
+No other components affected — only `.footer` rules in `styles.css`.
 
-## Fix plan
+## 2. Eight info pages wired to footer links
 
-### 1. Convert and compress all upload images
-- Convert every PNG/JPG in `public/uploads/` to **WebP** at quality ~80
-- Resize anything wider than **1600 px** down to 1600 px (product mains) or **900 px** (marketing strip images, since they already render at `maxWidth: 900`)
-- Expected result: **~277 MB → ~25–40 MB** (roughly 85–90% smaller), with no visible quality loss
-- Update the references in `src/storefront/data.js` and the marketing-strip blocks in `src/storefront/pdp.jsx` to point at the new `.webp` filenames
+The storefront uses internal route state (`route.name` in `src/storefront/StorefrontApp.jsx`), not React Router. New routes will be added the same way (no new files in `src/pages`).
 
-### 2. Add native lazy-loading + decoding hints to product images
-- Add `loading="lazy"` and `decoding="async"` to the gallery `<img>` tags in `src/storefront/pdp.jsx` and the product card images in `src/storefront/home.jsx` (marketing-strip images already have `loading="lazy"`; the main gallery and card images do not)
+New route names: `warranty`, `contact`, `service-centers`, `faq`, `about`, `dealer`, `privacy`, `terms`.
 
-### 3. Defer the marketing videos
-- Add `preload="none"` and a `poster` image to the P110 and P20 `<video>` tags so they don't download 5–6 MB upfront
-- Keep `autoPlay muted loop playsInline` so they still play when scrolled into view (combined with `preload="none"` the browser will only fetch when needed)
+### Implementation
 
-### 4. Optional cleanup
-- Many uploads have duplicates (e.g. `VIKUSHA Tablet V-Z70 main.png` and `vz70-graphite-main.png` are both 4.6 MB and look like the same asset). Removing unreferenced duplicates can drop another 30–50 MB
+1. **Create `src/storefront/info-pages.jsx`** — one component per page, each rendered inside `<main className="page">` with consistent typography, a hero title, and bilingual EN/AR content. All eight exported from one file to keep things tidy.
 
-### Technical notes
-- Conversion can be done with a single `sharp` or `cwebp` script run over `public/uploads/`
-- I'll keep the original filenames mapped to new `.webp` versions and rewrite the references in `data.js` + `pdp.jsx` in one pass
-- No backend, schema, or business-logic changes needed — this is purely an asset/frontend optimization
+2. **Wire routes in `StorefrontApp.jsx`** — extend the `route.name` switch in the `<main>` block to render the matching info page when the route is one of the 8 above; keep PDP and Home behavior unchanged.
 
-### Out of scope
-- Switching to a CDN or to Supabase Storage (the current public-folder approach stays)
-- Restructuring the product data model
-- Refactoring the React components beyond the image/video tag changes above
+3. **Update `chrome.jsx` Footer** — replace the placeholder `<a href="#">` links with `onClick` handlers calling `window.navigate('warranty')`, etc., for both EN and AR labels. Scroll to top on navigation.
+
+### Page content (placeholder, editable later)
+
+| Route | Title (EN / AR) | Content |
+|---|---|---|
+| warranty | Warranty / الضمان | 12-month manufacturer warranty, what's covered, how to claim |
+| contact | Contact us / تواصل معنا | Phone, email, WhatsApp, Amman address, hours |
+| service-centers | Service centers / مراكز الخدمة | List of Jordan service locations |
+| faq | FAQ / الأسئلة الشائعة | 6–8 common Q&As (shipping, returns, warranty, payment) |
+| about | About / من نحن | Company story, founded 2018, distributor for Vikusha + Teclast |
+| dealer | Become a dealer / كن موزعاً | Short pitch + simple contact form (name/email/city/message) |
+| privacy | Privacy / الخصوصية | Standard privacy notice |
+| terms | Terms / الشروط | Standard terms of use |
+
+Content is plain placeholder copy you can edit afterward — no backend wiring needed.
+
+## Out of scope
+
+- No CMS/admin editing of these pages (can be added later)
+- No SEO meta routing (SPA still serves a single index)
+- No URL changes — internal routes only, same as current `home`/`pdp` pattern

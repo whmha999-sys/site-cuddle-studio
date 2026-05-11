@@ -1,32 +1,39 @@
-I checked it directly. The problem is clear: the P200 photos were added to the code fallback, but the live storefront is loading product images from the database and overriding that fallback.
+## Why the site is slow
 
-Current database state for `Power Bank P200`:
+Your `public/uploads/` folder is **277 MB across 457 files**, with:
 
-- Black has only:
-  - `/uploads/p200-black-main.png`
-  - `/uploads/p200-black-2.png`
-- White has only:
-  - `/uploads/p200-white-main.png`
+- **72 images larger than 1 MB** (many PNGs are 2–5 MB each — e.g. `vz70-graphite-main.png` is 4.6 MB, `teclast-p50-*.png` are 2–3 MB each)
+- **23 MB of MP4 videos** (P110 + P20 marketing videos at 5–6 MB each set to autoplay)
+- Product cards, marketing strips, and PDP galleries all load these full-size PNGs directly with no compression, no responsive sizing, and no modern formats (WebP/AVIF)
 
-That exactly matches your screenshots: black shows 2 thumbnails, white shows 1 thumbnail.
+Every visitor downloads tens of MB just to view one product page. On the home grid (21 products), the browser pulls dozens of multi-MB PNGs at once. That is the main cause — not code logic, not the database.
 
-The uploaded product reference images are present in the project files, and they are correctly listed in `src/storefront/data.js`, but they are not in the `product_images` database table. Because `StorefrontApp.jsx` calls `useCatalog()` and then `syncCatalogFromDb(...)`, the database image list replaces the fallback list on the live page.
+A secondary factor: the P110 and P20 marketing videos use `autoPlay` and start downloading immediately even before the user scrolls to them.
 
-Plan to fix:
+## Fix plan
 
-1. Add the missing P200 product gallery photos to the database table `product_images` with the correct `product_id = 'p200'`.
-2. Use the correct color mapping:
-  - Black:
-    - `/uploads/p200-black-main.png`
-    - `/uploads/p200-black-2.png`
-    - `/uploads/p200-black-views.png`
-    - `/uploads/p200-black-sixview.png`
-  - White:
-    - `/uploads/p200-white-main.png`
-    - `/uploads/p200-white-2.png`
-    - `/uploads/p200-white-views.png`
-    - `/uploads/p200-white-sixview.png`
-    - `/uploads/p200-white-angle.png`
-3. Keep them as product gallery photos only. No marketing strip section will be added for P200 for now until you are able to upload the main pictures 
-4. After approval, I will apply this as a database migration/update so the product page uses the full image gallery immediately.
-5. don't repeate the same error again please 
+### 1. Convert and compress all upload images
+- Convert every PNG/JPG in `public/uploads/` to **WebP** at quality ~80
+- Resize anything wider than **1600 px** down to 1600 px (product mains) or **900 px** (marketing strip images, since they already render at `maxWidth: 900`)
+- Expected result: **~277 MB → ~25–40 MB** (roughly 85–90% smaller), with no visible quality loss
+- Update the references in `src/storefront/data.js` and the marketing-strip blocks in `src/storefront/pdp.jsx` to point at the new `.webp` filenames
+
+### 2. Add native lazy-loading + decoding hints to product images
+- Add `loading="lazy"` and `decoding="async"` to the gallery `<img>` tags in `src/storefront/pdp.jsx` and the product card images in `src/storefront/home.jsx` (marketing-strip images already have `loading="lazy"`; the main gallery and card images do not)
+
+### 3. Defer the marketing videos
+- Add `preload="none"` and a `poster` image to the P110 and P20 `<video>` tags so they don't download 5–6 MB upfront
+- Keep `autoPlay muted loop playsInline` so they still play when scrolled into view (combined with `preload="none"` the browser will only fetch when needed)
+
+### 4. Optional cleanup
+- Many uploads have duplicates (e.g. `VIKUSHA Tablet V-Z70 main.png` and `vz70-graphite-main.png` are both 4.6 MB and look like the same asset). Removing unreferenced duplicates can drop another 30–50 MB
+
+### Technical notes
+- Conversion can be done with a single `sharp` or `cwebp` script run over `public/uploads/`
+- I'll keep the original filenames mapped to new `.webp` versions and rewrite the references in `data.js` + `pdp.jsx` in one pass
+- No backend, schema, or business-logic changes needed — this is purely an asset/frontend optimization
+
+### Out of scope
+- Switching to a CDN or to Supabase Storage (the current public-folder approach stays)
+- Restructuring the product data model
+- Refactoring the React components beyond the image/video tag changes above

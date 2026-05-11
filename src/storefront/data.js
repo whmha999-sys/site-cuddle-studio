@@ -55,14 +55,14 @@ export const CATALOG = [
 // Real product images keyed by product-id → color → [main, ...angles]
 export const PRODUCT_IMAGES = {
   'v-70': {
-    black:  ['/uploads/v70-black-main.png','/uploads/v70-black-1.png','/uploads/v70-black-2.png','/uploads/v70-black-3.png'],
-    pink:   ['/uploads/v70-pink-main.png','/uploads/v70-pink-1.png','/uploads/v70-pink-2.png','/uploads/v70-pink-3.png'],
-    silver: ['/uploads/v70-silver-main.png','/uploads/v70-silver-1.png','/uploads/v70-silver-2.png','/uploads/v70-silver-3.png'],
+    black:  ['/uploads/v70-black-main.webp','/uploads/v70-black-1.webp','/uploads/v70-black-2.webp','/uploads/v70-black-3.webp'],
+    pink:   ['/uploads/v70-pink-main.webp','/uploads/v70-pink-1.webp','/uploads/v70-pink-2.webp','/uploads/v70-pink-3.webp'],
+    silver: ['/uploads/v70-silver-main.webp','/uploads/v70-silver-1.webp','/uploads/v70-silver-2.webp','/uploads/v70-silver-3.webp'],
   },
   'vz-80-plus': {
     graphite: [
-      '/uploads/vz80-graphite-main.png',
-      '/uploads/vz80-graphite-back.png',
+      '/uploads/vz80-graphite-main.webp',
+      '/uploads/vz80-graphite-back.webp',
       '/uploads/vz80-graphite-L45.webp',
       '/uploads/vz80-graphite-R45.webp',
       '/uploads/vz80-keyboard-1.webp',
@@ -70,8 +70,8 @@ export const PRODUCT_IMAGES = {
       '/uploads/vz80-keyboard-3.webp',
     ],
     silver: [
-      '/uploads/vz80-silver-main.png',
-      '/uploads/vz80-silver-back.png',
+      '/uploads/vz80-silver-main.webp',
+      '/uploads/vz80-silver-back.webp',
       '/uploads/vz80-blue-L45.webp',
       '/uploads/vz80-blue-R45.webp',
       '/uploads/vz80-keyboard-1.webp',
@@ -80,56 +80,56 @@ export const PRODUCT_IMAGES = {
     ],
   },
   'vz-70': {
-    graphite: ['/uploads/vz70-graphite-main.png','/uploads/vz70-view-3.png','/uploads/vz70-view-4.png'],
-    silver:   ['/uploads/vz70-silver-main.png','/uploads/vz70-view-3.png','/uploads/vz70-view-4.png'],
+    graphite: ['/uploads/vz70-graphite-main.webp','/uploads/vz70-view-3.webp','/uploads/vz70-view-4.webp'],
+    silver:   ['/uploads/vz70-silver-main.webp','/uploads/vz70-view-3.webp','/uploads/vz70-view-4.webp'],
   },
   'vz-60-4g': {
-    graphite: ['/uploads/vz60-gray-main.png','/uploads/vz60-view-3.png','/uploads/vz60-view-5.png','/uploads/vz60-view-4.png'],
-    silver:   ['/uploads/vz60-blue-main.png','/uploads/vz60-view-3.png','/uploads/vz60-view-5.png','/uploads/vz60-view-4.png'],
+    graphite: ['/uploads/vz60-gray-main.webp','/uploads/vz60-view-3.webp','/uploads/vz60-view-5.webp','/uploads/vz60-view-4.webp'],
+    silver:   ['/uploads/vz60-blue-main.webp','/uploads/vz60-view-3.webp','/uploads/vz60-view-5.webp','/uploads/vz60-view-4.webp'],
   },
   'vz-30-pro-4g': {
-    gold: ['/uploads/vz30-brown-main.png','/uploads/vz30-brown-2.png','/uploads/vz30-brown-3.png','/uploads/vz30-front.png'],
-    blue: ['/uploads/vz30-blue-main.png','/uploads/vz30-blue-5.png','/uploads/vz30-blue-6.png','/uploads/vz30-front.png'],
-    gray: ['/uploads/vz30-gray-main.png','/uploads/vz30-gray-7.png','/uploads/vz30-gray-8.png','/uploads/vz30-front.png'],
+    gold: ['/uploads/vz30-brown-main.webp','/uploads/vz30-brown-2.webp','/uploads/vz30-brown-3.webp','/uploads/vz30-front.webp'],
+    blue: ['/uploads/vz30-blue-main.webp','/uploads/vz30-blue-5.webp','/uploads/vz30-blue-6.webp','/uploads/vz30-front.webp'],
+    gray: ['/uploads/vz30-gray-main.webp','/uploads/vz30-gray-7.webp','/uploads/vz30-gray-8.webp','/uploads/vz30-front.webp'],
   },
   'v-m1': {
-    graphite: ['/uploads/vm1-graphite-main.png','/uploads/vm1-graphite-views.png','/uploads/vm1-graphite-keyboard.png','/uploads/vm1-graphite-keyboard2.png'],
-    midnight: ['/uploads/vm1-navy-main.png','/uploads/vm1-navy-views.png','/uploads/vm1-keyboard.png'],
-    mint:     ['/uploads/vm1-mint-main.png','/uploads/vm1-mint-views.png','/uploads/vm1-keyboard.png'],
+    graphite: ['/uploads/vm1-graphite-main.webp','/uploads/vm1-graphite-views.webp','/uploads/vm1-graphite-keyboard.webp','/uploads/vm1-graphite-keyboard2.webp'],
+    midnight: ['/uploads/vm1-navy-main.webp','/uploads/vm1-navy-views.webp','/uploads/vm1-keyboard.webp'],
+    mint:     ['/uploads/vm1-mint-main.webp','/uploads/vm1-mint-views.webp','/uploads/vm1-keyboard.webp'],
   },
   'vn-7-kids': {
-    blue: ['/uploads/vn7-blue-main.png','/uploads/vn7-blue-front.png','/uploads/vn7-blue-left.png','/uploads/vn7-blue-right.png'],
-    pink: ['/uploads/vn7-pink-main.png','/uploads/vn7-pink-front.png','/uploads/vn7-pink-back.png','/uploads/vn7-pink-left.png','/uploads/vn7-pink-right.png'],
+    blue: ['/uploads/vn7-blue-main.webp','/uploads/vn7-blue-front.webp','/uploads/vn7-blue-left.webp','/uploads/vn7-blue-right.webp'],
+    pink: ['/uploads/vn7-pink-main.webp','/uploads/vn7-pink-front.webp','/uploads/vn7-pink-back.webp','/uploads/vn7-pink-left.webp','/uploads/vn7-pink-right.webp'],
   },
   'teclast-p30t': {
-    graphite: ['/uploads/teclast-p30t-duo2.png','/uploads/p30t-feature-00.jpg','/uploads/teclast-p30t-back.png','/uploads/teclast-p30t-front.png','/uploads/teclast-p30t-duo.png','/uploads/teclast-p30t-angle.png','/uploads/teclast-p30t-views.png'],
+    graphite: ['/uploads/teclast-p30t-duo2.webp','/uploads/p30t-feature-00.webp','/uploads/teclast-p30t-back.webp','/uploads/teclast-p30t-front.webp','/uploads/teclast-p30t-duo.webp','/uploads/teclast-p30t-angle.webp','/uploads/teclast-p30t-views.webp'],
   },
   'teclast-p50': {
-    mint: ['/uploads/teclast-p50-main.png','/uploads/teclast-p50-back.png','/uploads/teclast-p50-front.png','/uploads/teclast-p50-angle.png','/uploads/teclast-p50-duo.png','/uploads/teclast-p50-stack.png','/uploads/teclast-p50-portrait.png','/uploads/teclast-p50-side.png','/uploads/teclast-p50-layflat.png','/uploads/teclast-p50-duo-alt.png','/uploads/teclast-p50-front-stand.png','/uploads/teclast-p50-back-flat.png'],
+    mint: ['/uploads/teclast-p50-main.webp','/uploads/teclast-p50-back.webp','/uploads/teclast-p50-front.webp','/uploads/teclast-p50-angle.webp','/uploads/teclast-p50-duo.webp','/uploads/teclast-p50-stack.webp','/uploads/teclast-p50-portrait.webp','/uploads/teclast-p50-side.webp','/uploads/teclast-p50-layflat.webp','/uploads/teclast-p50-duo-alt.webp','/uploads/teclast-p50-front-stand.webp','/uploads/teclast-p50-back-flat.webp'],
   },
   'vb-1-4g': {
-    pink:   ['/uploads/vb1-pink-angle.png','/uploads/vb1-pink-main.png','/uploads/vb1-pink-front.png','/uploads/vb1-pink-back.png'],
-    yellow: ['/uploads/vb1-yellow-main.png','/uploads/vb1-yellow-front.png','/uploads/vb1-yellow-angle.png','/uploads/vb1-yellow-back.png'],
-    blue:   ['/uploads/vb1-blue-main.png','/uploads/vb1-blue-front.png','/uploads/vb1-blue-angle.png','/uploads/vb1-blue-back.png'],
+    pink:   ['/uploads/vb1-pink-angle.webp','/uploads/vb1-pink-main.webp','/uploads/vb1-pink-front.webp','/uploads/vb1-pink-back.webp'],
+    yellow: ['/uploads/vb1-yellow-main.webp','/uploads/vb1-yellow-front.webp','/uploads/vb1-yellow-angle.webp','/uploads/vb1-yellow-back.webp'],
+    blue:   ['/uploads/vb1-blue-main.webp','/uploads/vb1-blue-front.webp','/uploads/vb1-blue-angle.webp','/uploads/vb1-blue-back.webp'],
   },
   'usb-type-c-66w': {
-    white: ['/uploads/usb-typec-66w-white-main.png','/uploads/usb-typec-66w-white-2.png','/uploads/usb-typec-66w-white-3.png','/uploads/usb-typec-66w-white-4.png','/uploads/usb-typec-66w-white-5.png'],
+    white: ['/uploads/usb-typec-66w-white-main.webp','/uploads/usb-typec-66w-white-2.webp','/uploads/usb-typec-66w-white-3.webp','/uploads/usb-typec-66w-white-4.webp','/uploads/usb-typec-66w-white-5.webp'],
   },
   'type-c-66w': {
-    white: ['/uploads/ctc66w-white-main.png','/uploads/ctc66w-white-2.png','/uploads/ctc66w-white-3.png','/uploads/ctc66w-white-4.png','/uploads/ctc66w-white-5.png'],
+    white: ['/uploads/ctc66w-white-main.webp','/uploads/ctc66w-white-2.webp','/uploads/ctc66w-white-3.webp','/uploads/ctc66w-white-4.webp','/uploads/ctc66w-white-5.webp'],
   },
   'p200': {
-    black: ['/uploads/p200-black-main.png','/uploads/p200-black-2.png','/uploads/p200-black-sixview.png'],
-    white: ['/uploads/p200-white-main.png','/uploads/p200-white-2.png','/uploads/p200-white-sixview.png'],
+    black: ['/uploads/p200-black-main.webp','/uploads/p200-black-2.webp','/uploads/p200-black-sixview.webp'],
+    white: ['/uploads/p200-white-main.webp','/uploads/p200-white-2.webp','/uploads/p200-white-sixview.webp'],
   },
   'p110': {
-    black: ['/uploads/p110-black-main.png','/uploads/p110-black-2.png','/uploads/p110-black-3.png','/uploads/p110-black-4.png','/uploads/p110-black-5.png','/uploads/p110-black-6.png','/uploads/p110-black-7.png','/uploads/p110-black-8.png'],
+    black: ['/uploads/p110-black-main.webp','/uploads/p110-black-2.webp','/uploads/p110-black-3.webp','/uploads/p110-black-4.webp','/uploads/p110-black-5.webp','/uploads/p110-black-6.webp','/uploads/p110-black-7.webp','/uploads/p110-black-8.webp'],
   },
   'p20': {
-    black: ['/uploads/p20-black-main.png','/uploads/p20-black-2.png','/uploads/p20-black-3.png','/uploads/p20-black-4.png','/uploads/p20-black-5.png','/uploads/p20-black-6.png','/uploads/p20-black-7.png','/uploads/p20-black-8.png'],
+    black: ['/uploads/p20-black-main.webp','/uploads/p20-black-2.webp','/uploads/p20-black-3.webp','/uploads/p20-black-4.webp','/uploads/p20-black-5.webp','/uploads/p20-black-6.webp','/uploads/p20-black-7.webp','/uploads/p20-black-8.webp'],
   },
   'teclast-t65': {
-    graphite: ['/uploads/teclast-t65-front.png', '/uploads/teclast-t65-back.png', '/uploads/teclast-t65-angle.png', '/uploads/teclast-t65-tilt.png', '/uploads/teclast-t65-side.png', '/uploads/teclast-t65-duo.png', '/uploads/teclast-t65-views.png'],
+    graphite: ['/uploads/teclast-t65-front.webp', '/uploads/teclast-t65-back.webp', '/uploads/teclast-t65-angle.webp', '/uploads/teclast-t65-tilt.webp', '/uploads/teclast-t65-side.webp', '/uploads/teclast-t65-duo.webp', '/uploads/teclast-t65-views.webp'],
   },
 };
 

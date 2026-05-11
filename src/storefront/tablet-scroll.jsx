@@ -188,7 +188,7 @@ import React from 'react';
               }}
             >
               <img
-                src="/uploads/VIKUSHA Watch V70 main black -47ee13b0.png"
+                src="/uploads/VIKUSHA Watch V70 main black -47ee13b0.webp"
                 alt="Vikusha V70 Watch"
                 style={{
                   height: 420,

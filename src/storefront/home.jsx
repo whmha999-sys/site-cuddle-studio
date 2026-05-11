@@ -26,7 +26,7 @@ function getHeroSlides(lang) {
     cta: ar ? 'احجز الآن' : 'Claim Yours',
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',
-    imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.png',
+    imgSrc: '/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.webp',
     promo: true,
     tag: ar ? 'مباشر' : 'LIVE',
     tagKind: 'live',
@@ -46,7 +46,7 @@ function getHeroSlides(lang) {
     cta: ar ? 'تسوّق VZ-30 PRO' : 'Shop VZ-30 PRO',
     cta2: ar ? 'استعرض الأجهزة' : 'Explore Tablets',
     brand: 'vikusha',
-    imgSrc: '/uploads/vz30-brown-main.png',
+    imgSrc: '/uploads/vz30-brown-main.webp',
     tag: ar ? 'إصدار جديد' : 'NEW DROP',
     tagKind: 'new',
     ribbon: ar ? 'إصدار جديد' : 'NEW DROP',
@@ -65,7 +65,7 @@ function getHeroSlides(lang) {
     cta: ar ? 'تسوّق P50' : 'Shop P50',
     cta2: ar ? 'استعرض تيكلاست' : 'Explore Teclast',
     brand: 'teclast',
-    imgSrc: '/uploads/0f39d92f840194b3eb70333db1a89b38_46c26fc6e6aa4dd7b5cff127dbc89fcc-removebg-preview.png',
+    imgSrc: '/uploads/0f39d92f840194b3eb70333db1a89b38_46c26fc6e6aa4dd7b5cff127dbc89fcc-removebg-preview.webp',
     tag: ar ? 'الأكثر مبيعًا' : 'BESTSELLER',
     tagKind: 'best',
     ribbon: ar ? 'الأكثر مبيعًا' : 'BESTSELLER',
@@ -363,7 +363,7 @@ function BrandStory({ lang }) {
       content: (
         <>
           <img
-            src="/uploads/1.png"
+            src="/uploads/1.webp"
             alt="Vikusha"
             style={{ height: 52, width: 'auto', marginBottom: 20, display: 'block' }}
           />
@@ -388,7 +388,7 @@ function BrandStory({ lang }) {
       content: (
         <>
           <img
-            src="/uploads/2.png"
+            src="/uploads/2.webp"
             alt="Teclast"
             style={{ height: 42, width: 'auto', marginBottom: 20, display: 'block' }}
           />
@@ -908,8 +908,8 @@ function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
       <div className="card-img" onClick={()=>onOpen(p)}>
         <span className={`card-brand-tag ${p.brand}`}>
           {p.brand === 'vikusha'
-            ? <img src="/uploads/1.png" alt="Vikusha" style={{ height: 22, width: 'auto', borderRadius: 4, display:'block' }}/>
-            : <img src="/uploads/2.png" alt="Teclast" style={{ height: 18, width: 'auto', display:'block' }}/>
+            ? <img src="/uploads/1.webp" alt="Vikusha" style={{ height: 22, width: 'auto', borderRadius: 4, display:'block' }}/>
+            : <img src="/uploads/2.webp" alt="Teclast" style={{ height: 18, width: 'auto', display:'block' }}/>
           }
         </span>
         
@@ -958,7 +958,7 @@ function LifestyleBanner({ lang }) {
       margin: '48px 0 0',
     }}>
       <img
-        src="/uploads/vikusha-lifestyle-wrist.png"
+        src="/uploads/vikusha-lifestyle-wrist.webp"
         alt="Vikusha smartwatch on wrist"
         style={{
           position: 'absolute',

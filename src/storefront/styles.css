@@ -720,25 +720,25 @@ input, select, textarea { font-family: inherit; color: inherit; }
 
 /* ===== Footer ===== */
 .footer {
-  background: var(--green-900); color: #c9d1cb;
+  background: #e8590c; color: #fff5ec;
   padding: 56px 32px 32px; margin-top: 80px;
 }
 .footer-inner { max-width: 1360px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr; gap: 40px; }
 .footer h5 {
   font-family: var(--font-mono); font-size: 11px;
   letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--gold-soft); margin: 0 0 16px;
+  color: #ffe8b3; margin: 0 0 16px;
 }
-.footer a { display: block; margin-bottom: 8px; font-size: 14px; }
+.footer a { display: block; margin-bottom: 8px; font-size: 14px; color: #fff5ec; cursor: pointer; }
 .footer a:hover { color: #fff; }
 .footer .stamp {
   display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
 }
 .stamp-mark {
   width: 72px; height: 72px; border-radius: 50%;
-  border: 2px solid var(--gold); background: var(--green-800);
+  border: 2px solid #fff; background: rgba(0,0,0,0.15);
   display: flex; align-items: center; justify-content: center;
-  color: var(--gold); font-family: var(--font-display);
+  color: #fff; font-family: var(--font-display);
   font-size: 11px; text-align: center; line-height: 1.1;
   padding: 6px; font-weight: 400;
   position: relative; letter-spacing: 0.02em;
@@ -746,14 +746,14 @@ input, select, textarea { font-family: inherit; color: inherit; }
 }
 .stamp-mark::before {
   content: ''; position: absolute; inset: 4px;
-  border: 1px dashed rgba(215,165,40,0.5); border-radius: 50%;
+  border: 1px dashed rgba(255,255,255,0.6); border-radius: 50%;
 }
-.footer-about { color: #a2aba5; font-size: 13px; line-height: 1.6; }
+.footer-about { color: rgba(255,245,236,0.9); font-size: 13px; line-height: 1.6; }
 .footer-bottom {
   max-width: 1360px; margin: 40px auto 0; padding-top: 24px;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.2);
   display: flex; justify-content: space-between; align-items: center;
-  font-size: 12.5px; color: #8a948e;
+  font-size: 12.5px; color: rgba(255,245,236,0.75);
 }
 
 /* ===== Utility ===== */

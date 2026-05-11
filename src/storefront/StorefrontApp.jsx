@@ -6,6 +6,7 @@ import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
+import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 
 export default function StorefrontApp() {
@@ -109,26 +110,33 @@ export default function StorefrontApp() {
       />
 
       <main className="page">
-        {route.name === 'pdp' && currentProduct ? (
-          <PDP
-            t={t}
-            lang={lang}
-            product={currentProduct}
-            products={catalog}
-            onAddToCart={addToCart}
-            onBuyNow={buyNow}
-            onNavigate={navigate}
-          />
-        ) : (
-          <Home
-            t={t}
-            products={catalog}
-            onAddToCart={addToCart}
-            cart={cart}
-            lang={lang}
-            imgVersion={imgVersion}
-          />
-        )}
+        {(() => {
+          const InfoPage = INFO_PAGES[route.name];
+          if (InfoPage) return <InfoPage lang={lang} />;
+          if (route.name === 'pdp' && currentProduct) {
+            return (
+              <PDP
+                t={t}
+                lang={lang}
+                product={currentProduct}
+                products={catalog}
+                onAddToCart={addToCart}
+                onBuyNow={buyNow}
+                onNavigate={navigate}
+              />
+            );
+          }
+          return (
+            <Home
+              t={t}
+              products={catalog}
+              onAddToCart={addToCart}
+              cart={cart}
+              lang={lang}
+              imgVersion={imgVersion}
+            />
+          );
+        })()}
       </main>
 
       <Footer t={t} lang={lang} />

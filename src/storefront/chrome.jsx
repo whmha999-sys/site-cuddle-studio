@@ -141,12 +141,8 @@ function Footer({ t, lang }) {
     <footer className="footer">
       <div className="footer-inner">
         <div>
-          <div className="stamp" style={{ display:'flex', alignItems:'center', gap:14 }}>
-            <img src="/uploads/smart-leaders-logo.svg" alt="Smart Leaders Co." style={{ height: 72, width: 'auto', display:'block' }}/>
-            <div>
-              <div style={{ fontFamily:'var(--font-display)', fontSize:22, color:'#f0ede2', marginBottom: 4 }}>Smart Leaders Co.</div>
-              <div style={{ color:'#8a948e', fontSize: 12, fontFamily:'var(--font-mono)', letterSpacing:'0.08em' }}>MOBILE TRADING · JORDAN</div>
-            </div>
+          <div style={{ marginBottom: 20 }}>
+            <Logo/>
           </div>
           <p className="footer-about">{lang === 'ar' ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
         </div>
@@ -161,13 +157,10 @@ function Footer({ t, lang }) {
           <h5>{lang === 'ar' ? 'الدعم' : 'Support'}</h5>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('warranty');}}>{lang === 'ar' ? 'الضمان' : t.footer_warranty}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('contact');}}>{lang === 'ar' ? 'تواصل معنا' : t.footer_contact}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('service-centers');}}>{lang === 'ar' ? 'مراكز الخدمة' : 'Service centers'}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('faq');}}>{lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'}</a>
         </div>
         <div>
           <h5>{lang === 'ar' ? 'الشركة' : 'Company'}</h5>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('about');}}>{lang === 'ar' ? 'من نحن' : t.footer_about}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('dealer');}}>{lang === 'ar' ? 'كن موزعاً' : 'Become a dealer'}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('privacy');}}>{lang === 'ar' ? 'الخصوصية' : t.footer_privacy}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('terms');}}>{lang === 'ar' ? 'الشروط' : 'Terms'}</a>
         </div>

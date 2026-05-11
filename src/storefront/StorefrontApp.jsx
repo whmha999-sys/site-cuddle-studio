@@ -178,6 +178,9 @@ export default function StorefrontApp() {
         {lang === 'en' ? 'AR' : 'EN'}
       </button>
 
+      <BackToTop />
+
+
       {/* Cart drawer + Checkout + PDP routes are not wired in this build. */}
       {cartOpen && (
         <div

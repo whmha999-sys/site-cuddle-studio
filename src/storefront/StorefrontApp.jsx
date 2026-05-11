@@ -110,26 +110,33 @@ export default function StorefrontApp() {
       />
 
       <main className="page">
-        {route.name === 'pdp' && currentProduct ? (
-          <PDP
-            t={t}
-            lang={lang}
-            product={currentProduct}
-            products={catalog}
-            onAddToCart={addToCart}
-            onBuyNow={buyNow}
-            onNavigate={navigate}
-          />
-        ) : (
-          <Home
-            t={t}
-            products={catalog}
-            onAddToCart={addToCart}
-            cart={cart}
-            lang={lang}
-            imgVersion={imgVersion}
-          />
-        )}
+        {(() => {
+          const InfoPage = INFO_PAGES[route.name];
+          if (InfoPage) return <InfoPage lang={lang} />;
+          if (route.name === 'pdp' && currentProduct) {
+            return (
+              <PDP
+                t={t}
+                lang={lang}
+                product={currentProduct}
+                products={catalog}
+                onAddToCart={addToCart}
+                onBuyNow={buyNow}
+                onNavigate={navigate}
+              />
+            );
+          }
+          return (
+            <Home
+              t={t}
+              products={catalog}
+              onAddToCart={addToCart}
+              cart={cart}
+              lang={lang}
+              imgVersion={imgVersion}
+            />
+          );
+        })()}
       </main>
 
       <Footer t={t} lang={lang} />

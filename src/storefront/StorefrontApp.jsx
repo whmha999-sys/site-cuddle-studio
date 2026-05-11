@@ -6,6 +6,7 @@ import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';
 import { Header, Footer, AuthModal, TweaksPanel } from './chrome.jsx';
 import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
+import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 
 export default function StorefrontApp() {

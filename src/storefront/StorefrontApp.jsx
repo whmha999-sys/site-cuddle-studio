@@ -8,6 +8,7 @@ import { Home } from './home.jsx';
 import { PDP } from './pdp.jsx';
 import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
+import BackToTop from './back-to-top.jsx';
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {

@@ -152,24 +152,24 @@ function Footer({ t, lang }) {
         </div>
         <div>
           <h5>{lang === 'ar' ? 'تسوّق' : 'Shop'}</h5>
-          <a href="#">{t.nav_tablets}</a>
-          <a href="#">{t.nav_watches}</a>
-          <a href="#">{t.nav_accessories}</a>
-          <a href="#">{t.nav_brands}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'tablet'});}}>{t.nav_tablets}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'watch'});}}>{t.nav_watches}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'accessory'});}}>{t.nav_accessories}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home');}}>{t.nav_brands}</a>
         </div>
         <div>
           <h5>{lang === 'ar' ? 'الدعم' : 'Support'}</h5>
-          <a href="#">{lang === 'ar' ? 'الضمان' : t.footer_warranty}</a>
-          <a href="#">{lang === 'ar' ? 'تواصل معنا' : t.footer_contact}</a>
-          <a href="#">{lang === 'ar' ? 'مراكز الخدمة' : 'Service centers'}</a>
-          <a href="#">{lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('warranty');}}>{lang === 'ar' ? 'الضمان' : t.footer_warranty}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('contact');}}>{lang === 'ar' ? 'تواصل معنا' : t.footer_contact}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('service-centers');}}>{lang === 'ar' ? 'مراكز الخدمة' : 'Service centers'}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('faq');}}>{lang === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'}</a>
         </div>
         <div>
           <h5>{lang === 'ar' ? 'الشركة' : 'Company'}</h5>
-          <a href="#">{lang === 'ar' ? 'من نحن' : t.footer_about}</a>
-          <a href="#">{lang === 'ar' ? 'كن موزعاً' : 'Become a dealer'}</a>
-          <a href="#">{lang === 'ar' ? 'الخصوصية' : t.footer_privacy}</a>
-          <a href="#">{lang === 'ar' ? 'الشروط' : 'Terms'}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('about');}}>{lang === 'ar' ? 'من نحن' : t.footer_about}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('dealer');}}>{lang === 'ar' ? 'كن موزعاً' : 'Become a dealer'}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('privacy');}}>{lang === 'ar' ? 'الخصوصية' : t.footer_privacy}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('terms');}}>{lang === 'ar' ? 'الشروط' : 'Terms'}</a>
         </div>
       </div>
       <div className="footer-bottom">

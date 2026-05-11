@@ -133,13 +133,17 @@ import React from 'react';
           });
       }
 
+      // Start downloading the video immediately on mount so by the time the user
+      // scrolls here, the blob is already cached and scrubbing is instant.
+      loadVideo();
+
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
           active = e.isIntersecting;
-          if (active) { loadVideo(); if (loaded) window.addEventListener('scroll', scrub, { passive: true }); }
+          if (active) { if (loaded) window.addEventListener('scroll', scrub, { passive: true }); }
           else window.removeEventListener('scroll', scrub);
         });
-      }, { rootMargin: '300px' });
+      }, { rootMargin: '1500px' });
 
       io.observe(section);
       return () => { io.disconnect(); window.removeEventListener('scroll', scrub); };

@@ -117,12 +117,14 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
               <a href="#" className="mobile-nav-link" onClick={(e)=>{e.preventDefault(); goCat('accessory');}}>{t.nav_accessories}</a>
             </nav>
             <div className="mobile-nav-divider"/>
-            <button
-              className="mobile-nav-link mobile-nav-row"
-              onClick={()=>{ setNavOpen(false); onLangToggle?.(); }}
-            >
-              <Icon name="globe" size={16}/> <span>{t.ar}</span>
-            </button>
+            {lang !== 'ar' && (
+              <button
+                className="mobile-nav-link mobile-nav-row"
+                onClick={()=>{ setNavOpen(false); onLangToggle?.(); }}
+              >
+                <Icon name="globe" size={16}/> <span>{t.ar}</span>
+              </button>
+            )}
             <a
               href="#"
               className="mobile-nav-link mobile-nav-row"

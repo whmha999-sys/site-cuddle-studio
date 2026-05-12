@@ -105,7 +105,8 @@ export default function StorefrontApp() {
         onOpenCart={() => setCartOpen(true)}
         onOpenAuth={() => setAuthOpen(true)}
         products={catalog}
-        onLangToggle={() => setLang(lang === 'en' ? 'ar' : 'en')}
+        lang={lang}
+        onLangToggle={() => setLang('ar')}
         user={user}
         onSignout={() => setUser(null)}
       />

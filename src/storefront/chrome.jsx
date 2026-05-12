@@ -18,7 +18,7 @@ function PromoBar({ t, onLangToggle }) {
   );
 }
 
-function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangToggle, user, onSignout }) {
+function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangToggle, lang, user, onSignout }) {
   const [q, setQ] = useStateH('');
   const [open, setOpen] = useStateH(false);
   const [navOpen, setNavOpen] = useStateH(false);

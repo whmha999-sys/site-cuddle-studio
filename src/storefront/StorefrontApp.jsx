@@ -152,33 +152,6 @@ export default function StorefrontApp() {
         />
       )}
 
-      {tweaksOpen && (
-        <TweaksPanel
-          lang={lang} setLang={setLang}
-          dir={dir} setDir={setDir}
-          theme={theme} setTheme={setTheme}
-          t={t}
-          onClose={() => setTweaksOpen(false)}
-        />
-      )}
-
-      {/* Tiny floating button to open the Tweaks panel (lang/dir/theme) */}
-      <button
-        onClick={() => setTweaksOpen(true)}
-        aria-label="Open tweaks"
-        style={{
-          position: 'fixed', bottom: 16, insetInlineEnd: 16, zIndex: 50,
-          width: 40, height: 40, borderRadius: 999,
-          background: '#1a3c2e', color: '#fff', border: 'none',
-          boxShadow: '0 6px 16px rgba(0,0,0,0.18)', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: 'var(--font-mono, monospace)', fontSize: 12, letterSpacing: '0.08em',
-        }}
-        title="Language · Theme"
-      >
-        {lang === 'en' ? 'AR' : 'EN'}
-      </button>
-
       <BackToTop />
 
 

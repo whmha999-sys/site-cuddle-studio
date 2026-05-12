@@ -2,6 +2,7 @@
 import React from 'react';
 import { Icon, Price } from './atoms.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
+import { PRODUCT_IMAGES } from './data.js';
 import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
@@ -904,9 +905,33 @@ function Hero({ t, products, lang }) {
 function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
   const [color, setColor] = React.useState(p.colors[0]);
   const [wish, setWish] = React.useState(false);
+  const [imgIndex, setImgIndex] = React.useState(0);
+  const intervalRef = React.useRef(null);
+  const imgs = (PRODUCT_IMAGES[p.id] && PRODUCT_IMAGES[p.id][color]) || [];
+
+  React.useEffect(() => {
+    setImgIndex(0);
+    if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+  }, [color]);
+
+  React.useEffect(() => () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+  }, []);
+
+  const handleEnter = () => {
+    if (imgs.length <= 1 || intervalRef.current) return;
+    intervalRef.current = setInterval(() => {
+      setImgIndex(i => (i + 1) % imgs.length);
+    }, 700);
+  };
+  const handleLeave = () => {
+    if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }
+    setImgIndex(0);
+  };
+
   return (
     <article className="card">
-      <div className="card-img" onClick={()=>onOpen(p)}>
+      <div className="card-img" onClick={()=>onOpen(p)} onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
         <span className={`card-brand-tag ${p.brand}`}>
           {p.brand === 'vikusha'
             ? <img src="/uploads/1.webp" alt="Vikusha" style={{ height: 22, width: 'auto', borderRadius: 4, display:'block' }}/>
@@ -914,7 +939,7 @@ function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
           }
         </span>
         
-        <Silhouette product={p} color={color} key={color + '-' + imgVersion}/>
+        <Silhouette product={p} color={color} key={color + '-' + imgVersion} imgIndex={imgIndex}/>
       </div>
       <div className="card-body">
         <div className="card-meta">

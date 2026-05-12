@@ -325,6 +325,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
   width: 100%; height: 100%;
   transition: transform .25s ease;
 }
+.card-img .silhouette img { transition: opacity .25s ease; }
 .card:hover .card-img .silhouette { transform: scale(1.04); }
 .card-brand-tag {
   position: absolute; top: 12px; inset-inline-start: 12px;

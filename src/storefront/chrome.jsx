@@ -18,7 +18,7 @@ function PromoBar({ t, onLangToggle }) {
   );
 }
 
-function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangToggle, user, onSignout }) {
+function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangToggle, lang, user, onSignout }) {
   const [q, setQ] = useStateH('');
   const [open, setOpen] = useStateH(false);
   const [navOpen, setNavOpen] = useStateH(false);
@@ -85,9 +85,11 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
               <Icon name="bag"/> <span className="hide-on-mobile">{t.cart}</span>
               {cartCount > 0 && <span className="count">{cartCount}</span>}
             </button>
-            <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Toggle language">
-              <Icon name="globe" size={16}/> <span>{t.ar}</span>
-            </button>
+            {lang !== 'ar' && (
+              <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Switch to Arabic">
+                <Icon name="globe" size={16}/> <span>{t.ar}</span>
+              </button>
+            )}
             <button
               className="icon-btn mobile-only"
               onClick={()=>setNavOpen(true)}
@@ -115,12 +117,14 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
               <a href="#" className="mobile-nav-link" onClick={(e)=>{e.preventDefault(); goCat('accessory');}}>{t.nav_accessories}</a>
             </nav>
             <div className="mobile-nav-divider"/>
-            <button
-              className="mobile-nav-link mobile-nav-row"
-              onClick={()=>{ setNavOpen(false); onLangToggle?.(); }}
-            >
-              <Icon name="globe" size={16}/> <span>{t.ar}</span>
-            </button>
+            {lang !== 'ar' && (
+              <button
+                className="mobile-nav-link mobile-nav-row"
+                onClick={()=>{ setNavOpen(false); onLangToggle?.(); }}
+              >
+                <Icon name="globe" size={16}/> <span>{t.ar}</span>
+              </button>
+            )}
             <a
               href="#"
               className="mobile-nav-link mobile-nav-row"

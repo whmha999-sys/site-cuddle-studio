@@ -920,9 +920,11 @@ function ProductCard({ p, t, inCart, onAdd, onOpen, imgVersion }) {
 
   const handleEnter = () => {
     if (imgs.length <= 1 || intervalRef.current) return;
+    // immediate first switch
+    setImgIndex(1 % imgs.length);
     intervalRef.current = setInterval(() => {
       setImgIndex(i => (i + 1) % imgs.length);
-    }, 700);
+    }, 600);
   };
   const handleLeave = () => {
     if (intervalRef.current) { clearInterval(intervalRef.current); intervalRef.current = null; }

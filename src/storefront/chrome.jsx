@@ -85,9 +85,11 @@ function Header({ t, cart, onOpenCart, onOpenAuth, onSearch, products, onLangTog
               <Icon name="bag"/> <span className="hide-on-mobile">{t.cart}</span>
               {cartCount > 0 && <span className="count">{cartCount}</span>}
             </button>
-            <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Toggle language">
-              <Icon name="globe" size={16}/> <span>{t.ar}</span>
-            </button>
+            {lang !== 'ar' && (
+              <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Switch to Arabic">
+                <Icon name="globe" size={16}/> <span>{t.ar}</span>
+              </button>
+            )}
             <button
               className="icon-btn mobile-only"
               onClick={()=>setNavOpen(true)}

@@ -1,24 +1,23 @@
-# Plan: Floating "back to top" button
+## Goal
+On hover over any product card image, auto-cycle through that product's photos (slideshow). On mouse leave, snap back to the main image.
 
-Add a small floating button that scrolls the page to the top.
+## Changes
 
-## Behavior
-- Hidden until the user scrolls more than ~400px down
-- Fades in smoothly when shown
-- On click: smooth-scrolls the window to the very top
-- Visible on every page (Home, PDP, all info pages)
+**`src/storefront/home.jsx` — `ProductCard` component (lines 904-950)**
 
-## Style & position
-- Bottom-right corner, fixed
-- Round 44px circle, Teclast orange `#e8590c` (matches new footer)
-- White up-arrow icon (`ChevronUp` from lucide-react)
-- Subtle shadow + hover lift
-- Stacked **above** the existing EN/AR tweaks button so they don't overlap
-- Mirrored to bottom-left in RTL (Arabic) using `insetInlineEnd` so it stays on the natural "end" side
+1. Add state `imgIndex` (default `0`) and a ref for the interval timer.
+2. Read the current color's image array from `PRODUCT_IMAGES[p.id]?.[color]` (import added).
+3. On `onMouseEnter` of `.card-img`: if the array has >1 image, start a `setInterval` (~700ms) that increments `imgIndex` modulo array length.
+4. On `onMouseLeave`: clear the interval and reset `imgIndex` to `0`.
+5. Reset `imgIndex` to `0` and clear interval whenever `color` changes (so swapping colors doesn't leave a stale index).
+6. Cleanup interval on unmount.
+7. Pass `imgIndex` to the existing `<Silhouette … imgIndex={imgIndex} />` (the prop is already supported — no Silhouette changes needed).
 
-## Implementation
-- New component `src/storefront/back-to-top.jsx` — self-contained: scroll listener with `useEffect`, local `visible` state, click handler that calls `window.scrollTo({ top: 0, behavior: 'smooth' })`
-- Render once inside `StorefrontApp.jsx` next to the existing floating tweaks button
-- Adjust the existing tweaks button's `bottom` from `16px` → `68px` (or place back-to-top above it) so the two stack neatly with ~12px gap
+## Polish
+- Add a short CSS transition on the `.card-img img` (opacity ~150ms) in `src/storefront/styles.css` so the swap feels like a soft cross-fade instead of a hard cut.
+- Keep cycle interval at 700ms; loops indefinitely while hovered.
 
-No backend, no routing, no other components touched.
+## Out of scope
+- No PDP changes.
+- No data/schema changes.
+- Color swatches and Add-to-cart behavior unchanged.

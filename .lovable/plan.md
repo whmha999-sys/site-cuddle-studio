@@ -1,23 +1,8 @@
-## Goal
-On hover over any product card image, auto-cycle through that product's photos (slideshow). On mouse leave, snap back to the main image.
+## Plan
 
-## Changes
+The 4th thumbnail on the VZ-30 PRO 4G product page (the pebbles-wallpaper tablet shown in image 1) is `/uploads/vz30-front.webp`, used by all three colors (gold/blue/gray).
 
-**`src/storefront/home.jsx` — `ProductCard` component (lines 904-950)**
+**Steps:**
+1. Copy `user-uploads://VIKUSHA_Tablet_VZ-30Pro-10-removebg-preview-2.png` over `public/uploads/vz30-front.webp` (overwrite).
 
-1. Add state `imgIndex` (default `0`) and a ref for the interval timer.
-2. Read the current color's image array from `PRODUCT_IMAGES[p.id]?.[color]` (import added).
-3. On `onMouseEnter` of `.card-img`: if the array has >1 image, start a `setInterval` (~700ms) that increments `imgIndex` modulo array length.
-4. On `onMouseLeave`: clear the interval and reset `imgIndex` to `0`.
-5. Reset `imgIndex` to `0` and clear interval whenever `color` changes (so swapping colors doesn't leave a stale index).
-6. Cleanup interval on unmount.
-7. Pass `imgIndex` to the existing `<Silhouette … imgIndex={imgIndex} />` (the prop is already supported — no Silhouette changes needed).
-
-## Polish
-- Add a short CSS transition on the `.card-img img` (opacity ~150ms) in `src/storefront/styles.css` so the swap feels like a soft cross-fade instead of a hard cut.
-- Keep cycle interval at 700ms; loops indefinitely while hovered.
-
-## Out of scope
-- No PDP changes.
-- No data/schema changes.
-- Color swatches and Add-to-cart behavior unchanged.
+No code changes needed — the path stays the same so all three color variants pick up the new photo automatically.

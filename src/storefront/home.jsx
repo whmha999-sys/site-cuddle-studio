@@ -2,6 +2,7 @@
 import React from 'react';
 import { Icon, Price } from './atoms.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
+import { PRODUCT_IMAGES } from './data.js';
 import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';

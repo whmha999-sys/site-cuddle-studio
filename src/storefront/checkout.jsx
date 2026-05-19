@@ -66,12 +66,15 @@ const SAVED_CUSTOMER = {
 };
 
 function Checkout({ t, cart, onComplete, lang, user }) {
+  const { code: currencyCode, currency, convertPrice } = useCurrency();
   const [returning, setReturning] = React.useState(false);
   const [pay, setPay] = React.useState('cod');
   const [coupon, setCoupon] = React.useState('');
   const [applied, setApplied] = React.useState(null);
   const [editing, setEditing] = React.useState(false);
   const [form, setForm] = React.useState({ first:'', last:'', address:'', city:'Amman', zip:'', mobile:'', email: user?.email || '' });
+
+
 
   React.useEffect(()=>{
     if (returning) { setForm(SAVED_CUSTOMER); setEditing(false); }

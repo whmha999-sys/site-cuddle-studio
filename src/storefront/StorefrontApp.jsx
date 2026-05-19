@@ -10,6 +10,7 @@ import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 import BackToTop from './back-to-top.jsx';
 import { CurrencyProvider, useCurrency } from './currency-context.jsx';
+import { Checkout, SuccessModal } from './checkout.jsx';
 
 function CartLinePrice({ value }) {
   const { formatPrice } = useCurrency();
@@ -29,6 +30,8 @@ export default function StorefrontApp() {
   const [theme, setTheme] = useState(() => localStorage.getItem('sl_theme') || 'light');
 
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartView, setCartView] = useState('cart'); // 'cart' | 'checkout' | 'success'
+  const [lastOrder, setLastOrder] = useState(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [route, setRoute] = useState({ name: 'home', params: {} });
@@ -168,39 +171,82 @@ export default function StorefrontApp() {
       {cartOpen && (
         <div
           className="modal-backdrop"
-          onClick={() => setCartOpen(false)}
+          onClick={() => { setCartOpen(false); setCartView('cart'); }}
           style={{
             position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100,
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center', zIndex: 100,
+            overflowY: 'auto', padding: '40px 16px',
           }}
         >
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: '#fff', borderRadius: 16, padding: 32, maxWidth: 420, width: '90%',
+              background: '#fff', borderRadius: 16, padding: 32,
+              maxWidth: cartView === 'cart' ? 420 : 760, width: '100%',
               fontFamily: 'var(--font-sans, Inter)',
             }}
           >
-            <h3 style={{ margin: 0, marginBottom: 8 }}>{t.cart} ({cart.reduce((s,i)=>s+i.qty,0)})</h3>
-            {cart.length === 0 ? (
-              <p style={{ color: '#777', fontSize: 14 }}>{t.empty_cart}</p>
-            ) : (
-              <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0' }}>
-                {cart.map((item, idx) => {
-                  const p = catalog.find(x => x.id === item.id);
-                  return (
-                    <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
-                      <span>{p?.name || item.id} × {item.qty}</span>
-                      <CartLinePrice value={item.price * item.qty}/>
-                    </li>
-                  );
-                })}
-              </ul>
+            {cartView === 'success' && lastOrder && (
+              <SuccessModal
+                order={lastOrder}
+                t={t}
+                lang={lang}
+                onClose={() => { setCartOpen(false); setCartView('cart'); setLastOrder(null); }}
+              />
             )}
-            <button
-              onClick={() => setCartOpen(false)}
-              style={{ marginTop: 12, width: '100%', padding: '10px 16px', borderRadius: 8, border: 'none', background: '#1a3c2e', color: '#fff', fontWeight: 600, cursor: 'pointer' }}
-            >{t.continue}</button>
+
+            {cartView === 'checkout' && (
+              <>
+                <button
+                  onClick={() => setCartView('cart')}
+                  style={{ background:'none', border:'none', color:'#e8590c', cursor:'pointer', padding:0, marginBottom:12, fontWeight:600 }}
+                >← {lang === 'ar' ? 'العودة إلى السلة' : 'Back to cart'}</button>
+                <Checkout
+                  t={t}
+                  lang={lang}
+                  cart={cart}
+                  user={user}
+                  onComplete={(order) => {
+                    setLastOrder(order);
+                    setCart([]);
+                    setCartView('success');
+                  }}
+                />
+              </>
+            )}
+
+            {cartView === 'cart' && (
+              <>
+                <h3 style={{ margin: 0, marginBottom: 8 }}>{t.cart} ({cart.reduce((s,i)=>s+i.qty,0)})</h3>
+                {cart.length === 0 ? (
+                  <>
+                    <p style={{ color: '#777', fontSize: 14 }}>{t.empty_cart}</p>
+                    <button
+                      onClick={() => setCartOpen(false)}
+                      style={{ marginTop: 12, width: '100%', padding: '10px 16px', borderRadius: 8, border: 'none', background: '#1a3c2e', color: '#fff', fontWeight: 600, cursor: 'pointer' }}
+                    >{t.continue}</button>
+                  </>
+                ) : (
+                  <>
+                    <ul style={{ listStyle: 'none', padding: 0, margin: '12px 0' }}>
+                      {cart.map((item, idx) => {
+                        const p = catalog.find(x => x.id === item.id);
+                        return (
+                          <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
+                            <span>{p?.name || item.id} × {item.qty}</span>
+                            <CartLinePrice value={item.price * item.qty}/>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <button
+                      onClick={() => setCartView('checkout')}
+                      style={{ marginTop: 12, width: '100%', padding: '12px 16px', borderRadius: 8, border: 'none', background: '#e8590c', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}
+                    >{lang === 'ar' ? 'إتمام الطلب (الدفع عند الاستلام)' : 'Proceed to Checkout (Cash on Delivery)'}</button>
+                  </>
+                )}
+              </>
+            )}
           </div>
         </div>
       )}

@@ -78,7 +78,7 @@ const SAVED_CUSTOMER = {
   window: 'anytime', notes: '',
 };
 
-function Checkout({ t, cart, onComplete, lang, user }) {
+export function Checkout({ t, cart, onComplete, lang, user }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
   const ar = lang === 'ar';
   const L = (en, arT) => (ar ? arT : en);
@@ -392,7 +392,7 @@ function Checkout({ t, cart, onComplete, lang, user }) {
 }
 window.Checkout = Checkout;
 
-function SuccessModal({ order, onClose, t, lang }) {
+export function SuccessModal({ order, onClose, t, lang }) {
   return (
     <div className="modal-backdrop">
       <div className="modal">

@@ -10,6 +10,7 @@ import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 import BackToTop from './back-to-top.jsx';
 import { CurrencyProvider, useCurrency } from './currency-context.jsx';
+import { Checkout, SuccessModal } from './checkout.jsx';
 
 function CartLinePrice({ value }) {
   const { formatPrice } = useCurrency();

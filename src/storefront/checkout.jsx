@@ -58,21 +58,55 @@ function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
 }
 window.CartDrawer = CartDrawer;
 
+const GOVS = {
+  JO: ['Amman','Zarqa','Irbid','Aqaba','Madaba','Salt','Karak','Mafraq','Jerash','Ajloun','Tafilah',"Ma'an"],
+  SY: ['Damascus','Aleppo','Homs','Latakia','Hama','Tartus','Daraa','Deir ez-Zor','Raqqa','Hasakah','Sweida','Quneitra','Idlib'],
+  IQ: ['Baghdad','Basra','Erbil','Mosul','Najaf','Karbala','Kirkuk','Sulaymaniyah','Duhok','Anbar','Babil','Diyala'],
+};
+const COUNTRY_LABEL = { JO: 'Jordan', SY: 'Syria', IQ: 'Iraq' };
+const COUNTRY_LABEL_AR = { JO: 'الأردن', SY: 'سوريا', IQ: 'العراق' };
+const CURRENCY_TO_COUNTRY = { JOD: 'JO', SYP: 'SY', IQD: 'IQ' };
+
 const SAVED_CUSTOMER = {
   first: 'Mohammed', last: 'Al-Rashid',
-  address: 'Rainbow St. 42, Jabal Amman',
-  city: 'Amman', zip: '11181',
-  mobile: '+962 79 123 4567', email: 'mohammed@smartleaders.jo',
+  country: 'JO', city: 'Amman', area: 'Jabal Amman',
+  address: 'Rainbow St., Building 42, Floor 3, Apt 7',
+  landmark: 'Near Wild Jordan Center',
+  zip: '11181',
+  mobile: '+962 79 123 4567', mobile2: '',
+  email: 'mohammed@smartleaders.jo',
+  window: 'anytime', notes: '',
 };
 
 function Checkout({ t, cart, onComplete, lang, user }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
+  const ar = lang === 'ar';
+  const L = (en, arT) => (ar ? arT : en);
+  const initialCountry = CURRENCY_TO_COUNTRY[currencyCode] || 'JO';
   const [returning, setReturning] = React.useState(false);
-  const [pay, setPay] = React.useState('cod');
+  const [pay] = React.useState('cod');
   const [coupon, setCoupon] = React.useState('');
   const [applied, setApplied] = React.useState(null);
   const [editing, setEditing] = React.useState(false);
-  const [form, setForm] = React.useState({ first:'', last:'', address:'', city:'Amman', zip:'', mobile:'', email: user?.email || '' });
+  const [codConfirmed, setCodConfirmed] = React.useState(false);
+  const [touched, setTouched] = React.useState({});
+  const [form, setForm] = React.useState({
+    first:'', last:'',
+    country: initialCountry,
+    city: GOVS[initialCountry][0],
+    area:'', address:'', landmark:'', zip:'',
+    mobile:'', mobile2:'',
+    email: user?.email || '',
+    window: 'anytime', notes:'',
+  });
+
+  // Re-sync city when country changes (unless returning data already set)
+  React.useEffect(() => {
+    if (!GOVS[form.country].includes(form.city)) {
+      setForm(f => ({ ...f, city: GOVS[f.country][0] }));
+    }
+  }, [form.country]);
+
 
 
 
@@ -93,8 +127,24 @@ function Checkout({ t, cart, onComplete, lang, user }) {
     else setApplied({ code: c, pct: 0, invalid: true });
   };
 
+  // Validation
+  const errors = {};
+  if (!form.first.trim()) errors.first = L('Required','مطلوب');
+  if (!form.last.trim()) errors.last = L('Required','مطلوب');
+  if (!form.area.trim()) errors.area = L('Required','مطلوب');
+  if (!form.address.trim()) errors.address = L('Required','مطلوب');
+  const phoneRe = /^[\d\s+\-]{8,}$/;
+  if (!phoneRe.test(form.mobile.trim())) errors.mobile = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
+  if (form.mobile2.trim() && !phoneRe.test(form.mobile2.trim())) errors.mobile2 = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
+  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = L('Enter a valid email','أدخل بريداً صحيحاً');
+  const formValid = Object.keys(errors).length === 0;
+  const canSubmit = formValid && codConfirmed;
+
+  const showErr = (k) => (touched[k] || touched.__all) && errors[k];
+
   const submit = async (e) => {
     e.preventDefault();
+    if (!canSubmit) { setTouched({ __all: true }); return; }
     const items = cart.map(it => {
       const p = (window.CATALOG || []).find(x => x.id === it.id);
       return {
@@ -103,10 +153,24 @@ function Checkout({ t, cart, onComplete, lang, user }) {
         price_local: convertPrice(it.price),
       };
     });
+    const winLabel = { anytime:'Anytime', morning:'Morning (9–12)', afternoon:'Afternoon (12–5)', evening:'Evening (5–9)' }[form.window];
+    const fullAddress = [
+      `Country: ${COUNTRY_LABEL[form.country]}`,
+      `Governorate: ${form.city}`,
+      `Area: ${form.area}`,
+      `Address: ${form.address}`,
+      form.landmark && `Landmark: ${form.landmark}`,
+      form.zip && `ZIP: ${form.zip}`,
+      form.mobile2 && `Alt phone: ${form.mobile2}`,
+      `Delivery window: ${winLabel}`,
+      form.notes && `Notes: ${form.notes}`,
+    ].filter(Boolean).join('\n');
     const orderRow = {
       customer_first: form.first, customer_last: form.last,
-      customer_email: form.email, customer_mobile: form.mobile,
-      customer_address: form.address, customer_city: form.city,
+      customer_email: form.email || `noemail-${Date.now()}@cod.local`,
+      customer_mobile: form.mobile,
+      customer_address: fullAddress,
+      customer_city: form.city,
       customer_zip: form.zip || null,
       items,
       // Totals stored in the customer's selected currency.
@@ -198,20 +262,79 @@ function Checkout({ t, cart, onComplete, lang, user }) {
             {returning && !editing ? (
               <div style={{ fontSize: 14, lineHeight: 1.8 }}>
                 <div style={{ fontWeight:600, fontSize: 15 }}>{form.first} {form.last}</div>
+                <div>{COUNTRY_LABEL[form.country]} · {form.city} · {form.area}</div>
                 <div>{form.address}</div>
-                <div>{form.city} {form.zip}</div>
-                <div>{form.mobile}</div>
-                <div>{form.email}</div>
+                {form.landmark && <div style={{color:'var(--fg-3)'}}>↳ {form.landmark}</div>}
+                <div>{form.mobile}{form.mobile2 && ` · ${form.mobile2}`}</div>
+                {form.email && <div>{form.email}</div>}
               </div>
             ) : (
               <div className="form-grid">
-                <div className="field"><label>{t.first_name}*</label><input value={form.first} onChange={e=>setForm({...form, first:e.target.value})} required/></div>
-                <div className="field"><label>{t.last_name}*</label><input value={form.last} onChange={e=>setForm({...form, last:e.target.value})} required/></div>
-                <div className="field full"><label>{t.address}*</label><input value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required/></div>
-                <div className="field"><label>{t.city}*</label><input value={form.city} onChange={e=>setForm({...form, city:e.target.value})} required/></div>
-                <div className="field"><label>{t.zip}</label><input value={form.zip} onChange={e=>setForm({...form, zip:e.target.value})}/></div>
-                <div className="field"><label>{t.mobile}*</label><input value={form.mobile} onChange={e=>setForm({...form, mobile:e.target.value})} required/></div>
-                <div className="field"><label>{t.email}*</label><input type="email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required/></div>
+                <div className="field"><label>{L('First name','الاسم الأول')}*</label>
+                  <input value={form.first} maxLength={60} onChange={e=>setForm({...form, first:e.target.value})} onBlur={()=>setTouched({...touched, first:true})}/>
+                  {showErr('first') && <div className="field-err">{errors.first}</div>}
+                </div>
+                <div className="field"><label>{L('Last name','اسم العائلة')}*</label>
+                  <input value={form.last} maxLength={60} onChange={e=>setForm({...form, last:e.target.value})} onBlur={()=>setTouched({...touched, last:true})}/>
+                  {showErr('last') && <div className="field-err">{errors.last}</div>}
+                </div>
+                <div className="field"><label>{L('Country','الدولة')}*</label>
+                  <select value={form.country} onChange={e=>setForm({...form, country:e.target.value})}>
+                    {Object.keys(GOVS).map(c => <option key={c} value={c}>{ar?COUNTRY_LABEL_AR[c]:COUNTRY_LABEL[c]}</option>)}
+                  </select>
+                </div>
+                <div className="field"><label>{L('Governorate','المحافظة')}*</label>
+                  <select value={form.city} onChange={e=>setForm({...form, city:e.target.value})}>
+                    {GOVS[form.country].map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div className="field"><label>{L('Area / Neighborhood','المنطقة / الحي')}*</label>
+                  <input value={form.area} maxLength={80} placeholder={L('e.g. Abdoun','مثال: عبدون')} onChange={e=>setForm({...form, area:e.target.value})} onBlur={()=>setTouched({...touched, area:true})}/>
+                  {showErr('area') && <div className="field-err">{errors.area}</div>}
+                </div>
+                <div className="field"><label>{L('ZIP / Postal code','الرمز البريدي')}</label>
+                  <input value={form.zip} maxLength={20} onChange={e=>setForm({...form, zip:e.target.value})}/>
+                </div>
+                <div className="field full"><label>{L('Street, building, floor, apartment','الشارع، المبنى، الطابق، الشقة')}*</label>
+                  <textarea rows={2} value={form.address} maxLength={200} placeholder={L('Full street address with building number','العنوان الكامل مع رقم المبنى')} onChange={e=>setForm({...form, address:e.target.value})} onBlur={()=>setTouched({...touched, address:true})}/>
+                  {showErr('address') && <div className="field-err">{errors.address}</div>}
+                </div>
+                <div className="field full"><label>{L('Nearest landmark','أقرب معلم')}</label>
+                  <input value={form.landmark} maxLength={120} placeholder={L('Helps the driver find you faster','يساعد السائق في الوصول أسرع')} onChange={e=>setForm({...form, landmark:e.target.value})}/>
+                </div>
+                <div className="field"><label>{L('Mobile (primary)','الجوال (رئيسي)')}*</label>
+                  <input value={form.mobile} maxLength={30} placeholder="+962 7X XXX XXXX" onChange={e=>setForm({...form, mobile:e.target.value})} onBlur={()=>setTouched({...touched, mobile:true})}/>
+                  {showErr('mobile') && <div className="field-err">{errors.mobile}</div>}
+                </div>
+                <div className="field"><label>{L('Alternate mobile','جوال بديل')}</label>
+                  <input value={form.mobile2} maxLength={30} placeholder={L('In case we cannot reach you','في حال تعذر الوصول إليك')} onChange={e=>setForm({...form, mobile2:e.target.value})} onBlur={()=>setTouched({...touched, mobile2:true})}/>
+                  {showErr('mobile2') && <div className="field-err">{errors.mobile2}</div>}
+                </div>
+                <div className="field full"><label>{L('Email (optional)','البريد الإلكتروني (اختياري)')}</label>
+                  <input type="email" value={form.email} maxLength={120} onChange={e=>setForm({...form, email:e.target.value})} onBlur={()=>setTouched({...touched, email:true})}/>
+                  {showErr('email') && <div className="field-err">{errors.email}</div>}
+                </div>
+                <div className="field full"><label>{L('Preferred delivery time','وقت التوصيل المفضل')}</label>
+                  <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                    {[
+                      ['anytime', L('Anytime','أي وقت')],
+                      ['morning', L('Morning (9–12)','صباحاً (9–12)')],
+                      ['afternoon', L('Afternoon (12–5)','ظهراً (12–5)')],
+                      ['evening', L('Evening (5–9)','مساءً (5–9)')],
+                    ].map(([k,label])=>(
+                      <button key={k} type="button"
+                        className={`payment-opt ${form.window===k?'selected':''}`}
+                        style={{padding:'8px 14px',flex:'0 0 auto'}}
+                        onClick={()=>setForm({...form, window:k})}>
+                        <span className={`radio ${form.window===k?'on':''}`}/>
+                        <span style={{fontSize:13}}>{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field full"><label>{L('Notes for the driver','ملاحظات للسائق')}</label>
+                  <textarea rows={2} value={form.notes} maxLength={500} placeholder={L('Gate code, call before arriving, etc.','رمز البوابة، الاتصال قبل الوصول، إلخ.')} onChange={e=>setForm({...form, notes:e.target.value})}/>
+                </div>
               </div>
             )}
           </div>
@@ -244,11 +367,22 @@ function Checkout({ t, cart, onComplete, lang, user }) {
             <div className="summary-row"><span>{t.shipping}</span><span className="v">{shipping === 0 ? <span style={{color:'var(--green-700)'}}>{lang==='ar'?'مجاناً':'Free'}</span> : <Price value={shipping}/>}</span></div>
             <div className="summary-row summary-total"><span>{t.total}</span><span className="v"><Price value={total}/></span></div>
 
-            <button type="submit" className="btn btn-green btn-lg btn-block" style={{marginTop:18}}>
-              {t.pay_btn} <Price value={total}/>
+            <div className="toggle-row" style={{marginTop:14, alignItems:'flex-start'}}>
+              <button type="button" className={`check ${codConfirmed?'on':''}`} onClick={()=>setCodConfirmed(!codConfirmed)}>
+                {codConfirmed && <Icon name="check" size={14}/>}
+              </button>
+              <span style={{fontSize:13, lineHeight:1.5}}>
+                {L('I confirm I will pay ','أؤكد أنني سأدفع ')}
+                <strong><Price value={total}/></strong>
+                {L(' in cash on delivery.',' نقداً عند الاستلام.')}
+              </span>
+            </div>
+
+            <button type="submit" disabled={!canSubmit} className="btn btn-green btn-lg btn-block" style={{marginTop:14, opacity: canSubmit?1:0.5, cursor: canSubmit?'pointer':'not-allowed'}}>
+              {L('Place order','تأكيد الطلب')} · <Price value={total}/>
             </button>
             <div style={{ fontSize: 11, color:'var(--fg-3)', textAlign:'center', marginTop: 10, fontFamily:'var(--font-mono)', letterSpacing:'0.06em' }}>
-              SECURED BY SMART LEADERS PAYMENTS
+              {L('CASH ON DELIVERY · NO PAYMENT NOW','الدفع عند الاستلام · لا دفع الآن')}
             </div>
           </div>
         </div>

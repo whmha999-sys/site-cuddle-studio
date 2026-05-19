@@ -165,15 +165,12 @@ function Checkout({ t, cart, onComplete, lang, user }) {
       `Delivery window: ${winLabel}`,
       form.notes && `Notes: ${form.notes}`,
     ].filter(Boolean).join('\n');
-        id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty,
-        price: it.price, // base JOD unit price
-        price_local: convertPrice(it.price),
-      };
-    });
     const orderRow = {
       customer_first: form.first, customer_last: form.last,
-      customer_email: form.email, customer_mobile: form.mobile,
-      customer_address: form.address, customer_city: form.city,
+      customer_email: form.email || `noemail-${Date.now()}@cod.local`,
+      customer_mobile: form.mobile,
+      customer_address: fullAddress,
+      customer_city: form.city,
       customer_zip: form.zip || null,
       items,
       // Totals stored in the customer's selected currency.

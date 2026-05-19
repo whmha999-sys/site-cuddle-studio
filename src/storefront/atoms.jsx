@@ -1,5 +1,7 @@
 // Small presentational components
 import React from 'react';
+import { useCurrency } from './currency-context.jsx';
+
 
 function Icon({ name, size = 18 }) {
   const s = { width: size, height: size, fill: 'none', stroke: 'currentColor', strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' };

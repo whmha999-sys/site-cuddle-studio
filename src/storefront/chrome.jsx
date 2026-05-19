@@ -2,7 +2,9 @@
 import React from 'react';
 import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
+import CurrencySwitcher from './currency-switcher.jsx';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
+
 
 function PromoBar({ t, onLangToggle }) {
   return (

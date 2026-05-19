@@ -127,6 +127,22 @@ export default function StorefrontApp() {
         {(() => {
           const InfoPage = INFO_PAGES[route.name];
           if (InfoPage) return <InfoPage lang={lang} />;
+          if (route.name === 'checkout') {
+            return (
+              <Checkout
+                t={t}
+                lang={lang}
+                cart={cart}
+                user={user}
+                onComplete={(order) => {
+                  setLastOrder(order);
+                  setCart([]);
+                  setCartView('success');
+                  setCartOpen(true);
+                }}
+              />
+            );
+          }
           if (route.name === 'pdp' && currentProduct) {
             return (
               <PDP
@@ -152,6 +168,7 @@ export default function StorefrontApp() {
           );
         })()}
       </main>
+
 
       <Footer t={t} lang={lang} />
 

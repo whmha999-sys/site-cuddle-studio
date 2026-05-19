@@ -30,6 +30,8 @@ export default function StorefrontApp() {
   const [theme, setTheme] = useState(() => localStorage.getItem('sl_theme') || 'light');
 
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartView, setCartView] = useState('cart'); // 'cart' | 'checkout' | 'success'
+  const [lastOrder, setLastOrder] = useState(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [route, setRoute] = useState({ name: 'home', params: {} });

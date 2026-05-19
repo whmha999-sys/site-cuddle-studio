@@ -392,7 +392,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
 }
 window.Checkout = Checkout;
 
-function SuccessModal({ order, onClose, t, lang }) {
+export function SuccessModal({ order, onClose, t, lang }) {
   return (
     <div className="modal-backdrop">
       <div className="modal">

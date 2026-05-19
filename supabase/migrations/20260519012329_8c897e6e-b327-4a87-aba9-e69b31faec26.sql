@@ -1,0 +1,3 @@
+ALTER TABLE public.orders
+  ADD COLUMN IF NOT EXISTS currency text NOT NULL DEFAULT 'JOD',
+  ADD COLUMN IF NOT EXISTS exchange_rate numeric NOT NULL DEFAULT 1;

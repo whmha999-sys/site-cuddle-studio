@@ -1,5 +1,7 @@
 // Cart drawer + Checkout page + Success modal
 import { supabase } from '@/integrations/supabase/client';
+import { useCurrency } from './currency-context.jsx';
+
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
   const subtotal = cart.reduce((s,i)=>s + i.price*i.qty, 0);
   return (
@@ -64,12 +66,15 @@ const SAVED_CUSTOMER = {
 };
 
 function Checkout({ t, cart, onComplete, lang, user }) {
+  const { code: currencyCode, currency, convertPrice } = useCurrency();
   const [returning, setReturning] = React.useState(false);
   const [pay, setPay] = React.useState('cod');
   const [coupon, setCoupon] = React.useState('');
   const [applied, setApplied] = React.useState(null);
   const [editing, setEditing] = React.useState(false);
   const [form, setForm] = React.useState({ first:'', last:'', address:'', city:'Amman', zip:'', mobile:'', email: user?.email || '' });
+
+
 
   React.useEffect(()=>{
     if (returning) { setForm(SAVED_CUSTOMER); setEditing(false); }
@@ -92,16 +97,29 @@ function Checkout({ t, cart, onComplete, lang, user }) {
     e.preventDefault();
     const items = cart.map(it => {
       const p = (window.CATALOG || []).find(x => x.id === it.id);
-      return { id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty, price: it.price };
+      return {
+        id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty,
+        price: it.price, // base JOD unit price
+        price_local: convertPrice(it.price),
+      };
     });
     const orderRow = {
       customer_first: form.first, customer_last: form.last,
       customer_email: form.email, customer_mobile: form.mobile,
       customer_address: form.address, customer_city: form.city,
       customer_zip: form.zip || null,
-      items, subtotal: sub, tax, shipping, discount, total,
+      items,
+      // Totals stored in the customer's selected currency.
+      subtotal: convertPrice(sub),
+      tax: convertPrice(tax),
+      shipping: convertPrice(shipping),
+      discount: convertPrice(discount),
+      total: convertPrice(total),
+      currency: currencyCode,
+      exchange_rate: currency.rate,
       payment_method: pay, status: 'pending',
     };
+
     let orderId = 'SL-' + Math.floor(100000 + Math.random()*900000);
     let orderNumber = null;
     try {

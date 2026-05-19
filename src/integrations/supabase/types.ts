@@ -38,6 +38,7 @@ export type Database = {
       orders: {
         Row: {
           created_at: string
+          currency: string
           customer_address: string
           customer_city: string
           customer_email: string
@@ -46,6 +47,7 @@ export type Database = {
           customer_mobile: string
           customer_zip: string | null
           discount: number
+          exchange_rate: number
           id: string
           items: Json
           notes: string | null
@@ -60,6 +62,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          currency?: string
           customer_address: string
           customer_city: string
           customer_email: string
@@ -68,6 +71,7 @@ export type Database = {
           customer_mobile: string
           customer_zip?: string | null
           discount?: number
+          exchange_rate?: number
           id?: string
           items: Json
           notes?: string | null
@@ -82,6 +86,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          currency?: string
           customer_address?: string
           customer_city?: string
           customer_email?: string
@@ -90,6 +95,7 @@ export type Database = {
           customer_mobile?: string
           customer_zip?: string | null
           discount?: number
+          exchange_rate?: number
           id?: string
           items?: Json
           notes?: string | null

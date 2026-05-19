@@ -9,6 +9,13 @@ import { PDP } from './pdp.jsx';
 import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 import BackToTop from './back-to-top.jsx';
+import { CurrencyProvider, useCurrency } from './currency-context.jsx';
+
+function CartLinePrice({ value }) {
+  const { formatPrice } = useCurrency();
+  return <span>{formatPrice(value)}</span>;
+}
+
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {
@@ -98,9 +105,11 @@ export default function StorefrontApp() {
     : null;
 
   return (
+    <CurrencyProvider>
     <>
       <Header
         t={t}
+
         cart={cart}
         onOpenCart={() => setCartOpen(true)}
         onOpenAuth={() => setAuthOpen(true)}
@@ -182,7 +191,7 @@ export default function StorefrontApp() {
                   return (
                     <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
                       <span>{p?.name || item.id} × {item.qty}</span>
-                      <span>JOD {(item.price * item.qty).toFixed(2)}</span>
+                      <CartLinePrice value={item.price * item.qty}/>
                     </li>
                   );
                 })}
@@ -196,5 +205,7 @@ export default function StorefrontApp() {
         </div>
       )}
     </>
+    </CurrencyProvider>
   );
+
 }

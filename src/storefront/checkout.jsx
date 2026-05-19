@@ -127,11 +127,44 @@ function Checkout({ t, cart, onComplete, lang, user }) {
     else setApplied({ code: c, pct: 0, invalid: true });
   };
 
+  // Validation
+  const errors = {};
+  if (!form.first.trim()) errors.first = L('Required','مطلوب');
+  if (!form.last.trim()) errors.last = L('Required','مطلوب');
+  if (!form.area.trim()) errors.area = L('Required','مطلوب');
+  if (!form.address.trim()) errors.address = L('Required','مطلوب');
+  const phoneRe = /^[\d\s+\-]{8,}$/;
+  if (!phoneRe.test(form.mobile.trim())) errors.mobile = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
+  if (form.mobile2.trim() && !phoneRe.test(form.mobile2.trim())) errors.mobile2 = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
+  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = L('Enter a valid email','أدخل بريداً صحيحاً');
+  const formValid = Object.keys(errors).length === 0;
+  const canSubmit = formValid && codConfirmed;
+
+  const showErr = (k) => (touched[k] || touched.__all) && errors[k];
+
   const submit = async (e) => {
     e.preventDefault();
+    if (!canSubmit) { setTouched({ __all: true }); return; }
     const items = cart.map(it => {
       const p = (window.CATALOG || []).find(x => x.id === it.id);
       return {
+        id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty,
+        price: it.price, // base JOD unit price
+        price_local: convertPrice(it.price),
+      };
+    });
+    const winLabel = { anytime:'Anytime', morning:'Morning (9–12)', afternoon:'Afternoon (12–5)', evening:'Evening (5–9)' }[form.window];
+    const fullAddress = [
+      `Country: ${COUNTRY_LABEL[form.country]}`,
+      `Governorate: ${form.city}`,
+      `Area: ${form.area}`,
+      `Address: ${form.address}`,
+      form.landmark && `Landmark: ${form.landmark}`,
+      form.zip && `ZIP: ${form.zip}`,
+      form.mobile2 && `Alt phone: ${form.mobile2}`,
+      `Delivery window: ${winLabel}`,
+      form.notes && `Notes: ${form.notes}`,
+    ].filter(Boolean).join('\n');
         id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty,
         price: it.price, // base JOD unit price
         price_local: convertPrice(it.price),

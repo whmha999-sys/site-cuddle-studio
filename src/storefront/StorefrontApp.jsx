@@ -105,9 +105,11 @@ export default function StorefrontApp() {
     : null;
 
   return (
+    <CurrencyProvider>
     <>
       <Header
         t={t}
+
         cart={cart}
         onOpenCart={() => setCartOpen(true)}
         onOpenAuth={() => setAuthOpen(true)}

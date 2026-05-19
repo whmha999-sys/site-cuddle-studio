@@ -212,25 +212,8 @@ export default function StorefrontApp() {
               />
             )}
 
-            {cartView === 'checkout' && (
-              <>
-                <button
-                  onClick={() => setCartView('cart')}
-                  style={{ background:'none', border:'none', color:'#e8590c', cursor:'pointer', padding:0, marginBottom:12, fontWeight:600 }}
-                >← {lang === 'ar' ? 'العودة إلى السلة' : 'Back to cart'}</button>
-                <Checkout
-                  t={t}
-                  lang={lang}
-                  cart={cart}
-                  user={user}
-                  onComplete={(order) => {
-                    setLastOrder(order);
-                    setCart([]);
-                    setCartView('success');
-                  }}
-                />
-              </>
-            )}
+
+
 
             {cartView === 'cart' && (
               <>

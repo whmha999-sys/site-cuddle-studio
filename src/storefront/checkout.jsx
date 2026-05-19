@@ -78,7 +78,7 @@ const SAVED_CUSTOMER = {
   window: 'anytime', notes: '',
 };
 
-function Checkout({ t, cart, onComplete, lang, user }) {
+export function Checkout({ t, cart, onComplete, lang, user }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
   const ar = lang === 'ar';
   const L = (en, arT) => (ar ? arT : en);

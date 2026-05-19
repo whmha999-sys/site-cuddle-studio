@@ -58,21 +58,55 @@ function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
 }
 window.CartDrawer = CartDrawer;
 
+const GOVS = {
+  JO: ['Amman','Zarqa','Irbid','Aqaba','Madaba','Salt','Karak','Mafraq','Jerash','Ajloun','Tafilah',"Ma'an"],
+  SY: ['Damascus','Aleppo','Homs','Latakia','Hama','Tartus','Daraa','Deir ez-Zor','Raqqa','Hasakah','Sweida','Quneitra','Idlib'],
+  IQ: ['Baghdad','Basra','Erbil','Mosul','Najaf','Karbala','Kirkuk','Sulaymaniyah','Duhok','Anbar','Babil','Diyala'],
+};
+const COUNTRY_LABEL = { JO: 'Jordan', SY: 'Syria', IQ: 'Iraq' };
+const COUNTRY_LABEL_AR = { JO: 'الأردن', SY: 'سوريا', IQ: 'العراق' };
+const CURRENCY_TO_COUNTRY = { JOD: 'JO', SYP: 'SY', IQD: 'IQ' };
+
 const SAVED_CUSTOMER = {
   first: 'Mohammed', last: 'Al-Rashid',
-  address: 'Rainbow St. 42, Jabal Amman',
-  city: 'Amman', zip: '11181',
-  mobile: '+962 79 123 4567', email: 'mohammed@smartleaders.jo',
+  country: 'JO', city: 'Amman', area: 'Jabal Amman',
+  address: 'Rainbow St., Building 42, Floor 3, Apt 7',
+  landmark: 'Near Wild Jordan Center',
+  zip: '11181',
+  mobile: '+962 79 123 4567', mobile2: '',
+  email: 'mohammed@smartleaders.jo',
+  window: 'anytime', notes: '',
 };
 
 function Checkout({ t, cart, onComplete, lang, user }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
+  const ar = lang === 'ar';
+  const L = (en, arT) => (ar ? arT : en);
+  const initialCountry = CURRENCY_TO_COUNTRY[currencyCode] || 'JO';
   const [returning, setReturning] = React.useState(false);
-  const [pay, setPay] = React.useState('cod');
+  const [pay] = React.useState('cod');
   const [coupon, setCoupon] = React.useState('');
   const [applied, setApplied] = React.useState(null);
   const [editing, setEditing] = React.useState(false);
-  const [form, setForm] = React.useState({ first:'', last:'', address:'', city:'Amman', zip:'', mobile:'', email: user?.email || '' });
+  const [codConfirmed, setCodConfirmed] = React.useState(false);
+  const [touched, setTouched] = React.useState({});
+  const [form, setForm] = React.useState({
+    first:'', last:'',
+    country: initialCountry,
+    city: GOVS[initialCountry][0],
+    area:'', address:'', landmark:'', zip:'',
+    mobile:'', mobile2:'',
+    email: user?.email || '',
+    window: 'anytime', notes:'',
+  });
+
+  // Re-sync city when country changes (unless returning data already set)
+  React.useEffect(() => {
+    if (!GOVS[form.country].includes(form.city)) {
+      setForm(f => ({ ...f, city: GOVS[f.country][0] }));
+    }
+  }, [form.country]);
+
 
 
 

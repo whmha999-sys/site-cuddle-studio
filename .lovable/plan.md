@@ -1,8 +1,15 @@
-## Plan
+## Remove the Hero carousel section entirely
 
-The 4th thumbnail on the VZ-30 PRO 4G product page (the pebbles-wallpaper tablet shown in image 1) is `/uploads/vz30-front.webp`, used by all three colors (gold/blue/gray).
+The "Time. Reimagined." block is part of the rotating hero banner at the top of the home page. Remove the whole hero — both the storefront render and the dashboard controls for it.
 
-**Steps:**
-1. Copy `user-uploads://VIKUSHA_Tablet_VZ-30Pro-10-removebg-preview-2.png` over `public/uploads/vz30-front.webp` (overwrite).
+### Changes
 
-No code changes needed — the path stays the same so all three color variants pick up the new photo automatically.
+1. **`src/storefront/home.jsx`**
+   - Remove the `{showHero && <Hero .../>}` render (line 1105) and the `showHero`/`visibility?.hero` line (1099).
+   - Delete the now-unused `Hero`, `HeroSlide`, `getHeroSlides`, hero-anim keyframe injection, and the hero `INTERVAL` constant.
+
+2. **`src/pages/admin/Promos.tsx`**
+   - Remove the "Show Hero section" toggle row (lines 59–65) from `SectionsVisibilitySection`.
+   - Remove the entire `HeroButtonsSection` component and its `<HeroButtonsSection />` render (line 223), plus the `HERO_SLIDES_META` constant and `HeroSetting` type.
+
+No database changes. The home page will now start with the promo banners strip directly under the header.

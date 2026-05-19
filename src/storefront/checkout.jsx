@@ -262,20 +262,79 @@ function Checkout({ t, cart, onComplete, lang, user }) {
             {returning && !editing ? (
               <div style={{ fontSize: 14, lineHeight: 1.8 }}>
                 <div style={{ fontWeight:600, fontSize: 15 }}>{form.first} {form.last}</div>
+                <div>{COUNTRY_LABEL[form.country]} · {form.city} · {form.area}</div>
                 <div>{form.address}</div>
-                <div>{form.city} {form.zip}</div>
-                <div>{form.mobile}</div>
-                <div>{form.email}</div>
+                {form.landmark && <div style={{color:'var(--fg-3)'}}>↳ {form.landmark}</div>}
+                <div>{form.mobile}{form.mobile2 && ` · ${form.mobile2}`}</div>
+                {form.email && <div>{form.email}</div>}
               </div>
             ) : (
               <div className="form-grid">
-                <div className="field"><label>{t.first_name}*</label><input value={form.first} onChange={e=>setForm({...form, first:e.target.value})} required/></div>
-                <div className="field"><label>{t.last_name}*</label><input value={form.last} onChange={e=>setForm({...form, last:e.target.value})} required/></div>
-                <div className="field full"><label>{t.address}*</label><input value={form.address} onChange={e=>setForm({...form, address:e.target.value})} required/></div>
-                <div className="field"><label>{t.city}*</label><input value={form.city} onChange={e=>setForm({...form, city:e.target.value})} required/></div>
-                <div className="field"><label>{t.zip}</label><input value={form.zip} onChange={e=>setForm({...form, zip:e.target.value})}/></div>
-                <div className="field"><label>{t.mobile}*</label><input value={form.mobile} onChange={e=>setForm({...form, mobile:e.target.value})} required/></div>
-                <div className="field"><label>{t.email}*</label><input type="email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} required/></div>
+                <div className="field"><label>{L('First name','الاسم الأول')}*</label>
+                  <input value={form.first} maxLength={60} onChange={e=>setForm({...form, first:e.target.value})} onBlur={()=>setTouched({...touched, first:true})}/>
+                  {showErr('first') && <div className="field-err">{errors.first}</div>}
+                </div>
+                <div className="field"><label>{L('Last name','اسم العائلة')}*</label>
+                  <input value={form.last} maxLength={60} onChange={e=>setForm({...form, last:e.target.value})} onBlur={()=>setTouched({...touched, last:true})}/>
+                  {showErr('last') && <div className="field-err">{errors.last}</div>}
+                </div>
+                <div className="field"><label>{L('Country','الدولة')}*</label>
+                  <select value={form.country} onChange={e=>setForm({...form, country:e.target.value})}>
+                    {Object.keys(GOVS).map(c => <option key={c} value={c}>{ar?COUNTRY_LABEL_AR[c]:COUNTRY_LABEL[c]}</option>)}
+                  </select>
+                </div>
+                <div className="field"><label>{L('Governorate','المحافظة')}*</label>
+                  <select value={form.city} onChange={e=>setForm({...form, city:e.target.value})}>
+                    {GOVS[form.country].map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+                <div className="field"><label>{L('Area / Neighborhood','المنطقة / الحي')}*</label>
+                  <input value={form.area} maxLength={80} placeholder={L('e.g. Abdoun','مثال: عبدون')} onChange={e=>setForm({...form, area:e.target.value})} onBlur={()=>setTouched({...touched, area:true})}/>
+                  {showErr('area') && <div className="field-err">{errors.area}</div>}
+                </div>
+                <div className="field"><label>{L('ZIP / Postal code','الرمز البريدي')}</label>
+                  <input value={form.zip} maxLength={20} onChange={e=>setForm({...form, zip:e.target.value})}/>
+                </div>
+                <div className="field full"><label>{L('Street, building, floor, apartment','الشارع، المبنى، الطابق، الشقة')}*</label>
+                  <textarea rows={2} value={form.address} maxLength={200} placeholder={L('Full street address with building number','العنوان الكامل مع رقم المبنى')} onChange={e=>setForm({...form, address:e.target.value})} onBlur={()=>setTouched({...touched, address:true})}/>
+                  {showErr('address') && <div className="field-err">{errors.address}</div>}
+                </div>
+                <div className="field full"><label>{L('Nearest landmark','أقرب معلم')}</label>
+                  <input value={form.landmark} maxLength={120} placeholder={L('Helps the driver find you faster','يساعد السائق في الوصول أسرع')} onChange={e=>setForm({...form, landmark:e.target.value})}/>
+                </div>
+                <div className="field"><label>{L('Mobile (primary)','الجوال (رئيسي)')}*</label>
+                  <input value={form.mobile} maxLength={30} placeholder="+962 7X XXX XXXX" onChange={e=>setForm({...form, mobile:e.target.value})} onBlur={()=>setTouched({...touched, mobile:true})}/>
+                  {showErr('mobile') && <div className="field-err">{errors.mobile}</div>}
+                </div>
+                <div className="field"><label>{L('Alternate mobile','جوال بديل')}</label>
+                  <input value={form.mobile2} maxLength={30} placeholder={L('In case we cannot reach you','في حال تعذر الوصول إليك')} onChange={e=>setForm({...form, mobile2:e.target.value})} onBlur={()=>setTouched({...touched, mobile2:true})}/>
+                  {showErr('mobile2') && <div className="field-err">{errors.mobile2}</div>}
+                </div>
+                <div className="field full"><label>{L('Email (optional)','البريد الإلكتروني (اختياري)')}</label>
+                  <input type="email" value={form.email} maxLength={120} onChange={e=>setForm({...form, email:e.target.value})} onBlur={()=>setTouched({...touched, email:true})}/>
+                  {showErr('email') && <div className="field-err">{errors.email}</div>}
+                </div>
+                <div className="field full"><label>{L('Preferred delivery time','وقت التوصيل المفضل')}</label>
+                  <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                    {[
+                      ['anytime', L('Anytime','أي وقت')],
+                      ['morning', L('Morning (9–12)','صباحاً (9–12)')],
+                      ['afternoon', L('Afternoon (12–5)','ظهراً (12–5)')],
+                      ['evening', L('Evening (5–9)','مساءً (5–9)')],
+                    ].map(([k,label])=>(
+                      <button key={k} type="button"
+                        className={`payment-opt ${form.window===k?'selected':''}`}
+                        style={{padding:'8px 14px',flex:'0 0 auto'}}
+                        onClick={()=>setForm({...form, window:k})}>
+                        <span className={`radio ${form.window===k?'on':''}`}/>
+                        <span style={{fontSize:13}}>{label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="field full"><label>{L('Notes for the driver','ملاحظات للسائق')}</label>
+                  <textarea rows={2} value={form.notes} maxLength={500} placeholder={L('Gate code, call before arriving, etc.','رمز البوابة، الاتصال قبل الوصول، إلخ.')} onChange={e=>setForm({...form, notes:e.target.value})}/>
+                </div>
               </div>
             )}
           </div>

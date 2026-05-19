@@ -189,7 +189,7 @@ export default function StorefrontApp() {
                   return (
                     <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #eee' }}>
                       <span>{p?.name || item.id} × {item.qty}</span>
-                      <span>JOD {(item.price * item.qty).toFixed(2)}</span>
+                      <CartLinePrice value={item.price * item.qty}/>
                     </li>
                   );
                 })}

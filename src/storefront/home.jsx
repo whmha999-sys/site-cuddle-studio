@@ -1096,13 +1096,12 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
   const isInCart = (id) => cart.some(c => c.id === id);
 
   const { data: visibility } = useSectionVisibility();
-  const showHero = visibility?.hero !== false;
   const showPromoBanners = visibility?.promo_banners !== false;
   const showLifestyle = visibility?.lifestyle_banner !== false;
 
   return (
     <>
-      {showHero && <Hero t={t} products={products} lang={lang}/>}
+
 
       {showPromoBanners && <PromoBanners/>}
 

@@ -244,13 +244,8 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
             })}
           </div>
 
-          {/* Returning toggle */}
-          <div className="toggle-row">
-            <button type="button" className={`check ${returning?'on':''}`} onClick={()=>setReturning(!returning)}>
-              {returning && <Icon name="check" size={14}/>}
-            </button>
-            <span>{t.returning}</span>
-          </div>
+
+
 
           {/* Delivery info */}
           <div className="co-card">

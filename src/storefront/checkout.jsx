@@ -367,11 +367,22 @@ function Checkout({ t, cart, onComplete, lang, user }) {
             <div className="summary-row"><span>{t.shipping}</span><span className="v">{shipping === 0 ? <span style={{color:'var(--green-700)'}}>{lang==='ar'?'مجاناً':'Free'}</span> : <Price value={shipping}/>}</span></div>
             <div className="summary-row summary-total"><span>{t.total}</span><span className="v"><Price value={total}/></span></div>
 
-            <button type="submit" className="btn btn-green btn-lg btn-block" style={{marginTop:18}}>
-              {t.pay_btn} <Price value={total}/>
+            <div className="toggle-row" style={{marginTop:14, alignItems:'flex-start'}}>
+              <button type="button" className={`check ${codConfirmed?'on':''}`} onClick={()=>setCodConfirmed(!codConfirmed)}>
+                {codConfirmed && <Icon name="check" size={14}/>}
+              </button>
+              <span style={{fontSize:13, lineHeight:1.5}}>
+                {L('I confirm I will pay ','أؤكد أنني سأدفع ')}
+                <strong><Price value={total}/></strong>
+                {L(' in cash on delivery.',' نقداً عند الاستلام.')}
+              </span>
+            </div>
+
+            <button type="submit" disabled={!canSubmit} className="btn btn-green btn-lg btn-block" style={{marginTop:14, opacity: canSubmit?1:0.5, cursor: canSubmit?'pointer':'not-allowed'}}>
+              {L('Place order','تأكيد الطلب')} · <Price value={total}/>
             </button>
             <div style={{ fontSize: 11, color:'var(--fg-3)', textAlign:'center', marginTop: 10, fontFamily:'var(--font-mono)', letterSpacing:'0.06em' }}>
-              SECURED BY SMART LEADERS PAYMENTS
+              {L('CASH ON DELIVERY · NO PAYMENT NOW','الدفع عند الاستلام · لا دفع الآن')}
             </div>
           </div>
         </div>

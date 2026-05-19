@@ -240,7 +240,7 @@ export default function StorefrontApp() {
                       })}
                     </ul>
                     <button
-                      onClick={() => setCartView('checkout')}
+                      onClick={() => { setCartOpen(false); navigate('checkout'); }}
                       style={{ marginTop: 12, width: '100%', padding: '12px 16px', borderRadius: 8, border: 'none', background: '#e8590c', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}
                     >{lang === 'ar' ? 'إتمام الطلب (الدفع عند الاستلام)' : 'Proceed to Checkout (Cash on Delivery)'}</button>
                   </>

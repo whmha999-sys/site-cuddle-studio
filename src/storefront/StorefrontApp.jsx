@@ -127,6 +127,22 @@ export default function StorefrontApp() {
         {(() => {
           const InfoPage = INFO_PAGES[route.name];
           if (InfoPage) return <InfoPage lang={lang} />;
+          if (route.name === 'checkout') {
+            return (
+              <Checkout
+                t={t}
+                lang={lang}
+                cart={cart}
+                user={user}
+                onComplete={(order) => {
+                  setLastOrder(order);
+                  setCart([]);
+                  setCartView('success');
+                  setCartOpen(true);
+                }}
+              />
+            );
+          }
           if (route.name === 'pdp' && currentProduct) {
             return (
               <PDP
@@ -152,6 +168,7 @@ export default function StorefrontApp() {
           );
         })()}
       </main>
+
 
       <Footer t={t} lang={lang} />
 
@@ -195,25 +212,8 @@ export default function StorefrontApp() {
               />
             )}
 
-            {cartView === 'checkout' && (
-              <>
-                <button
-                  onClick={() => setCartView('cart')}
-                  style={{ background:'none', border:'none', color:'#e8590c', cursor:'pointer', padding:0, marginBottom:12, fontWeight:600 }}
-                >← {lang === 'ar' ? 'العودة إلى السلة' : 'Back to cart'}</button>
-                <Checkout
-                  t={t}
-                  lang={lang}
-                  cart={cart}
-                  user={user}
-                  onComplete={(order) => {
-                    setLastOrder(order);
-                    setCart([]);
-                    setCartView('success');
-                  }}
-                />
-              </>
-            )}
+
+
 
             {cartView === 'cart' && (
               <>
@@ -240,7 +240,7 @@ export default function StorefrontApp() {
                       })}
                     </ul>
                     <button
-                      onClick={() => setCartView('checkout')}
+                      onClick={() => { setCartOpen(false); navigate('checkout'); }}
                       style={{ marginTop: 12, width: '100%', padding: '12px 16px', borderRadius: 8, border: 'none', background: '#e8590c', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: 15 }}
                     >{lang === 'ar' ? 'إتمام الطلب (الدفع عند الاستلام)' : 'Proceed to Checkout (Cash on Delivery)'}</button>
                   </>

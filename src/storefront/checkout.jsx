@@ -1,5 +1,7 @@
 // Cart drawer + Checkout page + Success modal
 import { supabase } from '@/integrations/supabase/client';
+import { useCurrency } from './currency-context.jsx';
+
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
   const subtotal = cart.reduce((s,i)=>s + i.price*i.qty, 0);
   return (

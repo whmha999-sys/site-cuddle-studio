@@ -1,19 +1,40 @@
-## Problem
-The COD form lives in `src/storefront/checkout.jsx` (the `Checkout` component), but it was never wired into the app. The cart drawer in `src/storefront/StorefrontApp.jsx` only shows the line items and a green "Continue shopping" button — so the form never appears anywhere. That's why you can't see it.
+## Plan: Update VZ-80 PLUS product photos
 
-## Fix
-Replace the cart drawer's "Continue shopping" button with the actual checkout flow, so the COD form opens right where the button is today.
+The 9 uploaded photos clearly split into 3 groups:
+- **3 keyboard shots** (tablet docked in keyboard case — front, angled, side)
+- **3 blue back views** (straight back, left 45°, right 45°)
+- **3 gray back views** (straight back, left 45°, right 45°)
 
-### Behavior
-1. When the cart drawer opens and the cart has items, show a **"Proceed to Checkout"** button (orange, primary) instead of the green "Continue shopping" one.
-2. Clicking it swaps the modal content to the full `Checkout` component (the COD form: country, governorate, area, address, landmark, primary/alt mobile, email, delivery window, notes, COD confirmation checkbox, totals, Place Order button).
-3. A small "← Back to cart" link at the top of the form returns to the line-items view.
-4. On successful order placement, the existing `SuccessModal` from `checkout.jsx` is shown, the cart is cleared, and the drawer closes.
-5. If the cart is empty, keep a single "Continue shopping" button that just closes the drawer (no checkout to do).
-6. The modal widens to ~720px when the form is showing so it has room to breathe; stays ~420px for the cart view.
+VZ-80 PLUS currently has two colors in the DB: `silver` (used for the blue variant) and `graphite` (gray). I'll replace the existing gallery with these new photos.
+
+### New gallery per color (6 photos each)
+
+**Silver / Blue** (`silver`):
+1. `vz80-blue-back.webp` — straight back
+2. `vz80-blue-L45.webp` — left 45°
+3. `vz80-blue-R45.webp` — right 45°
+4. `vz80-keyboard-front.webp`
+5. `vz80-keyboard-angle.webp`
+6. `vz80-keyboard-side.webp`
+
+**Graphite / Gray** (`graphite`):
+1. `vz80-gray-back.webp` — straight back
+2. `vz80-gray-L45.webp` — left 45°
+3. `vz80-gray-R45.webp` — right 45°
+4. `vz80-keyboard-front.webp` (shared)
+5. `vz80-keyboard-angle.webp` (shared)
+6. `vz80-keyboard-side.webp` (shared)
+
+The keyboard shots are reused for both colors since the tablet inside the case isn't color-specific in the frames.
 
 ### Files to change
-- `src/storefront/StorefrontApp.jsx` — import `Checkout` and `SuccessModal` from `./checkout.jsx`, add a `view` state (`'cart' | 'checkout' | 'success'`) for the drawer, render `Checkout` when `view === 'checkout'`, wire `onComplete` to clear cart + show success, replace the bottom button.
-- No changes to `checkout.jsx` (the form is already complete) or to styles.
 
-No DB, no new dependencies.
+- Copy the 9 uploads to `public/uploads/` with the names above (PNG, kept as-is — no WebP conversion needed for this small batch unless you want it).
+- Update `src/storefront/data.js` → `PRODUCT_IMAGES['vz-80-plus']` arrays for both colors.
+- Run a DB migration: delete current `product_images` rows for `vz-80-plus` and insert the new 12 rows (6 per color).
+
+No changes to `pdp.jsx` (gallery auto-renders from the data), no changes to the marketing strip below.
+
+### Question before I build
+
+Want me to keep the keyboard shots shared across both colors as above, or only attach them to one color? Default = shared.

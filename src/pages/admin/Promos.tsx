@@ -58,13 +58,6 @@ function SectionsVisibilitySection() {
         <CardContent className="p-4 space-y-4">
           <label className="flex items-center justify-between gap-3">
             <div>
-              <div className="font-medium text-sm">Show Hero section</div>
-              <div className="text-xs text-muted-foreground">The big rotating banner at the top of the home page.</div>
-            </div>
-            <Switch checked={vis.hero} onCheckedChange={(v) => toggle("hero", v)} />
-          </label>
-          <label className="flex items-center justify-between gap-3">
-            <div>
               <div className="font-medium text-sm">Show Promo Banners section</div>
               <div className="text-xs text-muted-foreground">The promo banner strip below the hero.</div>
             </div>
@@ -220,7 +213,7 @@ export default function Promos() {
   return (
     <div className="p-6 space-y-8">
       <SectionsVisibilitySection />
-      <HeroButtonsSection />
+      
       <div className="space-y-6">
       <div className="flex items-center justify-between gap-4">
         <div>

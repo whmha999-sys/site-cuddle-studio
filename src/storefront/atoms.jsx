@@ -30,13 +30,20 @@ function Icon({ name, size = 18 }) {
 export { Icon };
 
 function Price({ value, size = 'md' }) {
+  const { formatPrice, currency } = useCurrency();
+  const text = formatPrice(value);
+  // Render symbol/code small for parity with previous design.
+  const space = text.indexOf(' ');
+  const sym = space > 0 ? text.slice(0, space) : currency.symbol;
+  const num = space > 0 ? text.slice(space + 1) : text;
   return (
     <span className={`price price-${size}`} style={{ fontVariantNumeric: 'tabular-nums' }}>
-      <small>JOD</small>{value.toFixed(2)}
+      <small>{sym}</small>{num}
     </span>
   );
 }
 export { Price };
+
 
 function Stars({ n = 5, rating = 4.7, count }) {
   return (

@@ -231,27 +231,12 @@ function Checkout({ t, cart, onComplete, lang, user }) {
 
             <h3 style={{ fontSize: 20, marginTop: 20 }}>{t.payment}</h3>
             <div className="payment-opts">
-              {[
-                { k: 'cod', label: t.pay_cod, icon: '💵' },
-                { k: 'card', label: t.pay_card, icon: '💳' },
-                { k: 'cliq', label: t.pay_cliq, icon: '📱' },
-              ].map(opt => (
-                <div key={opt.k} className={`payment-opt ${pay===opt.k?'selected':''}`} onClick={()=>setPay(opt.k)}>
-                  <span className={`radio ${pay===opt.k?'on':''}`}/>
-                  <span style={{ fontSize:18 }}>{opt.icon}</span>
-                  <span style={{ fontWeight:500, fontSize:14 }}>{opt.label}</span>
-                </div>
-              ))}
-            </div>
-
-            {pay === 'card' && (
-              <div className="form-grid" style={{ marginBottom: 16 }}>
-                <div className="field full"><label>{t.card_holder}*</label><input required={false} placeholder="Name as on card"/></div>
-                <div className="field full"><label>{t.card_number}*</label><input placeholder="0000 0000 0000 0000" defaultValue="4242 4242 4242 4242"/></div>
-                <div className="field"><label>{t.expiry}</label><input placeholder="MM/YY" defaultValue="12/28"/></div>
-                <div className="field"><label>{t.cvc}</label><input placeholder="000" defaultValue="123"/></div>
+              <div className="payment-opt selected">
+                <span className="radio on"/>
+                <span style={{ fontSize:18 }}>💵</span>
+                <span style={{ fontWeight:500, fontSize:14 }}>{t.pay_cod}</span>
               </div>
-            )}
+            </div>
 
             <div className="summary-row"><span>{t.sub_total}</span><span className="v"><Price value={sub}/></span></div>
             <div className="summary-row"><span>{t.tax}</span><span className="v"><Price value={tax}/></span></div>

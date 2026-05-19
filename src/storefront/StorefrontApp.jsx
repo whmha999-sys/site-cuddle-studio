@@ -9,6 +9,13 @@ import { PDP } from './pdp.jsx';
 import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 import BackToTop from './back-to-top.jsx';
+import { CurrencyProvider, useCurrency } from './currency-context.jsx';
+
+function CartLinePrice({ value }) {
+  const { formatPrice } = useCurrency();
+  return <span>{formatPrice(value)}</span>;
+}
+
 
 export default function StorefrontApp() {
   const [cart, setCart] = useState(() => {

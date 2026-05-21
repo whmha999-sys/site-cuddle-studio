@@ -1,40 +1,16 @@
-## Plan: Update VZ-80 PLUS product photos
+Make the promo banner section much shorter (shallower height), like the thin Kingston IronKey strip in the reference image.
 
-The 9 uploaded photos clearly split into 3 groups:
-- **3 keyboard shots** (tablet docked in keyboard case — front, angled, side)
-- **3 blue back views** (straight back, left 45°, right 45°)
-- **3 gray back views** (straight back, left 45°, right 45°)
+## Change
 
-VZ-80 PLUS currently has two colors in the DB: `silver` (used for the blue variant) and `graphite` (gray). I'll replace the existing gallery with these new photos.
+In `src/storefront/PromoBanners.jsx`:
 
-### New gallery per color (6 photos each)
+- Increase `.pb-section` `max-width` from `900px` → `1200px` (wider, more strip-like).
+- Change `.pb-frame` `aspect-ratio` from `16 / 9` → `1200 / 200` (≈ 6:1), giving a short banner roughly 200px tall at full width.
+- Match the mobile override: change `.pb-frame` aspect-ratio in the `@media (max-width: 768px)` block to the same `1200 / 200` (or `6 / 1`), and slightly reduce caption/CTA bottom offsets so they still fit.
+- Keep `object-fit: cover` so 16:9 uploaded images crop cleanly to the strip.
 
-**Silver / Blue** (`silver`):
-1. `vz80-blue-back.webp` — straight back
-2. `vz80-blue-L45.webp` — left 45°
-3. `vz80-blue-R45.webp` — right 45°
-4. `vz80-keyboard-front.webp`
-5. `vz80-keyboard-angle.webp`
-6. `vz80-keyboard-side.webp`
+No other files change.
 
-**Graphite / Gray** (`graphite`):
-1. `vz80-gray-back.webp` — straight back
-2. `vz80-gray-L45.webp` — left 45°
-3. `vz80-gray-R45.webp` — right 45°
-4. `vz80-keyboard-front.webp` (shared)
-5. `vz80-keyboard-angle.webp` (shared)
-6. `vz80-keyboard-side.webp` (shared)
+## Note on uploaded images
 
-The keyboard shots are reused for both colors since the tablet inside the case isn't color-specific in the frames.
-
-### Files to change
-
-- Copy the 9 uploads to `public/uploads/` with the names above (PNG, kept as-is — no WebP conversion needed for this small batch unless you want it).
-- Update `src/storefront/data.js` → `PRODUCT_IMAGES['vz-80-plus']` arrays for both colors.
-- Run a DB migration: delete current `product_images` rows for `vz-80-plus` and insert the new 12 rows (6 per color).
-
-No changes to `pdp.jsx` (gallery auto-renders from the data), no changes to the marketing strip below.
-
-### Question before I build
-
-Want me to keep the keyboard shots shared across both colors as above, or only attach them to one color? Default = shared.
+Since images are 16:9 and the frame becomes ~6:1, the top and bottom of each image will be cropped. If you'd rather see the full image with no cropping, we'd need to either re-upload strip-shaped artwork or switch `object-fit` to `contain` (which would letterbox).

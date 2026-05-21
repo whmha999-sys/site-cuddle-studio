@@ -6,14 +6,14 @@ const promoBannerStyles = `
   @keyframes pb-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .pb-section {
     width: 100%;
-    max-width: 1200px;
+    max-width: 711px;
     margin: 8px auto 0;
     position: relative;
   }
   .pb-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 6 / 1;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg, 16px);
     overflow: hidden;
     border: 1px solid var(--border, rgba(255,255,255,0.08));
@@ -97,9 +97,9 @@ const promoBannerStyles = `
   .pb-dot.is-active { width: 24px; background: #fff; }
 
   @media (max-width: 768px) {
-    .pb-frame { aspect-ratio: 6 / 1; border-radius: 12px; }
-    .pb-caption { inset-inline-start: 14px; bottom: 50px; font-size: 12px; padding: 6px 10px; }
-    .pb-cta { inset-inline-start: 14px; bottom: 10px; padding: 8px 14px; font-size: 10px; }
+    .pb-frame { aspect-ratio: 16 / 9; border-radius: 12px; }
+    .pb-caption { inset-inline-start: 14px; bottom: 60px; font-size: 12px; padding: 6px 10px; }
+    .pb-cta { inset-inline-start: 14px; bottom: 14px; padding: 8px 14px; font-size: 10px; }
   }
 `;
 if (typeof document !== 'undefined' && !document.getElementById('pb-styles')) {

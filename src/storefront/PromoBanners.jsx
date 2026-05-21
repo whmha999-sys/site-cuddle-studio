@@ -12,13 +12,14 @@ const promoBannerStyles = `
   .pb-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 16 / 6;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg, 16px);
     overflow: hidden;
     border: 1px solid var(--border, rgba(255,255,255,0.08));
     background: var(--bg-2, #0f1115);
     box-shadow: 0 10px 40px rgba(0,0,0,0.25);
   }
+
   .pb-slide {
     position: absolute;
     inset: 0;

@@ -1,16 +1,38 @@
-Make the promo banner section much shorter (shallower height), like the thin Kingston IronKey strip in the reference image.
+## Goal
+Replace the existing `src/storefront/checkout.jsx` `Checkout` component with the new card-based, multi-step design from your pasted component, stripped down to **Cash on Delivery only**.
 
-## Change
+## What will change
+- **File:** `src/storefront/checkout.jsx`
+  - Replace the `Checkout` component with the new layout (header with "Back to Cart", SSL badge, progress steps, card-based sections, sticky order summary).
+  - Keep `CartDrawer` and `SuccessModal` exports untouched.
+- **shadcn components used** (already in `src/components/ui/`): `button`, `card`, `badge`, `input`, `label`, `checkbox`, `select`. No new installs needed.
+- **Icons:** lucide-react (already installed).
 
-In `src/storefront/PromoBanners.jsx`:
+## What will be removed
+- Card payment, Wallet, Bank transfer, mobile pay, "Same as shipping" — **only Cash on Delivery** kept as the single payment option.
+- Skeleton loading state from the source (your data isn't async-loaded the same way).
 
-- Increase `.pb-section` `max-width` from `900px` → `1200px` (wider, more strip-like).
-- Change `.pb-frame` `aspect-ratio` from `16 / 9` → `1200 / 200` (≈ 6:1), giving a short banner roughly 200px tall at full width.
-- Match the mobile override: change `.pb-frame` aspect-ratio in the `@media (max-width: 768px)` block to the same `1200 / 200` (or `6 / 1`), and slightly reduce caption/CTA bottom offsets so they still fit.
-- Keep `object-fit: cover` so 16:9 uploaded images crop cleanly to the strip.
+## What will be preserved from current checkout
+- Reading the real `cart` prop (no sample data).
+- Real product lookup via `window.CATALOG` + `Silhouette` for item images (your products don't have URL images).
+- Currency formatting via `<Price>` and `useCurrency()` — no hard-coded `$`.
+- Supabase order insert into `orders` table + `notify-n8n` edge function call.
+- `onComplete` callback that triggers the existing `SuccessModal`.
+- Empty-cart fallback.
+- Arabic/English labels (`lang` prop).
 
-No other files change.
+## What will be simplified (per your choice "drop in as-is")
+The new design uses a simpler US-style address (first/last/email/phone/address/city/state/zip/country). I will:
+- Replace the JO/SY/IQ governorate dropdown with the new design's **Country + State Select + free-text City + ZIP** layout.
+- Drop the alt-phone, landmark, delivery-window selector, and driver notes fields.
+- 3-step flow: **1) Shipping → 2) Payment (COD only, auto-selected) → 3) Review (terms checkbox + place order)**.
 
-## Note on uploaded images
+If you'd rather keep the JO/SY/IQ governorate logic and the extra fields inside the new visual shell, say so and I'll adjust before building.
 
-Since images are 16:9 and the frame becomes ~6:1, the top and bottom of each image will be cropped. If you'd rather see the full image with no cropping, we'd need to either re-upload strip-shaped artwork or switch `object-fit` to `contain` (which would letterbox).
+## Tax / shipping / totals
+The source computes 8% tax + tiered shipping. I will keep your existing formula instead: **10% tax, free shipping over 100, otherwise 3**, plus coupon codes `SL10` / `WELCOME` — so totals stay consistent with the rest of the site.
+
+## Out of scope
+- No DB changes.
+- No changes to `CartDrawer`, `SuccessModal`, cart logic, or routing.
+- No new dependencies.

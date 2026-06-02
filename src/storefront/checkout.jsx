@@ -1,7 +1,7 @@
 // Cart drawer + Checkout page + Success modal
 import React from 'react';
 import { Silhouette } from './silhouettes.jsx';
-import { Price } from './atoms.jsx';
+import { Price, Icon } from './atoms.jsx';
 import { supabase } from '@/integrations/supabase/client';
 import { useCurrency } from './currency-context.jsx';
 

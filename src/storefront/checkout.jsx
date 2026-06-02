@@ -118,9 +118,13 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
   };
   const removePromo = () => { setAppliedPromo(null); setCoupon(''); };
 
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
+  const isValidPhone = (v) => /^[+\d][\d\s\-()]{6,}$/.test((v || '').trim());
+
   const validateStep = (step) => {
     if (step === 1) {
-      return !!(shipping.firstName && shipping.lastName && shipping.email &&
+      return !!(shipping.firstName && shipping.lastName &&
+        isValidEmail(shipping.email) && isValidPhone(shipping.phone) &&
         shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid

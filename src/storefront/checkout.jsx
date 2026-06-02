@@ -143,10 +143,8 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
     });
     const fullAddress = [
       `Country: ${shipping.country}`,
-      `State: ${shipping.state}`,
       `City: ${shipping.city}`,
       `Address: ${shipping.address}`,
-      `ZIP: ${shipping.zipCode}`,
     ].join('\n');
     const orderRow = {
       customer_first: shipping.firstName, customer_last: shipping.lastName,
@@ -154,7 +152,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       customer_mobile: shipping.phone || 'N/A',
       customer_address: fullAddress,
       customer_city: shipping.city,
-      customer_zip: shipping.zipCode || null,
+      customer_zip: null,
       items,
       subtotal: convertPrice(sub),
       tax: convertPrice(tax),

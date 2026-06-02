@@ -476,7 +476,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                       {shipping.firstName} {shipping.lastName}
                     </div>
                     <div>{shipping.address}</div>
-                    <div>{shipping.city}, {shipping.state} {shipping.zipCode}</div>
+                    <div>{shipping.city}</div>
                     <div>{shipping.country}</div>
                     {shipping.phone && <div className="flex items-center gap-1 mt-1"><Phone className="h-3 w-3"/>{shipping.phone}</div>}
                     {shipping.email && <div className="flex items-center gap-1"><Mail className="h-3 w-3"/>{shipping.email}</div>}

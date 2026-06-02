@@ -118,9 +118,13 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
   };
   const removePromo = () => { setAppliedPromo(null); setCoupon(''); };
 
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
+  const isValidPhone = (v) => /^[+\d][\d\s\-()]{6,}$/.test((v || '').trim());
+
   const validateStep = (step) => {
     if (step === 1) {
-      return !!(shipping.firstName && shipping.lastName && shipping.email &&
+      return !!(shipping.firstName && shipping.lastName &&
+        isValidEmail(shipping.email) && isValidPhone(shipping.phone) &&
         shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid
@@ -376,9 +380,12 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                       value={shipping.email} onChange={e => upd('email', e.target.value)} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="phone">{L('Phone','الهاتف')}</Label>
-                    <Input id="phone" type="tel"
-                      value={shipping.phone} onChange={e => upd('phone', e.target.value)} />
+                    <Label htmlFor="phone">{L('Phone','الهاتف')} *</Label>
+                    <Input id="phone" type="tel" inputMode="tel"
+                      pattern="[+\d][\d\s\-()]{6,}"
+                      value={shipping.phone}
+                      onChange={e => upd('phone', e.target.value.replace(/[^\d+\s\-()]/g, ''))} />
+
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">

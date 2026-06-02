@@ -4,6 +4,18 @@ import { Silhouette } from './silhouettes.jsx';
 import { Price, Icon } from './atoms.jsx';
 import { supabase } from '@/integrations/supabase/client';
 import { useCurrency } from './currency-context.jsx';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
+import {
+  Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
+  Check, ChevronLeft, Percent, X, Wallet, Tag,
+} from 'lucide-react';
 
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
   const subtotal = cart.reduce((s,i)=>s + i.price*i.qty, 0);
@@ -61,130 +73,97 @@ function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
 }
 window.CartDrawer = CartDrawer;
 
-const GOVS = {
-  JO: ['Amman','Zarqa','Irbid','Aqaba','Madaba','Salt','Karak','Mafraq','Jerash','Ajloun','Tafilah',"Ma'an"],
-  SY: ['Damascus','Aleppo','Homs','Latakia','Hama','Tartus','Daraa','Deir ez-Zor','Raqqa','Hasakah','Sweida','Quneitra','Idlib'],
-  IQ: ['Baghdad','Basra','Erbil','Mosul','Najaf','Karbala','Kirkuk','Sulaymaniyah','Duhok','Anbar','Babil','Diyala'],
-};
-const COUNTRY_LABEL = { JO: 'Jordan', SY: 'Syria', IQ: 'Iraq' };
-const COUNTRY_LABEL_AR = { JO: 'الأردن', SY: 'سوريا', IQ: 'العراق' };
-const CURRENCY_TO_COUNTRY = { JOD: 'JO', SYP: 'SY', IQD: 'IQ' };
-
-const SAVED_CUSTOMER = {
-  first: 'Mohammed', last: 'Al-Rashid',
-  country: 'JO', city: 'Amman', area: 'Jabal Amman',
-  address: 'Rainbow St., Building 42, Floor 3, Apt 7',
-  landmark: 'Near Wild Jordan Center',
-  zip: '11181',
-  mobile: '+962 79 123 4567', mobile2: '',
-  email: 'mohammed@smartleaders.jo',
-  window: 'anytime', notes: '',
-};
+const US_STATES = [
+  ['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],
+  ['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['FL','Florida'],['GA','Georgia'],
+  ['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],
+  ['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],
+  ['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],
+  ['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],
+  ['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],
+  ['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],['SC','South Carolina'],
+  ['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],['VT','Vermont'],
+  ['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming'],
+];
 
 export function Checkout({ t, cart, onComplete, lang, user }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
   const ar = lang === 'ar';
   const L = (en, arT) => (ar ? arT : en);
-  const initialCountry = CURRENCY_TO_COUNTRY[currencyCode] || 'JO';
-  const [returning, setReturning] = React.useState(false);
-  const [pay] = React.useState('cod');
+
+  const [currentStep, setCurrentStep] = React.useState(1);
   const [coupon, setCoupon] = React.useState('');
-  const [applied, setApplied] = React.useState(null);
-  const [editing, setEditing] = React.useState(false);
-  const [codConfirmed, setCodConfirmed] = React.useState(false);
-  const [touched, setTouched] = React.useState({});
-  const [form, setForm] = React.useState({
-    first:'', last:'',
-    country: initialCountry,
-    city: GOVS[initialCountry][0],
-    area:'', address:'', landmark:'', zip:'',
-    mobile:'', mobile2:'',
-    email: user?.email || '',
-    window: 'anytime', notes:'',
+  const [appliedPromo, setAppliedPromo] = React.useState(null);
+  const [agreeToTerms, setAgreeToTerms] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+
+  const [shipping, setShipping] = React.useState({
+    firstName: '', lastName: '', email: user?.email || '', phone: '',
+    address: '', city: '', state: '', zipCode: '', country: 'US',
   });
 
-  // Re-sync city when country changes (unless returning data already set)
-  React.useEffect(() => {
-    if (!GOVS[form.country].includes(form.city)) {
-      setForm(f => ({ ...f, city: GOVS[f.country][0] }));
-    }
-  }, [form.country]);
+  const upd = (field, value) => setShipping(prev => ({ ...prev, [field]: value }));
 
-
-
-
-  React.useEffect(()=>{
-    if (returning) { setForm(SAVED_CUSTOMER); setEditing(false); }
-  }, [returning]);
-
-  const sub = cart.reduce((s,i)=>s+i.price*i.qty, 0);
-  const tax = sub * 0.10;
-  const discount = applied ? (sub * applied.pct) : 0;
-  const shipping = sub > 100 ? 0 : 3;
-  const total = sub + tax - discount + shipping;
+  const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
+  const discount = appliedPromo ? sub * appliedPromo.pct : 0;
+  const tax = (sub - discount) * 0.10;
+  const ship = sub > 100 ? 0 : 3;
+  const total = sub - discount + tax + ship;
 
   const applyCoupon = () => {
     const c = coupon.trim().toUpperCase();
-    if (c === 'SL10') setApplied({ code: c, pct: 0.10 });
-    else if (c === 'WELCOME') setApplied({ code: c, pct: 0.05 });
-    else setApplied({ code: c, pct: 0, invalid: true });
+    if (c === 'SL10') setAppliedPromo({ code: c, pct: 0.10 });
+    else if (c === 'WELCOME') setAppliedPromo({ code: c, pct: 0.05 });
+    else setAppliedPromo({ code: c, pct: 0, invalid: true });
+  };
+  const removePromo = () => { setAppliedPromo(null); setCoupon(''); };
+
+  const validateStep = (step) => {
+    if (step === 1) {
+      return !!(shipping.firstName && shipping.lastName && shipping.email &&
+        shipping.address && shipping.city && shipping.state && shipping.zipCode);
+    }
+    if (step === 2) return true; // COD always valid
+    if (step === 3) return agreeToTerms;
+    return false;
   };
 
-  // Validation
-  const errors = {};
-  if (!form.first.trim()) errors.first = L('Required','مطلوب');
-  if (!form.last.trim()) errors.last = L('Required','مطلوب');
-  if (!form.area.trim()) errors.area = L('Required','مطلوب');
-  if (!form.address.trim()) errors.address = L('Required','مطلوب');
-  const phoneRe = /^[\d\s+\-]{8,}$/;
-  if (!phoneRe.test(form.mobile.trim())) errors.mobile = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
-  if (form.mobile2.trim() && !phoneRe.test(form.mobile2.trim())) errors.mobile2 = L('Enter a valid phone number','أدخل رقم هاتف صحيح');
-  if (form.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) errors.email = L('Enter a valid email','أدخل بريداً صحيحاً');
-  const formValid = Object.keys(errors).length === 0;
-  const canSubmit = formValid && codConfirmed;
+  const nextStep = () => { if (validateStep(currentStep)) setCurrentStep(s => Math.min(s+1, 3)); };
+  const prevStep = () => setCurrentStep(s => Math.max(s-1, 1));
 
-  const showErr = (k) => (touched[k] || touched.__all) && errors[k];
-
-  const submit = async (e) => {
-    e.preventDefault();
-    if (!canSubmit) { setTouched({ __all: true }); return; }
+  const placeOrder = async () => {
+    if (!agreeToTerms || submitting) return;
+    setSubmitting(true);
     const items = cart.map(it => {
       const p = (window.CATALOG || []).find(x => x.id === it.id);
       return {
         id: it.id, name: p?.name || it.id, color: it.color, qty: it.qty,
-        price: it.price, // base JOD unit price
-        price_local: convertPrice(it.price),
+        price: it.price, price_local: convertPrice(it.price),
       };
     });
-    const winLabel = { anytime:'Anytime', morning:'Morning (9–12)', afternoon:'Afternoon (12–5)', evening:'Evening (5–9)' }[form.window];
     const fullAddress = [
-      `Country: ${COUNTRY_LABEL[form.country]}`,
-      `Governorate: ${form.city}`,
-      `Area: ${form.area}`,
-      `Address: ${form.address}`,
-      form.landmark && `Landmark: ${form.landmark}`,
-      form.zip && `ZIP: ${form.zip}`,
-      form.mobile2 && `Alt phone: ${form.mobile2}`,
-      `Delivery window: ${winLabel}`,
-      form.notes && `Notes: ${form.notes}`,
-    ].filter(Boolean).join('\n');
+      `Country: ${shipping.country}`,
+      `State: ${shipping.state}`,
+      `City: ${shipping.city}`,
+      `Address: ${shipping.address}`,
+      `ZIP: ${shipping.zipCode}`,
+    ].join('\n');
     const orderRow = {
-      customer_first: form.first, customer_last: form.last,
-      customer_email: form.email || `noemail-${Date.now()}@cod.local`,
-      customer_mobile: form.mobile,
+      customer_first: shipping.firstName, customer_last: shipping.lastName,
+      customer_email: shipping.email || `noemail-${Date.now()}@cod.local`,
+      customer_mobile: shipping.phone || 'N/A',
       customer_address: fullAddress,
-      customer_city: form.city,
-      customer_zip: form.zip || null,
+      customer_city: shipping.city,
+      customer_zip: shipping.zipCode || null,
       items,
-      // Totals stored in the customer's selected currency.
       subtotal: convertPrice(sub),
       tax: convertPrice(tax),
-      shipping: convertPrice(shipping),
+      shipping: convertPrice(ship),
       discount: convertPrice(discount),
       total: convertPrice(total),
       currency: currencyCode,
       exchange_rate: currency.rate,
-      payment_method: pay, status: 'pending',
+      payment_method: 'cod', status: 'pending',
     };
 
     let orderId = 'SL-' + Math.floor(100000 + Math.random()*900000);
@@ -194,14 +173,17 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       if (error) throw error;
       orderId = data.id;
       orderNumber = data.order_number;
-      // Fire-and-forget n8n notification
       supabase.functions.invoke('notify-n8n', {
         body: { ...orderRow, id: data.id, order_number: data.order_number },
-      }).catch((err) => console.warn('n8n notify failed:', err));
+      }).catch(err => console.warn('n8n notify failed:', err));
     } catch (err) {
       console.error('Order save failed, completing locally:', err);
     }
-    onComplete({ id: orderNumber ? `SL-${orderNumber}` : orderId, total, items: cart, pay, at: new Date().toISOString() });
+    setSubmitting(false);
+    onComplete({
+      id: orderNumber ? `SL-${orderNumber}` : orderId,
+      total, items: cart, pay: 'cod', at: new Date().toISOString(),
+    });
   };
 
   if (cart.length === 0) {
@@ -214,178 +196,371 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
     );
   }
 
-  return (
-    <>
-      <nav className="breadcrumb">
-        <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate('home');}}>{lang==='ar'?'الرئيسية':'Home'}</a>
-        <span className="sep">/</span>
-        <span className="current">{t.checkout}</span>
-      </nav>
-
-      <h1 style={{ fontFamily:'var(--font-display)', fontSize: 44, fontWeight: 400, margin:'8px 0 24px' }}>{t.checkout}</h1>
-
-      <form onSubmit={submit} className="checkout-layout">
-        <div>
-          {/* Items */}
-          <div className="co-card">
-            <h3>{t.review_items}</h3>
-            {cart.map((it,i) => {
-              const p = window.CATALOG.find(x=>x.id===it.id);
-              return (
-                <div key={i} className="co-item">
-                  <div className="co-item-img"><Silhouette product={p} color={it.color}/></div>
-                  <div>
-                    <div className="co-item-name">{p.name}</div>
-                    <div className="co-item-meta">{it.color} · Qty {String(it.qty).padStart(2,'0')}</div>
-                  </div>
-                  <div className="co-item-price"><Price value={it.price*it.qty}/></div>
+  const OrderSummaryCard = () => (
+    <Card className="flex flex-col gap-5">
+      <CardHeader>
+        <h3 className="font-semibold flex items-center gap-2">
+          <ShoppingBag className="h-4 w-4" />
+          {L('Order Summary','ملخص الطلب')}
+        </h3>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
+          {cart.map((it, i) => {
+            const p = window.CATALOG.find(x => x.id === it.id);
+            return (
+              <div key={i} className="flex gap-3">
+                <div className="relative w-12 h-12 flex-shrink-0 rounded-md overflow-hidden bg-muted">
+                  <Silhouette product={p} color={it.color}/>
+                  <Badge className="absolute -top-1 -right-1 text-xs min-w-5 h-5 px-1 flex items-center justify-center">
+                    {it.qty}
+                  </Badge>
                 </div>
-              );
-            })}
-          </div>
-
-
-
-
-          {/* Delivery info */}
-          <div className="co-card">
-            <div className="co-card-head">
-              <h3>{t.delivery_info}</h3>
-              {returning && !editing ? (
-                <button type="button" className="btn btn-outline btn-sm" onClick={()=>setEditing(true)}>{t.edit}</button>
-              ) : (
-                <button type="button" className="btn btn-ghost btn-sm" style={{color:'var(--fg-3)'}}>{t.save_info}</button>
-              )}
-            </div>
-            {returning && !editing ? (
-              <div style={{ fontSize: 14, lineHeight: 1.8 }}>
-                <div style={{ fontWeight:600, fontSize: 15 }}>{form.first} {form.last}</div>
-                <div>{COUNTRY_LABEL[form.country]} · {form.city} · {form.area}</div>
-                <div>{form.address}</div>
-                {form.landmark && <div style={{color:'var(--fg-3)'}}>↳ {form.landmark}</div>}
-                <div>{form.mobile}{form.mobile2 && ` · ${form.mobile2}`}</div>
-                {form.email && <div>{form.email}</div>}
-              </div>
-            ) : (
-              <div className="form-grid">
-                <div className="field"><label>{L('First name','الاسم الأول')}*</label>
-                  <input value={form.first} maxLength={60} onChange={e=>setForm({...form, first:e.target.value})} onBlur={()=>setTouched({...touched, first:true})}/>
-                  {showErr('first') && <div className="field-err">{errors.first}</div>}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium truncate">{p.name}</p>
+                  <div className="text-xs text-muted-foreground">{it.color}</div>
                 </div>
-                <div className="field"><label>{L('Last name','اسم العائلة')}*</label>
-                  <input value={form.last} maxLength={60} onChange={e=>setForm({...form, last:e.target.value})} onBlur={()=>setTouched({...touched, last:true})}/>
-                  {showErr('last') && <div className="field-err">{errors.last}</div>}
-                </div>
-                <div className="field"><label>{L('Country','الدولة')}*</label>
-                  <select value={form.country} onChange={e=>setForm({...form, country:e.target.value})}>
-                    {Object.keys(GOVS).map(c => <option key={c} value={c}>{ar?COUNTRY_LABEL_AR[c]:COUNTRY_LABEL[c]}</option>)}
-                  </select>
-                </div>
-                <div className="field"><label>{L('Governorate','المحافظة')}*</label>
-                  <select value={form.city} onChange={e=>setForm({...form, city:e.target.value})}>
-                    {GOVS[form.country].map(c => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                </div>
-                <div className="field"><label>{L('Area / Neighborhood','المنطقة / الحي')}*</label>
-                  <input value={form.area} maxLength={80} placeholder={L('e.g. Abdoun','مثال: عبدون')} onChange={e=>setForm({...form, area:e.target.value})} onBlur={()=>setTouched({...touched, area:true})}/>
-                  {showErr('area') && <div className="field-err">{errors.area}</div>}
-                </div>
-                <div className="field"><label>{L('ZIP / Postal code','الرمز البريدي')}</label>
-                  <input value={form.zip} maxLength={20} onChange={e=>setForm({...form, zip:e.target.value})}/>
-                </div>
-                <div className="field full"><label>{L('Street, building, floor, apartment','الشارع، المبنى، الطابق، الشقة')}*</label>
-                  <textarea rows={2} value={form.address} maxLength={200} placeholder={L('Full street address with building number','العنوان الكامل مع رقم المبنى')} onChange={e=>setForm({...form, address:e.target.value})} onBlur={()=>setTouched({...touched, address:true})}/>
-                  {showErr('address') && <div className="field-err">{errors.address}</div>}
-                </div>
-                <div className="field full"><label>{L('Nearest landmark','أقرب معلم')}</label>
-                  <input value={form.landmark} maxLength={120} placeholder={L('Helps the driver find you faster','يساعد السائق في الوصول أسرع')} onChange={e=>setForm({...form, landmark:e.target.value})}/>
-                </div>
-                <div className="field"><label>{L('Mobile (primary)','الجوال (رئيسي)')}*</label>
-                  <input value={form.mobile} maxLength={30} placeholder="+962 7X XXX XXXX" onChange={e=>setForm({...form, mobile:e.target.value})} onBlur={()=>setTouched({...touched, mobile:true})}/>
-                  {showErr('mobile') && <div className="field-err">{errors.mobile}</div>}
-                </div>
-                <div className="field"><label>{L('Alternate mobile','جوال بديل')}</label>
-                  <input value={form.mobile2} maxLength={30} placeholder={L('In case we cannot reach you','في حال تعذر الوصول إليك')} onChange={e=>setForm({...form, mobile2:e.target.value})} onBlur={()=>setTouched({...touched, mobile2:true})}/>
-                  {showErr('mobile2') && <div className="field-err">{errors.mobile2}</div>}
-                </div>
-                <div className="field full"><label>{L('Email (optional)','البريد الإلكتروني (اختياري)')}</label>
-                  <input type="email" value={form.email} maxLength={120} onChange={e=>setForm({...form, email:e.target.value})} onBlur={()=>setTouched({...touched, email:true})}/>
-                  {showErr('email') && <div className="field-err">{errors.email}</div>}
-                </div>
-                <div className="field full"><label>{L('Preferred delivery time','وقت التوصيل المفضل')}</label>
-                  <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
-                    {[
-                      ['anytime', L('Anytime','أي وقت')],
-                      ['morning', L('Morning (9–12)','صباحاً (9–12)')],
-                      ['afternoon', L('Afternoon (12–5)','ظهراً (12–5)')],
-                      ['evening', L('Evening (5–9)','مساءً (5–9)')],
-                    ].map(([k,label])=>(
-                      <button key={k} type="button"
-                        className={`payment-opt ${form.window===k?'selected':''}`}
-                        style={{padding:'8px 14px',flex:'0 0 auto'}}
-                        onClick={()=>setForm({...form, window:k})}>
-                        <span className={`radio ${form.window===k?'on':''}`}/>
-                        <span style={{fontSize:13}}>{label}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="field full"><label>{L('Notes for the driver','ملاحظات للسائق')}</label>
-                  <textarea rows={2} value={form.notes} maxLength={500} placeholder={L('Gate code, call before arriving, etc.','رمز البوابة، الاتصال قبل الوصول، إلخ.')} onChange={e=>setForm({...form, notes:e.target.value})}/>
+                <div className="text-sm font-semibold whitespace-nowrap">
+                  <Price value={it.price * it.qty}/>
                 </div>
               </div>
-            )}
-          </div>
+            );
+          })}
         </div>
 
-        {/* Right column */}
-        <div>
-          <div className="co-card" style={{ position:'sticky', top: 120 }}>
-            <h3>{lang==='ar'?'ملخص الطلب':'Order summary'}</h3>
+        {/* Coupon */}
+        <div className="flex gap-2">
+          <Input
+            placeholder={t.coupon_ph || L('Coupon code','رمز الخصم')}
+            value={coupon}
+            onChange={e => setCoupon(e.target.value)}
+            disabled={!!appliedPromo && !appliedPromo.invalid}
+          />
+          <Button type="button" variant="outline" onClick={applyCoupon}>
+            <Tag className="h-4 w-4 mr-1"/>{t.apply || L('Apply','تطبيق')}
+          </Button>
+        </div>
 
-            <div className="coupon-row">
-              <input placeholder={t.coupon_ph} value={coupon} onChange={e=>setCoupon(e.target.value)}/>
-              <button type="button" className="btn btn-green" onClick={applyCoupon}>{t.apply}</button>
-            </div>
-            {applied && !applied.invalid && <div style={{ color:'var(--green-700)', fontSize: 12, marginBottom: 12, fontFamily:'var(--font-mono)' }}>✓ {applied.code} · −{(applied.pct*100).toFixed(0)}%</div>}
-            {applied?.invalid && <div style={{ color:'#c43c3c', fontSize: 12, marginBottom: 12 }}>Invalid coupon. Try SL10 or WELCOME.</div>}
-
-            <h3 style={{ fontSize: 20, marginTop: 20 }}>{t.payment}</h3>
-            <div className="payment-opts">
-              <div className="payment-opt selected">
-                <span className="radio on"/>
-                <span style={{ fontSize:18 }}>💵</span>
-                <span style={{ fontWeight:500, fontSize:14 }}>{t.pay_cod}</span>
-              </div>
-            </div>
-
-            <div className="summary-row"><span>{t.sub_total}</span><span className="v"><Price value={sub}/></span></div>
-            <div className="summary-row"><span>{t.tax}</span><span className="v"><Price value={tax}/></span></div>
-            {discount > 0 && <div className="summary-row"><span>{t.discount}</span><span className="v" style={{color:'var(--green-700)'}}>−<Price value={discount}/></span></div>}
-            <div className="summary-row"><span>{t.shipping}</span><span className="v">{shipping === 0 ? <span style={{color:'var(--green-700)'}}>{lang==='ar'?'مجاناً':'Free'}</span> : <Price value={shipping}/>}</span></div>
-            <div className="summary-row summary-total"><span>{t.total}</span><span className="v"><Price value={total}/></span></div>
-
-            <div className="toggle-row" style={{marginTop:14, alignItems:'flex-start'}}>
-              <button type="button" className={`check ${codConfirmed?'on':''}`} onClick={()=>setCodConfirmed(!codConfirmed)}>
-                {codConfirmed && <Icon name="check" size={14}/>}
-              </button>
-              <span style={{fontSize:13, lineHeight:1.5}}>
-                {L('I confirm I will pay ','أؤكد أنني سأدفع ')}
-                <strong><Price value={total}/></strong>
-                {L(' in cash on delivery.',' نقداً عند الاستلام.')}
+        {appliedPromo && !appliedPromo.invalid && (
+          <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-md border border-green-200 dark:border-green-900">
+            <div className="flex items-center gap-2">
+              <Percent className="h-4 w-4 text-green-600" />
+              <span className="text-sm font-medium text-green-800 dark:text-green-300">
+                {appliedPromo.code} · −{(appliedPromo.pct*100).toFixed(0)}%
               </span>
             </div>
+            <Button variant="ghost" size="sm" onClick={removePromo} className="h-6 w-6 p-0 text-green-700">
+              <X className="h-3 w-3" />
+            </Button>
+          </div>
+        )}
+        {appliedPromo?.invalid && (
+          <div className="text-xs text-destructive">
+            {L('Invalid coupon. Try SL10 or WELCOME.','رمز غير صالح. جرّب SL10 أو WELCOME.')}
+          </div>
+        )}
 
-            <button type="submit" disabled={!canSubmit} className="btn btn-green btn-lg btn-block" style={{marginTop:14, opacity: canSubmit?1:0.5, cursor: canSubmit?'pointer':'not-allowed'}}>
-              {L('Place order','تأكيد الطلب')} · <Price value={total}/>
-            </button>
-            <div style={{ fontSize: 11, color:'var(--fg-3)', textAlign:'center', marginTop: 10, fontFamily:'var(--font-mono)', letterSpacing:'0.06em' }}>
-              {L('CASH ON DELIVERY · NO PAYMENT NOW','الدفع عند الاستلام · لا دفع الآن')}
+        {/* Totals */}
+        <div className="flex flex-col gap-2 border-t pt-4">
+          <div className="flex justify-between text-sm">
+            <span>{t.sub_total}</span>
+            <span><Price value={sub}/></span>
+          </div>
+          {discount > 0 && (
+            <div className="flex justify-between text-sm text-green-600">
+              <span>{t.discount}</span>
+              <span>−<Price value={discount}/></span>
             </div>
+          )}
+          <div className="flex justify-between text-sm">
+            <span>{t.shipping}</span>
+            <span>{ship === 0 ? <span className="text-green-600">{L('Free','مجاناً')}</span> : <Price value={ship}/>}</span>
+          </div>
+          <div className="flex justify-between text-sm">
+            <span>{t.tax}</span>
+            <span><Price value={tax}/></span>
+          </div>
+          <div className="flex justify-between font-semibold text-lg border-t pt-2">
+            <span>{t.total}</span>
+            <span><Price value={total}/></span>
           </div>
         </div>
-      </form>
-    </>
+      </CardContent>
+    </Card>
+  );
+
+  const steps = [
+    { step: 1, label: L('Shipping','الشحن'), icon: Truck },
+    { step: 2, label: L('Payment','الدفع'), icon: Wallet },
+    { step: 3, label: L('Review','المراجعة'), icon: Check },
+  ];
+
+  return (
+    <div className="w-full mx-auto p-6 flex flex-col gap-6" dir={ar ? 'rtl' : 'ltr'}>
+      {/* Header */}
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div className="flex flex-col items-start gap-4">
+          <Button
+            variant="ghost" size="sm"
+            onClick={() => window.navigate('home')}
+            className="flex items-center gap-1"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            {L('Back to Cart','العودة للسلة')}
+          </Button>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-bold flex items-center gap-2">
+              {t.checkout}
+            </h1>
+            <p className="text-muted-foreground text-sm">
+              {L('Complete your purchase securely','أكمل عملية الشراء بأمان')}
+            </p>
+          </div>
+        </div>
+        <Badge variant="secondary" className="flex items-center gap-1">
+          <Shield className="h-3 w-3" />
+          {L('SSL Secured','مؤمّن SSL')}
+        </Badge>
+      </div>
+
+      {/* Progress Steps */}
+      <div className="flex items-center justify-start gap-4 sm:gap-6 py-4">
+        {steps.map(({ step, label, icon: StepIcon }, index) => (
+          <div key={step} className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <div className={cn(
+                "flex items-center justify-center w-8 h-8 rounded-full border-2 transition-colors",
+                currentStep >= step
+                  ? "bg-primary border-primary text-primary-foreground"
+                  : "border-border text-muted-foreground"
+              )}>
+                {currentStep > step ? <Check className="h-4 w-4" /> : <StepIcon className="h-4 w-4" />}
+              </div>
+              <span className={cn(
+                "text-sm font-medium hidden sm:block",
+                currentStep >= step ? "text-foreground" : "text-muted-foreground"
+              )}>{label}</span>
+            </div>
+            {index < steps.length - 1 && (
+              <div className={cn("w-8 h-0.5", currentStep > step ? "bg-primary" : "bg-border")} />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Content */}
+        <div className="lg:col-span-2 flex flex-col gap-6">
+          {/* Step 1: Shipping */}
+          {currentStep === 1 && (
+            <Card className="flex flex-col gap-6">
+              <CardHeader>
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <MapPin className="h-5 w-5" />
+                  {L('Shipping Information','معلومات الشحن')}
+                </h2>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="firstName">{L('First Name','الاسم الأول')} *</Label>
+                    <Input id="firstName" placeholder="John"
+                      value={shipping.firstName} onChange={e => upd('firstName', e.target.value)} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="lastName">{L('Last Name','اسم العائلة')} *</Label>
+                    <Input id="lastName" placeholder="Doe"
+                      value={shipping.lastName} onChange={e => upd('lastName', e.target.value)} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="email">{L('Email','البريد الإلكتروني')} *</Label>
+                    <Input id="email" type="email" placeholder="john@example.com"
+                      value={shipping.email} onChange={e => upd('email', e.target.value)} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="phone">{L('Phone','الهاتف')}</Label>
+                    <Input id="phone" type="tel" placeholder="+1 (555) 123-4567"
+                      value={shipping.phone} onChange={e => upd('phone', e.target.value)} />
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="address">{L('Address','العنوان')} *</Label>
+                  <Input id="address" placeholder="123 Main Street"
+                    value={shipping.address} onChange={e => upd('address', e.target.value)} />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="city">{L('City','المدينة')} *</Label>
+                    <Input id="city" placeholder="New York"
+                      value={shipping.city} onChange={e => upd('city', e.target.value)} />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="state">{L('State','الولاية')} *</Label>
+                    <Select value={shipping.state} onValueChange={v => upd('state', v)}>
+                      <SelectTrigger><SelectValue placeholder={L('Select state','اختر الولاية')} /></SelectTrigger>
+                      <SelectContent>
+                        {US_STATES.map(([code, name]) => (
+                          <SelectItem key={code} value={code}>{name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="zipCode">{L('ZIP Code','الرمز البريدي')} *</Label>
+                    <Input id="zipCode" placeholder="10001"
+                      value={shipping.zipCode} onChange={e => upd('zipCode', e.target.value)} />
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button onClick={nextStep} disabled={!validateStep(1)} className="ml-auto" size="lg">
+                  {L('Continue to Payment','المتابعة إلى الدفع')}
+                </Button>
+              </CardFooter>
+            </Card>
+          )}
+
+          {/* Step 2: Payment - COD only */}
+          {currentStep === 2 && (
+            <Card className="flex flex-col gap-6">
+              <CardHeader>
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <Wallet className="h-5 w-5" />
+                  {L('Payment Method','طريقة الدفع')}
+                </h2>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  <Label className="text-base font-medium">
+                    {L('Available Payment Methods','طرق الدفع المتاحة')}
+                  </Label>
+                  <div className="grid grid-cols-1 gap-3">
+                    <div className="flex items-center gap-3 p-4 border-2 border-primary bg-primary/5 rounded-md">
+                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10">
+                        <span className="text-xl">💵</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium">{L('Cash on Delivery','الدفع عند الاستلام')}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {L('Pay in cash when your order arrives','ادفع نقداً عند وصول طلبك')}
+                        </div>
+                      </div>
+                      <Check className="h-5 w-5 text-primary" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-md border border-border bg-muted/30 p-4 flex items-start gap-3">
+                  <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+                  <p className="text-sm text-muted-foreground">
+                    {L('No payment required now. You will pay the driver in cash upon delivery.',
+                       'لا حاجة للدفع الآن. ستدفع للسائق نقداً عند الاستلام.')}
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline" size="lg" onClick={prevStep} className="flex items-center gap-2">
+                  <ChevronLeft className="h-4 w-4" />
+                  {L('Back','رجوع')}
+                </Button>
+                <Button onClick={nextStep} size="lg">
+                  {L('Review Order','مراجعة الطلب')}
+                </Button>
+              </CardFooter>
+            </Card>
+          )}
+
+          {/* Step 3: Review */}
+          {currentStep === 3 && (
+            <Card className="flex flex-col gap-6">
+              <CardHeader>
+                <h2 className="text-xl font-semibold flex items-center gap-2">
+                  <Check className="h-5 w-5" />
+                  {L('Review Your Order','راجع طلبك')}
+                </h2>
+              </CardHeader>
+              <CardContent className="flex flex-col gap-6">
+                {/* Shipping summary */}
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      {L('Shipping Address','عنوان الشحن')}
+                    </h4>
+                    <Button variant="ghost" size="sm" onClick={() => setCurrentStep(1)}>
+                      {L('Edit','تعديل')}
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground leading-relaxed pl-6">
+                    <div className="font-medium text-foreground">
+                      {shipping.firstName} {shipping.lastName}
+                    </div>
+                    <div>{shipping.address}</div>
+                    <div>{shipping.city}, {shipping.state} {shipping.zipCode}</div>
+                    <div>{shipping.country}</div>
+                    {shipping.phone && <div className="flex items-center gap-1 mt-1"><Phone className="h-3 w-3"/>{shipping.phone}</div>}
+                    {shipping.email && <div className="flex items-center gap-1"><Mail className="h-3 w-3"/>{shipping.email}</div>}
+                  </div>
+                </div>
+
+                {/* Payment summary */}
+                <div className="flex flex-col gap-2 border-t pt-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="font-medium flex items-center gap-2">
+                      <Wallet className="h-4 w-4" />
+                      {L('Payment Method','طريقة الدفع')}
+                    </h4>
+                    <Button variant="ghost" size="sm" onClick={() => setCurrentStep(2)}>
+                      {L('Edit','تعديل')}
+                    </Button>
+                  </div>
+                  <div className="text-sm text-muted-foreground pl-6">
+                    💵 {L('Cash on Delivery','الدفع عند الاستلام')}
+                  </div>
+                </div>
+
+                {/* Terms */}
+                <div className="flex items-start gap-2 border-t pt-4">
+                  <Checkbox
+                    id="terms"
+                    checked={agreeToTerms}
+                    onCheckedChange={(c) => setAgreeToTerms(c === true)}
+                    className="mt-0.5"
+                  />
+                  <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
+                    {L('I confirm I will pay ','أؤكد أنني سأدفع ')}
+                    <strong><Price value={total}/></strong>
+                    {L(' in cash on delivery and agree to the terms of service.',
+                       ' نقداً عند الاستلام وأوافق على شروط الخدمة.')}
+                  </Label>
+                </div>
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="outline" size="lg" onClick={prevStep} className="flex items-center gap-2">
+                  <ChevronLeft className="h-4 w-4" />
+                  {L('Back','رجوع')}
+                </Button>
+                <Button
+                  size="lg"
+                  onClick={placeOrder}
+                  disabled={!agreeToTerms || submitting}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  {submitting
+                    ? L('Placing order...','جاري التأكيد...')
+                    : <>{L('Place Order','تأكيد الطلب')} · <Price value={total}/></>}
+                </Button>
+              </CardFooter>
+            </Card>
+          )}
+        </div>
+
+        {/* Order Summary Sidebar */}
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <OrderSummaryCard />
+        </div>
+      </div>
+    </div>
   );
 }
 window.Checkout = Checkout;

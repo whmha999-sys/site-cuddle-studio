@@ -121,7 +121,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
   const validateStep = (step) => {
     if (step === 1) {
       return !!(shipping.firstName && shipping.lastName && shipping.email &&
-        shipping.address && shipping.city && shipping.state && shipping.zipCode);
+        shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid
     if (step === 3) return agreeToTerms;
@@ -143,10 +143,8 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
     });
     const fullAddress = [
       `Country: ${shipping.country}`,
-      `State: ${shipping.state}`,
       `City: ${shipping.city}`,
       `Address: ${shipping.address}`,
-      `ZIP: ${shipping.zipCode}`,
     ].join('\n');
     const orderRow = {
       customer_first: shipping.firstName, customer_last: shipping.lastName,
@@ -154,7 +152,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       customer_mobile: shipping.phone || 'N/A',
       customer_address: fullAddress,
       customer_city: shipping.city,
-      customer_zip: shipping.zipCode || null,
+      customer_zip: null,
       items,
       subtotal: convertPrice(sub),
       tax: convertPrice(tax),
@@ -364,52 +362,34 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-2">
                     <Label htmlFor="firstName">{L('First Name','الاسم الأول')} *</Label>
-                    <Input id="firstName" placeholder="John"
+                    <Input id="firstName"
                       value={shipping.firstName} onChange={e => upd('firstName', e.target.value)} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label htmlFor="lastName">{L('Last Name','اسم العائلة')} *</Label>
-                    <Input id="lastName" placeholder="Doe"
+                    <Input id="lastName"
                       value={shipping.lastName} onChange={e => upd('lastName', e.target.value)} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label htmlFor="email">{L('Email','البريد الإلكتروني')} *</Label>
-                    <Input id="email" type="email" placeholder="john@example.com"
+                    <Input id="email" type="email"
                       value={shipping.email} onChange={e => upd('email', e.target.value)} />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label htmlFor="phone">{L('Phone','الهاتف')}</Label>
-                    <Input id="phone" type="tel" placeholder="+1 (555) 123-4567"
+                    <Input id="phone" type="tel"
                       value={shipping.phone} onChange={e => upd('phone', e.target.value)} />
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label htmlFor="address">{L('Address','العنوان')} *</Label>
-                  <Input id="address" placeholder="123 Main Street"
+                  <Input id="address"
                     value={shipping.address} onChange={e => upd('address', e.target.value)} />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="city">{L('City','المدينة')} *</Label>
-                    <Input id="city" placeholder="New York"
-                      value={shipping.city} onChange={e => upd('city', e.target.value)} />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="state">{L('State','الولاية')} *</Label>
-                    <Select value={shipping.state} onValueChange={v => upd('state', v)}>
-                      <SelectTrigger><SelectValue placeholder={L('Select state','اختر الولاية')} /></SelectTrigger>
-                      <SelectContent>
-                        {US_STATES.map(([code, name]) => (
-                          <SelectItem key={code} value={code}>{name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <Label htmlFor="zipCode">{L('ZIP Code','الرمز البريدي')} *</Label>
-                    <Input id="zipCode" placeholder="10001"
-                      value={shipping.zipCode} onChange={e => upd('zipCode', e.target.value)} />
-                  </div>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="city">{L('City','المدينة')} *</Label>
+                  <Input id="city"
+                    value={shipping.city} onChange={e => upd('city', e.target.value)} />
                 </div>
               </CardContent>
               <CardFooter>
@@ -496,7 +476,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                       {shipping.firstName} {shipping.lastName}
                     </div>
                     <div>{shipping.address}</div>
-                    <div>{shipping.city}, {shipping.state} {shipping.zipCode}</div>
+                    <div>{shipping.city}</div>
                     <div>{shipping.country}</div>
                     {shipping.phone && <div className="flex items-center gap-1 mt-1"><Phone className="h-3 w-3"/>{shipping.phone}</div>}
                     {shipping.email && <div className="flex items-center gap-1"><Mail className="h-3 w-3"/>{shipping.email}</div>}

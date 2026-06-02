@@ -121,7 +121,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
   const validateStep = (step) => {
     if (step === 1) {
       return !!(shipping.firstName && shipping.lastName && shipping.email &&
-        shipping.address && shipping.city && shipping.state && shipping.zipCode);
+        shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid
     if (step === 3) return agreeToTerms;

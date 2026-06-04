@@ -35,6 +35,7 @@ export default function StorefrontApp() {
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [route, setRoute] = useState({ name: 'home', params: {} });
+  const [cartBump, setCartBump] = useState(0);
 
   const t = I18N[lang];
 
@@ -96,6 +97,7 @@ export default function StorefrontApp() {
       }
       return [...prev, { id: product.id, color, qty, price: product.price }];
     });
+    setCartBump(b => b + 1);
     setCartOpen(true);
   };
 
@@ -114,16 +116,19 @@ export default function StorefrontApp() {
         t={t}
 
         cart={cart}
+        cartBump={cartBump}
         onOpenCart={() => setCartOpen(true)}
         onOpenAuth={() => setAuthOpen(true)}
         products={catalog}
         lang={lang}
-        onLangToggle={() => setLang('ar')}
+        onLangToggle={() => setLang(lang === 'ar' ? 'en' : 'ar')}
+        onSetLang={setLang}
         user={user}
         onSignout={() => setUser(null)}
       />
 
       <main className="page">
+        <div key={route.name + ':' + (route.params?.id || route.params?.cat || '')} className="page-transition">
         {(() => {
           const InfoPage = INFO_PAGES[route.name];
           if (InfoPage) return <InfoPage lang={lang} />;
@@ -168,6 +173,7 @@ export default function StorefrontApp() {
             />
           );
         })()}
+        </div>
       </main>
 
 

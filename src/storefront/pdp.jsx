@@ -5,7 +5,7 @@ import { Silhouette, ColorDot } from './silhouettes.jsx';
 
 import { PRODUCT_IMAGES } from './data.js';
 import { ProductShowcase } from './product-showcase.jsx';
-import ProductShowcaseCard from '@/components/ui/product-showcase-card';
+import { ShowcaseCardWithColors } from './home.jsx';
 import PdpStickyBar from './pdp-sticky-bar.jsx';
 
 

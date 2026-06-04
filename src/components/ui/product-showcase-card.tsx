@@ -152,7 +152,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
         </div>
 
         <button
-          onClick={() => inStock && onAddToCart?.(product)}
+          onClick={(e) => { e.stopPropagation(); inStock && onAddToCart?.(product); }}
           onMouseEnter={() => setBtnHover(true)}
           onMouseLeave={() => setBtnHover(false)}
           disabled={!inStock}

@@ -21,7 +21,7 @@ export default function WhatsAppFab({ lang = 'en' }) {
       title={isAr ? 'تواصل عبر واتساب' : 'Chat on WhatsApp'}
       className="wa-fab"
     >
-      <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" className="wa-fab-icon">
+      <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true" className="wa-fab-icon">
         <defs>
           <linearGradient id="waGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#43e97b" />

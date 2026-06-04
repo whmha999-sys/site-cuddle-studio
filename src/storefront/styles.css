@@ -1054,19 +1054,20 @@ input, select, textarea { font-family: inherit; color: inherit; }
 /* ===== WhatsApp floating action button ===== */
 .wa-fab {
   position: fixed;
-  bottom: 120px;
-  left: 16px;
+  bottom: 124px;
+  inset-inline-end: 16px;
+  left: auto;
   z-index: 60;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
   background: linear-gradient(135deg, #43e97b 0%, #25d366 100%);
   color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 8px 24px rgba(37, 211, 102, 0.45),
+    0 6px 18px rgba(37, 211, 102, 0.45),
     0 2px 6px rgba(0,0,0,0.12),
     inset 0 1px 0 rgba(255,255,255,0.25);
   text-decoration: none;
@@ -1119,8 +1120,8 @@ input, select, textarea { font-family: inherit; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  .wa-fab { width: 56px; height: 56px; bottom: 112px; left: 12px; }
-  .wa-fab-badge { min-width: 18px; height: 18px; font-size: 9px; top: -3px; right: -3px; }
+  .wa-fab { width: 44px; height: 44px; bottom: 120px; inset-inline-end: 16px; left: auto; }
+  .wa-fab-badge { min-width: 16px; height: 16px; font-size: 9px; top: -3px; right: -3px; }
 }
 
 

@@ -9,6 +9,7 @@ import { PromoReel } from './promo.jsx';
 import { PromoBanners } from './PromoBanners.jsx';
 import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
+import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
@@ -1130,15 +1131,38 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
 
       <div className="grid">
         {filtered.map(p => (
-          <ProductCard
-            key={p.id}
-            p={p}
-            t={t}
-            inCart={isInCart(p.id)}
-            onAdd={(prod, color) => onAddToCart(prod, color, 1)}
-            onOpen={(prod) => window.navigate('pdp', {id: prod.id})}
-            imgVersion={imgVersion}
-          />
+          p.id === 'teclast-p50' ? (
+            <ProductShowcaseCard
+              key={p.id}
+              isDark
+              product={{
+                id: p.id,
+                name: p.name,
+                category: t['cat_'+p.category] || p.category,
+                price: p.price,
+                image: (PRODUCT_IMAGES?.[p.id]?.[p.colors[0]] || [])[0] || '',
+                rating: 4.7,
+                reviews: 128,
+                inStock: true,
+                currency: 'JOD ',
+              }}
+              addToCartLabel={t.add_to_cart}
+              outOfStockLabel={lang==='ar'?'غير متوفر':'Out of Stock'}
+              reviewsLabel={lang==='ar'?'تقييم':'reviews'}
+              inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
+              onAddToCart={() => { onAddToCart(p, p.colors[0], 1); }}
+            />
+          ) : (
+            <ProductCard
+              key={p.id}
+              p={p}
+              t={t}
+              inCart={isInCart(p.id)}
+              onAdd={(prod, color) => onAddToCart(prod, color, 1)}
+              onOpen={(prod) => window.navigate('pdp', {id: prod.id})}
+              imgVersion={imgVersion}
+            />
+          )
         ))}
       </div>
 

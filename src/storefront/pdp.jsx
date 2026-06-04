@@ -4,7 +4,7 @@ import { Icon, Price, Stars } from './atoms.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { ProductCard } from './home.jsx';
 import { PRODUCT_IMAGES } from './data.js';
-import { P50Showcase } from './p50-showcase.jsx';
+import { ProductShowcase } from './product-showcase.jsx';
 
 
 export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavigate }) {
@@ -46,9 +46,12 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         <span className="current">{product.name}</span>
       </nav>
 
-      {product.id === 'teclast-p50' && (
-        <P50Showcase
+      {realImgs && (
+        <ProductShowcase
+          product={product}
+          color={color}
           lang={lang}
+          t={t}
           onViewSpecs={() => {
             document.querySelector('.specs-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }}
@@ -57,30 +60,18 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       <section className="pdp">
 
-        {product.id !== 'teclast-p50' && (
+        {!realImgs && (
         <div className="pdp-gallery">
 
           <div className="pdp-main-img">
-            {realImgs ? (
-              <img src={realImgs[thumb]} alt={product.name + ' ' + color}
-                style={{ width:'100%', height:'100%', objectFit:'contain', display:'block' }}/>
-            ) : (
-              <Silhouette product={product} color={color}/>
-            )}
+            <Silhouette product={product} color={color}/>
           </div>
           <div className="pdp-thumbs">
-            {realImgs ? realImgs.map((src, i) => (
-              <div key={i} className={`pdp-thumb ${thumb===i?'active':''}`} onClick={()=>setThumb(i)}>
-                <img src={src} alt={product.name + ' view ' + (i+1)}
-                  style={{ width:'100%', height:'100%', objectFit:'contain', display:'block' }}/>
+            {(product.colors.length >= 4 ? product.colors : [...product.colors, ...product.colors, ...product.colors, ...product.colors]).slice(0,4).map((c,i) => (
+              <div key={i} className={`pdp-thumb ${thumb===i?'active':''}`} onClick={()=>{ setThumb(i); if(product.colors[i]) setColor(product.colors[i]); }}>
+                <Silhouette product={product} color={product.colors[i] || c}/>
               </div>
-            )) : (
-              (product.colors.length >= 4 ? product.colors : [...product.colors, ...product.colors, ...product.colors, ...product.colors]).slice(0,4).map((c,i) => (
-                <div key={i} className={`pdp-thumb ${thumb===i?'active':''}`} onClick={()=>{ setThumb(i); if(product.colors[i]) setColor(product.colors[i]); }}>
-                  <Silhouette product={product} color={product.colors[i] || c}/>
-                </div>
-              ))
-            )}
+            ))}
           </div>
         </div>
         )}

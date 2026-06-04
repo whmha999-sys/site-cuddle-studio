@@ -35,6 +35,13 @@ function Header({ t, cart, cartBump = 0, onOpenCart, onOpenAuth, onSearch, produ
   }, [q, products]);
 
   const cartCount = cart.reduce((s,i)=>s+i.qty, 0);
+  const [bumping, setBumping] = useStateH(false);
+  useEffectH(() => {
+    if (!cartBump) return;
+    setBumping(true);
+    const id = setTimeout(() => setBumping(false), 600);
+    return () => clearTimeout(id);
+  }, [cartBump]);
 
   // Lock body scroll while drawer open
   useEffectH(() => {

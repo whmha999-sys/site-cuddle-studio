@@ -24,6 +24,9 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/product/:id" element={<Index />} />
+            <Route path="/checkout" element={<Index />} />
+            <Route path="/p/:slug" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route
               path="/admin"

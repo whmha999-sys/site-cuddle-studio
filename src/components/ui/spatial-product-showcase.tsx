@@ -129,18 +129,25 @@ export default function SpatialProductShowcase({
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={`img-${active.id}`}
-              src={active.image}
-              alt={active.title}
               variants={imageV(fromX)}
               initial="initial"
               animate="animate"
               exit="exit"
-              className="relative z-10 max-h-[360px] md:max-h-[460px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
-              draggable={false}
-            />
+              className="relative z-10"
+            >
+              <motion.img
+                src={active.image}
+                alt={active.title}
+                animate={{ y: [0, -14, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="max-h-[360px] md:max-h-[460px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+                draggable={false}
+              />
+            </motion.div>
           </AnimatePresence>
+
 
           {/* status pill */}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">

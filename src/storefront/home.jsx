@@ -1134,7 +1134,7 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
           p.id === 'teclast-p50' ? (
             <ProductShowcaseCard
               key={p.id}
-              isDark
+              
               product={{
                 id: p.id,
                 name: p.name,

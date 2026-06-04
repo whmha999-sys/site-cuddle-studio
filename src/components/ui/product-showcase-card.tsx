@@ -27,15 +27,13 @@ interface Props {
 
 export const ProductShowcaseCard: React.FC<Props> = ({
   product,
-  isDark = true,
+  isDark = false,
   onAddToCart,
-  onToggleWishlist,
   addToCartLabel = 'Add to Cart',
   outOfStockLabel = 'Out of Stock',
   reviewsLabel = 'reviews',
   inStockLabel = '✓ In Stock',
 }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [hover, setHover] = useState(false);
   const [btnHover, setBtnHover] = useState(false);
   const inStock = product.inStock !== false;
@@ -43,15 +41,9 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   const rating = product.rating ?? 0;
   const reviews = product.reviews ?? 0;
 
-  const handleWishlistClick = () => {
-    const next = !isWishlisted;
-    setIsWishlisted(next);
-    onToggleWishlist?.(product.id, next);
-  };
-
   const palette = isDark
-    ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', wish: '#374151', btn: btnHover ? '#1d4ed8' : '#2563eb' }
-    : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#f3f4f6', wish: '#ffffff', btn: btnHover ? '#2563eb' : '#3b82f6' };
+    ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', btn: btnHover ? '#ea580c' : '#f97316' }
+    : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#ffffff', btn: btnHover ? '#ea580c' : '#f97316' };
 
   const discount =
     product.salePrice && product.salePrice < product.price
@@ -90,23 +82,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
           }}
         />
 
-        <button
-          onClick={handleWishlistClick}
-          aria-label="Toggle wishlist"
-          style={{
-            position: 'absolute', top: 12, right: 12,
-            width: 36, height: 36, border: 'none', cursor: 'pointer',
-            borderRadius: '50%', background: palette.wish,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          }}
-        >
-          <Heart
-            size={18}
-            color={isWishlisted ? '#ef4444' : palette.sub}
-            fill={isWishlisted ? '#ef4444' : 'none'}
-          />
-        </button>
 
         {discount !== null && (
           <div style={{

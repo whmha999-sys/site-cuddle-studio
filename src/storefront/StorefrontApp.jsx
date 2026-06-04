@@ -164,6 +164,7 @@ export default function StorefrontApp() {
               cart={cart}
               lang={lang}
               imgVersion={imgVersion}
+              onNavigate={navigate}
             />
           );
         })()}

@@ -19,6 +19,7 @@ interface Props {
   isDark?: boolean;
   onAddToCart?: (p: ShowcaseCardProduct) => void;
   onToggleWishlist?: (id: ShowcaseCardProduct['id'], wishlisted: boolean) => void;
+  onCardClick?: () => void;
   addToCartLabel?: string;
   outOfStockLabel?: string;
   reviewsLabel?: string;
@@ -29,6 +30,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   product,
   isDark = false,
   onAddToCart,
+  onCardClick,
   addToCartLabel = 'Add to Cart',
   outOfStockLabel = 'Out of Stock',
   reviewsLabel = 'reviews',
@@ -53,6 +55,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   return (
     <div
       dir="ltr"
+      onClick={onCardClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -68,6 +71,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
         transform: hover ? 'translateY(-4px)' : 'translateY(0)',
         transition: 'all 0.3s ease',
         fontFamily: 'system-ui, -apple-system, sans-serif',
+        cursor: onCardClick ? 'pointer' : 'default',
       }}
     >
       {/* Image */}
@@ -148,7 +152,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
         </div>
 
         <button
-          onClick={() => inStock && onAddToCart?.(product)}
+          onClick={(e) => { e.stopPropagation(); inStock && onAddToCart?.(product); }}
           onMouseEnter={() => setBtnHover(true)}
           onMouseLeave={() => setBtnHover(false)}
           disabled={!inStock}

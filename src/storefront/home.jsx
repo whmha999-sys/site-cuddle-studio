@@ -1071,7 +1071,7 @@ function LifestyleBanner({ lang }) {
   );
 }
 
-function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
+function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) {
   const [cat, setCat] = React.useState('all');
   const [brand, setBrand] = React.useState('all');
   const [sort, setSort] = React.useState('featured');
@@ -1155,6 +1155,7 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion }) {
               reviewsLabel={lang==='ar'?'تقييم':'reviews'}
               inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
               onAddToCart={() => { onAddToCart(p, firstColor, 1); }}
+              onCardClick={() => { onNavigate && onNavigate('pdp', { id: p.id }); }}
             />
           );
         })}

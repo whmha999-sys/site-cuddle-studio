@@ -83,6 +83,8 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             )}
           </div>
         </div>
+        )}
+
 
         <div className="pdp-info">
           <div className={`pdp-brand-pill ${product.brand}`}>

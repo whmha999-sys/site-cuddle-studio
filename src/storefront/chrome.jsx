@@ -3,6 +3,7 @@ import React from 'react';
 import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
 import CurrencySwitcher from './currency-switcher.jsx';
+import { Phone, Mail, MapPin, Instagram, Facebook, Youtube, MessageCircle, Music2 } from 'lucide-react';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 
@@ -159,6 +160,7 @@ function Header({ t, cart, cartBump = 0, onOpenCart, onOpenAuth, onSearch, produ
 export { Header };
 
 function Footer({ t, lang }) {
+  const isAr = lang === 'ar';
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -166,37 +168,70 @@ function Footer({ t, lang }) {
           <div style={{ marginBottom: 20 }}>
             <Logo/>
           </div>
-          <p className="footer-about">{lang === 'ar' ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
+          <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
+
+          <div className="footer-contact">
+            <a href="tel:+96260000000"><Phone size={14}/> +962 6 000 0000</a>
+            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer">
+              <MessageCircle size={14}/> WhatsApp: +962 79 000 0000
+            </a>
+            <a href="mailto:hello@smartleaders.jo"><Mail size={14}/> hello@smartleaders.jo</a>
+            <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>
+              <MapPin size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
+            </span>
+          </div>
+
+          <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
+            <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Youtube size={16}/></a>
+            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
+          </div>
         </div>
         <div>
-          <h5>{lang === 'ar' ? 'تسوّق' : 'Shop'}</h5>
+          <h5>{isAr ? 'تسوّق' : 'Shop'}</h5>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'tablet'});}}>{t.nav_tablets}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'watch'});}}>{t.nav_watches}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'accessory'});}}>{t.nav_accessories}</a>
           <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home');}}>{t.nav_brands}</a>
         </div>
         <div>
-          <h5>{lang === 'ar' ? 'الدعم' : 'Support'}</h5>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('warranty');}}>{lang === 'ar' ? 'الضمان' : t.footer_warranty}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('contact');}}>{lang === 'ar' ? 'تواصل معنا' : t.footer_contact}</a>
+          <h5>{isAr ? 'الدعم' : 'Support'}</h5>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('warranty');}}>{isAr ? 'الضمان' : t.footer_warranty}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('contact');}}>{isAr ? 'تواصل معنا' : t.footer_contact}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('returns');}}>{isAr ? 'سياسة الإرجاع والاستبدال' : 'Returns & Refunds'}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('shipping');}}>{isAr ? 'الشحن والتوصيل' : 'Shipping & Delivery'}</a>
         </div>
         <div>
-          <h5>{lang === 'ar' ? 'الشركة' : 'Company'}</h5>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('about');}}>{lang === 'ar' ? 'من نحن' : t.footer_about}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('privacy');}}>{lang === 'ar' ? 'الخصوصية' : t.footer_privacy}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('terms');}}>{lang === 'ar' ? 'الشروط' : 'Terms'}</a>
+          <h5>{isAr ? 'الشركة' : 'Company'}</h5>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('about');}}>{isAr ? 'من نحن' : t.footer_about}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('privacy');}}>{isAr ? 'الخصوصية' : t.footer_privacy}</a>
+          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('terms');}}>{isAr ? 'الشروط' : 'Terms'}</a>
         </div>
       </div>
+
+      <div className="footer-payments">
+        <div className="footer-payments-label">{isAr ? 'طرق الدفع المتاحة' : 'We accept'}</div>
+        <div className="footer-payments-list" aria-label={isAr ? 'طرق الدفع' : 'Payment methods'}>
+          <span className="pay-badge pay-cod">{isAr ? 'الدفع عند الاستلام' : 'Cash on Delivery'}</span>
+          <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Visa"><rect width="48" height="32" rx="4" fill="#1a1f71"/><text x="24" y="21" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="12" fill="#fff" fontStyle="italic" fontWeight="900">VISA</text></svg></span>
+          <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Mastercard"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e4e4de"/><circle cx="20" cy="16" r="8" fill="#eb001b"/><circle cx="28" cy="16" r="8" fill="#f79e1b" fillOpacity=".9"/></svg></span>
+          <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Apple Pay"><rect width="48" height="32" rx="4" fill="#000"/><text x="24" y="21" textAnchor="middle" fontFamily="Helvetica, Arial, sans-serif" fontSize="11" fill="#fff" fontWeight="600"> Pay</text></svg></span>
+          <span className="pay-badge">{isAr ? 'كليك' : 'CliQ'}</span>
+        </div>
+      </div>
+
       <div className="footer-bottom">
         <div>{t.footer_rights}</div>
         <div>
-          Amman · Jordan · تأسست ٢٠١٨
+          Amman · Jordan · {isAr ? 'تأسست ٢٠١٨' : 'Est. 2018'}
           <a
             href="/auth"
             style={{ marginInlineStart: 12, opacity: 0.4, fontSize: 12 }}
             title="Admin"
           >
-            {lang === 'ar' ? 'الإدارة' : 'Admin'}
+            {isAr ? 'الإدارة' : 'Admin'}
           </a>
         </div>
       </div>

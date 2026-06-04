@@ -6,6 +6,7 @@ import { ProductCard } from './home.jsx';
 import { PRODUCT_IMAGES } from './data.js';
 import { ProductShowcase } from './product-showcase.jsx';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';
+import PdpStickyBar from './pdp-sticky-bar.jsx';
 
 
 export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavigate }) {
@@ -442,6 +443,15 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           </div>
         </section>
       )}
+      <PdpStickyBar
+        product={product}
+        color={color}
+        qty={qty}
+        t={t}
+        lang={lang}
+        onAddToCart={onAddToCart}
+        onBuyNow={onBuyNow}
+      />
     </>
   );
 }

@@ -9,6 +9,7 @@ import { PDP } from './pdp.jsx';
 import { INFO_PAGES } from './info-pages.jsx';
 import { useCatalog } from '@/hooks/useCatalog';
 import BackToTop from './back-to-top.jsx';
+import WhatsAppFab from './whatsapp-fab.jsx';
 import { CurrencyProvider, useCurrency } from './currency-context.jsx';
 import { Checkout, SuccessModal } from './checkout.jsx';
 
@@ -189,6 +190,7 @@ export default function StorefrontApp() {
       )}
 
       <BackToTop />
+      <WhatsAppFab lang={lang} />
 
 
       {/* Cart drawer + Checkout + PDP routes are not wired in this build. */}

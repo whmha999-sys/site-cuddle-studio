@@ -35,6 +35,7 @@ export default function StorefrontApp() {
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
   const [route, setRoute] = useState({ name: 'home', params: {} });
+  const [cartBump, setCartBump] = useState(0);
 
   const t = I18N[lang];
 

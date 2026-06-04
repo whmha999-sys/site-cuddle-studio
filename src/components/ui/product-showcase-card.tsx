@@ -90,23 +90,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
           }}
         />
 
-        <button
-          onClick={handleWishlistClick}
-          aria-label="Toggle wishlist"
-          style={{
-            position: 'absolute', top: 12, right: 12,
-            width: 36, height: 36, border: 'none', cursor: 'pointer',
-            borderRadius: '50%', background: palette.wish,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-          }}
-        >
-          <Heart
-            size={18}
-            color={isWishlisted ? '#ef4444' : palette.sub}
-            fill={isWishlisted ? '#ef4444' : 'none'}
-          />
-        </button>
 
         {discount !== null && (
           <div style={{

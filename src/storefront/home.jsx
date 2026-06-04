@@ -11,6 +11,7 @@ import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
+import { TestimonialsSection } from './testimonials-section.jsx';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -1160,6 +1161,8 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
           );
         })}
       </div>
+
+      <TestimonialsSection lang={lang}/>
 
       <BrandStory lang={lang}/>
 

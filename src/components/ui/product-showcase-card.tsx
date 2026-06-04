@@ -144,6 +144,34 @@ export const ProductShowcaseCard: React.FC<Props> = ({
           </div>
         )}
 
+        {product.colors && product.colors.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+            {product.colors.map((c) => {
+              const isSel = selectedColor ? c === selectedColor : false;
+              const bg = (COLOR_SWATCH as Record<string,string>)[c] || '#999';
+              return (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); onColorSelect?.(c); }}
+                  aria-label={c}
+                  title={c}
+                  style={{
+                    width: 18, height: 18, borderRadius: '50%', background: bg,
+                    border: '1px solid rgba(0,0,0,0.15)',
+                    outline: isSel ? `2px solid ${palette.text}` : 'none',
+                    outlineOffset: 2,
+                    padding: 0, cursor: 'pointer',
+                    transform: isSel ? 'scale(1.1)' : 'scale(1)',
+                    transition: 'transform 0.15s ease',
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
+
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
             {product.salePrice ? (

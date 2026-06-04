@@ -1055,8 +1055,8 @@ input, select, textarea { font-family: inherit; color: inherit; }
 .wa-fab {
   position: fixed;
   bottom: 124px;
-  inset-inline-end: 16px;
-  left: auto;
+  left: 16px;
+  inset-inline-end: auto;
   z-index: 60;
   width: 44px;
   height: 44px;
@@ -1120,7 +1120,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  .wa-fab { width: 44px; height: 44px; bottom: 120px; inset-inline-end: 16px; left: auto; }
+  .wa-fab { width: 44px; height: 44px; bottom: 120px; left: 16px; inset-inline-end: auto; }
   .wa-fab-badge { min-width: 16px; height: 16px; font-size: 9px; top: -3px; right: -3px; }
 }
 

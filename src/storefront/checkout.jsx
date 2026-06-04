@@ -100,7 +100,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
 
   const [shipping, setShipping] = React.useState({
     firstName: '', lastName: '', email: user?.email || '', phone: '',
-    address: '', city: '', state: '', zipCode: '', country: 'US',
+    address: '', city: '', state: '', zipCode: '', country: 'JO',
   });
 
   const upd = (field, value) => setShipping(prev => ({ ...prev, [field]: value }));

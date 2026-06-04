@@ -146,16 +146,11 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
         price: it.price, price_local: convertPrice(it.price),
       };
     });
-    const fullAddress = [
-      `Country: ${shipping.country}`,
-      `City: ${shipping.city}`,
-      `Address: ${shipping.address}`,
-    ].join('\n');
     const orderRow = {
       customer_first: shipping.firstName, customer_last: shipping.lastName,
       customer_email: shipping.email || `noemail-${Date.now()}@cod.local`,
       customer_mobile: shipping.phone || 'N/A',
-      customer_address: fullAddress,
+      customer_address: shipping.address,
       customer_city: shipping.city,
       customer_zip: null,
       items,

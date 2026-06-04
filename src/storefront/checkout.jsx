@@ -585,9 +585,7 @@ export function SuccessModal({ order, onClose, t, lang }) {
     lang === 'ar' ? 'ar-JO' : 'en-GB',
     { dateStyle: 'medium', timeStyle: 'short' },
   );
-  const payment = order.payment_method === 'cod'
-    ? (lang === 'ar' ? 'الدفع عند الاستلام' : 'Cash on Delivery')
-    : (order.payment_method || '—');
+  const payment = lang === 'ar' ? 'الدفع عند الاستلام' : 'Cash on Delivery';
   return (
     <div className="modal-backdrop" onClick={onClose}>
       <div onClick={(e) => e.stopPropagation()} className="w-full flex items-center justify-center px-4">

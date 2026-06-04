@@ -72,7 +72,7 @@ export default function SpatialProductShowcase({
   return (
     <section
       dir={dir}
-      className="relative w-full overflow-hidden rounded-3xl bg-[#0a0a0f] text-zinc-100 min-h-[560px] md:min-h-[640px]"
+      className="relative w-full overflow-hidden rounded-3xl bg-[#0a0a0f] text-zinc-100 min-h-[760px] md:min-h-[640px]"
     >
       {/* Animated background halo */}
       <AnimatePresence mode="wait">

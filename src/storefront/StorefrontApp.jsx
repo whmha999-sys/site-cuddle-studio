@@ -1,5 +1,6 @@
 // Smart Leaders storefront — root app (ported from Smart_Leaders_Storefront.html)
 import React, { useEffect, useState } from 'react';
+import { useNavigate as useRouterNavigate, useLocation, useParams } from 'react-router-dom';
 import './styles.css';
 
 import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';

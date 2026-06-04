@@ -87,15 +87,17 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
 
         <div className="pdp-info">
-          <div className={`pdp-brand-pill ${product.brand}`}>
-            {product.brand === 'vikusha'
-              ? <img src="/uploads/1.webp" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
-              : <img src="/uploads/2.webp" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
-            }
-            <span>· {t['cat_'+product.category]}</span>
-          </div>
+          {product.id !== 'teclast-p50' && (
+            <div className={`pdp-brand-pill ${product.brand}`}>
+              {product.brand === 'vikusha'
+                ? <img src="/uploads/1.webp" alt="Vikusha" style={{ height: 24, width: 'auto', borderRadius: 4, display:'block' }}/>
+                : <img src="/uploads/2.webp" alt="Teclast" style={{ height: 20, width: 'auto', display:'block' }}/>
+              }
+              <span>· {t['cat_'+product.category]}</span>
+            </div>
+          )}
           <h1 className="pdp-title">{product.name}</h1>
-          <p className="pdp-tagline">{product.tagline}</p>
+          {product.id !== 'teclast-p50' && <p className="pdp-tagline">{product.tagline}</p>}
 
           <div className="pdp-price"><Price value={product.price}/></div>
 

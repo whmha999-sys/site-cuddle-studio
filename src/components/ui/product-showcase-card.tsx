@@ -19,6 +19,7 @@ interface Props {
   isDark?: boolean;
   onAddToCart?: (p: ShowcaseCardProduct) => void;
   onToggleWishlist?: (id: ShowcaseCardProduct['id'], wishlisted: boolean) => void;
+  onCardClick?: () => void;
   addToCartLabel?: string;
   outOfStockLabel?: string;
   reviewsLabel?: string;
@@ -29,6 +30,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   product,
   isDark = false,
   onAddToCart,
+  onCardClick,
   addToCartLabel = 'Add to Cart',
   outOfStockLabel = 'Out of Stock',
   reviewsLabel = 'reviews',

@@ -5,7 +5,7 @@ import { Silhouette, ColorDot } from './silhouettes.jsx';
 
 import { PRODUCT_IMAGES } from './data.js';
 import { ProductShowcase } from './product-showcase.jsx';
-import ProductShowcaseCard from '@/components/ui/product-showcase-card';
+import { ShowcaseCardWithColors } from './home.jsx';
 import PdpStickyBar from './pdp-sticky-bar.jsx';
 
 
@@ -146,35 +146,16 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         <section style={{ marginTop: 72 }}>
           <div className="section-head"><h2>{lang==='ar'?'منتجات مشابهة':'Similar items'}</h2></div>
           <div className="grid">
-            {similar.map(p => {
-              const seed = String(p.id).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-              const rating = parseFloat((4.2 + ((seed % 7) / 10)).toFixed(1));
-              const reviews = 40 + (seed * 7) % 260;
-              const firstColor = p.colors?.[0];
-              const image = (PRODUCT_IMAGES?.[p.id]?.[firstColor] || [])[0] || '';
-              return (
-                <ProductShowcaseCard
-                  key={p.id}
-                  product={{
-                    id: p.id,
-                    name: p.name,
-                    category: t['cat_'+p.category] || p.category,
-                    price: p.price,
-                    image,
-                    rating,
-                    reviews,
-                    inStock: true,
-                    currency: 'JOD ',
-                  }}
-                  addToCartLabel={t.add_to_cart}
-                  outOfStockLabel={lang==='ar'?'غير متوفر':'Out of Stock'}
-                  reviewsLabel={lang==='ar'?'تقييم':'reviews'}
-                  inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
-                  onAddToCart={() => onAddToCart(p, firstColor, 1)}
-                  onCardClick={() => nav('pdp', { id: p.id })}
-                />
-              );
-            })}
+            {similar.map(p => (
+              <ShowcaseCardWithColors
+                key={p.id}
+                p={p}
+                t={t}
+                lang={lang}
+                onAddToCart={onAddToCart}
+                onNavigate={nav}
+              />
+            ))}
           </div>
         </section>
       )}

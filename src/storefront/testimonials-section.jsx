@@ -8,76 +8,76 @@ export function TestimonialsSection({ lang = 'en' }) {
     ? [
         {
           id: 1,
-          name: 'أحمد العتيبي',
+          name: 'أحمد العمري',
           role: 'مهندس برمجيات',
-          company: 'الرياض',
+          company: 'عمّان',
           content:
             'جودة المنتجات ممتازة والتوصيل كان أسرع من المتوقع. الساعة الذكية تعمل بكفاءة عالية وتدعم اللغة العربية بشكل كامل. أنصح فيها بشدة!',
           rating: 5,
         },
         {
           id: 2,
-          name: 'فاطمة الزعبي',
+          name: 'فاطمة الحسن',
           role: 'صاحبة عمل',
-          company: 'عمّان',
+          company: 'دمشق',
           content:
-            'خدمة العملاء راقية جداً وردّوا عليّ خلال دقائق. التابلت ممتاز للعمل والدراسة، والسعر منافس مقارنة بالمتاجر الأخرى في الأردن.',
+            'خدمة العملاء راقية جداً وردّوا عليّ خلال دقائق. التابلت ممتاز للعمل والدراسة، والسعر منافس مقارنة بالمتاجر الأخرى.',
           rating: 5,
         },
         {
           id: 3,
-          name: 'خالد المنصوري',
+          name: 'خالد العبيدي',
           role: 'مصور فوتوغرافي',
-          company: 'دبي',
+          company: 'بغداد',
           content:
             'تجربة شراء مميزة من البداية للنهاية. وصلني الطلب مغلفاً بعناية وبحالة ممتازة. سأعود للشراء مرة أخرى بكل تأكيد.',
           rating: 5,
         },
         {
           id: 4,
-          name: 'نور الحسيني',
+          name: 'نور الرشدان',
           role: 'طالبة جامعية',
-          company: 'بيروت',
+          company: 'إربد',
           content:
-            'أفضل متجر إلكترونيات تعاملت معه. الأسعار مناسبة جداً والمنتجات أصلية ١٠٠٪. التوصيل لبيروت كان سريع وبدون أي مشاكل.',
+            'أفضل متجر إلكترونيات تعاملت معه. الأسعار مناسبة جداً والمنتجات أصلية ١٠٠٪. التوصيل لإربد كان سريع وبدون أي مشاكل.',
           rating: 5,
         },
       ]
     : [
         {
           id: 1,
-          name: 'Ahmed Al-Otaibi',
+          name: 'Ahmed Al-Omari',
           role: 'Software Engineer',
-          company: 'Riyadh',
+          company: 'Amman',
           content:
             'Excellent product quality and delivery was faster than expected. The smartwatch works perfectly and fully supports Arabic. Highly recommended!',
           rating: 5,
         },
         {
           id: 2,
-          name: 'Fatima Al-Zoubi',
+          name: 'Fatima Al-Hassan',
           role: 'Business Owner',
-          company: 'Amman',
+          company: 'Damascus',
           content:
-            'Customer service is top-notch — they replied within minutes. The tablet is great for work and study, and the price beats other shops in Jordan.',
+            'Customer service is top-notch — they replied within minutes. The tablet is great for work and study, and the price beats other shops.',
           rating: 5,
         },
         {
           id: 3,
-          name: 'Khalid Al-Mansoori',
+          name: 'Khalid Al-Obaidi',
           role: 'Photographer',
-          company: 'Dubai',
+          company: 'Baghdad',
           content:
             'A premium buying experience from start to finish. My order arrived carefully packed and in perfect condition. I will definitely shop again.',
           rating: 5,
         },
         {
           id: 4,
-          name: 'Nour Al-Husseini',
+          name: 'Nour Al-Rashdan',
           role: 'University Student',
-          company: 'Beirut',
+          company: 'Irbid',
           content:
-            'The best electronics store I have dealt with. Prices are very fair, products are 100% authentic, and shipping to Beirut was fast and smooth.',
+            'The best electronics store I have dealt with. Prices are very fair, products are 100% authentic, and shipping to Irbid was fast and smooth.',
           rating: 5,
         },
       ];

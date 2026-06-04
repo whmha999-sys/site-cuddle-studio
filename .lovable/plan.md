@@ -1,21 +1,25 @@
 ## Goal
-Make the "Similar items / منتجات مشابهة" section on the product detail page use the same new `ProductShowcaseCard` style already used on the home page, instead of the old `ProductCard`.
+Show the available product colors on each `ProductShowcaseCard` (used on home page and PDP "similar items"), like the old `ProductCard` did.
 
 ## Changes
 
-**`src/storefront/pdp.jsx`** — replace the `ProductCard` block inside the `similar` section (lines ~149–156) with `ProductShowcaseCard`, mirroring the exact usage from `home.jsx`:
+1. **`src/components/ui/product-showcase-card.tsx`**
+   - Extend `ShowcaseCardProduct` with an optional `colors?: string[]` (array of color names like `"black"`, `"mint"`, etc.).
+   - Add an optional `onColorSelect?: (color: string) => void` prop and an optional `selectedColor?: string`.
+   - Render a small row of color dots between the product name/rating area and the price (only when `colors.length > 0`). Each dot:
+     - 18px circle, 1px border, ring/scale when selected.
+     - Background mapped from a small name → hex map (black, white, gray, silver, blue, navy, mint, teal, green, red, pink, purple, gold, beige, brown). Unknown names fall back to a neutral gray.
+     - Click stops propagation and calls `onColorSelect`.
 
-- For each `p` in `similar`, compute:
-  - `firstColor = p.colors?.[0]`
-  - `image = (PRODUCT_IMAGES?.[p.id]?.[firstColor] || [])[0] || ''`
-  - `seed`-based `rating` (4.2–4.8) and `reviews` (40–300) using the same formula as home.jsx so cards look identical
-- Render `<ProductShowcaseCard>` with:
-  - `product`: `{ id, name, category: t['cat_'+p.category], price, image, rating, reviews, inStock: true, currency: 'JOD ' }`
-  - Localized labels: `addToCartLabel={t.add_to_cart}`, `outOfStockLabel`, `reviewsLabel`, `inStockLabel` (ar/en)
-  - `onAddToCart={() => onAddToCart(p, firstColor, 1)}`
-  - `onCardClick={() => nav('pdp', { id: p.id })}`
-- Remove the now-unused `ProductCard` import from `./home.jsx` (keep `ProductShowcaseCard` import which already exists).
+2. **`src/storefront/home.jsx`** (around line 1141, the `ProductShowcaseCard` usage)
+   - Pass `colors: p.colors` into the `product` prop.
+   - Track selected color per card via a small local state (or use `firstColor` and let the user override). Simplest: lift to a `colorByProduct` state map at the grid level.
+   - When color changes, update the displayed `image` to `PRODUCT_IMAGES[p.id][selectedColor][0]` and use that color for `onAddToCart`.
+
+3. **`src/storefront/pdp.jsx`** (similar items block)
+   - Same treatment as home: track selected color per similar product, update image + add-to-cart color accordingly.
 
 ## Out of scope
-- No changes to home page, no styling tweaks, no new images, no data changes.
-- The PDP's main gallery / showcase stays as-is.
+- No changes to the PDP main color picker or showcase.
+- No new color data; uses the existing `product.colors` already in catalog.
+- No design overhaul of the card — only an added swatch row.

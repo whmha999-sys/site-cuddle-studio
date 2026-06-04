@@ -41,15 +41,9 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   const rating = product.rating ?? 0;
   const reviews = product.reviews ?? 0;
 
-  const handleWishlistClick = () => {
-    const next = !isWishlisted;
-    setIsWishlisted(next);
-    onToggleWishlist?.(product.id, next);
-  };
-
   const palette = isDark
-    ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', wish: '#374151', btn: btnHover ? '#1d4ed8' : '#2563eb' }
-    : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#f3f4f6', wish: '#ffffff', btn: btnHover ? '#2563eb' : '#3b82f6' };
+    ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', btn: btnHover ? '#ea580c' : '#f97316' }
+    : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#ffffff', btn: btnHover ? '#ea580c' : '#f97316' };
 
   const discount =
     product.salePrice && product.salePrice < product.price

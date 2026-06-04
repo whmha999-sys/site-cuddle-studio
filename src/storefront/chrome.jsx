@@ -3,6 +3,7 @@ import React from 'react';
 import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
 import CurrencySwitcher from './currency-switcher.jsx';
+import { Phone, Mail, MapPin, Instagram, Facebook, Youtube, MessageCircle, Music2 } from 'lucide-react';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 

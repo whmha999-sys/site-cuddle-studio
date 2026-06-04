@@ -128,6 +128,7 @@ export default function StorefrontApp() {
       />
 
       <main className="page">
+        <div key={route.name + ':' + (route.params?.id || route.params?.cat || '')} className="page-transition">
         {(() => {
           const InfoPage = INFO_PAGES[route.name];
           if (InfoPage) return <InfoPage lang={lang} />;
@@ -172,6 +173,7 @@ export default function StorefrontApp() {
             />
           );
         })()}
+        </div>
       </main>
 
 

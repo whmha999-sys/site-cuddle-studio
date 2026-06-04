@@ -27,15 +27,13 @@ interface Props {
 
 export const ProductShowcaseCard: React.FC<Props> = ({
   product,
-  isDark = true,
+  isDark = false,
   onAddToCart,
-  onToggleWishlist,
   addToCartLabel = 'Add to Cart',
   outOfStockLabel = 'Out of Stock',
   reviewsLabel = 'reviews',
   inStockLabel = '✓ In Stock',
 }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const [hover, setHover] = useState(false);
   const [btnHover, setBtnHover] = useState(false);
   const inStock = product.inStock !== false;

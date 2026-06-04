@@ -1,5 +1,6 @@
 // Smart Leaders storefront — root app (ported from Smart_Leaders_Storefront.html)
 import React, { useEffect, useState } from 'react';
+import { useNavigate as useRouterNavigate, useLocation, useParams } from 'react-router-dom';
 import './styles.css';
 
 import { CATALOG, I18N, syncCatalogFromDb, imageVersion } from './data.js';
@@ -35,10 +36,24 @@ export default function StorefrontApp() {
   const [lastOrder, setLastOrder] = useState(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [tweaksOpen, setTweaksOpen] = useState(false);
-  const [route, setRoute] = useState({ name: 'home', params: {} });
   const [cartBump, setCartBump] = useState(0);
 
   const t = I18N[lang];
+
+  // Derive current route from URL
+  const routerNavigate = useRouterNavigate();
+  const location = useLocation();
+  const params = useParams();
+
+  const route = React.useMemo(() => {
+    const path = location.pathname;
+    if (path.startsWith('/product/')) {
+      return { name: 'pdp', params: { id: params.id } };
+    }
+    if (path === '/checkout') return { name: 'checkout', params: {} };
+    if (path.startsWith('/p/')) return { name: params.slug, params: {} };
+    return { name: 'home', params: {} };
+  }, [location.pathname, params.id, params.slug]);
 
   // Sync DB catalog into in-memory CATALOG/PRODUCT_IMAGES so all child
   // components (which import these directly) see the latest data.
@@ -54,10 +69,17 @@ export default function StorefrontApp() {
   }, [dbCat]);
 
   const navigate = React.useCallback((page, params = {}) => {
-    setRoute({ name: page || 'home', params: params || {} });
+    const p = page || 'home';
+    let url = '/';
+    if (p === 'home') url = '/';
+    else if (p === 'pdp') url = `/product/${params.id}`;
+    else if (p === 'checkout') url = '/checkout';
+    else if (INFO_PAGES[p]) url = `/p/${p}`;
+    else url = '/';
     window.__routeParams = params;
+    routerNavigate(url);
     window.scrollTo(0, 0);
-  }, []);
+  }, [routerNavigate]);
 
   // Expose navigate globally for in-component links that use window.navigate(...)
   useEffect(() => {
@@ -109,6 +131,13 @@ export default function StorefrontApp() {
   const currentProduct = route.name === 'pdp'
     ? catalog.find(p => p.id === route.params?.id)
     : null;
+
+  // Set tab title per product page
+  useEffect(() => {
+    if (currentProduct?.name) {
+      document.title = `${currentProduct.name} — Smart Leaders`;
+    }
+  }, [currentProduct]);
 
   return (
     <CurrencyProvider>

@@ -89,17 +89,17 @@ export function TestimonialsSection({ lang = 'en' }) {
       title={ar ? 'ماذا يقول عملاؤنا' : 'What our customers say'}
       subtitle={
         ar
-          ? 'آلاف العملاء في الأردن، السعودية، الإمارات، لبنان وكل الشرق الأوسط يثقون بنا لأجهزتهم الذكية.'
-          : 'Thousands of customers across Jordan, Saudi Arabia, the UAE, Lebanon and the wider Middle East trust us for their smart devices.'
+          ? 'آلاف العملاء في الأردن، سوريا والعراق يثقون بنا لأجهزتهم الذكية.'
+          : 'Thousands of customers across Jordan, Syria and Iraq trust us for their smart devices.'
       }
       testimonials={testimonials}
       trustedCompaniesTitle={
-        ar ? 'نشحن إلى جميع أنحاء الشرق الأوسط' : 'We ship across the Middle East'
+        ar ? 'نشحن إلى الأردن، سوريا والعراق' : 'We ship across Jordan, Syria and Iraq'
       }
       trustedCompanies={
         ar
-          ? ['الأردن', 'السعودية', 'الإمارات', 'قطر', 'الكويت', 'لبنان', 'مصر']
-          : ['Jordan', 'Saudi Arabia', 'UAE', 'Qatar', 'Kuwait', 'Lebanon', 'Egypt']
+          ? ['الأردن', 'سوريا', 'العراق']
+          : ['Jordan', 'Syria', 'Iraq']
       }
     />
   );

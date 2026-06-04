@@ -90,16 +90,23 @@ function Header({ t, cart, cartBump = 0, onOpenCart, onOpenAuth, onSearch, produ
             </div>
           </div>
           <div className="header-right">
-            <button className="icon-btn" onClick={onOpenCart} aria-label={t.cart}>
+            <button className={`icon-btn${bumping ? ' bump' : ''}`} onClick={onOpenCart} aria-label={t.cart}>
               <Icon name="bag"/> <span className="hide-on-mobile">{t.cart}</span>
-              {cartCount > 0 && <span className="count">{cartCount}</span>}
+              {cartCount > 0 && <span key={cartBump} className="count pop">{cartCount}</span>}
             </button>
             <CurrencySwitcher lang={lang}/>
-            {lang !== 'ar' && (
-              <button className="icon-btn icon-btn-lang-desktop" onClick={onLangToggle} aria-label="Switch to Arabic">
-                <Icon name="globe" size={16}/> <span>{t.ar}</span>
-              </button>
-            )}
+            <div className="lang-toggle" role="group" aria-label="Language">
+              <button
+                className={lang === 'en' ? 'on' : ''}
+                onClick={() => onSetLang ? onSetLang('en') : (lang !== 'en' && onLangToggle?.())}
+                aria-pressed={lang === 'en'}
+              >EN</button>
+              <button
+                className={lang === 'ar' ? 'on' : ''}
+                onClick={() => onSetLang ? onSetLang('ar') : (lang !== 'ar' && onLangToggle?.())}
+                aria-pressed={lang === 'ar'}
+              >ع</button>
+            </div>
 
             <button
               className="icon-btn mobile-only"

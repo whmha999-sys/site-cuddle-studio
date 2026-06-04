@@ -27,7 +27,7 @@ interface Props {
 
 export const ProductShowcaseCard: React.FC<Props> = ({
   product,
-  isDark = false,
+  isDark = true,
   onAddToCart,
   onToggleWishlist,
   addToCartLabel = 'Add to Cart',
@@ -36,6 +36,8 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   inStockLabel = '✓ In Stock',
 }) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [hover, setHover] = useState(false);
+  const [btnHover, setBtnHover] = useState(false);
   const inStock = product.inStock !== false;
   const currency = product.currency || '$';
   const rating = product.rating ?? 0;
@@ -47,13 +49,9 @@ export const ProductShowcaseCard: React.FC<Props> = ({
     onToggleWishlist?.(product.id, next);
   };
 
-  const cardClasses = isDark
-    ? 'bg-gray-800 text-white border-gray-700'
-    : 'bg-white text-gray-900 border-gray-200';
-  const textSecondary = isDark ? 'text-gray-300' : 'text-gray-600';
-  const textMuted = isDark ? 'text-gray-400' : 'text-gray-500';
-  const buttonPrimary = isDark ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600';
-  const wishlistButton = isDark ? 'bg-gray-700 hover:bg-gray-600' : 'bg-white hover:bg-gray-50';
+  const palette = isDark
+    ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', wish: '#374151', btn: btnHover ? '#1d4ed8' : '#2563eb' }
+    : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#f3f4f6', wish: '#ffffff', btn: btnHover ? '#2563eb' : '#3b82f6' };
 
   const discount =
     product.salePrice && product.salePrice < product.price
@@ -62,37 +60,70 @@ export const ProductShowcaseCard: React.FC<Props> = ({
 
   return (
     <div
-      className={`max-w-sm w-full mx-auto rounded-2xl border overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 ${cardClasses}`}
+      dir="ltr"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        width: '100%',
+        maxWidth: 380,
+        margin: '0 auto',
+        background: palette.card,
+        color: palette.text,
+        border: `1px solid ${palette.border}`,
+        borderRadius: 16,
+        overflow: 'hidden',
+        boxShadow: hover ? '0 20px 40px rgba(0,0,0,0.25)' : '0 8px 20px rgba(0,0,0,0.15)',
+        transform: hover ? 'translateY(-4px)' : 'translateY(0)',
+        transition: 'all 0.3s ease',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+      }}
     >
       {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-gray-100">
+      <div style={{ position: 'relative', aspectRatio: '1 / 1', background: palette.imgBg, overflow: 'hidden' }}>
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
           draggable={false}
+          style={{
+            width: '100%', height: '100%', objectFit: 'contain', display: 'block',
+            transform: hover ? 'scale(1.05)' : 'scale(1)', transition: 'transform 0.5s ease',
+          }}
         />
 
         <button
           onClick={handleWishlistClick}
           aria-label="Toggle wishlist"
-          className={`absolute top-3 right-3 p-2 rounded-full shadow-md transition-all duration-200 ${wishlistButton}`}
+          style={{
+            position: 'absolute', top: 12, right: 12,
+            width: 36, height: 36, border: 'none', cursor: 'pointer',
+            borderRadius: '50%', background: palette.wish,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          }}
         >
           <Heart
             size={18}
-            className={isWishlisted ? 'fill-red-500 text-red-500' : isDark ? 'text-gray-300' : 'text-gray-600'}
+            color={isWishlisted ? '#ef4444' : palette.sub}
+            fill={isWishlisted ? '#ef4444' : 'none'}
           />
         </button>
 
         {discount !== null && (
-          <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-md shadow">
+          <div style={{
+            position: 'absolute', top: 12, left: 12,
+            background: '#ef4444', color: '#fff', fontSize: 12, fontWeight: 700,
+            padding: '4px 8px', borderRadius: 6,
+          }}>
             -{discount}%
           </div>
         )}
 
         {!inStock && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-            <span className="bg-white text-gray-900 text-sm font-semibold px-3 py-1 rounded-md">
+          <div style={{
+            position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <span style={{ background: '#fff', color: '#111827', padding: '6px 12px', borderRadius: 6, fontWeight: 600, fontSize: 14 }}>
               {outOfStockLabel}
             </span>
           </div>
@@ -100,52 +131,61 @@ export const ProductShowcaseCard: React.FC<Props> = ({
       </div>
 
       {/* Content */}
-      <div className="p-5">
-        <p className={`text-xs uppercase tracking-wider font-medium ${textMuted}`}>
+      <div style={{ padding: 20 }}>
+        <p style={{ margin: 0, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: palette.muted, fontWeight: 500 }}>
           {product.category}
         </p>
 
-        <h3 className="mt-1 text-lg font-semibold leading-snug line-clamp-2">
+        <h3 style={{ margin: '4px 0 0', fontSize: 18, fontWeight: 600, lineHeight: 1.3, color: palette.text }}>
           {product.name}
         </h3>
 
         {(rating > 0 || reviews > 0) && (
-          <div className="flex items-center gap-2 mt-2">
-            <div className="flex">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
+            <div style={{ display: 'flex' }}>
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
                   size={14}
-                  className={i < Math.round(rating) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}
+                  color={i < Math.round(rating) ? '#facc15' : '#d1d5db'}
+                  fill={i < Math.round(rating) ? '#facc15' : 'none'}
                 />
               ))}
             </div>
-            <span className={`text-xs ${textSecondary}`}>
+            <span style={{ fontSize: 12, color: palette.sub }}>
               {rating} ({reviews} {reviewsLabel})
             </span>
           </div>
         )}
 
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-baseline gap-2">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
             {product.salePrice ? (
               <>
-                <span className="text-2xl font-bold">{currency}{product.salePrice}</span>
-                <span className={`text-sm line-through ${textMuted}`}>{currency}{product.price}</span>
+                <span style={{ fontSize: 24, fontWeight: 700, color: '#ef4444' }}>{currency}{product.salePrice}</span>
+                <span style={{ fontSize: 14, textDecoration: 'line-through', color: palette.muted }}>{currency}{product.price}</span>
               </>
             ) : (
-              <span className="text-2xl font-bold">{currency}{product.price}</span>
+              <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{product.price}</span>
             )}
           </div>
-          {inStock && <span className="text-xs text-green-500 font-medium">{inStockLabel}</span>}
+          {inStock && <span style={{ fontSize: 12, color: '#10b981', fontWeight: 500 }}>{inStockLabel}</span>}
         </div>
 
         <button
           onClick={() => inStock && onAddToCart?.(product)}
+          onMouseEnter={() => setBtnHover(true)}
+          onMouseLeave={() => setBtnHover(false)}
           disabled={!inStock}
-          className={`mt-5 w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white font-semibold transition-all duration-200 ${
-            inStock ? buttonPrimary : 'bg-gray-400 cursor-not-allowed'
-          }`}
+          style={{
+            marginTop: 20, width: '100%', padding: '12px 0',
+            background: inStock ? palette.btn : '#9ca3af',
+            color: '#fff', fontWeight: 600, fontSize: 15,
+            border: 'none', borderRadius: 12,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            cursor: inStock ? 'pointer' : 'not-allowed',
+            transition: 'background 0.2s ease',
+          }}
         >
           <ShoppingCart size={18} />
           {inStock ? addToCartLabel : outOfStockLabel}

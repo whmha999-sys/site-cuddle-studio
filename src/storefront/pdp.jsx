@@ -443,6 +443,15 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           </div>
         </section>
       )}
+      <PdpStickyBar
+        product={product}
+        color={color}
+        qty={qty}
+        t={t}
+        lang={lang}
+        onAddToCart={onAddToCart}
+        onBuyNow={onBuyNow}
+      />
     </>
   );
 }

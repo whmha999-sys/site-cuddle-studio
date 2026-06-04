@@ -159,14 +159,13 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       customer_city: shipping.city,
       customer_zip: null,
       items,
-      subtotal: convertPrice(sub),
-      tax: convertPrice(tax),
-      shipping: convertPrice(ship),
-      discount: convertPrice(discount),
-      total: convertPrice(total),
+      // NOTE: subtotal/tax/shipping/discount/total are recomputed server-side
+      // from the products table inside place_order. Values sent here are
+      // ignored — kept for backwards compatibility / observability only.
       currency: currencyCode,
       exchange_rate: currency.rate,
-      payment_method: 'cod', status: 'pending',
+      coupon: appliedPromo?.code || null,
+      payment_method: 'cod',
     };
 
     let orderId = 'SL-' + Math.floor(100000 + Math.random()*900000);
@@ -179,29 +178,13 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       orderId = row.id;
       orderNumber = row.order_number;
       supabase.functions.invoke('notify-n8n', {
-        body: { ...orderRow, id: row.id, order_number: row.order_number },
+        body: { id: row.id },
       }).catch(err => console.warn('n8n notify failed:', err));
       supabase.functions.invoke('send-transactional-email', {
         body: {
           templateName: 'new-order-admin',
           idempotencyKey: `new-order-admin-${row.id}`,
-          templateData: {
-            orderNumber: row.order_number ?? row.id,
-            firstName: shipping.firstName,
-            lastName: shipping.lastName,
-            email: shipping.email,
-            phone: shipping.phone,
-            address: shipping.address,
-            city: shipping.city,
-            items: items.map(it => ({ name: it.name, color: it.color, qty: it.qty, price: it.price_local ?? it.price })),
-            subtotal: convertPrice(sub),
-            shipping: convertPrice(ship),
-            tax: convertPrice(tax),
-            discount: convertPrice(discount),
-            total: convertPrice(total),
-            currency: currencyCode,
-            paymentMethod: 'cod',
-          },
+          templateData: { orderId: row.id },
         },
       }).catch(err => console.warn('admin email failed:', err));
     } catch (err) {

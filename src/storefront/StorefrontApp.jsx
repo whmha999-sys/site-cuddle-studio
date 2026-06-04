@@ -97,6 +97,7 @@ export default function StorefrontApp() {
       }
       return [...prev, { id: product.id, color, qty, price: product.price }];
     });
+    setCartBump(b => b + 1);
     setCartOpen(true);
   };
 

@@ -89,7 +89,7 @@ export default function SpatialProductShowcase({
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-4 p-6 md:p-12 min-h-[560px] md:min-h-[640px]">
+      <div className="relative z-10 grid md:grid-cols-2 gap-8 md:gap-4 p-6 pb-12 md:p-12 min-h-[760px] md:min-h-[640px]">
         {/* VISUAL */}
         <div
           className={cn(

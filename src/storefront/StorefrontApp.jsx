@@ -27,8 +27,8 @@ export default function StorefrontApp() {
   const [user, setUser] = useState(() => {
     try { return JSON.parse(localStorage.getItem('sl_user') || 'null'); } catch { return null; }
   });
-  const [lang, setLang] = useState(() => localStorage.getItem('sl_lang') || 'en');
-  const [dir, setDir]   = useState(() => localStorage.getItem('sl_dir') || 'ltr');
+  const [lang, setLang] = useState(() => localStorage.getItem('sl_lang') || 'ar');
+  const [dir, setDir]   = useState(() => localStorage.getItem('sl_dir') || 'rtl');
   const [theme, setTheme] = useState(() => localStorage.getItem('sl_theme') || 'light');
 
   const [cartOpen, setCartOpen] = useState(false);

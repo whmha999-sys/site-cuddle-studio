@@ -148,14 +148,6 @@ export default function SpatialProductShowcase({
             </motion.div>
           </AnimatePresence>
 
-
-          {/* status pill */}
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
-            <div className="flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-md px-3 py-1.5 border border-white/10 text-xs">
-              <span className={cn("w-2 h-2 rounded-full animate-pulse", active.accentBg)} />
-              <span className="text-zinc-300">{active.statusLabel}</span>
-            </div>
-          </div>
         </div>
 
         {/* CONTENT */}

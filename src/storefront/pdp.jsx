@@ -57,7 +57,9 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
       <section className="pdp">
 
+        {product.id !== 'teclast-p50' && (
         <div className="pdp-gallery">
+
           <div className="pdp-main-img">
             {realImgs ? (
               <img src={realImgs[thumb]} alt={product.name + ' ' + color}
@@ -81,6 +83,8 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             )}
           </div>
         </div>
+        )}
+
 
         <div className="pdp-info">
           <div className={`pdp-brand-pill ${product.brand}`}>

@@ -2,7 +2,7 @@
 import React from 'react';
 import { Icon, Price, Stars } from './atoms.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
-import { ProductCard } from './home.jsx';
+
 import { PRODUCT_IMAGES } from './data.js';
 import { ProductShowcase } from './product-showcase.jsx';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';

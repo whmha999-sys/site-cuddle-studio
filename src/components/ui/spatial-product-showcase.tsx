@@ -129,18 +129,25 @@ export default function SpatialProductShowcase({
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-            <motion.img
+            <motion.div
               key={`img-${active.id}`}
-              src={active.image}
-              alt={active.title}
               variants={imageV(fromX)}
               initial="initial"
               animate="animate"
               exit="exit"
-              className="relative z-10 max-h-[360px] md:max-h-[460px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
-              draggable={false}
-            />
+              className="relative z-10"
+            >
+              <motion.img
+                src={active.image}
+                alt={active.title}
+                animate={{ y: [0, -14, 0] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+                className="max-h-[360px] md:max-h-[460px] w-auto object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.6)]"
+                draggable={false}
+              />
+            </motion.div>
           </AnimatePresence>
+
 
           {/* status pill */}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
@@ -231,9 +238,9 @@ export default function SpatialProductShowcase({
         </div>
       </div>
 
-      {/* SWITCHER */}
+      {/* THUMBNAIL SWITCHER */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20">
-        <div className="relative flex items-center bg-white/5 backdrop-blur-md rounded-full p-1 border border-white/10">
+        <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10">
           {states.map((s) => {
             const isActive = s.id === active.id;
             return (
@@ -241,18 +248,27 @@ export default function SpatialProductShowcase({
                 key={s.id}
                 type="button"
                 onClick={() => setActiveId(s.id)}
-                className="relative px-5 h-9 rounded-full text-xs font-medium focus:outline-none"
+                title={s.label}
+                className={cn(
+                  "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all focus:outline-none",
+                  isActive
+                    ? cn("scale-105 shadow-lg", s.accentRing.replace("border-", "border-").replace("/30", ""))
+                    : "border-white/10 opacity-60 hover:opacity-100",
+                )}
               >
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />
+                <img
+                  src={s.image}
+                  alt={s.label}
+                  className="relative w-full h-full object-contain p-1"
+                  draggable={false}
+                />
                 {isActive && (
                   <motion.span
-                    layoutId="switcher-bg"
-                    className={cn("absolute inset-0 rounded-full", s.accentBg)}
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    layoutId="thumb-dot"
+                    className={cn("absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full", s.accentBg)}
                   />
                 )}
-                <span className={cn("relative z-10", isActive ? "text-white" : "text-zinc-400")}>
-                  {s.label}
-                </span>
               </button>
             );
           })}
@@ -260,4 +276,5 @@ export default function SpatialProductShowcase({
       </div>
     </section>
   );
+
 }

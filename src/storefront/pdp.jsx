@@ -46,7 +46,17 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
         <span className="current">{product.name}</span>
       </nav>
 
+      {product.id === 'teclast-p50' && (
+        <P50Showcase
+          lang={lang}
+          onViewSpecs={() => {
+            document.querySelector('.specs-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }}
+        />
+      )}
+
       <section className="pdp">
+
         <div className="pdp-gallery">
           <div className="pdp-main-img">
             {realImgs ? (

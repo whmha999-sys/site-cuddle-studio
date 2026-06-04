@@ -190,6 +190,7 @@ export default function StorefrontApp() {
       )}
 
       <BackToTop />
+      <WhatsAppFab lang={lang} />
 
 
       {/* Cart drawer + Checkout + PDP routes are not wired in this build. */}

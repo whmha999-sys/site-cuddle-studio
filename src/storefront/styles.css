@@ -1120,8 +1120,8 @@ input, select, textarea { font-family: inherit; color: inherit; }
 }
 
 @media (max-width: 768px) {
-  .wa-fab { width: 56px; height: 56px; bottom: 112px; left: 12px; }
-  .wa-fab-badge { min-width: 18px; height: 18px; font-size: 9px; top: -3px; right: -3px; }
+  .wa-fab { width: 44px; height: 44px; bottom: 120px; inset-inline-end: 16px; left: auto; }
+  .wa-fab-badge { min-width: 16px; height: 16px; font-size: 9px; top: -3px; right: -3px; }
 }
 
 

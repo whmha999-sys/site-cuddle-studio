@@ -132,6 +132,13 @@ export default function StorefrontApp() {
     ? catalog.find(p => p.id === route.params?.id)
     : null;
 
+  // Set tab title per product page
+  useEffect(() => {
+    if (currentProduct?.name) {
+      document.title = `${currentProduct.name} — Smart Leaders`;
+    }
+  }, [currentProduct]);
+
   return (
     <CurrencyProvider>
     <>

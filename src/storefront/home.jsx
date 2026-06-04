@@ -1155,6 +1155,7 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
               reviewsLabel={lang==='ar'?'تقييم':'reviews'}
               inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
               onAddToCart={() => { onAddToCart(p, firstColor, 1); }}
+              onCardClick={() => { onNavigate && onNavigate('pdp', { id: p.id }); }}
             />
           );
         })}

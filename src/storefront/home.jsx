@@ -1162,8 +1162,6 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
         })}
       </div>
 
-      <TestimonialsSection lang={lang}/>
-
       <BrandStory lang={lang}/>
 
       
@@ -1171,6 +1169,8 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
       <TeclastScroll lang={lang}/>
 
       <VikushaScroll lang={lang}/>
+
+      <TestimonialsSection lang={lang}/>
 
       {showLifestyle && <LifestyleBanner lang={lang}/>}
 

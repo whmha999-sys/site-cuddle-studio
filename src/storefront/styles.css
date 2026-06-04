@@ -1056,7 +1056,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
   position: fixed;
   bottom: 124px;
   left: 16px;
-  inset-inline-end: auto;
+  right: auto;
   z-index: 60;
   width: 44px;
   height: 44px;

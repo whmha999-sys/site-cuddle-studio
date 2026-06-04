@@ -5,6 +5,7 @@ import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { ProductCard } from './home.jsx';
 import { PRODUCT_IMAGES } from './data.js';
 import { ProductShowcase } from './product-showcase.jsx';
+import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 
 
 export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavigate }) {
@@ -109,6 +110,30 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
 
         </div>
       </section>
+
+      {product.id === 'teclast-p50' && (
+        <section style={{ marginTop: 48, display:'flex', justifyContent:'center' }}>
+          <ProductShowcaseCard
+            isDark
+            product={{
+              id: product.id,
+              name: product.name,
+              category: t['cat_'+product.category] || product.category,
+              price: product.price,
+              image: (PRODUCT_IMAGES?.[product.id]?.[color] || PRODUCT_IMAGES?.[product.id]?.[product.colors[0]] || [])[0] || '',
+              rating: 4.7,
+              reviews: 128,
+              inStock: true,
+              currency: 'JOD ',
+            }}
+            addToCartLabel={t.add_to_cart}
+            outOfStockLabel={lang==='ar'?'غير متوفر':'Out of Stock'}
+            reviewsLabel={lang==='ar'?'تقييم':'reviews'}
+            inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
+            onAddToCart={() => onAddToCart(product, color, qty)}
+          />
+        </section>
+      )}
 
       <section className="specs-section">
         <h3 className="specs-title">{product.name} — {t.specs}</h3>

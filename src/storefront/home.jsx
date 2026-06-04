@@ -1200,4 +1200,4 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
     </>
   );
 }
-export { Home, ProductCard };
+export { Home, ProductCard, ShowcaseCardWithColors };

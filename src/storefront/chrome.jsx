@@ -175,7 +175,7 @@ function Footer({ t, lang }) {
             <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={14}/> WhatsApp: +962 79 000 0000
             </a>
-            <a href="mailto:hello@smartleaders.jo"><Mail size={14}/> hello@smartleaders.jo</a>
+            <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
             <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>
               <MapPin size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
             </span>

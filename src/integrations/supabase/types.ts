@@ -441,6 +441,13 @@ export type Database = {
         }
         Returns: number
       }
+      place_order: {
+        Args: { payload: Json }
+        Returns: {
+          id: string
+          order_number: number
+        }[]
+      }
       read_email_batch: {
         Args: { batch_size: number; queue_name: string; vt: number }
         Returns: {

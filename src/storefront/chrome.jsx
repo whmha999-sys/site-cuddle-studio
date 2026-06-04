@@ -171,22 +171,22 @@ function Footer({ t, lang }) {
           <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
 
           <div className="footer-contact">
-            <a href="tel:+96260000000"><Icon name="phone" size={14}/> +962 6 000 0000</a>
+            <a href="tel:+96260000000"><Phone size={14}/> +962 6 000 0000</a>
             <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer">
-              <Icon name="phone" size={14}/> WhatsApp: +962 79 000 0000
+              <MessageCircle size={14}/> WhatsApp: +962 79 000 0000
             </a>
-            <a href="mailto:hello@smartleaders.jo"><Icon name="mail" size={14}/> hello@smartleaders.jo</a>
+            <a href="mailto:hello@smartleaders.jo"><Mail size={14}/> hello@smartleaders.jo</a>
             <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>
-              <Icon name="map-pin" size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
+              <MapPin size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
             </span>
           </div>
 
           <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
-            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Icon name="instagram" size={16}/></a>
-            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Icon name="facebook" size={16}/></a>
-            <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Icon name="music" size={16}/></a>
-            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Icon name="youtube" size={16}/></a>
-            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><Icon name="message-circle" size={16}/></a>
+            <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
+            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
+            <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Youtube size={16}/></a>
+            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
           </div>
         </div>
         <div>

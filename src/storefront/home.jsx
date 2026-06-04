@@ -1138,7 +1138,7 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
 
   return (
     <>
-      <Hero t={t} products={products} lang={lang}/>
+
 
       {showPromoBanners && <PromoBanners/>}
 

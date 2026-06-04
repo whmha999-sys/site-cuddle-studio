@@ -603,32 +603,34 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
 }
 window.Checkout = Checkout;
 
+import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
+
 export function SuccessModal({ order, onClose, t, lang }) {
+  const dateTime = new Date(order.at).toLocaleString(
+    lang === 'ar' ? 'ar-JO' : 'en-GB',
+    { dateStyle: 'medium', timeStyle: 'short' },
+  );
+  const payment = order.payment_method === 'cod'
+    ? (lang === 'ar' ? 'الدفع عند الاستلام' : 'Cash on Delivery')
+    : (order.payment_method || '—');
   return (
-    <div className="modal-backdrop">
-      <div className="modal">
-        <div className="modal-top">
-          <div className="success-icon"><Icon name="check" size={32}/></div>
-          <h3>{t.success_title}</h3>
-          <p>{t.success_sub}</p>
-        </div>
-        <div className="modal-body">
-          <div className="tx-row">
-            <span className="k">{t.success_tx}</span>
-            <span style={{fontWeight:600}}>{order.id}</span>
-          </div>
-          <div className="tx-row">
-            <span className="k">{t.total}</span>
-            <span style={{fontWeight:600}}><Price value={order.total}/></span>
-          </div>
-          <div className="tx-row">
-            <span className="k">{t.placed_at}</span>
-            <span>{new Date(order.at).toLocaleString(lang==='ar'?'ar-JO':'en-GB', { dateStyle:'medium', timeStyle:'short' })}</span>
-          </div>
-          <div className="modal-actions">
-            <button className="btn btn-outline btn-block" onClick={onClose}>{t.back_home}</button>
-          </div>
-        </div>
+    <div className="modal-backdrop" onClick={onClose}>
+      <div onClick={(e) => e.stopPropagation()} className="w-full flex items-center justify-center px-4">
+        <OrderConfirmationCard
+          orderId={String(order.order_number ?? order.id)}
+          paymentMethod={payment}
+          dateTime={dateTime}
+          totalAmount={<Price value={order.total} />}
+          onGoToAccount={onClose}
+          title={t.success_title}
+          buttonText={t.back_home}
+          labels={{
+            orderId: t.success_tx,
+            paymentMethod: lang === 'ar' ? 'طريقة الدفع' : 'Payment Method',
+            dateTime: t.placed_at,
+            total: t.total,
+          }}
+        />
       </div>
     </div>
   );

@@ -239,8 +239,8 @@ export default function SpatialProductShowcase({
       </div>
 
       {/* THUMBNAIL SWITCHER */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20">
-        <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10">
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 w-[min(92%,720px)]">
+        <div className="flex items-center gap-2 bg-white/5 backdrop-blur-md rounded-2xl p-2 border border-white/10 overflow-x-auto no-scrollbar">
           {states.map((s) => {
             const isActive = s.id === active.id;
             return (
@@ -250,13 +250,10 @@ export default function SpatialProductShowcase({
                 onClick={() => setActiveId(s.id)}
                 title={s.label}
                 className={cn(
-                  "relative w-16 h-16 rounded-xl overflow-hidden border-2 transition-all focus:outline-none",
-                  isActive
-                    ? cn("scale-105 shadow-lg", s.accentRing.replace("border-", "border-").replace("/30", ""))
-                    : "border-white/10 opacity-60 hover:opacity-100",
+                  "relative shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all focus:outline-none bg-white/[0.03]",
+                  isActive ? cn("scale-110 shadow-lg", s.accentRing) : "border-white/10 opacity-55 hover:opacity-100",
                 )}
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0" />
                 <img
                   src={s.image}
                   alt={s.label}
@@ -276,5 +273,6 @@ export default function SpatialProductShowcase({
       </div>
     </section>
   );
+
 
 }

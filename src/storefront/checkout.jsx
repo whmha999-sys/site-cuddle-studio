@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
+import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
   Check, ChevronLeft, Percent, X, Wallet, Tag,
@@ -603,7 +604,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
 }
 window.Checkout = Checkout;
 
-import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
+
 
 export function SuccessModal({ order, onClose, t, lang }) {
   const dateTime = new Date(order.at).toLocaleString(

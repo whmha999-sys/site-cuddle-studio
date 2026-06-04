@@ -120,6 +120,56 @@ Deno.serve(async (req) => {
   // Create Supabase client with service role (bypasses RLS)
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
+  // Anti-abuse: admin-notification templates (those with a fixed `to`) MUST
+  // reference a real order in the database. This prevents anonymous callers
+  // from flooding the admin inbox with fake order notifications using the
+  // public anon key.
+  if (template.to) {
+    const orderId: string | undefined =
+      (templateData as any)?.orderId ||
+      (templateData as any)?.order_id ||
+      (templateData as any)?.id
+    if (!orderId || typeof orderId !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'orderId is required for this template' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    const { data: order, error: orderErr } = await supabase
+      .from('orders')
+      .select('id, order_number, customer_first, customer_last, customer_email, customer_mobile, customer_address, customer_city, items, subtotal, tax, shipping, discount, total, currency, payment_method, status, created_at')
+      .eq('id', orderId)
+      .maybeSingle()
+    if (orderErr || !order) {
+      return new Response(
+        JSON.stringify({ error: 'Order not found' }),
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+    // Rebuild templateData from the DB row so callers cannot lie about
+    // amounts, customer info, or items.
+    templateData = {
+      orderNumber: order.order_number ?? order.id,
+      firstName: order.customer_first,
+      lastName: order.customer_last,
+      email: order.customer_email,
+      phone: order.customer_mobile,
+      address: order.customer_address,
+      city: order.customer_city,
+      items: Array.isArray(order.items) ? order.items : [],
+      subtotal: order.subtotal,
+      shipping: order.shipping,
+      tax: order.tax,
+      discount: order.discount,
+      total: order.total,
+      currency: order.currency,
+      paymentMethod: order.payment_method,
+      status: order.status,
+      createdAt: order.created_at,
+    }
+  }
+
+
   // 2. Check suppression list (fail-closed: if we can't verify, don't send)
   const { data: suppressed, error: suppressionError } = await supabase
     .from('suppressed_emails')

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
+// @ts-ignore -- JS module without TS types
+import { COLOR_SWATCH } from '@/storefront/data.js';
 
 export interface ShowcaseCardProduct {
   id: string | number;
@@ -12,6 +14,7 @@ export interface ShowcaseCardProduct {
   reviews?: number;
   inStock?: boolean;
   currency?: string;
+  colors?: string[];
 }
 
 interface Props {
@@ -20,6 +23,8 @@ interface Props {
   onAddToCart?: (p: ShowcaseCardProduct) => void;
   onToggleWishlist?: (id: ShowcaseCardProduct['id'], wishlisted: boolean) => void;
   onCardClick?: () => void;
+  selectedColor?: string;
+  onColorSelect?: (color: string) => void;
   addToCartLabel?: string;
   outOfStockLabel?: string;
   reviewsLabel?: string;
@@ -31,6 +36,8 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   isDark = false,
   onAddToCart,
   onCardClick,
+  selectedColor,
+  onColorSelect,
   addToCartLabel = 'Add to Cart',
   outOfStockLabel = 'Out of Stock',
   reviewsLabel = 'reviews',

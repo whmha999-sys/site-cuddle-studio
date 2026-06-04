@@ -178,6 +178,29 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       supabase.functions.invoke('notify-n8n', {
         body: { ...orderRow, id: data.id, order_number: data.order_number },
       }).catch(err => console.warn('n8n notify failed:', err));
+      supabase.functions.invoke('send-transactional-email', {
+        body: {
+          templateName: 'new-order-admin',
+          idempotencyKey: `new-order-admin-${data.id}`,
+          templateData: {
+            orderNumber: data.order_number ?? data.id,
+            firstName: shipping.firstName,
+            lastName: shipping.lastName,
+            email: shipping.email,
+            phone: shipping.phone,
+            address: shipping.address,
+            city: shipping.city,
+            items: items.map(it => ({ name: it.name, color: it.color, qty: it.qty, price: it.price_local ?? it.price })),
+            subtotal: convertPrice(sub),
+            shipping: convertPrice(ship),
+            tax: convertPrice(tax),
+            discount: convertPrice(discount),
+            total: convertPrice(total),
+            currency: currencyCode,
+            paymentMethod: 'cod',
+          },
+        },
+      }).catch(err => console.warn('admin email failed:', err));
     } catch (err) {
       console.error('Order save failed, completing locally:', err);
     }

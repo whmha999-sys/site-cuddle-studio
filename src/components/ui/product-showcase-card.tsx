@@ -55,6 +55,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
   return (
     <div
       dir="ltr"
+      onClick={onCardClick}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -70,6 +71,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
         transform: hover ? 'translateY(-4px)' : 'translateY(0)',
         transition: 'all 0.3s ease',
         fontFamily: 'system-ui, -apple-system, sans-serif',
+        cursor: onCardClick ? 'pointer' : 'default',
       }}
     >
       {/* Image */}

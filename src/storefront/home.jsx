@@ -518,6 +518,13 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
   const muted = 'rgba(255,255,255,0.62)';
   const isPromo = !!slide.promo;
   const endsAtRef = React.useRef(Date.now() + (slide.promoDurationMs || 48*3600*1000));
+  const { currency, convertPrice } = useCurrency();
+  const fmt = (v) => {
+    if (v == null) return '';
+    const c = convertPrice(v);
+    const r = currency.roundTo > 1 ? Math.round(c / currency.roundTo) * currency.roundTo : c;
+    return r.toLocaleString('en-US', { minimumFractionDigits: currency.decimals, maximumFractionDigits: currency.decimals });
+  };
 
   const marqueeItems = lang === 'ar'
     ? ['شحن مجاني', 'ضمان سنة', 'الدفع عند الاستلام', 'شحن اليوم', 'إصدار محدود']

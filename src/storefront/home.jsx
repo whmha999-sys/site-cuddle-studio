@@ -1,6 +1,7 @@
 // Home page: hero, filters, grid, CTA strip
 import React from 'react';
 import { Icon, Price } from './atoms.jsx';
+import { useCurrency } from './currency-context.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { PRODUCT_IMAGES } from './data.js';
 import { TeclastScroll } from './teclast-scroll.jsx';
@@ -517,6 +518,13 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
   const muted = 'rgba(255,255,255,0.62)';
   const isPromo = !!slide.promo;
   const endsAtRef = React.useRef(Date.now() + (slide.promoDurationMs || 48*3600*1000));
+  const { currency, convertPrice } = useCurrency();
+  const fmt = (v) => {
+    if (v == null) return '';
+    const c = convertPrice(v);
+    const r = currency.roundTo > 1 ? Math.round(c / currency.roundTo) * currency.roundTo : c;
+    return r.toLocaleString('en-US', { minimumFractionDigits: currency.decimals, maximumFractionDigits: currency.decimals });
+  };
 
   const marqueeItems = lang === 'ar'
     ? ['شحن مجاني', 'ضمان سنة', 'الدفع عند الاستلام', 'شحن اليوم', 'إصدار محدود']
@@ -644,7 +652,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:12,
                 color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
-              }}>JOD {slide.oldPrice}</span>
+              }}>{currency.symbol} {fmt(slide.oldPrice)}</span>
             ) : (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
@@ -662,7 +670,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
               paddingInlineStart:'0.12em', marginInlineStart:'-0.04em',
               paddingInlineEnd:'0.18em', marginInlineEnd:'-0.05em',
               overflow:'visible',
-            }}>JOD {slide.price}</span>
+            }}>{currency.symbol} {fmt(slide.price)}</span>
             {slide.discountLabel && (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
@@ -1075,22 +1083,27 @@ function LifestyleBanner({ lang }) {
 function ShowcaseCardWithColors({ p, t, lang, onAddToCart, onNavigate }) {
   const [color, setColor] = React.useState(p.colors?.[0]);
   React.useEffect(() => { setColor(p.colors?.[0]); }, [p.id]);
+  const { currency, convertPrice } = useCurrency();
   const seed = String(p.id).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
   const rating = parseFloat((4.2 + ((seed % 7) / 10)).toFixed(1));
   const reviews = 40 + (seed * 7) % 260;
   const image = (PRODUCT_IMAGES?.[p.id]?.[color] || PRODUCT_IMAGES?.[p.id]?.[p.colors?.[0]] || [])[0] || '';
+  const converted = convertPrice(p.price);
+  const displayPrice = currency.roundTo > 1
+    ? Math.round(converted / currency.roundTo) * currency.roundTo
+    : Number(converted.toFixed(currency.decimals));
   return (
     <ProductShowcaseCard
       product={{
         id: p.id,
         name: p.name,
         category: t['cat_'+p.category] || p.category,
-        price: p.price,
+        price: displayPrice,
         image,
         rating,
         reviews,
         inStock: true,
-        currency: 'JOD ',
+        currency: currency.symbol + ' ',
         colors: p.colors,
       }}
       selectedColor={color}

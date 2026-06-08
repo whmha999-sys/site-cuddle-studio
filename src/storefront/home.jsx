@@ -1076,22 +1076,27 @@ function LifestyleBanner({ lang }) {
 function ShowcaseCardWithColors({ p, t, lang, onAddToCart, onNavigate }) {
   const [color, setColor] = React.useState(p.colors?.[0]);
   React.useEffect(() => { setColor(p.colors?.[0]); }, [p.id]);
+  const { currency, convertPrice } = useCurrency();
   const seed = String(p.id).split('').reduce((a,c)=>a+c.charCodeAt(0),0);
   const rating = parseFloat((4.2 + ((seed % 7) / 10)).toFixed(1));
   const reviews = 40 + (seed * 7) % 260;
   const image = (PRODUCT_IMAGES?.[p.id]?.[color] || PRODUCT_IMAGES?.[p.id]?.[p.colors?.[0]] || [])[0] || '';
+  const converted = convertPrice(p.price);
+  const displayPrice = currency.roundTo > 1
+    ? Math.round(converted / currency.roundTo) * currency.roundTo
+    : Number(converted.toFixed(currency.decimals));
   return (
     <ProductShowcaseCard
       product={{
         id: p.id,
         name: p.name,
         category: t['cat_'+p.category] || p.category,
-        price: p.price,
+        price: displayPrice,
         image,
         rating,
         reviews,
         inStock: true,
-        currency: 'JOD ',
+        currency: currency.symbol + ' ',
         colors: p.colors,
       }}
       selectedColor={color}

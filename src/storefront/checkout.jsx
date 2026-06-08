@@ -189,7 +189,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
     setSubmitting(false);
     onComplete({
       id: orderNumber ? `SL-${orderNumber}` : orderId,
-      total, items: cart, pay: 'cod', at: new Date().toISOString(),
+      total, items: cart, pay: paymentMethod, at: new Date().toISOString(),
     });
   };
 

@@ -102,6 +102,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
     firstName: '', lastName: '', email: user?.email || '', phone: '',
     address: '', city: '', state: '', zipCode: '', country: 'JO',
   });
+  const [paymentMethod, setPaymentMethod] = React.useState('cod'); // 'cod' | 'pickup'
 
   const upd = (field, value) => setShipping(prev => ({ ...prev, [field]: value }));
 

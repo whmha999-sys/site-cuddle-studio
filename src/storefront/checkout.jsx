@@ -427,7 +427,13 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                     {L('Available Payment Methods','طرق الدفع المتاحة')}
                   </Label>
                   <div className="grid grid-cols-1 gap-3">
-                    <div className="flex items-center gap-3 p-4 border-2 border-primary bg-primary/5 rounded-md">
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('cod')}
+                      className={`flex items-center gap-3 p-4 border-2 rounded-md text-left transition ${
+                        paymentMethod === 'cod' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+                      }`}
+                    >
                       <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10">
                         <span className="text-xl">💵</span>
                       </div>
@@ -437,16 +443,38 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                           {L('Pay in cash when your order arrives','ادفع نقداً عند وصول طلبك')}
                         </div>
                       </div>
-                      <Check className="h-5 w-5 text-primary" />
-                    </div>
+                      {paymentMethod === 'cod' && <Check className="h-5 w-5 text-primary" />}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('pickup')}
+                      className={`flex items-center gap-3 p-4 border-2 rounded-md text-left transition ${
+                        paymentMethod === 'pickup' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-full bg-primary/10">
+                        <span className="text-xl">🏬</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium">{L('Pick from store','الاستلام من المتجر')}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {L('Pay and pick up your order at our store','ادفع واستلم طلبك من متجرنا')}
+                        </div>
+                      </div>
+                      {paymentMethod === 'pickup' && <Check className="h-5 w-5 text-primary" />}
+                    </button>
                   </div>
                 </div>
 
                 <div className="rounded-md border border-border bg-muted/30 p-4 flex items-start gap-3">
                   <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-muted-foreground">
-                    {L('No payment required now. You will pay the driver in cash upon delivery.',
-                       'لا حاجة للدفع الآن. ستدفع للسائق نقداً عند الاستلام.')}
+                    {paymentMethod === 'cod'
+                      ? L('No payment required now. You will pay the driver in cash upon delivery.',
+                          'لا حاجة للدفع الآن. ستدفع للسائق نقداً عند الاستلام.')
+                      : L('No payment required now. You will pay when you pick up your order at our store.',
+                          'لا حاجة للدفع الآن. ستدفع عند استلام طلبك من المتجر.')}
                   </p>
                 </div>
               </CardContent>

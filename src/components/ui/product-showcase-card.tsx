@@ -176,11 +176,11 @@ export const ProductShowcaseCard: React.FC<Props> = ({
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
             {product.salePrice ? (
               <>
-                <span style={{ fontSize: 24, fontWeight: 700, color: '#ef4444' }}>{currency}{product.salePrice}</span>
-                <span style={{ fontSize: 14, textDecoration: 'line-through', color: palette.muted }}>{currency}{product.price}</span>
+                <span style={{ fontSize: 24, fontWeight: 700, color: '#ef4444' }}>{currency}{Number(product.salePrice).toLocaleString('en-US')}</span>
+                <span style={{ fontSize: 14, textDecoration: 'line-through', color: palette.muted }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
               </>
             ) : (
-              <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{product.price}</span>
+              <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
             )}
           </div>
           {inStock && <span style={{ fontSize: 12, color: '#10b981', fontWeight: 500 }}>{inStockLabel}</span>}

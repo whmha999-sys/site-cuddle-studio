@@ -61,11 +61,18 @@ function ProductCard({
   product, onEdit, onChanged,
 }: { product: DbProduct; onEdit: () => void; onChanged: () => void }) {
   const { toast } = useToast();
-  const { data: imgs = [] } = useQuery({
+  const qc = useQueryClient();
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [editingPrice, setEditingPrice] = useState(false);
+  const [priceVal, setPriceVal] = useState(String(product.price));
+  const [savingPrice, setSavingPrice] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
+  const { data: imgs = [], refetch: refetchImg } = useQuery({
     queryKey: ["product-images", product.id, product.colors[0]],
     queryFn: async () => {
       const { data } = await supabase.from("product_images")
-        .select("url").eq("product_id", product.id)
+        .select("id,url").eq("product_id", product.id)
         .order("sort_order").limit(1);
       return data || [];
     },
@@ -78,16 +85,77 @@ function ProductCard({
     else onChanged();
   }
 
+  async function savePrice() {
+    const n = Number(priceVal);
+    if (!isFinite(n) || n < 0) {
+      toast({ title: "Invalid price", variant: "destructive" });
+      return;
+    }
+    setSavingPrice(true);
+    const { error } = await supabase.from("products").update({ price: n }).eq("id", product.id);
+    setSavingPrice(false);
+    if (error) {
+      toast({ title: "Save failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    setEditingPrice(false);
+    qc.invalidateQueries({ queryKey: ["catalog"] });
+    onChanged();
+    toast({ title: "Price updated" });
+  }
+
+  async function onPhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setUploadingPhoto(true);
+    try {
+      const color = product.colors[0] || "default";
+      const ext = file.name.split(".").pop();
+      const path = `${product.id}/${color}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("product-images").upload(path, file);
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from("product-images").getPublicUrl(path);
+      const existing = imgs[0] as any;
+      if (existing?.id) {
+        const { error } = await supabase.from("product_images")
+          .update({ url: pub.publicUrl }).eq("id", existing.id);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("product_images").insert({
+          product_id: product.id, color, url: pub.publicUrl, sort_order: 0,
+        });
+        if (error) throw error;
+      }
+      await refetchImg();
+      qc.invalidateQueries({ queryKey: ["catalog"] });
+      toast({ title: "Photo updated" });
+    } catch (err: any) {
+      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } finally {
+      setUploadingPhoto(false);
+    }
+  }
+
   return (
     <Card className={product.active ? "" : "opacity-60"}>
       <CardContent className="p-4 space-y-3">
-        <div className="aspect-square bg-muted rounded-md overflow-hidden flex items-center justify-center">
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          className="relative w-full aspect-square bg-muted rounded-md overflow-hidden flex items-center justify-center group"
+          title="Click to replace photo"
+        >
           {imgs[0]?.url ? (
             <img src={imgs[0].url} alt={product.name} className="w-full h-full object-contain" />
           ) : (
-            <span className="text-xs text-muted-foreground">No image</span>
+            <span className="text-xs text-muted-foreground">Click to add photo</span>
           )}
-        </div>
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs gap-1">
+            <Upload className="h-4 w-4" /> {uploadingPhoto ? "Uploading…" : "Replace photo"}
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPhotoChange} />
+        </button>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <div className="font-medium truncate">{product.name}</div>
@@ -99,10 +167,37 @@ function ProductCard({
             {product.active ? "Live" : "Hidden"}
           </Badge>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="font-mono text-sm">JOD {Number(product.price).toFixed(2)}</div>
+        <div className="flex items-center justify-between gap-2">
+          {editingPrice ? (
+            <div className="flex items-center gap-1 flex-1">
+              <span className="text-xs text-muted-foreground">JOD</span>
+              <Input
+                autoFocus
+                type="number"
+                step="0.01"
+                value={priceVal}
+                onChange={(e) => setPriceVal(e.target.value)}
+                onBlur={savePrice}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") savePrice();
+                  if (e.key === "Escape") { setEditingPrice(false); setPriceVal(String(product.price)); }
+                }}
+                className="h-8 text-sm font-mono"
+                disabled={savingPrice}
+              />
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => { setPriceVal(String(product.price)); setEditingPrice(true); }}
+              className="font-mono text-sm hover:bg-muted px-2 py-1 rounded transition"
+              title="Click to edit price"
+            >
+              JOD {Number(product.price).toFixed(2)}
+            </button>
+          )}
           <div className="flex gap-1">
-            <Button size="sm" variant="outline" onClick={onEdit}>
+            <Button size="sm" variant="outline" onClick={onEdit} title="More options">
               <Pencil className="h-3 w-3" />
             </Button>
             <Button size="sm" variant="ghost" onClick={toggleActive}>

@@ -670,7 +670,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
               paddingInlineStart:'0.12em', marginInlineStart:'-0.04em',
               paddingInlineEnd:'0.18em', marginInlineEnd:'-0.05em',
               overflow:'visible',
-            }}>JOD {slide.price}</span>
+            }}>{currency.symbol} {fmt(slide.price)}</span>
             {slide.discountLabel && (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',

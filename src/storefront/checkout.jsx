@@ -161,7 +161,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       currency: currencyCode,
       exchange_rate: currency.rate,
       coupon: appliedPromo?.code || null,
-      payment_method: 'cod',
+      payment_method: paymentMethod,
     };
 
     let orderId = 'SL-' + Math.floor(100000 + Math.random()*900000);

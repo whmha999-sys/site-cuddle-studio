@@ -1,14 +1,34 @@
-import { useMemo } from "react";
-import { useOrders } from "@/hooks/useOrders";
+import { useMemo, useState } from "react";
+import { useOrders, type Order } from "@/hooks/useOrders";
+import { useAllProducts } from "@/hooks/useCatalog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
+import { CheckCircle2 } from "lucide-react";
 
 function fmtJOD(n: number) {
   return `JOD ${n.toFixed(2)}`;
 }
 
+function paymentLabel(p: string) {
+  const k = (p || "").toLowerCase();
+  if (k === "pickup" || k === "pick-up" || k === "store") return "Pick from store";
+  if (k === "cod" || k === "cash" || k === "cash-on-delivery") return "Cash on Delivery";
+  return p || "—";
+}
+
 export default function Sales() {
   const { data: orders = [], isLoading } = useOrders();
+  const { data: products = [] } = useAllProducts();
+
+  const productMap = useMemo(() => {
+    const m = new Map<string, { brand: string; category: string; name: string }>();
+    for (const p of products) m.set(p.id, { brand: p.brand, category: p.category, name: p.name });
+    return m;
+  }, [products]);
 
   const stats = useMemo(() => {
     const today = new Date(); today.setHours(0,0,0,0);
@@ -38,6 +58,9 @@ export default function Sales() {
 
     return { revenueToday, ordersToday, unitsToday, revenue30, top };
   }, [orders]);
+
+  const pending = orders.filter(o => (o.status || "").toLowerCase() === "pending");
+  const processed = orders.filter(o => (o.status || "").toLowerCase() === "processed");
 
   return (
     <div className="p-6 space-y-6">
@@ -81,45 +104,140 @@ export default function Sales() {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Recent orders</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {isLoading ? (
-            <p className="text-sm text-muted-foreground">Loading…</p>
-          ) : orders.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No orders yet.</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead className="text-left text-muted-foreground border-b">
-                  <tr>
-                    <th className="py-2">#</th><th>Customer</th><th>Items</th>
-                    <th>Total</th><th>Payment</th><th>Status</th><th>When</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.slice(0, 25).map((o) => (
+      <OrdersTable
+        title="Recent orders (pending)"
+        orders={pending}
+        loading={isLoading}
+        productMap={productMap}
+        showActionButton
+        emptyText="No pending orders."
+      />
+
+      <OrdersTable
+        title="Processed orders"
+        orders={processed}
+        loading={isLoading}
+        productMap={productMap}
+        showActionButton={false}
+        emptyText="No processed orders yet."
+      />
+    </div>
+  );
+}
+
+function OrdersTable({
+  title, orders, loading, productMap, showActionButton, emptyText,
+}: {
+  title: string;
+  orders: Order[];
+  loading: boolean;
+  productMap: Map<string, { brand: string; category: string; name: string }>;
+  showActionButton: boolean;
+  emptyText: string;
+}) {
+  const { toast } = useToast();
+  const qc = useQueryClient();
+  const [busy, setBusy] = useState<string | null>(null);
+
+  async function markProcessed(orderId: string) {
+    setBusy(orderId);
+    const { error } = await supabase.from("orders")
+      .update({ status: "processed" }).eq("id", orderId);
+    setBusy(null);
+    if (error) {
+      toast({ title: "Update failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["orders"] });
+    toast({ title: "Order marked as processed" });
+  }
+
+  function brandsAndTypes(o: Order) {
+    const brands = new Set<string>();
+    const types = new Set<string>();
+    for (const it of o.items || []) {
+      const p = productMap.get(it.id);
+      if (p?.brand) brands.add(p.brand);
+      if (p?.category) types.add(p.category);
+    }
+    const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+    return {
+      brand: [...brands].map(cap).join(", ") || "—",
+      type: [...types].map(cap).join(", ") || "—",
+    };
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <p className="text-sm text-muted-foreground">Loading…</p>
+        ) : orders.length === 0 ? (
+          <p className="text-sm text-muted-foreground">{emptyText}</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="text-left text-muted-foreground border-b">
+                <tr>
+                  <th className="py-2">#</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Brand</th>
+                  <th>Type</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th>When</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.slice(0, 50).map((o) => {
+                  const bt = brandsAndTypes(o);
+                  return (
                     <tr key={o.id} className="border-b last:border-0">
                       <td className="py-2 font-mono">#{o.order_number}</td>
                       <td>{o.customer_first} {o.customer_last}</td>
                       <td>{o.items.reduce((s, i) => s + i.qty, 0)}</td>
+                      <td className="capitalize">{bt.brand}</td>
+                      <td className="capitalize">{bt.type}</td>
                       <td>{fmtJOD(Number(o.total))}</td>
-                      <td className="capitalize">{o.payment_method}</td>
-                      <td><Badge variant="secondary">{o.status}</Badge></td>
+                      <td>
+                        <Badge variant="outline" className="font-normal">
+                          {paymentLabel(o.payment_method)}
+                        </Badge>
+                      </td>
+                      <td>
+                        {showActionButton ? (
+                          <Button
+                            size="sm"
+                            className="bg-green-600 hover:bg-green-700 text-white h-7 px-2"
+                            disabled={busy === o.id}
+                            onClick={() => markProcessed(o.id)}
+                          >
+                            <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+                            {busy === o.id ? "…" : "Mark processed"}
+                          </Button>
+                        ) : (
+                          <Badge className="bg-green-600 hover:bg-green-600 text-white">
+                            Processed
+                          </Badge>
+                        )}
+                      </td>
                       <td className="text-muted-foreground">
                         {new Date(o.created_at).toLocaleString()}
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

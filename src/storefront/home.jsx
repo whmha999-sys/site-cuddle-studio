@@ -652,7 +652,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:12,
                 color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
-              }}>JOD {slide.oldPrice}</span>
+              }}>{currency.symbol} {fmt(slide.oldPrice)}</span>
             ) : (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',

@@ -1,0 +1,1 @@
+UPDATE public.products SET name = 'VIKUSHA ' || name WHERE brand='vikusha' AND name NOT ILIKE 'VIKUSHA %';

@@ -1,6 +1,7 @@
 // Home page: hero, filters, grid, CTA strip
 import React from 'react';
 import { Icon, Price } from './atoms.jsx';
+import { useCurrency } from './currency-context.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { PRODUCT_IMAGES } from './data.js';
 import { TeclastScroll } from './teclast-scroll.jsx';

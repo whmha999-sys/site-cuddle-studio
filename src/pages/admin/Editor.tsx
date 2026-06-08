@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAllProducts, type DbProduct } from "@/hooks/useCatalog";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";

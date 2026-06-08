@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAllProducts, type DbProduct } from "@/hooks/useCatalog";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -231,16 +231,23 @@ function ProductDrawer({
     sort_order: product?.sort_order ?? 999,
   }));
 
-  // Reset form when product changes
-  useState(() => {
-    if (product) setForm({
-      id: product.id, brand: product.brand, category: product.category,
-      name: product.name, tagline: product.tagline || "", price: product.price,
-      colors: (product.colors || []).join(", "),
-      specs: JSON.stringify(product.specs || {}, null, 2),
-      hero: product.hero, active: product.active, sort_order: product.sort_order,
+  // Reset form whenever the drawer opens with a (different) product
+  useEffect(() => {
+    if (!open) return;
+    setForm({
+      id: product?.id || "",
+      brand: product?.brand || "vikusha",
+      category: product?.category || "tablet",
+      name: product?.name || "",
+      tagline: product?.tagline || "",
+      price: product?.price ?? 0,
+      colors: (product?.colors || []).join(", "),
+      specs: JSON.stringify(product?.specs || {}, null, 2),
+      hero: product?.hero || false,
+      active: product?.active ?? true,
+      sort_order: product?.sort_order ?? 999,
     });
-  });
+  }, [product, open]);
 
   async function save() {
     let specsObj: Record<string, string> = {};

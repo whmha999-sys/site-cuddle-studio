@@ -58,27 +58,27 @@ const promoBannerStyles = `
     bottom: 20px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 26px;
+    gap: 6px;
+    padding: 8px 16px;
     background: linear-gradient(180deg, #FF7A1A 0%, #FF6B00 100%);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
-    font-size: 13px;
+    font-size: 10px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     border-radius: 999px;
-    box-shadow: 0 8px 24px rgba(255,107,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    box-shadow: 0 6px 18px rgba(255,107,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     animation: pb-fade-in 0.7s ease both;
     z-index: 3;
   }
   .pb-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 30px rgba(255,107,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 10px 24px rgba(255,107,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
     filter: brightness(1.05);
   }
-  .pb-cta-arrow { font-size: 16px; line-height: 1; }
+  .pb-cta-arrow { font-size: 12px; line-height: 1; }
   .pb-dots {
     position: absolute;
     bottom: 14px;

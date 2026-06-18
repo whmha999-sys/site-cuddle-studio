@@ -6,14 +6,13 @@ const promoBannerStyles = `
   @keyframes pb-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .pb-section {
     width: 100%;
-    max-width: 700px;
-    margin: 8px auto 0;
+    padding: 8px clamp(16px, 4vw, 64px) 0;
     position: relative;
   }
   .pb-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg, 16px);
     overflow: hidden;
     border: 1px solid var(--border, rgba(255,255,255,0.08));

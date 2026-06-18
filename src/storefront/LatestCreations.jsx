@@ -15,11 +15,8 @@ export function LatestCreations() {
   return (
     <section className="lc-section" aria-label="Latest Creations">
       <style>{`
-        .lc-section { width: 100%; padding: 72px 24px; background: #000; box-sizing: border-box; }
+        .lc-section { width: 100%; padding: 24px; background: transparent; box-sizing: border-box; }
         .lc-inner { max-width: 1400px; margin: 0 auto; }
-        .lc-head { text-align: center; margin-bottom: 48px; }
-        .lc-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; color: #fff; margin: 0 0 14px; letter-spacing: -0.02em; }
-        .lc-sub { font-size: 15px; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.6; }
 
         .lc-strip {
           display: flex;
@@ -51,20 +48,13 @@ export function LatestCreations() {
         }
 
         @media (max-width: 768px) {
-          .lc-section { padding: 48px 16px; }
+          .lc-section { padding: 16px; }
           .lc-strip { height: 360px; gap: 8px; }
           .lc-tile { border-radius: 14px; }
         }
       `}</style>
 
       <div className="lc-inner">
-        <header className="lc-head">
-          <h2 className="lc-title">Our Latest Creations</h2>
-          <p className="lc-sub">
-            A visual collection of our most recent works – each piece crafted with intention, emotion, and style.
-          </p>
-        </header>
-
         <div className="lc-strip" data-has-active={active !== null} onMouseLeave={() => setActive(null)}>
           {IMAGES.map((src, i) => (
             <div

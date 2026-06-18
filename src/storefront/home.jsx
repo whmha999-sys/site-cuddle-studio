@@ -559,6 +559,35 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
   };
   const tagStyle = tagStyles[slide.tagKind] || tagStyles.new;
 
+  if (slide.fullBanner) {
+    return (
+      <div
+        className="hero-slide hero-slide-inner vk-promo-slide"
+        style={{
+          background: slide.bg,
+          opacity: active ? 1 : 0,
+          pointerEvents: active ? 'auto' : 'none',
+          transition: 'opacity 0.7s cubic-bezier(0.22,1,0.36,1)',
+          position:'absolute', inset:0,
+          overflow:'hidden',
+          cursor:'pointer',
+        }}
+        onClick={()=>window.navigate('pdp', {id: slide.id})}
+      >
+        <img
+          src={slide.imgSrc}
+          alt={slide.eyebrow || ''}
+          loading={active ? 'eager' : 'lazy'}
+          style={{
+            width:'100%', height:'100%',
+            objectFit:'cover', objectPosition:'center',
+            display:'block',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className="hero-slide hero-slide-inner vk-promo-slide"

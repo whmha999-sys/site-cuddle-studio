@@ -142,8 +142,8 @@ function SceneWatch({ visible }) {
       display:'flex', alignItems:'center', justifyContent:'center',
     }}>
       <img
-        src={bannerAsset.url}
-        alt="Promo Banner"
+        src={t65HeroAsset.url}
+        alt="Teclast T65 Tablet"
         style={{
           width:'100%', height:'100%', objectFit:'cover', display:'block',
         }}

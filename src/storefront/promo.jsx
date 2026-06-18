@@ -1,4 +1,5 @@
 import React from 'react';
+import bannerAsset from '@/assets/promo-banner.png.asset.json';
 // Cinematic promo reel — two-product animated showcase
 // Uses CSS keyframe animations (no external deps)
 

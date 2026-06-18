@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import watchAsset from '@/assets/vikusha-watch.png.asset.json';
 import tabletAsset from '@/assets/vikusha-tablet.png.asset.json';
 import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
+import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 
 const IMAGES = [
+  t65HeroAsset.url,
   watchAsset.url,
   tabletAsset.url,
   p30tAsset.url,

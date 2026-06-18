@@ -467,8 +467,8 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                   <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
                   <p className="text-sm text-muted-foreground">
                     {paymentMethod === 'cod'
-                      ? L('No payment required now. You will pay the driver in cash upon delivery.',
-                          'لا حاجة للدفع الآن. ستدفع للسائق نقداً عند الاستلام.')
+                      ? L('No payment required now. You will pay the driver upon delivery.',
+                          'لا حاجة للدفع الان. ستدفع للسائق عند الاستلام')
                       : L('No payment required now. You will pay when you pick up your order at our store.',
                           'لا حاجة للدفع الآن. ستدفع عند استلام طلبك من المتجر.')}
                   </p>

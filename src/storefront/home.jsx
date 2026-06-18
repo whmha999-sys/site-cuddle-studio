@@ -550,6 +550,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
   };
   const tagStyle = tagStyles[slide.tagKind] || tagStyles.new;
 
+
   return (
     <div
       className="hero-slide hero-slide-inner vk-promo-slide"

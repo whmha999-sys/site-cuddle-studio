@@ -1,5 +1,6 @@
 import React from 'react';
 import bannerAsset from '@/assets/promo-banner.png.asset.json';
+import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 // Cinematic promo reel — two-product animated showcase
 // Uses CSS keyframe animations (no external deps)
 
@@ -141,8 +142,8 @@ function SceneWatch({ visible }) {
       display:'flex', alignItems:'center', justifyContent:'center',
     }}>
       <img
-        src={bannerAsset.url}
-        alt="Promo Banner"
+        src={t65HeroAsset.url}
+        alt="Teclast T65 Tablet"
         style={{
           width:'100%', height:'100%', objectFit:'cover', display:'block',
         }}

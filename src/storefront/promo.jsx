@@ -130,7 +130,7 @@ function WordReveal({ text, delay = 0, style = {} }) {
   );
 }
 
-// Scene 1: Watch focus
+// Scene 1: Banner image
 function SceneWatch({ visible }) {
   return (
     <div className={`promo-scene ${visible?'is-visible':''}`} style={{
@@ -140,111 +140,13 @@ function SceneWatch({ visible }) {
       pointerEvents: visible ? 'auto' : 'none',
       display:'flex', alignItems:'center', justifyContent:'center',
     }}>
-      {/* Background glow */}
-      <div style={{
-        position:'absolute', inset:0,
-        background:'radial-gradient(ellipse 60% 50% at 55% 50%, #c49a0055, transparent 70%)',
-        animation: visible ? 'promo-glow-pulse 3s ease-in-out infinite' : 'none',
-      }}/>
-
-      {/* Grid lines */}
-      <svg style={{ position:'absolute', inset:0, width:'100%', height:'100%', opacity:0.06 }}>
-        {[...Array(12)].map((_,i) => (
-          <line key={`h${i}`} x1="0" y1={`${(i+1)*8}%`} x2="100%" y2={`${(i+1)*8}%`} stroke="#FFB800" strokeWidth="0.5"/>
-        ))}
-        {[...Array(16)].map((_,i) => (
-          <line key={`v${i}`} x1={`${(i+1)*6.25}%`} y1="0" x2={`${(i+1)*6.25}%`} y2="100%" stroke="#FFB800" strokeWidth="0.5"/>
-        ))}
-      </svg>
-
-      {/* Watch image */}
-      <div className="promo-scene-image" style={{
-        position:'relative', zIndex:2,
-        animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
-      }}>
-        <img
-          src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.webp"
-          alt="VIKUSHA Watch V70"
-          style={{
-            height: 340, width:'auto',
-            filter:'drop-shadow(0 0 60px #c49a0044) drop-shadow(0 20px 50px rgba(0,0,0,0.7))',
-          }}
-        />
-        {/* Scan line */}
-        <div style={{
-          position:'absolute', left:0, right:0, height:2,
-          background:'linear-gradient(to right, transparent, #FFB800aa, transparent)',
-          animation: visible ? 'promo-scan 2.5s linear infinite' : 'none',
-          pointerEvents:'none',
-        }}/>
-      </div>
-
-      {/* Left text column */}
-      <div className="promo-scene-text" style={{
-        position:'absolute', left:'8%', top:'50%', transform:'translateY(-50%)',
-        zIndex:3, maxWidth:220,
-      }}>
-        <div style={{
-          fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.18em',
-          color:'#FFB800', textTransform:'uppercase', marginBottom:12,
-          animation: visible ? 'promo-fade-in 0.6s 0.3s both' : 'none',
-        }}>Vikusha V70</div>
-
-        <div style={{
-          fontFamily:'var(--font-display, serif)', fontSize:42, lineHeight:1.05,
-          color:'#f0ede4', fontWeight:400, marginBottom:14,
-          letterSpacing:'-0.02em',
-        }}>
-          {visible && <>
-            <WordReveal text="Your" delay={0.4}/>{' '}
-            <WordReveal text="wrist." delay={0.55}/><br/>
-            <em style={{ color:'#FFB800' }}>
-              <WordReveal text="Alive." delay={0.7}/>
-            </em>
-          </>}
-        </div>
-
-        <div style={{
-          fontSize:12, color:'rgba(255,255,255,0.5)', lineHeight:1.6,
-          animation: visible ? 'promo-fade-in 0.7s 1s both' : 'none',
-        }}>
-          1.43″ AMOLED · NFC<br/>Heart rate · IP67
-        </div>
-
-        {/* Divider */}
-        <div style={{
-          height:1, background:'#FFB800', marginTop:18, transformOrigin:'left',
-          animation: visible ? 'promo-line-grow 0.6s cubic-bezier(0.22,1,0.36,1) 1.1s both' : 'none',
-        }}/>
-        <div style={{
-          fontFamily:'var(--font-mono, monospace)', fontSize:11, color:'#FFB800',
-          marginTop:10, fontWeight:600, letterSpacing:'0.1em',
-          animation: visible ? 'promo-fade-in 0.5s 1.3s both' : 'none',
-        }}>JOD 50</div>
-      </div>
-
-      {/* Right spec badges */}
-      <div className="promo-scene-badges" style={{
-        position:'absolute', right:'7%', top:'50%', transform:'translateY(-50%)',
-        zIndex:3, display:'flex', flexDirection:'column', gap:10, alignItems:'flex-end',
-      }}>
-        {[
-          { label:'AMOLED', val:'1.43″', delay:0.6 },
-          { label:'Battery', val:'300 mAh', delay:0.75 },
-          { label:'Water', val:'IP67', delay:0.9 },
-          { label:'Sensors', val:'SpO2 · HR', delay:1.05 },
-        ].map(b => (
-          <div key={b.label} style={{
-            background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.1)',
-            borderRadius:8, padding:'8px 14px', textAlign:'right',
-            backdropFilter:'blur(6px)',
-            animation: visible ? `promo-slide-right 0.6s cubic-bezier(0.22,1,0.36,1) ${b.delay}s both` : 'none',
-          }}>
-            <div style={{ fontFamily:'var(--font-mono,monospace)', fontSize:9, color:'rgba(255,255,255,0.4)', letterSpacing:'0.12em', textTransform:'uppercase' }}>{b.label}</div>
-            <div style={{ fontSize:14, fontWeight:600, color:'#f0ede4', marginTop:2 }}>{b.val}</div>
-          </div>
-        ))}
-      </div>
+      <img
+        src={bannerAsset.url}
+        alt="Promo Banner"
+        style={{
+          width:'100%', height:'100%', objectFit:'cover', display:'block',
+        }}
+      />
     </div>
   );
 }

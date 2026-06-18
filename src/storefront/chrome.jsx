@@ -170,17 +170,6 @@ function Footer({ t, lang }) {
           </div>
           <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
 
-          <div className="footer-contact">
-            <a href="tel:0797772455"><Phone size={14}/> 0797772455</a>
-            <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer">
-              <MessageCircle size={14}/> WhatsApp: 0797772455
-            </a>
-            <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
-            <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'rgba(255,255,255,0.92)' }}>
-              <MapPin size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
-            </span>
-          </div>
-
           <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
             <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
             <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
@@ -189,25 +178,34 @@ function Footer({ t, lang }) {
             <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
           </div>
         </div>
-        <div>
-          <h5>{isAr ? 'تسوّق' : 'Shop'}</h5>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'tablet'});}}>{t.nav_tablets}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'watch'});}}>{t.nav_watches}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home', {cat:'accessory'});}}>{t.nav_accessories}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('home');}}>{t.nav_brands}</a>
-        </div>
+
         <div>
           <h5>{isAr ? 'الدعم' : 'Support'}</h5>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('warranty');}}>{isAr ? 'الضمان' : t.footer_warranty}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('contact');}}>{isAr ? 'تواصل معنا' : t.footer_contact}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('returns');}}>{isAr ? 'سياسة الإرجاع والاستبدال' : 'Returns & Refunds'}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('shipping');}}>{isAr ? 'الشحن والتوصيل' : 'Shipping & Delivery'}</a>
+          <div className="footer-section">
+            <div className="footer-section-title">{isAr ? 'تواصل معنا' : 'Contact us'}</div>
+            <a href="tel:0797772455"><Phone size={14}/> {isAr ? 'رقم التلفون - 0797772455' : 'Phone: 0797772455'}</a>
+            <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer">
+              <MessageCircle size={14}/> {isAr ? 'الواتس اب 0797772455' : 'WhatsApp: 0797772455'}
+            </a>
+            <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
+          </div>
         </div>
+
         <div>
-          <h5>{isAr ? 'الشركة' : 'Company'}</h5>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('about');}}>{isAr ? 'من نحن' : t.footer_about}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('privacy');}}>{isAr ? 'الخصوصية' : t.footer_privacy}</a>
-          <a href="#" onClick={(e)=>{e.preventDefault(); window.navigate?.('terms');}}>{isAr ? 'الشروط' : 'Terms'}</a>
+          <h5>{isAr ? 'ساعات العمل' : 'Working hours'}</h5>
+          <div className="footer-section">
+            <span>{isAr ? 'السبت - الخميس 10-10' : 'Sat - Thu 10-10'}</span>
+            <span>{isAr ? 'الجمعه 2 - 8' : 'Fri 2 - 8'}</span>
+          </div>
+        </div>
+
+        <div>
+          <h5>{isAr ? 'العنوان' : 'Address'}</h5>
+          <div className="footer-section">
+            <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'rgba(255,255,255,0.92)', lineHeight:1.6 }}>
+              <MapPin size={14}/> {isAr ? 'الجاردنز شارع وصفي التل - مجمع رياض التجاري 124' : 'Gardens Wasfi Al-Tal St - Riyad Commercial Complex 124'}
+            </span>
+          </div>
         </div>
       </div>
 

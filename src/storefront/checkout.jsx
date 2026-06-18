@@ -224,7 +224,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                   </Badge>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{p.name}</p>
+                  <p className="text-sm font-medium truncate">{p?.name || it.name || ''}</p>
                   <div className="text-xs text-muted-foreground">{it.color}</div>
                 </div>
                 <div className="text-sm font-semibold whitespace-nowrap">

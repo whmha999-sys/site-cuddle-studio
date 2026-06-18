@@ -6,7 +6,7 @@ const promoBannerStyles = `
   @keyframes pb-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   .pb-section {
     width: 100%;
-    max-width: 1422px;
+    max-width: 900px;
     margin: 8px auto 0;
     position: relative;
   }

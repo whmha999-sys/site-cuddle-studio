@@ -153,7 +153,7 @@ import React from 'react';
         position:'relative', height:'300vh', background:'#ffffff',
         margin:'0 -16px', borderTop:'1px solid #FFB80022', borderBottom:'1px solid #FFB80022',
       }}>
-        <div className="scroll-scene-sticky" style={{
+        <div className="scroll-scene-sticky" dir="ltr" style={{
           position:'sticky', top:0, height:'100vh', overflow:'hidden', background:'#ffffff',
           display:'grid', gridTemplateColumns:'1fr 400px 1fr', alignItems:'center',
         }}>

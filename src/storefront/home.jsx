@@ -15,7 +15,6 @@ import { useHeroSettings } from '@/hooks/useHeroSettings';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
 import { TestimonialsSection } from './testimonials-section.jsx';
-import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [

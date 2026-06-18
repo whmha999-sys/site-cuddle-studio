@@ -13,7 +13,7 @@ const promoBannerStyles = `
   .pb-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: 1422 / 400;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg, 16px);
     overflow: hidden;
     border: 1px solid var(--border, rgba(255,255,255,0.08));

@@ -26,23 +26,28 @@ export function LatestCreations() {
           gap: 12px;
           height: 520px;
           width: 100%;
+          overflow: hidden;
         }
         .lc-tile {
           position: relative;
-          flex: 1 1 0;
+          flex: 1 1 0%;
+          min-width: 0;
           overflow: hidden;
           border-radius: 18px;
           cursor: pointer;
-          transition: flex-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+          transition: flex 0.7s cubic-bezier(0.22, 1, 0.36, 1);
           background: #111;
         }
-        .lc-strip[data-has-active="true"] .lc-tile { flex-grow: 0.6; }
-        .lc-tile.is-active { flex-grow: 6; }
+        .lc-strip:hover .lc-tile,
+        .lc-strip[data-has-active="true"] .lc-tile { flex: 0.45 1 0%; }
+        .lc-strip:hover .lc-tile:hover,
+        .lc-tile.is-active { flex: 7 1 0%; }
         .lc-tile img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
+          pointer-events: none;
         }
 
         @media (max-width: 768px) {
@@ -60,14 +65,15 @@ export function LatestCreations() {
           </p>
         </header>
 
-        <div className="lc-strip" data-has-active={active !== null}>
+        <div className="lc-strip" data-has-active={active !== null} onMouseLeave={() => setActive(null)}>
           {IMAGES.map((src, i) => (
             <div
               key={i}
               className={`lc-tile ${active === i ? 'is-active' : ''}`}
               onMouseEnter={() => setActive(i)}
-              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(i)}
               onClick={() => setActive(active === i ? null : i)}
+              tabIndex={0}
             >
               <img src={src} alt={`Creation ${i + 1}`} loading="lazy" />
             </div>

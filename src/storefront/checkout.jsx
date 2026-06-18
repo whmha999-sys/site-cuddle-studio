@@ -108,7 +108,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
 
   const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
   const discount = appliedPromo ? sub * appliedPromo.pct : 0;
-  const tax = (sub - discount) * 0.10;
+  const tax = 0;
   const ship = sub > 100 ? 0 : 3;
   const total = sub - discount + tax + ship;
 
@@ -282,10 +282,6 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
           <div className="flex justify-between text-sm">
             <span>{t.shipping}</span>
             <span>{ship === 0 ? <span className="text-green-600">{L('Free','مجاناً')}</span> : <Price value={ship}/>}</span>
-          </div>
-          <div className="flex justify-between text-sm">
-            <span>{t.tax}</span>
-            <span><Price value={tax}/></span>
           </div>
           <div className="flex justify-between font-semibold text-lg border-t pt-2">
             <span>{t.total}</span>

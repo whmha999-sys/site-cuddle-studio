@@ -171,9 +171,9 @@ function Footer({ t, lang }) {
           <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات — مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
 
           <div className="footer-contact">
-            <a href="tel:+96260000000"><Phone size={14}/> +962 6 000 0000</a>
+            <a href="tel:0797772455"><Phone size={14}/> 0797772455</a>
             <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer">
-              <MessageCircle size={14}/> WhatsApp: +962 79 777 2455
+              <MessageCircle size={14}/> WhatsApp: 0797772455
             </a>
             <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
             <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>

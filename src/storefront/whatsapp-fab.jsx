@@ -1,7 +1,7 @@
 // Floating WhatsApp contact button — high-trust signal for MENA shoppers
 import React from 'react';
 
-const WA_NUMBER = '962790000000'; // Jordan mobile placeholder
+const WA_NUMBER = '962797772455'; // Jordan mobile
 
 export default function WhatsAppFab({ lang = 'en' }) {
   const isAr = lang === 'ar';

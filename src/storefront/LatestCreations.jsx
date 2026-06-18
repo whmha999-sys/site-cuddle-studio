@@ -6,11 +6,11 @@ import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 import p200HeroAsset from '@/assets/vikusha-p200-hero.png.asset.json';
 
 const TILES = [
-  { src: t65HeroAsset.url, productId: 'teclast-t65', alt: 'Teclast T65' },
   { src: p200HeroAsset.url, productId: 'p200', alt: 'Vikusha Power Bank P200' },
-  { src: watchAsset.url, productId: 'v-70', alt: 'Vikusha V-70 Watch' },
-  { src: tabletAsset.url, productId: 'vz-80-plus', alt: 'Vikusha VZ-80 PLUS' },
   { src: p30tAsset.url, productId: 'teclast-p30t', alt: 'Teclast P30T' },
+  { src: watchAsset.url, productId: 'v-70', alt: 'Vikusha V-70 Watch' },
+  { src: t65HeroAsset.url, productId: 'teclast-t65', alt: 'Teclast T65' },
+  { src: tabletAsset.url, productId: 'vz-80-plus', alt: 'Vikusha VZ-80 PLUS' },
 ];
 
 export function LatestCreations() {

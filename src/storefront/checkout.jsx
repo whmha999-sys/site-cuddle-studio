@@ -536,8 +536,8 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                 </div>
 
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline" size="lg" onClick={prevStep} className="flex items-center gap-2">
+              <CardFooter className="flex flex-col sm:flex-row justify-between gap-3">
+                <Button variant="outline" size="lg" onClick={prevStep} className="flex items-center gap-2 order-2 sm:order-1">
                   <ChevronLeft className="h-4 w-4" />
                   {L('Back','رجوع')}
                 </Button>
@@ -545,7 +545,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                   size="lg"
                   onClick={placeOrder}
                   disabled={submitting}
-                  className="bg-green-600 hover:bg-green-700 text-white"
+                  className="bg-green-600 hover:bg-green-700 text-white order-1 sm:order-2"
                 >
                   {submitting
                     ? L('Placing order...','جاري التأكيد...')

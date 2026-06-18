@@ -60,16 +60,22 @@ export function LatestCreations() {
 
       <div className="lc-inner">
         <div className="lc-strip" data-has-active={active !== null} onMouseLeave={() => setActive(null)}>
-          {IMAGES.map((src, i) => (
+          {TILES.map((tile, i) => (
             <div
               key={i}
               className={`lc-tile ${active === i ? 'is-active' : ''}`}
               onMouseEnter={() => setActive(i)}
               onFocus={() => setActive(i)}
-              onClick={() => setActive(active === i ? null : i)}
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.navigate) {
+                  window.navigate('pdp', { id: tile.productId });
+                }
+              }}
               tabIndex={0}
+              role="button"
+              aria-label={tile.alt}
             >
-              <img src={src} alt={`Creation ${i + 1}`} loading="lazy" />
+              <img src={tile.src} alt={tile.alt} loading="lazy" />
             </div>
           ))}
         </div>

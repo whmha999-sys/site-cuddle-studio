@@ -130,7 +130,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
         shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid
-    if (step === 3) return agreeToTerms;
+    if (step === 3) return true;
     return false;
   };
 
@@ -138,7 +138,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
   const prevStep = () => setCurrentStep(s => Math.max(s-1, 1));
 
   const placeOrder = async () => {
-    if (!agreeToTerms || submitting) return;
+    if (submitting) return;
     setSubmitting(true);
     const items = cart.map(it => {
       const p = (window.CATALOG || []).find(x => x.id === it.id);
@@ -535,21 +535,6 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                   </div>
                 </div>
 
-                {/* Terms */}
-                <div className="flex items-start gap-2 border-t pt-4">
-                  <Checkbox
-                    id="terms"
-                    checked={agreeToTerms}
-                    onCheckedChange={(c) => setAgreeToTerms(c === true)}
-                    className="mt-0.5"
-                  />
-                  <Label htmlFor="terms" className="text-sm leading-relaxed cursor-pointer">
-                    {L('I confirm I will pay ','أؤكد أنني سأدفع ')}
-                    <strong><Price value={total}/></strong>
-                    {L(' in cash on delivery and agree to the terms of service.',
-                       ' نقداً عند الاستلام وأوافق على شروط الخدمة.')}
-                  </Label>
-                </div>
               </CardContent>
               <CardFooter className="flex justify-between">
                 <Button variant="outline" size="lg" onClick={prevStep} className="flex items-center gap-2">
@@ -559,7 +544,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                 <Button
                   size="lg"
                   onClick={placeOrder}
-                  disabled={!agreeToTerms || submitting}
+                  disabled={submitting}
                   className="bg-green-600 hover:bg-green-700 text-white"
                 >
                   {submitting

@@ -96,7 +96,7 @@ const promoBannerStyles = `
   .pb-dot.is-active { width: 24px; background: #fff; }
 
   @media (max-width: 768px) {
-    .pb-frame { aspect-ratio: 3 / 2; border-radius: 12px; }
+    .pb-frame { aspect-ratio: 16 / 9; border-radius: 12px; }
     .pb-caption { inset-inline-start: 14px; bottom: 60px; font-size: 12px; padding: 6px 10px; }
     .pb-cta { inset-inline-start: 14px; bottom: 14px; padding: 8px 14px; font-size: 10px; }
   }

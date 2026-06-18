@@ -131,7 +131,7 @@ function WordReveal({ text, delay = 0, style = {} }) {
   );
 }
 
-// Scene 1: Banner image
+// Scene 1: Watch focus
 function SceneWatch({ visible }) {
   return (
     <div className={`promo-scene ${visible?'is-visible':''}`} style={{
@@ -141,13 +141,24 @@ function SceneWatch({ visible }) {
       pointerEvents: visible ? 'auto' : 'none',
       display:'flex', alignItems:'center', justifyContent:'center',
     }}>
-      <img
-        src={t65HeroAsset.url}
-        alt="Teclast T65 Tablet"
-        style={{
-          width:'100%', height:'100%', objectFit:'cover', display:'block',
-        }}
-      />
+      <div style={{
+        position:'absolute', inset:0,
+        background:'radial-gradient(ellipse 55% 50% at 55% 50%, #c49a0055, transparent 70%)',
+        animation: visible ? 'promo-glow-pulse 3.5s ease-in-out infinite' : 'none',
+      }}/>
+      <div className="promo-scene-image" style={{
+        position:'relative', zIndex:2,
+        animation: visible ? 'promo-float-watch 4s ease-in-out infinite, promo-slide-right 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both' : 'none',
+      }}>
+        <img
+          src="/uploads/file_00000000f98471fdb5a91f41d515c0c7-removebg-preview.webp"
+          alt="VIKUSHA Watch V70"
+          style={{
+            height: 300, width:'auto',
+            filter:'drop-shadow(0 0 60px #c49a0066) drop-shadow(0 24px 56px rgba(0,0,0,0.7))',
+          }}
+        />
+      </div>
     </div>
   );
 }

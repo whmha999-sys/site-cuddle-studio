@@ -15,9 +15,18 @@ import { useHeroSettings } from '@/hooks/useHeroSettings';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
 import { TestimonialsSection } from './testimonials-section.jsx';
+import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
+  {
+    id: 'teclast-t65',
+    fullBanner: true,
+    bg: '#0a0a0a',
+    imgSrc: t65HeroAsset.url,
+    eyebrow: ar ? 'جهاز تيكلاست اللوحي' : 'Teclast Tablet',
+    brand: 'teclast',
+  },
   {
     id: 'v-70',
     bg: '#0d0d0f',

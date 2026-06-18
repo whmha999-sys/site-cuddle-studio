@@ -214,7 +214,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-col gap-4">
           {cart.map((it, i) => {
-            const p = window.CATALOG.find(x => x.id === it.id);
+            const p = (window.CATALOG || []).find(x => x.id === it.id);
             return (
               <div key={i} className="flex gap-3">
                 <div className="relative w-12 h-12 flex-shrink-0 rounded-md overflow-hidden bg-muted">

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import watchAsset from '@/assets/vikusha-watch.png.asset.json';
+import tabletAsset from '@/assets/vikusha-tablet.png.asset.json';
+import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
 
 const IMAGES = [
-  'https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=1200&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=1200&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=1200&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=1200&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=1200&w=1600&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=1200&w=1600&auto=format&fit=crop',
+  watchAsset.url,
+  tabletAsset.url,
+  p30tAsset.url,
 ];
 
 export function LatestCreations() {

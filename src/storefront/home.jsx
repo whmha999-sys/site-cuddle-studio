@@ -19,14 +19,6 @@ function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
   {
-    id: 'teclast-t65',
-    fullBanner: true,
-    bg: '#0a0a0a',
-    imgSrc: t65HeroAsset.url,
-    eyebrow: ar ? 'جهاز تيكلاست اللوحي' : 'Teclast Tablet',
-    brand: 'teclast',
-  },
-  {
     id: 'v-70',
     bg: '#0d0d0f',
     accent: '#FF6B00',

@@ -8,6 +8,8 @@ const promoBannerStyles = `
     width: 100%;
     padding: 8px 0 0;
     position: relative;
+    display: flex;
+    justify-content: center;
   }
   .pb-frame {
     position: relative;

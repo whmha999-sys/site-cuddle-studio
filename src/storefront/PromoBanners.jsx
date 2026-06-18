@@ -13,7 +13,7 @@ const promoBannerStyles = `
   }
   .pb-frame {
     position: relative;
-    width: 100%;
+    width: 50%;
     aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg, 16px);
     overflow: hidden;
@@ -41,66 +41,66 @@ const promoBannerStyles = `
   }
   .pb-caption {
     position: absolute;
-    inset-inline-start: 24px;
-    bottom: 70px;
-    padding: 10px 16px;
+    inset-inline-start: 12px;
+    bottom: 35px;
+    padding: 5px 8px;
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(8px);
     border-radius: 10px;
     color: #fff;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 8px;
     letter-spacing: 0.01em;
     max-width: 70%;
     animation: pb-fade-in 0.6s ease both;
   }
   .pb-cta {
     position: absolute;
-    inset-inline-start: 24px;
-    bottom: 20px;
+    inset-inline-start: 12px;
+    bottom: 10px;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    gap: 3px;
+    padding: 4px 8px;
     background: linear-gradient(180deg, #FF7A1A 0%, #FF6B00 100%);
     color: #fff;
     text-decoration: none;
     font-weight: 700;
-    font-size: 10px;
+    font-size: 5px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     border-radius: 999px;
-    box-shadow: 0 6px 18px rgba(255,107,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+    box-shadow: 0 3px 9px rgba(255,107,0,0.45), inset 0 1px 0 rgba(255,255,255,0.25);
     transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
     animation: pb-fade-in 0.7s ease both;
     z-index: 3;
   }
   .pb-cta:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(255,107,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
+    box-shadow: 0 5px 12px rgba(255,107,0,0.55), inset 0 1px 0 rgba(255,255,255,0.3);
     filter: brightness(1.05);
   }
-  .pb-cta-arrow { font-size: 12px; line-height: 1; }
+  .pb-cta-arrow { font-size: 6px; line-height: 1; }
   .pb-dots {
     position: absolute;
-    bottom: 14px;
-    inset-inline-end: 18px;
+    bottom: 7px;
+    inset-inline-end: 9px;
     display: flex;
-    gap: 8px;
+    gap: 4px;
     z-index: 4;
   }
   .pb-dot {
-    width: 8px; height: 8px; border-radius: 4px;
+    width: 4px; height: 4px; border-radius: 2px;
     background: rgba(255,255,255,0.35);
     border: none; padding: 0; cursor: pointer;
     transition: all 0.3s ease;
   }
-  .pb-dot.is-active { width: 24px; background: #fff; }
+  .pb-dot.is-active { width: 12px; background: #fff; }
 
   @media (max-width: 768px) {
-    .pb-frame { aspect-ratio: 16 / 9; border-radius: 12px; }
-    .pb-caption { inset-inline-start: 14px; bottom: 60px; font-size: 12px; padding: 6px 10px; }
-    .pb-cta { inset-inline-start: 14px; bottom: 14px; padding: 8px 14px; font-size: 10px; }
+    .pb-frame { aspect-ratio: 16 / 9; border-radius: 12px; width: 90%; }
+    .pb-caption { inset-inline-start: 7px; bottom: 30px; font-size: 6px; padding: 3px 5px; }
+    .pb-cta { inset-inline-start: 7px; bottom: 7px; padding: 4px 7px; font-size: 5px; }
   }
 `;
 if (typeof document !== 'undefined' && !document.getElementById('pb-styles')) {

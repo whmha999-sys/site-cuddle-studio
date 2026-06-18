@@ -1,32 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const IMAGES = [
-  'https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=800&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=800&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=800&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=800&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=800&w=800&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=800&w=800&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1719368472026-dc26f70a9b76?q=80&h=1200&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1649265825072-f7dd6942baed?q=80&h=1200&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1555212697-194d092e3b8f?q=80&h=1200&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1729086046027-09979ade13fd?q=80&h=1200&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1601568494843-772eb04aca5d?q=80&h=1200&w=1600&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1585687501004-615dfdfde7f1?q=80&h=1200&w=1600&auto=format&fit=crop',
 ];
 
 export function LatestCreations() {
+  const [active, setActive] = useState(null);
+
   return (
     <section className="lc-section" aria-label="Latest Creations">
       <style>{`
-        .lc-section { width: 100%; padding: 64px 24px; box-sizing: border-box; }
-        .lc-inner { max-width: 1200px; margin: 0 auto; }
-        .lc-head { text-align: center; margin-bottom: 40px; }
-        .lc-title { font-size: clamp(28px, 4vw, 44px); font-weight: 700; margin: 0 0 12px; letter-spacing: -0.02em; }
-        .lc-sub { font-size: 15px; color: #6b7280; max-width: 540px; margin: 0 auto; line-height: 1.6; }
-        .lc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-        .lc-item { position: relative; overflow: hidden; border-radius: 14px; aspect-ratio: 1 / 1; background: #f3f4f6; }
-        .lc-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
-        .lc-item:hover img { transform: scale(1.06); }
+        .lc-section { width: 100%; padding: 72px 24px; background: #000; box-sizing: border-box; }
+        .lc-inner { max-width: 1400px; margin: 0 auto; }
+        .lc-head { text-align: center; margin-bottom: 48px; }
+        .lc-title { font-size: clamp(28px, 4vw, 44px); font-weight: 800; color: #fff; margin: 0 0 14px; letter-spacing: -0.02em; }
+        .lc-sub { font-size: 15px; color: #94a3b8; max-width: 620px; margin: 0 auto; line-height: 1.6; }
+
+        .lc-strip {
+          display: flex;
+          gap: 12px;
+          height: 520px;
+          width: 100%;
+        }
+        .lc-tile {
+          position: relative;
+          flex: 1 1 0;
+          overflow: hidden;
+          border-radius: 18px;
+          cursor: pointer;
+          transition: flex-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+          background: #111;
+        }
+        .lc-strip[data-has-active="true"] .lc-tile { flex-grow: 0.6; }
+        .lc-tile.is-active { flex-grow: 6; }
+        .lc-tile img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
         @media (max-width: 768px) {
-          .lc-section { padding: 40px 16px; }
-          .lc-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+          .lc-section { padding: 48px 16px; }
+          .lc-strip { height: 360px; gap: 8px; }
+          .lc-tile { border-radius: 14px; }
         }
       `}</style>
+
       <div className="lc-inner">
         <header className="lc-head">
           <h2 className="lc-title">Our Latest Creations</h2>
@@ -34,9 +59,16 @@ export function LatestCreations() {
             A visual collection of our most recent works – each piece crafted with intention, emotion, and style.
           </p>
         </header>
-        <div className="lc-grid">
+
+        <div className="lc-strip" data-has-active={active !== null}>
           {IMAGES.map((src, i) => (
-            <div className="lc-item" key={i}>
+            <div
+              key={i}
+              className={`lc-tile ${active === i ? 'is-active' : ''}`}
+              onMouseEnter={() => setActive(i)}
+              onMouseLeave={() => setActive(null)}
+              onClick={() => setActive(active === i ? null : i)}
+            >
               <img src={src} alt={`Creation ${i + 1}`} loading="lazy" />
             </div>
           ))}

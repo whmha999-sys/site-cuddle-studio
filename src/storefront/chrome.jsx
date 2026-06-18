@@ -176,7 +176,7 @@ function Footer({ t, lang }) {
               <MessageCircle size={14}/> WhatsApp: 0797772455
             </a>
             <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
-            <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>
+            <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'rgba(255,255,255,0.92)' }}>
               <MapPin size={14}/> {isAr ? 'عمّان، الأردن' : 'Amman, Jordan'}
             </span>
           </div>

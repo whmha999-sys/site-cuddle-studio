@@ -136,7 +136,8 @@ function CableSVG() {
 }
 
 export function Silhouette({ product, color, size = 'md', imgIndex = 0 }) {
-  const c = color || product.colors[0];
+  if (!product) return <div className={`silhouette silhouette-${size}`} style={{ width:'100%', height:'100%' }} />;
+  const c = color || product.colors?.[0];
   // Use real photo if available
   const imgs = PRODUCT_IMAGES?.[product.id]?.[c];
   if (Array.isArray(imgs) && imgs.length > 0) {

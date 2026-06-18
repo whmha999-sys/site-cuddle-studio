@@ -172,8 +172,8 @@ function Footer({ t, lang }) {
 
           <div className="footer-contact">
             <a href="tel:+96260000000"><Phone size={14}/> +962 6 000 0000</a>
-            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer">
-              <MessageCircle size={14}/> WhatsApp: +962 79 000 0000
+            <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer">
+              <MessageCircle size={14}/> WhatsApp: +962 79 777 2455
             </a>
             <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
             <span style={{ display:'inline-flex', alignItems:'center', gap:6, color:'var(--fg-3)' }}>
@@ -186,7 +186,7 @@ function Footer({ t, lang }) {
             <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
             <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
             <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Youtube size={16}/></a>
-            <a href="https://wa.me/962790000000" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
+            <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
           </div>
         </div>
         <div>

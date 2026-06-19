@@ -172,7 +172,7 @@ function Footer({ t, lang }) {
 
           <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
             <a href="https://instagram.com/vikushagroup" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
-            <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
+            <a href="https://www.facebook.com/share/17jFpWZYgZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
             <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
           </div>
         </div>

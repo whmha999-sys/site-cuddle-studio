@@ -119,7 +119,7 @@ export function InstagramGrid({ lang }) {
         {POSTS.map((p, i) => (
           <a
             key={i}
-          href="https://www.instagram.com/vikushagroup?igsh=MWZ3bW00MXNsaTV3bQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer"
+            href="https://instagram.com/vikushagroup" target="_blank" rel="noreferrer"
             className="ig-tile"
             style={{
               position: 'relative', display: 'block', aspectRatio: '1 / 1',

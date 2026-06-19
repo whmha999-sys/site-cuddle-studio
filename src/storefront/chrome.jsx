@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
 import CurrencySwitcher from './currency-switcher.jsx';
-import { Phone, Mail, MapPin, Instagram, Facebook, Youtube, MessageCircle, Music2 } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from 'lucide-react';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 
@@ -173,8 +173,6 @@ function Footer({ t, lang }) {
           <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
             <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
             <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><Facebook size={16}/></a>
-            <a href="https://tiktok.com/" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><Music2 size={16}/></a>
-            <a href="https://youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><Youtube size={16}/></a>
             <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><MessageCircle size={16}/></a>
           </div>
         </div>

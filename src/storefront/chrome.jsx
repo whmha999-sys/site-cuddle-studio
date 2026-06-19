@@ -168,7 +168,7 @@ function Footer({ t, lang }) {
           <div style={{ marginBottom: 20 }}>
             <Logo/>
           </div>
-          <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن. أجهزة لوحية، ساعات ذكية، طاقة وملحقات, مدعومة بشبكة خدمة على مستوى الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan. Tablets, smartwatches, power and accessories — backed by a Jordan-wide service network.'}</p>
+          <p className="footer-about">{isAr ? 'الموزع الرسمي لفيكوشا وتيكلاست في الأردن.' : 'Official distributor for Vikusha and Teclast in Jordan.'}</p>
 
           <div className="footer-social" aria-label={isAr ? 'وسائل التواصل' : 'Social'}>
             <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><Instagram size={16}/></a>
@@ -194,8 +194,8 @@ function Footer({ t, lang }) {
         <div>
           <h5>{isAr ? 'ساعات العمل' : 'Working hours'}</h5>
           <div className="footer-section">
-            <span>{isAr ? 'السبت - الخميس 10-10' : 'Sat - Thu 10-10'}</span>
-            <span>{isAr ? 'الجمعه 2 - 8' : 'Fri 2 - 8'}</span>
+            <span>{isAr ? <>السبت - الخميس:<br/>&nbsp;10 صباحاً - 10 مسائاً</> : 'Sat - Thu: 10am - 10pm'}</span>
+            <span>{isAr ? 'الجمعه 2 مسائاً - 8 مسائاً' : 'Fri: 2pm - 8pm'}</span>
           </div>
         </div>
 

@@ -100,7 +100,7 @@ export function InstagramGrid({ lang }) {
           </h2>
         </div>
         <a
-          href="https://instagram.com" target="_blank" rel="noreferrer"
+          href="https://www.instagram.com/vikushagroup?igsh=MWZ3bW00MXNsaTV3bQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer"
           style={{
             fontSize: 13, fontWeight: 600, color: 'var(--fg-1)',
             border: '1px solid var(--border)', padding: '10px 18px', borderRadius: 999,
@@ -119,7 +119,7 @@ export function InstagramGrid({ lang }) {
         {POSTS.map((p, i) => (
           <a
             key={i}
-            href="https://instagram.com" target="_blank" rel="noreferrer"
+          href="https://www.instagram.com/vikushagroup?igsh=MWZ3bW00MXNsaTV3bQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer"
             className="ig-tile"
             style={{
               position: 'relative', display: 'block', aspectRatio: '1 / 1',

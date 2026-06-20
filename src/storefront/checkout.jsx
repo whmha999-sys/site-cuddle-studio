@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
-  Check, ChevronLeft, Percent, X, Wallet, Tag,
+  Check, ChevronLeft, Percent, X, Wallet, Tag, Trash2, Minus, Plus,
 } from 'lucide-react';
 
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
@@ -87,7 +87,7 @@ const US_STATES = [
   ['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming'],
 ];
 
-export function Checkout({ t, cart, onComplete, lang, user }) {
+export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemove }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
   const ar = lang === 'ar';
   const L = (en, arT) => (ar ? arT : en);
@@ -216,7 +216,7 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
           {cart.map((it, i) => {
             const p = (window.CATALOG || []).find(x => x.id === it.id);
             return (
-              <div key={i} className="flex gap-3">
+              <div key={i} className="flex gap-3 items-start">
                 <div className="relative w-12 h-12 flex-shrink-0 rounded-md overflow-hidden bg-muted">
                   <Silhouette product={p} color={it.color}/>
                   <Badge className="absolute -top-1 -right-1 text-xs min-w-5 h-5 px-1 flex items-center justify-center">
@@ -226,6 +226,25 @@ export function Checkout({ t, cart, onComplete, lang, user }) {
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{p?.name || it.name || ''}</p>
                   <div className="text-xs text-muted-foreground">{it.color}</div>
+                  {onUpdateQty && (
+                    <div className="flex items-center gap-1 mt-1">
+                      <Button type="button" variant="outline" size="icon" className="h-6 w-6"
+                        onClick={() => onUpdateQty(i, it.qty - 1)} disabled={it.qty <= 1}>
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      <span className="text-xs w-6 text-center font-medium">{it.qty}</span>
+                      <Button type="button" variant="outline" size="icon" className="h-6 w-6"
+                        onClick={() => onUpdateQty(i, it.qty + 1)}>
+                        <Plus className="h-3 w-3" />
+                      </Button>
+                      {onRemove && (
+                        <Button type="button" variant="ghost" size="icon" className="h-6 w-6 text-destructive ms-1"
+                          onClick={() => onRemove(i)} aria-label={L('Remove','إزالة')}>
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      )}
+                    </div>
+                  )}
                 </div>
                 <div className="text-sm font-semibold whitespace-nowrap">
                   <Price value={it.price * it.qty}/>

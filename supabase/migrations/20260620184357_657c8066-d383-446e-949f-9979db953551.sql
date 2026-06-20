@@ -1,0 +1,1 @@
+UPDATE public.orders SET tax = 0, total = subtotal - discount + shipping;

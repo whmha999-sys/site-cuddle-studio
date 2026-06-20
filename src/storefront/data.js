@@ -203,7 +203,7 @@ export const I18N = {
     add_to_cart: 'Add to cart', in_cart: 'In cart',
     buy_now: 'Buy now', quantity: 'Quantity', color: 'Color', specs: 'Specifications',
     back: 'Back', free_delivery: 'Free delivery in Amman', returns: '30-day returns',
-    sub_total: 'Subtotal', tax: 'VAT (10%)', shipping: 'Shipping', discount: 'Coupon discount', total: 'Total',
+    sub_total: 'Subtotal', shipping: 'Shipping', discount: 'Coupon discount', total: 'Total',
     checkout: 'Checkout', continue: 'Continue shopping',
     review_items: 'Review items', delivery_info: 'Delivery information', returning: 'Returning customer?',
     first_name: 'First name', last_name: 'Last name', address: 'Address', city: 'City', zip: 'Postal code', mobile: 'Mobile', email: 'Email',

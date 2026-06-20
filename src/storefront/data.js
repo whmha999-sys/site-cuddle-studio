@@ -15,7 +15,7 @@ export const CATALOG = [
     specs: { 'RAM': '4 + 4 GB', 'Storage': '64 GB', 'Display': '10.1" HD', 'Network': '4G LTE', 'Camera': '13 MP + 5 MP', 'Battery': '6000 mAh', 'OS': 'Android 15' } },
   { id: 'v-m1', brand: 'vikusha', category: 'tablet', name: 'V-M1', tagline: 'Compact WiFi tablet for home & travel', price: 110,
     colors: ['graphite','midnight','mint'],
-    specs: { 'RAM': '4 + 4 GB', 'Storage': '128 GB', 'Display': '10.1" HD', 'Network': 'WiFi', 'Camera': '5 MP + 2 MP', 'Battery': '10,000 mAh', 'OS': 'Android 15' } },
+    specs: { 'RAM': '4 + 4 GB', 'Storage': '128 GB', 'Display': '10.1" HD', 'Network': 'WiFi', 'Camera': '5 MP + 2 MP', 'Battery': '20,000 mAh', 'OS': 'Android 15' } },
   { id: 'vn-7-kids', brand: 'vikusha', category: 'tablet', name: 'VN-7 Kids', tagline: 'Kid-friendly 8" tablet with parent controls', price: 75,
     colors: ['blue','pink'],
     specs: { 'RAM': '4 + 4 GB', 'Storage': '64 GB', 'Display': '8.0" HD', 'Network': 'WiFi', 'Camera': '5 MP + 2 MP', 'Battery': '4000 mAh', 'OS': 'Android 15 (Kids)' } },

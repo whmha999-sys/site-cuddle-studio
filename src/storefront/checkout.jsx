@@ -109,7 +109,7 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
   const discount = appliedPromo ? sub * appliedPromo.pct : 0;
   const tax = 0;
-  const ship = sub > 100 ? 0 : 3;
+  const ship = 0;
   const total = sub - discount + tax + ship;
 
   const applyCoupon = () => {

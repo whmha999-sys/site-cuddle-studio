@@ -34,13 +34,13 @@ export const CATALOG = [
   // VIKUSHA watches
   { id: 'v-70', brand: 'vikusha', category: 'watch', name: 'V-70', tagline: 'AMOLED smartwatch with NFC + heart rate', price: 50,
     colors: ['black','pink','silver'],
-    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.43" AMOLED', 'Features': 'BT · G-Sensor · HR · NFC', 'Battery': '260 mAh' } },
+    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.43" AMOLED', 'Features': 'BT · G-Sensor · HR · NFC', 'Battery': 'mAh 30,000' } },
   { id: 'vb-1-4g', brand: 'vikusha', category: 'watch', name: 'VB-1 4G', tagline: 'Kids 4G smartwatch with GPS + WiFi', price: 51,
     colors: ['pink','yellow','blue'],
     specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.69" Full Touch', 'Features': 'BT · GPS · AGPS · WiFi · 4G', 'Battery': '700 mAh' } },
 
   // Accessories
-  { id: 'p200', brand: 'vikusha', category: 'accessory', name: 'Power Bank P200', tagline: '20,000 mAh fast-charging power bank', price: 35, colors: ['black','white'], specs: { 'Capacity': '20,000 mAh', 'Output': 'USB-A + USB-C PD', 'Input': 'USB-C' } },
+  { id: 'p200', brand: 'vikusha', category: 'accessory', name: 'Power Bank P200', tagline: '30,000 mAh fast-charging power bank', price: 35, colors: ['black','white'], specs: { 'Capacity': '30,000 mAh', 'Output': 'USB-A + USB-C PD', 'Input': 'USB-C' } },
   { id: 'p110', brand: 'vikusha', category: 'accessory', name: 'Power Bank P110', tagline: '10,000 mAh slim power bank', price: 25, colors: ['black'], specs: { 'Capacity': '10,000 mAh', 'Output': 'USB-A + USB-C', 'Input': 'USB-C' } },
   { id: 'p20', brand: 'vikusha', category: 'accessory', name: 'Power Bank P20', tagline: '10,000 mAh 22.5W super charge power bank', price: 20, colors: ['black'], specs: { 'Capacity': '10,000 mAh', 'Output': '22.5W USB-A x2 + USB-C PD', 'Input': 'USB-C + Micro-USB' } },
   { id: 'mini-keyboard', brand: 'vikusha', category: 'accessory', name: 'Mini Keyboard', tagline: 'Bluetooth keyboard for tablets', price: 20, colors: ['black'], specs: { 'Connectivity': 'Bluetooth', 'Layout': 'Compact', 'Battery': 'Rechargeable' } },

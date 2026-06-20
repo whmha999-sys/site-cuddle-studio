@@ -87,7 +87,7 @@ const US_STATES = [
   ['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming'],
 ];
 
-export function Checkout({ t, cart, onComplete, lang, user }) {
+export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemove }) {
   const { code: currencyCode, currency, convertPrice } = useCurrency();
   const ar = lang === 'ar';
   const L = (en, arT) => (ar ? arT : en);

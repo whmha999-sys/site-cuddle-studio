@@ -243,7 +243,7 @@ export const I18N = {
     add_to_cart: 'أضف إلى السلة', in_cart: 'في السلة',
     buy_now: 'اشترِ الآن', quantity: 'الكمية', color: 'اللون', specs: 'المواصفات',
     back: 'رجوع', free_delivery: 'توصيل مجاني في عمان', returns: 'إرجاع خلال ٣٠ يوم',
-    sub_total: 'المجموع الفرعي', tax: 'ضريبة ١٠٪', shipping: 'الشحن', discount: 'خصم الكوبون', total: 'الإجمالي',
+    sub_total: 'المجموع الفرعي', shipping: 'الشحن', discount: 'خصم الكوبون', total: 'الإجمالي',
     checkout: 'إتمام الشراء', continue: 'متابعة التسوق',
     review_items: 'مراجعة الطلب', delivery_info: 'معلومات التوصيل', returning: 'عميل سابق؟',
     first_name: 'الاسم الأول', last_name: 'اسم العائلة', address: 'العنوان', city: 'المدينة', zip: 'الرمز البريدي', mobile: 'رقم الجوال', email: 'البريد الإلكتروني',

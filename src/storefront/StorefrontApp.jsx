@@ -169,6 +169,8 @@ export default function StorefrontApp() {
                 lang={lang}
                 cart={cart}
                 user={user}
+                onUpdateQty={(i, qty) => setCart(prev => prev.map((it, idx) => idx === i ? { ...it, qty: Math.max(1, qty) } : it))}
+                onRemove={(i) => setCart(prev => prev.filter((_, idx) => idx !== i))}
                 onComplete={(order) => {
                   setLastOrder(order);
                   setCart([]);

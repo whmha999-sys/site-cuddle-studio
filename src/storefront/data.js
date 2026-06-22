@@ -27,9 +27,9 @@ export const CATALOG = [
   { id: 'teclast-p30t', brand: 'teclast', category: 'tablet', name: 'Teclast P30T', tagline: 'WiFi tablet with 90 Hz display', price: 109,
     colors: ['graphite'],
     specs: { 'RAM': '4 + 8 GB', 'Storage': '128 GB', 'Display': '10.1" · 90 Hz', 'Network': 'WiFi', 'Camera': '2 MP + 5 MP + 0.3 MP', 'Battery': '6000 mAh', 'OS': 'Android 15' } },
-  { id: 'teclast-t65', brand: 'teclast', category: 'tablet', name: 'Teclast T65', tagline: 'Android 16 tablet · Unisoc T7280 · 10,000 mAh', price: 150,
+  { id: 'teclast-t65', brand: 'teclast', category: 'tablet', name: 'Teclast T65', tagline: 'Android 16 tablet · Unisoc T7280 · 10.000 mAh', price: 150,
     colors: ['graphite'],
-    specs: { 'OS': 'Android 16', 'Processor': 'Unisoc T7280 (2×A75 @2.2GHz + 6×A55 @1.8GHz)', 'RAM': '20 + 6 GB', 'Storage': '256 GB', 'Micro SD': 'up to 1 TB', 'Audio': 'Mic', 'Speakers': '2 Speakers', 'Battery': '10,000 mAh', 'Video playback': 'Up to 8 hours', 'Web browsing': 'Up to 7 hours', 'Music playback': 'Up to 10 hours' } },
+    specs: { 'OS': 'Android 16', 'Processor': 'Unisoc T7280 (2×A75 @2.2GHz + 6×A55 @1.8GHz)', 'RAM': '20 + 6 GB', 'Storage': '256 GB', 'Micro SD': 'up to 1 TB', 'Audio': 'Mic', 'Speakers': '2 Speakers', 'Battery': '10.000 mAh', 'Video playback': 'Up to 8 hours', 'Web browsing': 'Up to 7 hours', 'Music playback': 'Up to 10 hours' } },
 
   // VIKUSHA watches
   { id: 'v-70', brand: 'vikusha', category: 'watch', name: 'V-70', tagline: 'AMOLED smartwatch with NFC + heart rate', price: 50,

@@ -22,8 +22,8 @@ import React from 'react';
   }
 
   const FEATURES = [
-    { threshold: 0.20, label: '10.95" 90Hz Display',  sub: 'Fluid visuals, vivid colours' },
-    { threshold: 0.40, label: '8+12 GB RAM',           sub: 'Seamless multitasking' },
+    { threshold: 0.20, label: '10.95" 60Hz Display',  sub: 'Fluid visuals, vivid colours' },
+    { threshold: 0.40, label: '16+8 GB RAM',           sub: 'Seamless multitasking' },
     { threshold: 0.60, label: '7000 mAh Battery',      sub: 'All-day power on a single charge' },
     { threshold: 0.80, label: '4G LTE Connected',      sub: 'Stay online everywhere you go' },
     { threshold: 1.00, label: 'Lightweight & Portable',sub: 'Built for life on the move' },

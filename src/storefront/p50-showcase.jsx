@@ -15,7 +15,7 @@ export function P50Showcase({ lang = 'en', onViewSpecs }) {
   const images = PRODUCT_IMAGES?.['teclast-p50']?.mint || [];
 
   const baseMetrics = [
-    { label: ar ? 'معدل التحديث' : 'Refresh Rate', value: 90, displayValue: '90 Hz', icon: Monitor },
+    { label: ar ? 'معدل التحديث' : 'Refresh Rate', value: 60, displayValue: '60 Hz', icon: Monitor },
     { label: ar ? 'السطوع' : 'Brightness', value: 80, displayValue: '400 nits', icon: Zap },
     { label: ar ? 'البطارية' : 'Battery', value: 100, displayValue: '7000 mAh', icon: BatteryFull },
     { label: ar ? 'إشارة LTE' : 'LTE Signal', value: 92, icon: Signal },
@@ -24,8 +24,8 @@ export function P50Showcase({ lang = 'en', onViewSpecs }) {
   const title = ar ? 'Teclast P50' : 'Teclast P50';
   const eyebrow = ar ? 'جهاز لوحي' : 'Tablet';
   const description = ar
-    ? 'شاشة IPS 10.1 بوصة بمعدل 90 هرتز، بطارية 7000 مللي أمبير، ودعم 4G LTE — أداء وتجربة عرض رائعة طوال اليوم.'
-    : '10.1″ IPS panel at 90Hz, 7000 mAh battery, and 4G LTE — all-day performance with a vivid display.';
+    ? 'شاشة IPS 10.1 بوصة بمعدل 60 هرتز، بطارية 7000 مللي أمبير، ودعم 4G LTE — أداء وتجربة عرض رائعة طوال اليوم.'
+    : '10.1″ IPS panel at 60Hz, 7000 mAh battery, and 4G LTE — all-day performance with a vivid display.';
 
   const states = React.useMemo(() => images.map((img, i) => {
     const accent = ACCENTS[i % ACCENTS.length];

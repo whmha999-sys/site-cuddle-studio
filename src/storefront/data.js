@@ -21,9 +21,9 @@ export const CATALOG = [
     specs: { 'RAM': '4 + 4 GB', 'Storage': '64 GB', 'Display': '8.0" HD', 'Network': 'WiFi', 'Camera': '5 MP + 2 MP', 'Battery': '4000 mAh', 'OS': 'Android 15 (Kids)' } },
 
   // TECLAST tablets
-  { id: 'teclast-p50', brand: 'teclast', category: 'tablet', name: 'Teclast P50', tagline: '90 Hz LTE tablet with 7000 mAh battery', price: 135,
+  { id: 'teclast-p50', brand: 'teclast', category: 'tablet', name: 'Teclast P50', tagline: '60 Hz LTE tablet with 7000 mAh battery', price: 135,
     colors: ['mint'],
-    specs: { 'RAM': '8 + 12 GB', 'Storage': '128 GB', 'Display': '10.95" · 90 Hz', 'Network': '4G LTE', 'Camera': '8 MP + 5 MP', 'Battery': '7000 mAh', 'OS': 'Android 15' } },
+    specs: { 'RAM': '16 + 8 GB', 'Storage': '128 GB', 'Display': '10.95" · 60 Hz', 'Network': '4G LTE', 'Camera': '8 MP + 5 MP', 'Battery': '7000 mAh', 'OS': 'Android 15' } },
   { id: 'teclast-p30t', brand: 'teclast', category: 'tablet', name: 'Teclast P30T', tagline: 'WiFi tablet with 60 Hz display', price: 109,
     colors: ['graphite'],
     specs: { 'RAM': '\u00a0 8 + 4 GB', 'Storage': '128 GB', 'Display': '10.1" · 60 Hz', 'Network': 'WiFi', 'Camera': '2 MP + 5 MP + 0.3 MP', 'Battery': '6000 mAh', 'OS': 'Android 15' } },

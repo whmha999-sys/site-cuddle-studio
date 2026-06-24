@@ -13,7 +13,7 @@ const ACCENTS = [
 // Extract a numeric value out of a spec string, e.g. "10.95\" · 90 Hz" -> 90
 function pickNumber(str, re) {
   const m = String(str).match(re);
-  return m ? parseFloat(m[1]) : null;
+  return m ? parseFloat(m[1].replace(/,/g, '')) : null;
 }
 
 function buildMetrics(product, ar) {

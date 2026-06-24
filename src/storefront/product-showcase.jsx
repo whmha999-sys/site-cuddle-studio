@@ -29,8 +29,8 @@ function buildMetrics(product, ar) {
   const bat = pickNumber(s['Battery'] || '', /([\d,.]+)\s*mAh/i);
   if (bat) out.push({ label: ar ? 'البطارية' : 'Battery', value: Math.min(100, (bat / 8500) * 100), displayValue: `${bat.toLocaleString()} mAh`, icon: BatteryFull });
 
-  const cap = pickNumber(s['Capacity'] || '', /([\d,]+)/);
-  if (cap && !bat) out.push({ label: ar ? 'السعة' : 'Capacity', value: Math.min(100, (cap / 20000) * 100), displayValue: `mAh ${cap.toLocaleString()}`, icon: BatteryFull });
+  const cap = pickNumber(s['Capacity'] || '', /([\d,.]+)/);
+  if (cap && !bat) out.push({ label: ar ? 'السعة' : 'Capacity', value: Math.min(100, (cap / 20000) * 100), displayValue: `${cap.toLocaleString()} mAh`, icon: BatteryFull });
 
   const ram = pickNumber(s['RAM'] || '', /(\d+)/);
   if (ram) out.push({ label: ar ? 'الذاكرة' : 'RAM', value: Math.min(100, (ram / 16) * 100), displayValue: s['RAM'], icon: Cpu });

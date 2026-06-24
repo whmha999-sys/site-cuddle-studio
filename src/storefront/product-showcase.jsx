@@ -13,7 +13,9 @@ const ACCENTS = [
 // Extract a numeric value out of a spec string, e.g. "10.95\" · 90 Hz" -> 90
 function pickNumber(str, re) {
   const m = String(str).match(re);
-  return m ? parseFloat(m[1].replace(/,/g, '')) : null;
+  // Remove commas/dots if they look like thousands separators (followed by 3 digits)
+  // or just generally if we are parsing large integers like battery mAh.
+  return m ? parseFloat(m[1].replace(/[,.](\d{3})/g, '$1').replace(/[,.]/g, '')) : null;
 }
 
 function buildMetrics(product, ar) {

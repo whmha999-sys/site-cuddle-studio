@@ -13,7 +13,9 @@ const ACCENTS = [
 // Extract a numeric value out of a spec string, e.g. "10.95\" · 90 Hz" -> 90
 function pickNumber(str, re) {
   const m = String(str).match(re);
-  return m ? parseFloat(m[1]) : null;
+  // Remove commas/dots if they look like thousands separators (followed by 3 digits)
+  // or just generally if we are parsing large integers like battery mAh.
+  return m ? parseFloat(m[1].replace(/[,.](\d{3})/g, '$1').replace(/[,.]/g, '')) : null;
 }
 
 function buildMetrics(product, ar) {
@@ -25,10 +27,10 @@ function buildMetrics(product, ar) {
   if (hz) out.push({ label: ar ? 'معدل التحديث' : 'Refresh Rate', value: Math.min(100, (hz / 120) * 100), displayValue: `${hz} Hz`, icon: Monitor });
 
   const bat = pickNumber(s['Battery'] || '', /([\d,]+)\s*mAh/i);
-  if (bat) out.push({ label: ar ? 'البطارية' : 'Battery', value: Math.min(100, (bat / 8500) * 100), displayValue: `${bat.toLocaleString()} mAh`, icon: BatteryFull });
+  if (bat) out.push({ label: ar ? 'البطارية' : 'Battery', value: Math.min(100, (bat / 8500) * 100), displayValue: `mAh ${bat.toLocaleString()}`, icon: BatteryFull });
 
   const cap = pickNumber(s['Capacity'] || '', /([\d,]+)/);
-  if (cap && !bat) out.push({ label: ar ? 'السعة' : 'Capacity', value: Math.min(100, (cap / 20000) * 100), displayValue: `${cap.toLocaleString()} mAh`, icon: BatteryFull });
+  if (cap && !bat) out.push({ label: ar ? 'السعة' : 'Capacity', value: Math.min(100, (cap / 20000) * 100), displayValue: `mAh ${cap.toLocaleString()}`, icon: BatteryFull });
 
   const ram = pickNumber(s['RAM'] || '', /(\d+)/);
   if (ram) out.push({ label: ar ? 'الذاكرة' : 'RAM', value: Math.min(100, (ram / 16) * 100), displayValue: s['RAM'], icon: Cpu });

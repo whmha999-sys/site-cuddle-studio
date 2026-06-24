@@ -185,7 +185,7 @@ function Footer({ t, lang }) {
             <a href="https://wa.me/962797772455" target="_blank" rel="noopener noreferrer">
               <MessageCircle size={14}/> {isAr ? 'الواتس اب 0797772455' : 'WhatsApp: 0797772455'}
             </a>
-            <a href="mailto:osama-amreen@vikusha-jo.com"><Mail size={14}/> osama-amreen@vikusha-jo.com</a>
+            <a href="mailto:info@smartleaders-jo.com"><Mail size={14}/> info@smartleaders-jo.com</a>
           </div>
         </div>
 

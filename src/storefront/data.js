@@ -34,7 +34,7 @@ export const CATALOG = [
   // VIKUSHA watches
   { id: 'v-70', brand: 'vikusha', category: 'watch', name: 'V-70', tagline: 'AMOLED smartwatch with NFC + heart rate', price: 50,
     colors: ['black','pink','silver'],
-    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.43" AMOLED', 'Features': 'BT · G-Sensor · HR · NFC', 'Battery': 'mAh 30,000' } },
+    specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.43" AMOLED', 'Features': 'BT · G-Sensor · HR · NFC', 'Battery': '30,000 mAh' } },
   { id: 'vb-1-4g', brand: 'vikusha', category: 'watch', name: 'VB-1 4G', tagline: 'Kids 4G smartwatch with GPS + WiFi', price: 51,
     colors: ['pink','yellow','blue'],
     specs: { 'Rating': 'IP67', 'OS': 'Android 5.0+', 'Display': '1.69" Full Touch', 'Features': 'BT · GPS · AGPS · WiFi · 4G', 'Battery': '700 mAh' } },

@@ -67,7 +67,7 @@ function getHeroSlides(lang) {
     eyebrow: ar ? 'جهاز تيكلاست اللوحي' : 'Teclast Tablet',
     title: ar ? 'القوة تلتقي' : 'Power meets',
     titleItalic: ar ? 'الإمكانية.' : 'portability.',
-    sub: ar ? '10.95" · 90Hz · 8+12 GB · 4G LTE · 7000 mAh' : '10.95" · 90 Hz · 8+12 GB · 4G LTE · 7000 mAh',
+    sub: ar ? '10.95" · 60Hz · 16+8 GB · 4G LTE · 7000 mAh' : '10.95" · 60 Hz · 16+8 GB · 4G LTE · 7000 mAh',
     price: 135,
     cta: ar ? 'تسوّق P50' : 'Shop P50',
     cta2: ar ? 'استعرض تيكلاست' : 'Explore Teclast',

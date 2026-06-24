@@ -25,7 +25,7 @@ function buildMetrics(product, ar) {
   if (hz) out.push({ label: ar ? 'معدل التحديث' : 'Refresh Rate', value: Math.min(100, (hz / 120) * 100), displayValue: `${hz} Hz`, icon: Monitor });
 
   const bat = pickNumber(s['Battery'] || '', /([\d,]+)\s*mAh/i);
-  if (bat) out.push({ label: ar ? 'البطارية' : 'Battery', value: Math.min(100, (bat / 8500) * 100), displayValue: `${bat.toLocaleString()} mAh`, icon: BatteryFull });
+  if (bat) out.push({ label: ar ? 'البطارية' : 'Battery', value: Math.min(100, (bat / 8500) * 100), displayValue: `mAh ${bat.toLocaleString()}`, icon: BatteryFull });
 
   const cap = pickNumber(s['Capacity'] || '', /([\d,]+)/);
   if (cap && !bat) out.push({ label: ar ? 'السعة' : 'Capacity', value: Math.min(100, (cap / 20000) * 100), displayValue: `${cap.toLocaleString()} mAh`, icon: BatteryFull });

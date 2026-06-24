@@ -68,7 +68,7 @@ export function ContactPage({ lang }) {
         </div>
         <div>
           <h4 style={{ marginBottom: 6 }}>Email</h4>
-          <p>osama-amreen@vikusha-jo.com</p>
+          <p>info@smartleaders-jo.com</p>
         </div>
         <div>
           <h4 style={{ marginBottom: 6 }}>{tx(lang, 'Address', 'العنوان')}</h4>
@@ -218,7 +218,7 @@ export function PrivacyPage({ lang }) {
       <h3>{tx(lang, 'How we use it', 'كيف نستخدمها')}</h3>
       <p>{tx(lang, 'To process orders, provide support, and send service updates. We do not sell your data.', 'لمعالجة الطلبات وتقديم الدعم وإرسال تحديثات الخدمة. لا نبيع بياناتك.')}</p>
       <h3>{tx(lang, 'Your rights', 'حقوقك')}</h3>
-      <p>{tx(lang, 'You may request access, correction, or deletion of your personal data at any time by contacting osama-amreen@vikusha-jo.com.', 'يحق لك طلب الاطلاع على بياناتك أو تصحيحها أو حذفها بالتواصل مع osama-amreen@vikusha-jo.com.')}</p>
+      <p>{tx(lang, 'You may request access, correction, or deletion of your personal data at any time by contacting info@smartleaders-jo.com.', 'يحق لك طلب الاطلاع على بياناتك أو تصحيحها أو حذفها بالتواصل مع info@smartleaders-jo.com.')}</p>
     </PageShell>
   );
 }

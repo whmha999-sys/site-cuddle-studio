@@ -79,8 +79,11 @@ export function LatestCreations() {
         }
         .lc-dot.is-active { width: 28px; background: #fff; }
 
-        @media (max-width: 768px) {
-          .lc-slider { aspect-ratio: 16 / 9; max-height: 50vh; }
+        @media (max-width: 900px) {
+          .lc-slider { aspect-ratio: 16 / 9; }
+        }
+        @media (max-width: 600px) {
+          .lc-slider { aspect-ratio: 4 / 3; }
           .lc-arrow { width: 40px; height: 40px; font-size: 20px; }
           .lc-arrow.prev { left: 12px; }
           .lc-arrow.next { right: 12px; }

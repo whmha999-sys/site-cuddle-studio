@@ -396,6 +396,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
 }
 .card-price small { font-size: 9px; color: var(--fg-3); font-weight: 500; margin-inline-end: 2px; font-family: var(--font-mono); }
 .card-actions { display: flex; gap: 6px; margin-top: auto; padding-top: 8px; }
+.card-actions .btn { padding: 7px 10px; font-size: 12px; }
 .card-colors { display: flex; gap: 5px; margin-top: 6px; }
 .color-dot {
   border-radius: 50%;

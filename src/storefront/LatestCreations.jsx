@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import watchAsset from '@/assets/vikusha-watch.png.asset.json';
-import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
-import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
-import p200HeroAsset from '@/assets/vikusha-p200-hero.png.asset.json';
 
 const TILES = [
-  { src: p200HeroAsset.url, productId: 'p200', alt: 'Vikusha Power Bank P200' },
-  { src: p30tAsset.url, productId: 'teclast-p30t', alt: 'Teclast P30T' },
-  { src: watchAsset.url, productId: 'v-70', alt: 'Vikusha V-70 Watch' },
-  { src: t65HeroAsset.url, productId: 'teclast-t65', alt: 'Teclast T65' },
+  { src: '/uploads/p200-black-main.webp', productId: 'p200', alt: 'Vikusha Power Bank P200' },
+  { src: '/uploads/teclast-p30t-angle.webp', productId: 'teclast-p30t', alt: 'Teclast P30T' },
+  { src: '/uploads/VIKUSHA%20Watch%20V70%20main%20black%20.webp', productId: 'v-70', alt: 'Vikusha V-70 Watch' },
+  { src: '/uploads/teclast-t65-main.webp', productId: 'teclast-t65', alt: 'Teclast T65' },
 ];
 
 const AUTO_INTERVAL_MS = 5000;

@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import video1Asset from '@/assets/hero-video-1.mp4.asset.json';
 import video2Asset from '@/assets/hero-video-2.mp4.asset.json';
 
+const SLIDES = [
+  { src: video1Asset.url, productId: 'teclast-t65', alt: 'Teclast T65' },
+  { src: video2Asset.url, productId: 'p200', alt: 'Vikusha P200' },
+];
+
 export function HeroVideos() {
-  const go = (id) => {
-    if (typeof window !== 'undefined' && window.navigate) {
-      window.navigate('pdp', { id });
-    }
+  const [idx, setIdx] = useState(0);
+  const total = SLIDES.length;
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIdx((i) => (i + 1) % total), 7000);
+    return () => clearTimeout(timerRef.current);
+  }, [idx, total]);
+
+  const go = (n) => setIdx((n + total) % total);
+  const openPdp = (id) => {
+    if (typeof window !== 'undefined' && window.navigate) window.navigate('pdp', { id });
   };
 
   return (
@@ -15,118 +29,80 @@ export function HeroVideos() {
         .hv-section {
           width: 100vw;
           margin-left: calc(50% - 50vw);
-          background: #0b0b0d;
-          padding: clamp(28px, 5vw, 64px) clamp(16px, 4vw, 64px);
-          color: #fff;
-        }
-        .hv-head {
-          max-width: 1280px;
-          margin: 0 auto clamp(20px, 3vw, 36px);
-          text-align: center;
-        }
-        .hv-eyebrow {
-          font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #FFB800; font-weight: 600;
-        }
-        .hv-title {
-          font-family: var(--font-display, serif);
-          font-size: clamp(28px, 4.6vw, 56px);
-          font-weight: 700; line-height: 1.05; letter-spacing: -0.02em;
-          margin: 10px 0 12px;
-        }
-        .hv-sub {
-          font-size: clamp(13px, 1.4vw, 16px);
-          color: #c9c9cf; max-width: 60ch; margin: 0 auto;
-          line-height: 1.6;
-        }
-        .hv-grid {
-          max-width: 1280px; margin: 0 auto;
-          display: grid; gap: clamp(12px, 2vw, 20px);
-          grid-template-columns: 1fr 1fr;
-        }
-        .hv-card {
-          position: relative; overflow: hidden;
-          border-radius: 18px;
-          aspect-ratio: 9 / 16;
+          height: 100vh;
+          position: relative;
           background: #000;
-          cursor: pointer;
-          box-shadow: 0 14px 40px rgba(0,0,0,0.45);
-          transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+          overflow: hidden;
         }
-        .hv-card:hover { transform: translateY(-4px); }
-        .hv-card video {
-          width: 100%; height: 100%;
-          object-fit: cover; display: block;
-        }
-        .hv-overlay {
+        .hv-slide {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0) 70%);
-          display: flex; flex-direction: column; justify-content: flex-end;
-          padding: clamp(16px, 2.4vw, 28px);
-          pointer-events: none;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+          cursor: pointer;
         }
-        .hv-tag {
-          align-self: flex-start;
-          font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-          background: #FF6B00; color: #fff; font-weight: 700;
-          padding: 5px 10px; border-radius: 4px; margin-bottom: 10px;
+        .hv-slide.is-active { opacity: 1; z-index: 1; }
+        .hv-slide video {
+          width: 100%; height: 100%;
+          object-fit: cover; object-position: center;
+          display: block;
         }
-        .hv-card-title {
-          font-family: var(--font-display, serif);
-          font-size: clamp(20px, 2.6vw, 32px);
-          font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px;
+        .hv-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%);
+          width: 48px; height: 48px; border-radius: 50%;
+          background: rgba(0,0,0,0.45); color: #fff;
+          border: 1px solid rgba(255,255,255,0.25);
+          cursor: pointer; z-index: 3;
+          font-size: 24px; display: flex; align-items: center; justify-content: center;
+          backdrop-filter: blur(6px);
         }
-        .hv-card-sub { font-size: 13px; color: #d6d6dc; margin: 0 0 14px; }
-        .hv-cta {
-          align-self: flex-start;
-          pointer-events: auto;
-          display: inline-flex; align-items: center; gap: 8px;
-          background: #fff; color: #111;
-          border: none; cursor: pointer;
-          padding: 10px 18px; border-radius: 999px;
-          font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
-          transition: transform 0.2s ease, background 0.2s ease;
+        .hv-arrow:hover { background: rgba(0,0,0,0.7); }
+        .hv-arrow.prev { left: 24px; }
+        .hv-arrow.next { right: 24px; }
+        .hv-dots {
+          position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+          display: flex; gap: 10px; z-index: 3;
+          padding: 6px 10px; border-radius: 999px;
+          background: rgba(0,0,0,0.25);
         }
-        .hv-cta:hover { background: #FFB800; color: #111; transform: translateX(2px); }
-
-        @media (max-width: 720px) {
-          .hv-grid { grid-template-columns: 1fr; }
-          .hv-card { aspect-ratio: 16 / 10; }
+        .hv-dot {
+          width: 10px; height: 10px; border-radius: 5px;
+          background: rgba(255,255,255,0.65);
+          border: none; padding: 0; cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .hv-dot.is-active { width: 28px; background: #fff; }
+        @media (max-width: 600px) {
+          .hv-arrow { width: 40px; height: 40px; font-size: 20px; }
+          .hv-arrow.prev { left: 12px; }
+          .hv-arrow.next { right: 12px; }
         }
       `}</style>
 
-      <div className="hv-head">
-        <div className="hv-eyebrow">Teclast MENA · Vikusha</div>
-        <h1 className="hv-title">تقنية تستحق الثقة</h1>
-        <p className="hv-sub">
-          أجهزة لوحية وساعات ذكية وملحقات أصلية — أداء حقيقي، سعر عادل، وضمان رسمي في الأردن.
-        </p>
-      </div>
-
-      <div className="hv-grid">
-        <div className="hv-card" onClick={() => go('teclast-t65')} role="button" aria-label="Teclast T65">
-          <video src={video1Asset.url} autoPlay muted loop playsInline preload="auto" />
-          <div className="hv-overlay">
-            <span className="hv-tag">Teclast</span>
-            <h3 className="hv-card-title">Teclast T65</h3>
-            <p className="hv-card-sub">جهاز لوحي بشاشة كبيرة وأداء ثابت</p>
-            <button className="hv-cta" onClick={(e) => { e.stopPropagation(); go('teclast-t65'); }}>
-              تسوّق الآن →
-            </button>
-          </div>
+      {SLIDES.map((s, i) => (
+        <div
+          key={i}
+          className={`hv-slide ${i === idx ? 'is-active' : ''}`}
+          onClick={() => openPdp(s.productId)}
+          role="button"
+          aria-label={s.alt}
+          aria-hidden={i !== idx}
+        >
+          <video src={s.src} autoPlay muted loop playsInline preload={i === 0 ? 'auto' : 'metadata'} />
         </div>
+      ))}
 
-        <div className="hv-card" onClick={() => go('p200')} role="button" aria-label="Vikusha P200">
-          <video src={video2Asset.url} autoPlay muted loop playsInline preload="auto" />
-          <div className="hv-overlay">
-            <span className="hv-tag">Vikusha</span>
-            <h3 className="hv-card-title">Vikusha P200</h3>
-            <p className="hv-card-sub">باور بانك بطاقة عالية وشحن سريع</p>
-            <button className="hv-cta" onClick={(e) => { e.stopPropagation(); go('p200'); }}>
-              تسوّق الآن →
-            </button>
-          </div>
-        </div>
+      <button className="hv-arrow prev" aria-label="Previous" onClick={() => go(idx - 1)}>‹</button>
+      <button className="hv-arrow next" aria-label="Next" onClick={() => go(idx + 1)}>›</button>
+
+      <div className="hv-dots">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            className={`hv-dot ${i === idx ? 'is-active' : ''}`}
+            aria-label={`Slide ${i + 1}`}
+            onClick={() => setIdx(i)}
+          />
+        ))}
       </div>
     </section>
   );

@@ -171,7 +171,7 @@ export function LatestCreations() {
           overflow: hidden;
           cursor: pointer;
           border: 2px solid transparent;
-          background: #111;
+          background: transparent;
           transition: border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
           opacity: 0.7;
         }

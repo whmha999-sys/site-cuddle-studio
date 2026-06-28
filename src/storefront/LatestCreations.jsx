@@ -246,7 +246,18 @@ export function LatestCreations() {
                 role="link"
                 aria-label={tile.alt}
               >
-                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                {!loaded[i] && <div className="lc-skeleton" aria-hidden="true" />}
+                <img
+                  className={`lc-fit-${fitMode}`}
+                  src={tile.src}
+                  alt={tile.alt}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : 'auto'}
+                  decoding="async"
+                  onLoad={() => markLoaded(i)}
+                  onError={() => markLoaded(i)}
+                  style={{ opacity: loaded[i] ? 1 : 0, transition: 'opacity 0.3s ease' }}
+                />
               </div>
             ))}
           </div>

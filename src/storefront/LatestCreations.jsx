@@ -16,6 +16,9 @@ const AUTO_INTERVAL_MS = 5000;
 export function LatestCreations() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [fitMode, setFitMode] = useState('contain');
+
+  const toggleFit = useCallback((mode) => setFitMode(mode), []);
 
   const goTo = useCallback((idx) => {
     setActive((idx + TILES.length) % TILES.length);

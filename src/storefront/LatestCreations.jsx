@@ -34,14 +34,14 @@ export function LatestCreations() {
   return (
     <section className="lc-section" aria-label="Latest Creations">
       <style>{`
-        .lc-section { width: 100%; padding: 24px; box-sizing: border-box; }
-        .lc-inner { max-width: 1400px; margin: 0 auto; }
+        .lc-section { width: 100vw; margin-left: calc(50% - 50vw); padding: 0; box-sizing: border-box; }
+        .lc-inner { width: 100%; margin: 0; }
         .lc-slider {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 9;
-          max-height: 640px;
-          border-radius: 18px;
+          height: 100vh;
+          min-height: 480px;
+          max-height: 900px;
           overflow: hidden;
           background: #111;
         }
@@ -54,36 +54,39 @@ export function LatestCreations() {
         .lc-slide.is-active { opacity: 1; z-index: 1; }
         .lc-slide img {
           width: 100%; height: 100%;
-          object-fit: cover; display: block;
+          object-fit: cover; object-position: center;
+          display: block;
         }
         .lc-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
-          width: 44px; height: 44px; border-radius: 50%;
-          background: rgba(0,0,0,0.5); color: #fff;
+          width: 48px; height: 48px; border-radius: 50%;
+          background: rgba(0,0,0,0.45); color: #fff;
           border: none; cursor: pointer; z-index: 3;
-          font-size: 22px; display: flex; align-items: center; justify-content: center;
+          font-size: 24px; display: flex; align-items: center; justify-content: center;
           backdrop-filter: blur(6px);
           transition: background 0.2s ease;
         }
-        .lc-arrow:hover { background: rgba(0,0,0,0.75); }
-        .lc-arrow.prev { left: 16px; }
-        .lc-arrow.next { right: 16px; }
+        .lc-arrow:hover { background: rgba(0,0,0,0.7); }
+        .lc-arrow.prev { left: 24px; }
+        .lc-arrow.next { right: 24px; }
         .lc-dots {
-          position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
-          display: flex; gap: 8px; z-index: 3;
+          position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+          display: flex; gap: 10px; z-index: 3;
         }
         .lc-dot {
-          width: 8px; height: 8px; border-radius: 4px;
+          width: 10px; height: 10px; border-radius: 5px;
           background: rgba(255,255,255,0.45);
           border: none; padding: 0; cursor: pointer;
           transition: all 0.3s ease;
         }
-        .lc-dot.is-active { width: 24px; background: #fff; }
+        .lc-dot.is-active { width: 28px; background: #fff; }
 
         @media (max-width: 768px) {
-          .lc-section { padding: 16px; }
-          .lc-slider { aspect-ratio: 16 / 9; max-height: 360px; border-radius: 14px; }
-          .lc-arrow { width: 36px; height: 36px; font-size: 18px; }
+          .lc-slider { height: 60vh; min-height: 320px; max-height: 560px; }
+          .lc-arrow { width: 40px; height: 40px; font-size: 20px; }
+          .lc-arrow.prev { left: 12px; }
+          .lc-arrow.next { right: 12px; }
+          .lc-dots { bottom: 16px; }
         }
       `}</style>
 

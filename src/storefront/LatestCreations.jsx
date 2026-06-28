@@ -186,7 +186,7 @@ export function LatestCreations() {
         @media (max-width: 768px) {
           .lc-section { padding: 16px; }
           .lc-inner { gap: 12px; }
-          .lc-stage { border-radius: 14px; }
+          .lc-stage { border-radius: 14px; max-height: 360px; }
           .lc-arrow { width: 36px; height: 36px; opacity: 1; }
           .lc-arrow-prev { inset-inline-start: 8px; }
           .lc-arrow-next { inset-inline-end: 8px; }

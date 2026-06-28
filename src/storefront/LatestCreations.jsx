@@ -79,9 +79,38 @@ export function LatestCreations() {
         .lc-slide img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
           display: block;
           pointer-events: none;
+        }
+        .lc-fit-cover { object-fit: cover; }
+        .lc-fit-contain { object-fit: contain; }
+
+        .lc-fit-toggle {
+          display: flex;
+          justify-content: flex-end;
+          gap: 8px;
+          align-items: center;
+        }
+        .lc-fit-toggle-label {
+          color: var(--muted-foreground, rgba(255,255,255,0.6));
+          font-size: 12px;
+          margin-inline-end: 4px;
+        }
+        .lc-fit-toggle button {
+          padding: 6px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.08);
+          color: #fff;
+          font-size: 12px;
+          cursor: pointer;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .lc-fit-toggle button:hover { background: rgba(255,255,255,0.15); }
+        .lc-fit-toggle button.is-active {
+          background: var(--orange, #e86a1f);
+          border-color: var(--orange, #e86a1f);
+          color: #fff;
         }
 
         .lc-arrow {

@@ -235,7 +235,7 @@ export function LatestCreations() {
                 role="link"
                 aria-label={tile.alt}
               >
-                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading="eager" />
               </div>
             ))}
           </div>

@@ -272,16 +272,18 @@ function OrderDetailsDialog({
   const open = !!order;
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
-      <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+      <DialogContent className="!block w-[95vw] max-w-3xl max-h-[85vh] overflow-y-auto">
         {order && (
-          <>
-            <DialogHeader>
+          <div className="space-y-4">
+            <DialogHeader className="pr-8">
               <DialogTitle>Order #{order.order_number}</DialogTitle>
-              <DialogDescription>
-                {new Date(order.created_at).toLocaleString()} ·{" "}
-                <Badge variant="outline" className="font-normal">
-                  {(order.status || "").toUpperCase()}
-                </Badge>
+              <DialogDescription asChild>
+                <div className="flex flex-wrap items-center gap-2 text-sm">
+                  <span>{new Date(order.created_at).toLocaleString()}</span>
+                  <Badge variant="outline" className="font-normal">
+                    {(order.status || "").toUpperCase()}
+                  </Badge>
+                </div>
               </DialogDescription>
             </DialogHeader>
 
@@ -298,10 +300,10 @@ function OrderDetailsDialog({
               </Section>
             </div>
 
-            <div className="mt-2">
+            <div>
               <h3 className="text-sm font-medium mb-2">Items</h3>
               <div className="overflow-x-auto border rounded-md">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm min-w-[520px]">
                   <thead className="text-left text-muted-foreground border-b bg-muted/30">
                     <tr>
                       <th className="py-2 px-3">Product</th>
@@ -319,8 +321,8 @@ function OrderDetailsDialog({
                           <td className="py-2 px-3">{p?.name || it.name || it.id}</td>
                           <td className="px-3">{it.color || "—"}</td>
                           <td className="px-3">{it.qty}</td>
-                          <td className="px-3">{fmtJOD(it.price)}</td>
-                          <td className="px-3">{fmtJOD(it.price * it.qty)}</td>
+                          <td className="px-3 whitespace-nowrap">{fmtJOD(it.price)}</td>
+                          <td className="px-3 whitespace-nowrap">{fmtJOD(it.price * it.qty)}</td>
                         </tr>
                       );
                     })}
@@ -329,7 +331,7 @@ function OrderDetailsDialog({
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Section title="Payment">
                 <Row label="Method" value={paymentLabel(order.payment_method)} />
                 {order.notes && <Row label="Notes" value={order.notes} />}
@@ -346,7 +348,7 @@ function OrderDetailsDialog({
                 </div>
               </Section>
             </div>
-          </>
+          </div>
         )}
       </DialogContent>
     </Dialog>

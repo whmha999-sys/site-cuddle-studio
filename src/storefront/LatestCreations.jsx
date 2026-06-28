@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import watchAsset from '@/assets/vikusha-watch.png.asset.json';
-import tabletAsset from '@/assets/vikusha-tablet.png.asset.json';
 import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
 import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 import p200HeroAsset from '@/assets/vikusha-p200-hero.png.asset.json';

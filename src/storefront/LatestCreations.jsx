@@ -59,7 +59,7 @@ export function LatestCreations() {
         .lc-stage {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 9;
+          aspect-ratio: 4 / 3;
           border-radius: 20px;
           overflow: hidden;
           background: #111;
@@ -165,7 +165,7 @@ export function LatestCreations() {
         }
         .lc-thumb {
           position: relative;
-          aspect-ratio: 16 / 9;
+          aspect-ratio: 4 / 3;
           border-radius: 14px;
           overflow: hidden;
           cursor: pointer;

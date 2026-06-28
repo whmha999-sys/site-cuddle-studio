@@ -4,8 +4,12 @@ import tabletAsset from '@/assets/vikusha-tablet.png.asset.json';
 import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
 import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 import p200HeroAsset from '@/assets/vikusha-p200-hero.png.asset.json';
+import video1Asset from '@/assets/hero-video-1.mp4.asset.json';
+import video2Asset from '@/assets/hero-video-2.mp4.asset.json';
 
 const SLIDES = [
+  { type: 'video', src: video1Asset.url, productId: 'teclast-t65', alt: 'Teclast T65 video' },
+  { type: 'video', src: video2Asset.url, productId: 'p200', alt: 'Vikusha P200 video' },
   { src: p200HeroAsset.url, productId: 'p200', alt: 'Vikusha Power Bank P200' },
   { src: p30tAsset.url, productId: 'teclast-p30t', alt: 'Teclast P30T' },
   { src: watchAsset.url, productId: 'v-70', alt: 'Vikusha V-70 Watch' },

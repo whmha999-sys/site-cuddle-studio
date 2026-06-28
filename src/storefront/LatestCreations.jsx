@@ -17,6 +17,16 @@ export function LatestCreations() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fitMode, setFitMode] = useState('contain');
+  const [loaded, setLoaded] = useState(() => TILES.map(() => false));
+
+  const markLoaded = useCallback((i) => {
+    setLoaded((prev) => {
+      if (prev[i]) return prev;
+      const next = prev.slice();
+      next[i] = true;
+      return next;
+    });
+  }, []);
 
   const toggleFit = useCallback((mode) => setFitMode(mode), []);
 
@@ -72,10 +82,12 @@ export function LatestCreations() {
           transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .lc-slide {
+          position: relative;
           width: 100%;
           height: 100%;
           flex: 0 0 100%;
           cursor: pointer;
+          overflow: hidden;
         }
         .lc-slide img {
           width: 100%;
@@ -85,6 +97,20 @@ export function LatestCreations() {
         }
         .lc-fit-cover { object-fit: cover; }
         .lc-fit-contain { object-fit: contain; }
+
+        .lc-skeleton {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(110deg, #f0f0f0 8%, #f8f8f8 18%, #f0f0f0 33%);
+          background-size: 200% 100%;
+          animation: lc-shimmer 1.4s linear infinite;
+          z-index: 0;
+        }
+        .lc-slide img { position: relative; z-index: 1; }
+        @keyframes lc-shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
 
         .lc-fit-toggle {
           display: flex;
@@ -236,7 +262,18 @@ export function LatestCreations() {
                 role="link"
                 aria-label={tile.alt}
               >
-                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                {!loaded[i] && <div className="lc-skeleton" aria-hidden="true" />}
+                <img
+                  className={`lc-fit-${fitMode}`}
+                  src={tile.src}
+                  alt={tile.alt}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : 'auto'}
+                  decoding="async"
+                  onLoad={() => markLoaded(i)}
+                  onError={() => markLoaded(i)}
+                  style={{ opacity: loaded[i] ? 1 : 0, transition: 'opacity 0.3s ease' }}
+                />
               </div>
             ))}
           </div>

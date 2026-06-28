@@ -60,9 +60,10 @@ export function LatestCreations() {
           position: relative;
           width: 100%;
           aspect-ratio: 4 / 3;
+          max-height: 560px;
           border-radius: 20px;
           overflow: hidden;
-          background: #111;
+          background: transparent;
         }
         .lc-slides {
           width: 100%;
@@ -170,7 +171,7 @@ export function LatestCreations() {
           overflow: hidden;
           cursor: pointer;
           border: 2px solid transparent;
-          background: #111;
+          background: transparent;
           transition: border-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
           opacity: 0.7;
         }
@@ -185,7 +186,7 @@ export function LatestCreations() {
         @media (max-width: 768px) {
           .lc-section { padding: 16px; }
           .lc-inner { gap: 12px; }
-          .lc-stage { border-radius: 14px; }
+          .lc-stage { border-radius: 14px; max-height: 360px; }
           .lc-arrow { width: 36px; height: 36px; opacity: 1; }
           .lc-arrow-prev { inset-inline-start: 8px; }
           .lc-arrow-next { inset-inline-end: 8px; }

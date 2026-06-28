@@ -60,9 +60,10 @@ export function LatestCreations() {
           position: relative;
           width: 100%;
           aspect-ratio: 4 / 3;
+          max-height: 560px;
           border-radius: 20px;
           overflow: hidden;
-          background: #111;
+          background: transparent;
         }
         .lc-slides {
           width: 100%;

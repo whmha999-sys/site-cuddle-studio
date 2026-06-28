@@ -41,7 +41,7 @@ export function LatestCreations() {
           width: 100%;
           aspect-ratio: 21 / 9;
           overflow: hidden;
-          background: #111;
+          background: #fff;
         }
         .lc-slide {
           position: absolute; inset: 0;
@@ -52,17 +52,19 @@ export function LatestCreations() {
         .lc-slide.is-active { opacity: 1; z-index: 1; }
         .lc-slide img {
           width: 100%; height: 100%;
-          object-fit: cover; object-position: center;
+          object-fit: contain; object-position: center;
           display: block;
         }
         .lc-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
           width: 48px; height: 48px; border-radius: 50%;
           background: rgba(0,0,0,0.45); color: #fff;
-          border: none; cursor: pointer; z-index: 3;
+          border: 1px solid rgba(255,255,255,0.25);
+          cursor: pointer; z-index: 3;
           font-size: 24px; display: flex; align-items: center; justify-content: center;
           backdrop-filter: blur(6px);
           transition: background 0.2s ease;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.25);
         }
         .lc-arrow:hover { background: rgba(0,0,0,0.7); }
         .lc-arrow.prev { left: 24px; }
@@ -70,10 +72,13 @@ export function LatestCreations() {
         .lc-dots {
           position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
           display: flex; gap: 10px; z-index: 3;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: rgba(0,0,0,0.25);
         }
         .lc-dot {
           width: 10px; height: 10px; border-radius: 5px;
-          background: rgba(255,255,255,0.45);
+          background: rgba(255,255,255,0.65);
           border: none; padding: 0; cursor: pointer;
           transition: all 0.3s ease;
         }

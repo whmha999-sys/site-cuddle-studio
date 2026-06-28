@@ -39,8 +39,7 @@ export function LatestCreations() {
         .lc-slider {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 9;
-          max-height: 80vh;
+          aspect-ratio: 21 / 9;
           overflow: hidden;
           background: #111;
         }
@@ -53,7 +52,7 @@ export function LatestCreations() {
         .lc-slide.is-active { opacity: 1; z-index: 1; }
         .lc-slide img {
           width: 100%; height: 100%;
-          object-fit: contain; object-position: center;
+          object-fit: cover; object-position: center;
           display: block;
         }
         .lc-arrow {
@@ -80,8 +79,11 @@ export function LatestCreations() {
         }
         .lc-dot.is-active { width: 28px; background: #fff; }
 
-        @media (max-width: 768px) {
-          .lc-slider { aspect-ratio: 16 / 9; max-height: 50vh; }
+        @media (max-width: 900px) {
+          .lc-slider { aspect-ratio: 16 / 9; }
+        }
+        @media (max-width: 600px) {
+          .lc-slider { aspect-ratio: 4 / 3; }
           .lc-arrow { width: 40px; height: 40px; font-size: 20px; }
           .lc-arrow.prev { left: 12px; }
           .lc-arrow.next { right: 12px; }

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import watchAsset from '@/assets/vikusha-watch.png.asset.json';
 import tabletAsset from '@/assets/vikusha-tablet.png.asset.json';
 import p30tAsset from '@/assets/teclast-p30t.png.asset.json';
 import t65HeroAsset from '@/assets/teclast-t65-hero.jpg.asset.json';
 import p200HeroAsset from '@/assets/vikusha-p200-hero.png.asset.json';
 
-const TILES = [
+const SLIDES = [
   { src: p200HeroAsset.url, productId: 'p200', alt: 'Vikusha Power Bank P200' },
   { src: p30tAsset.url, productId: 'teclast-p30t', alt: 'Teclast P30T' },
   { src: watchAsset.url, productId: 'v-70', alt: 'Vikusha V-70 Watch' },
@@ -14,70 +14,106 @@ const TILES = [
 ];
 
 export function LatestCreations() {
-  const [active, setActive] = useState(null);
+  const [idx, setIdx] = useState(0);
+  const timerRef = useRef(null);
+  const total = SLIDES.length;
+
+  useEffect(() => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setIdx((i) => (i + 1) % total), 5000);
+    return () => clearTimeout(timerRef.current);
+  }, [idx, total]);
+
+  const go = (n) => setIdx((n + total) % total);
+  const openPdp = (productId) => {
+    if (typeof window !== 'undefined' && window.navigate) {
+      window.navigate('pdp', { id: productId });
+    }
+  };
 
   return (
     <section className="lc-section" aria-label="Latest Creations">
       <style>{`
-        .lc-section { width: 100%; padding: 24px; background: transparent; box-sizing: border-box; }
+        .lc-section { width: 100%; padding: 24px; box-sizing: border-box; }
         .lc-inner { max-width: 1400px; margin: 0 auto; }
-
-        .lc-strip {
-          display: flex;
-          gap: 12px;
-          height: 520px;
-          width: 100%;
-          overflow: hidden;
-        }
-        .lc-tile {
+        .lc-slider {
           position: relative;
-          flex: 1 1 0%;
-          min-width: 0;
-          overflow: hidden;
+          width: 100%;
+          height: 520px;
           border-radius: 18px;
-          cursor: pointer;
-          transition: flex 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+          overflow: hidden;
           background: #111;
         }
-        .lc-strip:hover .lc-tile,
-        .lc-strip[data-has-active="true"] .lc-tile { flex: 0.45 1 0%; }
-        .lc-strip:hover .lc-tile:hover,
-        .lc-tile.is-active { flex: 7 1 0%; }
-        .lc-tile img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          pointer-events: none;
+        .lc-slide {
+          position: absolute; inset: 0;
+          opacity: 0;
+          transition: opacity 0.8s ease;
+          cursor: pointer;
         }
+        .lc-slide.is-active { opacity: 1; z-index: 1; }
+        .lc-slide img {
+          width: 100%; height: 100%;
+          object-fit: cover; display: block;
+        }
+        .lc-arrow {
+          position: absolute; top: 50%; transform: translateY(-50%);
+          width: 44px; height: 44px; border-radius: 50%;
+          background: rgba(0,0,0,0.5); color: #fff;
+          border: none; cursor: pointer; z-index: 3;
+          font-size: 22px; display: flex; align-items: center; justify-content: center;
+          backdrop-filter: blur(6px);
+          transition: background 0.2s ease;
+        }
+        .lc-arrow:hover { background: rgba(0,0,0,0.75); }
+        .lc-arrow.prev { left: 16px; }
+        .lc-arrow.next { right: 16px; }
+        .lc-dots {
+          position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+          display: flex; gap: 8px; z-index: 3;
+        }
+        .lc-dot {
+          width: 8px; height: 8px; border-radius: 4px;
+          background: rgba(255,255,255,0.45);
+          border: none; padding: 0; cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .lc-dot.is-active { width: 24px; background: #fff; }
 
         @media (max-width: 768px) {
           .lc-section { padding: 16px; }
-          .lc-strip { height: 360px; gap: 8px; }
-          .lc-tile { border-radius: 14px; }
+          .lc-slider { height: 320px; border-radius: 14px; }
+          .lc-arrow { width: 36px; height: 36px; font-size: 18px; }
         }
       `}</style>
 
       <div className="lc-inner">
-        <div className="lc-strip" data-has-active={active !== null} onMouseLeave={() => setActive(null)}>
-          {TILES.map((tile, i) => (
+        <div className="lc-slider">
+          {SLIDES.map((slide, i) => (
             <div
               key={i}
-              className={`lc-tile ${active === i ? 'is-active' : ''}`}
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              onClick={() => {
-                if (typeof window !== 'undefined' && window.navigate) {
-                  window.navigate('pdp', { id: tile.productId });
-                }
-              }}
-              tabIndex={0}
+              className={`lc-slide ${i === idx ? 'is-active' : ''}`}
+              onClick={() => openPdp(slide.productId)}
               role="button"
-              aria-label={tile.alt}
+              aria-label={slide.alt}
+              aria-hidden={i !== idx}
             >
-              <img src={tile.src} alt={tile.alt} loading="lazy" />
+              <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
             </div>
           ))}
+
+          <button className="lc-arrow prev" aria-label="Previous slide" onClick={() => go(idx - 1)}>‹</button>
+          <button className="lc-arrow next" aria-label="Next slide" onClick={() => go(idx + 1)}>›</button>
+
+          <div className="lc-dots">
+            {SLIDES.map((_, i) => (
+              <button
+                key={i}
+                className={`lc-dot ${i === idx ? 'is-active' : ''}`}
+                aria-label={`Go to slide ${i + 1}`}
+                onClick={() => setIdx(i)}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

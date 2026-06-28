@@ -111,7 +111,11 @@ export function LatestCreations() {
               aria-label={slide.alt}
               aria-hidden={i !== idx}
             >
-              <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+              {slide.type === 'video' ? (
+                <video src={slide.src} autoPlay muted loop playsInline preload={i === 0 ? 'auto' : 'metadata'} />
+              ) : (
+                <img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+              )}
             </div>
           ))}
 

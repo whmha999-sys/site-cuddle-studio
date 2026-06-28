@@ -9,7 +9,6 @@ import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
 import { PromoBanners } from './PromoBanners.jsx';
 import { LatestCreations } from './LatestCreations.jsx';
-import { HeroVideos } from './HeroVideos.jsx';
 
 import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
@@ -1157,7 +1156,6 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
     <>
 
 
-      <HeroVideos/>
       <LatestCreations/>
 
       <div className="toolbar">

@@ -39,9 +39,8 @@ export function LatestCreations() {
         .lc-slider {
           position: relative;
           width: 100%;
-          height: 100vh;
-          min-height: 480px;
-          max-height: 900px;
+          aspect-ratio: 16 / 9;
+          max-height: 80vh;
           overflow: hidden;
           background: #111;
         }
@@ -82,7 +81,7 @@ export function LatestCreations() {
         .lc-dot.is-active { width: 28px; background: #fff; }
 
         @media (max-width: 768px) {
-          .lc-slider { height: 60vh; min-height: 320px; max-height: 560px; }
+          .lc-slider { aspect-ratio: 16 / 9; max-height: 50vh; }
           .lc-arrow { width: 40px; height: 40px; font-size: 20px; }
           .lc-arrow.prev { left: 12px; }
           .lc-arrow.next { right: 12px; }

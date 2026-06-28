@@ -16,6 +16,9 @@ const AUTO_INTERVAL_MS = 5000;
 export function LatestCreations() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [fitMode, setFitMode] = useState('contain');
+
+  const toggleFit = useCallback((mode) => setFitMode(mode), []);
 
   const goTo = useCallback((idx) => {
     setActive((idx + TILES.length) % TILES.length);
@@ -76,9 +79,38 @@ export function LatestCreations() {
         .lc-slide img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
           display: block;
           pointer-events: none;
+        }
+        .lc-fit-cover { object-fit: cover; }
+        .lc-fit-contain { object-fit: contain; }
+
+        .lc-fit-toggle {
+          display: flex;
+          justify-content: flex-end;
+          gap: 8px;
+          align-items: center;
+        }
+        .lc-fit-toggle-label {
+          color: var(--muted-foreground, rgba(255,255,255,0.6));
+          font-size: 12px;
+          margin-inline-end: 4px;
+        }
+        .lc-fit-toggle button {
+          padding: 6px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.2);
+          background: rgba(255,255,255,0.08);
+          color: #fff;
+          font-size: 12px;
+          cursor: pointer;
+          transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .lc-fit-toggle button:hover { background: rgba(255,255,255,0.15); }
+        .lc-fit-toggle button.is-active {
+          background: var(--orange, #e86a1f);
+          border-color: var(--orange, #e86a1f);
+          color: #fff;
         }
 
         .lc-arrow {
@@ -147,7 +179,6 @@ export function LatestCreations() {
         .lc-thumb img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
           display: block;
         }
 
@@ -167,6 +198,26 @@ export function LatestCreations() {
       `}</style>
 
       <div className="lc-inner">
+        <div className="lc-fit-toggle" aria-label="Image fit mode">
+          <span className="lc-fit-toggle-label">Fit:</span>
+          <button
+            className={fitMode === 'cover' ? 'is-active' : ''}
+            onClick={() => toggleFit('cover')}
+            aria-pressed={fitMode === 'cover'}
+            type="button"
+          >
+            Cover
+          </button>
+          <button
+            className={fitMode === 'contain' ? 'is-active' : ''}
+            onClick={() => toggleFit('contain')}
+            aria-pressed={fitMode === 'contain'}
+            type="button"
+          >
+            Contain
+          </button>
+        </div>
+
         <div
           className="lc-stage"
           onMouseEnter={() => setPaused(true)}
@@ -184,7 +235,7 @@ export function LatestCreations() {
                 role="link"
                 aria-label={tile.alt}
               >
-                <img src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
               </div>
             ))}
           </div>
@@ -235,7 +286,7 @@ export function LatestCreations() {
               aria-label={tile.alt}
               tabIndex={0}
             >
-              <img src={tile.src} alt={tile.alt} loading="lazy" />
+              <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading="lazy" />
             </div>
           ))}
         </div>

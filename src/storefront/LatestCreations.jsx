@@ -53,7 +53,7 @@ export function LatestCreations() {
         .lc-slide.is-active { opacity: 1; z-index: 1; }
         .lc-slide img {
           width: 100%; height: 100%;
-          object-fit: cover; object-position: center;
+          object-fit: contain; object-position: center;
           display: block;
         }
         .lc-arrow {

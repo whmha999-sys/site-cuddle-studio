@@ -54,7 +54,7 @@ export function LatestCreations() {
           cursor: pointer;
         }
         .lc-slide.is-active { opacity: 1; z-index: 1; }
-        .lc-slide img {
+        .lc-slide img, .lc-slide video {
           width: 100%; height: 100%;
           object-fit: contain; object-position: center;
           display: block;

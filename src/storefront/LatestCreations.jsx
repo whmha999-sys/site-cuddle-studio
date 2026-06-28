@@ -82,10 +82,12 @@ export function LatestCreations() {
           transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .lc-slide {
+          position: relative;
           width: 100%;
           height: 100%;
           flex: 0 0 100%;
           cursor: pointer;
+          overflow: hidden;
         }
         .lc-slide img {
           width: 100%;

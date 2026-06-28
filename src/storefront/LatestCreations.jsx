@@ -235,7 +235,7 @@ export function LatestCreations() {
                 role="link"
                 aria-label={tile.alt}
               >
-                <img src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
+                <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading={i === 0 ? 'eager' : 'lazy'} />
               </div>
             ))}
           </div>
@@ -286,7 +286,7 @@ export function LatestCreations() {
               aria-label={tile.alt}
               tabIndex={0}
             >
-              <img src={tile.src} alt={tile.alt} loading="lazy" />
+              <img className={`lc-fit-${fitMode}`} src={tile.src} alt={tile.alt} loading="lazy" />
             </div>
           ))}
         </div>

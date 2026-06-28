@@ -179,7 +179,6 @@ export function LatestCreations() {
         .lc-thumb img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
           display: block;
         }
 
@@ -199,6 +198,26 @@ export function LatestCreations() {
       `}</style>
 
       <div className="lc-inner">
+        <div className="lc-fit-toggle" aria-label="Image fit mode">
+          <span className="lc-fit-toggle-label">Fit:</span>
+          <button
+            className={fitMode === 'cover' ? 'is-active' : ''}
+            onClick={() => toggleFit('cover')}
+            aria-pressed={fitMode === 'cover'}
+            type="button"
+          >
+            Cover
+          </button>
+          <button
+            className={fitMode === 'contain' ? 'is-active' : ''}
+            onClick={() => toggleFit('contain')}
+            aria-pressed={fitMode === 'contain'}
+            type="button"
+          >
+            Contain
+          </button>
+        </div>
+
         <div
           className="lc-stage"
           onMouseEnter={() => setPaused(true)}

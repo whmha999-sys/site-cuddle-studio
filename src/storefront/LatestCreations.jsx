@@ -39,8 +39,7 @@ export function LatestCreations() {
         .lc-slider {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 9;
-          max-height: 80vh;
+          aspect-ratio: 21 / 9;
           overflow: hidden;
           background: #111;
         }
@@ -53,7 +52,7 @@ export function LatestCreations() {
         .lc-slide.is-active { opacity: 1; z-index: 1; }
         .lc-slide img {
           width: 100%; height: 100%;
-          object-fit: contain; object-position: center;
+          object-fit: cover; object-position: center;
           display: block;
         }
         .lc-arrow {

@@ -96,6 +96,20 @@ export function LatestCreations() {
         .lc-fit-cover { object-fit: cover; }
         .lc-fit-contain { object-fit: contain; }
 
+        .lc-skeleton {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(110deg, #f0f0f0 8%, #f8f8f8 18%, #f0f0f0 33%);
+          background-size: 200% 100%;
+          animation: lc-shimmer 1.4s linear infinite;
+          z-index: 0;
+        }
+        .lc-slide img { position: relative; z-index: 1; }
+        @keyframes lc-shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
         .lc-fit-toggle {
           display: flex;
           justify-content: flex-end;

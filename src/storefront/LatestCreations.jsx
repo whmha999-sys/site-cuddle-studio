@@ -17,6 +17,16 @@ export function LatestCreations() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [fitMode, setFitMode] = useState('contain');
+  const [loaded, setLoaded] = useState(() => TILES.map(() => false));
+
+  const markLoaded = useCallback((i) => {
+    setLoaded((prev) => {
+      if (prev[i]) return prev;
+      const next = prev.slice();
+      next[i] = true;
+      return next;
+    });
+  }, []);
 
   const toggleFit = useCallback((mode) => setFitMode(mode), []);
 

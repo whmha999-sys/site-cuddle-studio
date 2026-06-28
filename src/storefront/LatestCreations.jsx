@@ -39,7 +39,8 @@ export function LatestCreations() {
         .lc-slider {
           position: relative;
           width: 100%;
-          height: 520px;
+          aspect-ratio: 16 / 9;
+          max-height: 640px;
           border-radius: 18px;
           overflow: hidden;
           background: #111;
@@ -81,7 +82,7 @@ export function LatestCreations() {
 
         @media (max-width: 768px) {
           .lc-section { padding: 16px; }
-          .lc-slider { height: 320px; border-radius: 14px; }
+          .lc-slider { aspect-ratio: 16 / 9; max-height: 360px; border-radius: 14px; }
           .lc-arrow { width: 36px; height: 36px; font-size: 18px; }
         }
       `}</style>

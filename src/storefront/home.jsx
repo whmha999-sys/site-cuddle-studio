@@ -7,8 +7,6 @@ import { PRODUCT_IMAGES } from './data.js';
 import { TeclastScroll } from './teclast-scroll.jsx';
 import { VikushaScroll } from './vikusha-scroll.jsx';
 import { PromoReel } from './promo.jsx';
-import { PromoBanners } from './PromoBanners.jsx';
-import { LatestCreations } from './LatestCreations.jsx';
 
 import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
 import { useHeroSettings } from '@/hooks/useHeroSettings';
@@ -1154,9 +1152,6 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
 
   return (
     <>
-
-
-      <LatestCreations/>
 
       <div className="toolbar">
         <div className="chips">

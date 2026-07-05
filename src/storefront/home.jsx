@@ -1155,9 +1155,6 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
   return (
     <>
 
-
-      <LatestCreations/>
-
       <div className="toolbar">
         <div className="chips">
           {[['all',t.filter_all],['tablet',t.filter_tablet],['watch',t.filter_watch],['accessory',t.filter_accessory]].map(([k,label])=>(

@@ -275,6 +275,39 @@ function OrdersTable({
                       <td className="text-muted-foreground">
                         {new Date(o.created_at).toLocaleString()}
                       </td>
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                              disabled={deleting === o.id}
+                              onClick={(e) => e.stopPropagation()}
+                              aria-label="Delete order"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete order #{o.order_number}?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This permanently removes the order. Revenue and stats will recalculate automatically. This cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                onClick={() => deleteOrder(o.id)}
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </td>
                     </tr>
                   );
                 })}

@@ -166,6 +166,7 @@ function OrdersTable({
   const { toast } = useToast();
   const qc = useQueryClient();
   const [busy, setBusy] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   async function markProcessed(orderId: string) {
     setBusy(orderId);
@@ -178,6 +179,18 @@ function OrdersTable({
     }
     qc.invalidateQueries({ queryKey: ["orders"] });
     toast({ title: "Order marked as processed" });
+  }
+
+  async function deleteOrder(orderId: string) {
+    setDeleting(orderId);
+    const { error } = await supabase.from("orders").delete().eq("id", orderId);
+    setDeleting(null);
+    if (error) {
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["orders"] });
+    toast({ title: "Order deleted" });
   }
 
   function brandsAndTypes(o: Order) {

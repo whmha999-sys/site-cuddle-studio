@@ -232,6 +232,7 @@ function OrdersTable({
                   <th>Payment</th>
                   <th>Status</th>
                   <th>When</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>

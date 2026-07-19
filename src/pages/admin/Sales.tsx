@@ -7,7 +7,18 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
@@ -155,6 +166,7 @@ function OrdersTable({
   const { toast } = useToast();
   const qc = useQueryClient();
   const [busy, setBusy] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   async function markProcessed(orderId: string) {
     setBusy(orderId);
@@ -167,6 +179,18 @@ function OrdersTable({
     }
     qc.invalidateQueries({ queryKey: ["orders"] });
     toast({ title: "Order marked as processed" });
+  }
+
+  async function deleteOrder(orderId: string) {
+    setDeleting(orderId);
+    const { error } = await supabase.from("orders").delete().eq("id", orderId);
+    setDeleting(null);
+    if (error) {
+      toast({ title: "Delete failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["orders"] });
+    toast({ title: "Order deleted" });
   }
 
   function brandsAndTypes(o: Order) {
@@ -208,6 +232,7 @@ function OrdersTable({
                   <th>Payment</th>
                   <th>Status</th>
                   <th>When</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -249,6 +274,39 @@ function OrdersTable({
                       </td>
                       <td className="text-muted-foreground">
                         {new Date(o.created_at).toLocaleString()}
+                      </td>
+                      <td onClick={(e) => e.stopPropagation()}>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                              disabled={deleting === o.id}
+                              onClick={(e) => e.stopPropagation()}
+                              aria-label="Delete order"
+                            >
+                              <Trash2 className="h-3.5 w-3.5" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Delete order #{o.order_number}?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This permanently removes the order. Revenue and stats will recalculate automatically. This cannot be undone.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction
+                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                onClick={() => deleteOrder(o.id)}
+                              >
+                                Delete
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </td>
                     </tr>
                   );

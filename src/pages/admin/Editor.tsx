@@ -175,9 +175,12 @@ function ProductCard({
               {product.brand} · {product.category}
             </div>
           </div>
-          <Badge variant={product.active ? "default" : "secondary"}>
-            {product.active ? "Live" : "Hidden"}
-          </Badge>
+          <div className="flex flex-col items-end gap-1">
+            <Badge variant={product.active ? "default" : "secondary"}>
+              {product.active ? "Live" : "Hidden"}
+            </Badge>
+            {product.sold_out && <Badge variant="destructive">Sold out</Badge>}
+          </div>
         </div>
         <div className="flex items-center justify-between gap-2">
           {editingPrice ? (

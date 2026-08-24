@@ -85,6 +85,18 @@ function ProductCard({
     else onChanged();
   }
 
+  async function toggleSoldOut() {
+    const { error } = await supabase.from("products")
+      .update({ sold_out: !product.sold_out } as any).eq("id", product.id);
+    if (error) {
+      toast({ title: "Failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["catalog"] });
+    onChanged();
+    toast({ title: product.sold_out ? "Marked as in stock" : "Marked as sold out" });
+  }
+
   async function savePrice() {
     const n = Number(priceVal);
     if (!isFinite(n) || n < 0) {
@@ -163,9 +175,12 @@ function ProductCard({
               {product.brand} · {product.category}
             </div>
           </div>
-          <Badge variant={product.active ? "default" : "secondary"}>
-            {product.active ? "Live" : "Hidden"}
-          </Badge>
+          <div className="flex flex-col items-end gap-1">
+            <Badge variant={product.active ? "default" : "secondary"}>
+              {product.active ? "Live" : "Hidden"}
+            </Badge>
+            {product.sold_out && <Badge variant="destructive">Sold out</Badge>}
+          </div>
         </div>
         <div className="flex items-center justify-between gap-2">
           {editingPrice ? (
@@ -205,6 +220,14 @@ function ProductCard({
             </Button>
           </div>
         </div>
+        <Button
+          size="sm"
+          variant={product.sold_out ? "outline" : "destructive"}
+          className="w-full"
+          onClick={toggleSoldOut}
+        >
+          {product.sold_out ? "Mark back in stock" : "Mark sold out"}
+        </Button>
       </CardContent>
     </Card>
   );

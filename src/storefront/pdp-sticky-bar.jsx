@@ -21,12 +21,20 @@ export default function PdpStickyBar({ product, color, qty, t, lang, onAddToCart
         <div className="pdp-sticky-price"><Price value={product.price}/></div>
       </div>
       <div className="pdp-sticky-ctas">
-        <button className="btn btn-outline" onClick={() => onAddToCart(product, color, qty)}>
-          {t.add_to_cart}
-        </button>
-        <button className="btn btn-green" onClick={() => onBuyNow(product, color, qty)}>
-          {t.buy_now}
-        </button>
+        {product.sold_out ? (
+          <button className="btn" disabled style={{ background:'#9ca3af', color:'#fff', cursor:'not-allowed' }}>
+            {lang === 'ar' ? 'نفدت الكمية' : 'Sold Out'}
+          </button>
+        ) : (
+          <>
+            <button className="btn btn-outline" onClick={() => onAddToCart(product, color, qty)}>
+              {t.add_to_cart}
+            </button>
+            <button className="btn btn-green" onClick={() => onBuyNow(product, color, qty)}>
+              {t.buy_now}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

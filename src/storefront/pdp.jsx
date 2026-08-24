@@ -104,10 +104,18 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
             </div>
           </div>
 
-          <div className="pdp-ctas">
-            <button className="btn btn-green btn-lg" onClick={()=>onBuyNow(product, color, qty)}>{t.buy_now}</button>
-            <button className="btn btn-outline btn-lg" onClick={()=>onAddToCart(product, color, qty)}>{t.add_to_cart}</button>
-          </div>
+          {product.sold_out ? (
+            <div className="pdp-ctas">
+              <button className="btn btn-lg" disabled style={{ background:'#9ca3af', color:'#fff', cursor:'not-allowed', width:'100%' }}>
+                {lang === 'ar' ? 'نفدت الكمية' : 'Sold Out'}
+              </button>
+            </div>
+          ) : (
+            <div className="pdp-ctas">
+              <button className="btn btn-green btn-lg" onClick={()=>onBuyNow(product, color, qty)}>{t.buy_now}</button>
+              <button className="btn btn-outline btn-lg" onClick={()=>onAddToCart(product, color, qty)}>{t.add_to_cart}</button>
+            </div>
+          )}
 
         </div>
       </section>

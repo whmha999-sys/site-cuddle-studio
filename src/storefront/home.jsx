@@ -1103,14 +1103,14 @@ function ShowcaseCardWithColors({ p, t, lang, onAddToCart, onNavigate }) {
         image,
         rating,
         reviews,
-        inStock: true,
+        inStock: !p.sold_out,
         currency: currency.symbol + ' ',
         colors: p.colors,
       }}
       selectedColor={color}
       onColorSelect={(c) => setColor(c)}
       addToCartLabel={t.add_to_cart}
-      outOfStockLabel={lang==='ar'?'غير متوفر':'Out of Stock'}
+      outOfStockLabel={lang==='ar'?'نفدت الكمية':'Sold Out'}
       reviewsLabel={lang==='ar'?'تقييم':'reviews'}
       inStockLabel={lang==='ar'?'✓ متوفر':'✓ In Stock'}
       onAddToCart={() => { onAddToCart(p, color, 1); }}

@@ -12,6 +12,7 @@ export type DbProduct = {
   colors: string[];
   hero: boolean;
   active: boolean;
+  sold_out: boolean;
   sort_order: number;
 };
 
@@ -45,6 +46,7 @@ export function useCatalog() {
         specs: p.specs || {},
         colors: p.colors || [],
         hero: !!p.hero,
+        sold_out: !!p.sold_out,
       }));
 
       const images: Record<string, Record<string, string[]>> = {};

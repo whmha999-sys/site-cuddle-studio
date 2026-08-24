@@ -220,6 +220,14 @@ function ProductCard({
             </Button>
           </div>
         </div>
+        <Button
+          size="sm"
+          variant={product.sold_out ? "outline" : "destructive"}
+          className="w-full"
+          onClick={toggleSoldOut}
+        >
+          {product.sold_out ? "Mark back in stock" : "Mark sold out"}
+        </Button>
       </CardContent>
     </Card>
   );

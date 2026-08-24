@@ -85,6 +85,18 @@ function ProductCard({
     else onChanged();
   }
 
+  async function toggleSoldOut() {
+    const { error } = await supabase.from("products")
+      .update({ sold_out: !product.sold_out } as any).eq("id", product.id);
+    if (error) {
+      toast({ title: "Failed", description: error.message, variant: "destructive" });
+      return;
+    }
+    qc.invalidateQueries({ queryKey: ["catalog"] });
+    onChanged();
+    toast({ title: product.sold_out ? "Marked as in stock" : "Marked as sold out" });
+  }
+
   async function savePrice() {
     const n = Number(priceVal);
     if (!isFinite(n) || n < 0) {

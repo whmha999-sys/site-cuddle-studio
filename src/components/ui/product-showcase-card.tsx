@@ -8,7 +8,7 @@ export interface ShowcaseCardProduct {
   name: string;
   category: string;
   price: number;
-  salePrice?: number;
+  
   image: string;
   rating?: number;
   reviews?: number;

@@ -687,9 +687,6 @@ input, select, textarea { font-family: inherit; color: inherit; }
 .summary-total { font-weight: 600; font-size: 20px; padding-top: 14px; border-top: 1px solid var(--border); margin-top: 14px;}
 .summary-total .v { font-size: 22px; }
 
-.coupon-row { display: flex; gap: 8px; margin-bottom: 16px; }
-.coupon-row input { flex: 1; height: 42px; padding: 0 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 14px; }
-.coupon-row button { padding: 0 20px; }
 
 /* ===== Success modal ===== */
 .modal-backdrop {

@@ -26,8 +26,6 @@ function getHeroSlides(lang) {
     titleItalic: ar ? 'بشكل مختلف.' : 'Reimagined.',
     sub: ar ? '١.٤٣" AMOLED · NFC · معدل ضربات القلب · IP67' : '1.43" AMOLED · NFC · Heart rate · IP67',
     price: 50,
-    oldPrice: 75,
-    discountLabel: '−33%',
     cta: ar ? 'احجز الآن' : 'Claim Yours',
     cta2: ar ? 'استعرض فيكوشا' : 'Explore Vikusha',
     brand: 'vikusha',

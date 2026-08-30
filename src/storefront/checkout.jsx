@@ -93,8 +93,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const L = (en, arT) => (ar ? arT : en);
 
   const [currentStep, setCurrentStep] = React.useState(1);
-  const [coupon, setCoupon] = React.useState('');
-  const [appliedPromo, setAppliedPromo] = React.useState(null);
   const [agreeToTerms, setAgreeToTerms] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -107,18 +105,10 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const upd = (field, value) => setShipping(prev => ({ ...prev, [field]: value }));
 
   const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
-  const discount = appliedPromo ? sub * appliedPromo.pct : 0;
   const tax = 0;
   const ship = 0;
-  const total = sub - discount + tax + ship;
+  const total = sub + tax + ship;
 
-  const applyCoupon = () => {
-    const c = coupon.trim().toUpperCase();
-    if (c === 'SL10') setAppliedPromo({ code: c, pct: 0.10 });
-    else if (c === 'WELCOME') setAppliedPromo({ code: c, pct: 0.05 });
-    else setAppliedPromo({ code: c, pct: 0, invalid: true });
-  };
-  const removePromo = () => { setAppliedPromo(null); setCoupon(''); };
 
   const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
   const isValidPhone = (v) => /^[+\d][\d\s\-()]{6,}$/.test((v || '').trim());

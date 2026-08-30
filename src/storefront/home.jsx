@@ -4,15 +4,16 @@ import { Icon, Price } from './atoms.jsx';
 import { useCurrency } from './currency-context.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
 import { PRODUCT_IMAGES } from './data.js';
-import { TeclastScroll } from './teclast-scroll.jsx';
-import { VikushaScroll } from './vikusha-scroll.jsx';
-import { PromoReel } from './promo.jsx';
+const TeclastScroll = React.lazy(() => import('./teclast-scroll.jsx').then(m => ({ default: m.TeclastScroll })));
+const VikushaScroll = React.lazy(() => import('./vikusha-scroll.jsx').then(m => ({ default: m.VikushaScroll })));
+const PromoReel = React.lazy(() => import('./promo.jsx').then(m => ({ default: m.PromoReel })));
 
-import { InstagramGrid, BrandStoryStrip } from './instagram-grid.jsx';
+const InstagramGrid = React.lazy(() => import('./instagram-grid.jsx').then(m => ({ default: m.InstagramGrid })));
+const BrandStoryStrip = React.lazy(() => import('./instagram-grid.jsx').then(m => ({ default: m.BrandStoryStrip })));
 import { useHeroSettings } from '@/hooks/useHeroSettings';
 import ProductShowcaseCard from '@/components/ui/product-showcase-card';
 import { useSectionVisibility } from '@/hooks/useSectionVisibility';
-import { TestimonialsSection } from './testimonials-section.jsx';
+const TestimonialsSection = React.lazy(() => import('./testimonials-section.jsx').then(m => ({ default: m.TestimonialsSection })));
 function getHeroSlides(lang) {
   const ar = lang === 'ar';
   return [
@@ -1179,19 +1180,19 @@ function Home({ t, products, onAddToCart, cart, lang, imgVersion, onNavigate }) 
 
       
 
-      <TeclastScroll lang={lang}/>
+      <React.Suspense fallback={null}><TeclastScroll lang={lang}/></React.Suspense>
 
-      <VikushaScroll lang={lang}/>
+      <React.Suspense fallback={null}><VikushaScroll lang={lang}/></React.Suspense>
 
-      <TestimonialsSection lang={lang}/>
+      <React.Suspense fallback={null}><TestimonialsSection lang={lang}/></React.Suspense>
 
       {showLifestyle && <LifestyleBanner lang={lang}/>}
 
-      <PromoReel lang={lang}/>
+      <React.Suspense fallback={null}><PromoReel lang={lang}/></React.Suspense>
 
-      <BrandStoryStrip lang={lang}/>
+      <React.Suspense fallback={null}><BrandStoryStrip lang={lang}/></React.Suspense>
 
-      <InstagramGrid lang={lang}/>
+      <React.Suspense fallback={null}><InstagramGrid lang={lang}/></React.Suspense>
 
     </>
   );

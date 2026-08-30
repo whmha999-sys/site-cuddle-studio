@@ -89,16 +89,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
         />
 
 
-        {discount !== null && (
-          <div style={{
-            position: 'absolute', top: 12, left: 12,
-            background: '#ef4444', color: '#fff', fontSize: 12, fontWeight: 700,
-            padding: '4px 8px', borderRadius: 6,
-          }}>
-            -{discount}%
-          </div>
-        )}
-
         {!inStock && (
           <div style={{
             position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)',
@@ -169,14 +159,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-            {product.salePrice ? (
-              <>
-                <span style={{ fontSize: 24, fontWeight: 700, color: '#ef4444' }}>{currency}{Number(product.salePrice).toLocaleString('en-US')}</span>
-                <span style={{ fontSize: 14, textDecoration: 'line-through', color: palette.muted }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
-              </>
-            ) : (
-              <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
-            )}
+            <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
           </div>
           {inStock && <span style={{ fontSize: 12, color: '#10b981', fontWeight: 500 }}>{inStockLabel}</span>}
         </div>

@@ -647,12 +647,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
           animation: active ? 'hero-fade-up 0.6s ease 0.32s both' : 'none',
         }}>
           <div style={{ display:'flex', alignItems:'baseline', gap:12 }}>
-            {slide.oldPrice ? (
-              <span style={{
-                fontFamily:'var(--font-mono, monospace)', fontSize:12,
-                color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
-              }}>{currency.symbol} {fmt(slide.oldPrice)}</span>
-            ) : (
+            {true ? (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
                 color:'rgba(255,255,255,0.5)', textTransform:'uppercase',

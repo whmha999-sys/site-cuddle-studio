@@ -8,7 +8,7 @@ export interface ShowcaseCardProduct {
   name: string;
   category: string;
   price: number;
-  salePrice?: number;
+  
   image: string;
   rating?: number;
   reviews?: number;
@@ -54,11 +54,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
     ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', btn: btnHover ? '#ea580c' : '#f97316' }
     : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#ffffff', btn: btnHover ? '#ea580c' : '#f97316' };
 
-  const discount =
-    product.salePrice && product.salePrice < product.price
-      ? Math.round(((product.price - product.salePrice) / product.price) * 100)
-      : null;
-
   return (
     <div
       dir="ltr"
@@ -93,16 +88,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
           }}
         />
 
-
-        {discount !== null && (
-          <div style={{
-            position: 'absolute', top: 12, left: 12,
-            background: '#ef4444', color: '#fff', fontSize: 12, fontWeight: 700,
-            padding: '4px 8px', borderRadius: 6,
-          }}>
-            -{discount}%
-          </div>
-        )}
 
         {!inStock && (
           <div style={{
@@ -174,14 +159,7 @@ export const ProductShowcaseCard: React.FC<Props> = ({
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-            {product.salePrice ? (
-              <>
-                <span style={{ fontSize: 24, fontWeight: 700, color: '#ef4444' }}>{currency}{Number(product.salePrice).toLocaleString('en-US')}</span>
-                <span style={{ fontSize: 14, textDecoration: 'line-through', color: palette.muted }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
-              </>
-            ) : (
-              <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
-            )}
+            <span style={{ fontSize: 24, fontWeight: 700, color: isDark ? '#fff' : '#111827' }}>{currency}{Number(product.price).toLocaleString('en-US')}</span>
           </div>
           {inStock && <span style={{ fontSize: 12, color: '#10b981', fontWeight: 500 }}>{inStockLabel}</span>}
         </div>

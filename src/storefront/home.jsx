@@ -647,12 +647,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
           animation: active ? 'hero-fade-up 0.6s ease 0.32s both' : 'none',
         }}>
           <div style={{ display:'flex', alignItems:'baseline', gap:12 }}>
-            {slide.oldPrice ? (
-              <span style={{
-                fontFamily:'var(--font-mono, monospace)', fontSize:12,
-                color:'rgba(255,255,255,0.4)', textDecoration:'line-through',
-              }}>{currency.symbol} {fmt(slide.oldPrice)}</span>
-            ) : (
+            {true ? (
               <span style={{
                 fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
                 color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
@@ -670,13 +665,7 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
               paddingInlineEnd:'0.18em', marginInlineEnd:'-0.05em',
               overflow:'visible',
             }}>{currency.symbol} {fmt(slide.price)}</span>
-            {slide.discountLabel && (
-              <span style={{
-                fontFamily:'var(--font-mono, monospace)', fontSize:9, letterSpacing:'0.22em',
-                padding:'4px 9px', borderRadius:999, color: accent, fontWeight:700,
-                background:`${accent}1f`, border:`1px solid ${accent}55`,
-              }}>{slide.discountLabel}</span>
-            )}
+          
           </div>
           {isPromo && <VkCountdown endsAt={endsAtRef.current} accent={accent} ink={ink}/>}
         </div>

@@ -647,12 +647,10 @@ function PromoSlide({ slide, active, animKey, t, lang, settings }) {
           animation: active ? 'hero-fade-up 0.6s ease 0.32s both' : 'none',
         }}>
           <div style={{ display:'flex', alignItems:'baseline', gap:12 }}>
-            {true ? (
-              <span style={{
-                fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
-                color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
-              }}>{lang === 'ar' ? 'يبدأ من' : 'Starting at'}</span>
-            )}
+            <span style={{
+              fontFamily:'var(--font-mono, monospace)', fontSize:10, letterSpacing:'0.22em',
+              color:'rgba(255,255,255,0.5)', textTransform:'uppercase',
+            }}>{lang === 'ar' ? 'يبدأ من' : 'Starting at'}</span>
             <span className="vk-promo-price" style={{
               fontFamily:'var(--font-display, serif)', fontStyle:'italic',
               fontSize:'clamp(40px, 5.2vw, 64px)', fontWeight:700,

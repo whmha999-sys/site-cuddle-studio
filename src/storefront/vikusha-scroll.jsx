@@ -67,13 +67,18 @@ import React from 'react';
           const playPromise = vid.play();
           if (playPromise && playPromise.catch) playPromise.catch(() => {});
         };
-        if (!vid.src) {
-          vid.src = src;
-          vid.load();
-          vid.addEventListener('loadeddata', start, { once: true });
-        } else {
-          start();
-        }
+        const mio = new IntersectionObserver(entries => {
+          if (!entries.some(e => e.isIntersecting)) return;
+          mio.disconnect();
+          if (!vid.src) {
+            vid.src = src;
+            vid.load();
+            vid.addEventListener('loadeddata', start, { once: true });
+          } else {
+            start();
+          }
+        }, { rootMargin: '400px' });
+        mio.observe(section);
         FEATURES.forEach((_, i) => {
           const el = featRefs.current[i];
           if (el) el.classList.add('visible');
@@ -82,7 +87,7 @@ import React from 'react';
           headRef.current.style.opacity = 1;
           headRef.current.style.transform = 'translateY(0)';
         }
-        return () => { cancelled = true; };
+        return () => { cancelled = true; mio.disconnect(); };
       }
 
       // ── Desktop: scroll-scrub ──
@@ -179,7 +184,7 @@ import React from 'react';
             <video
               ref={videoRef}
               data-src="/uploads/u5144992196_httpss.mj.run9q3xAeFJpVc_Add_a_scroll-triggered_V_e56a9984-0d82-4a08-be67-8502b794f667_2.mp4"
-              muted playsInline preload="metadata"
+              muted playsInline preload="none"
               style={{ width:400, maxHeight:'82vh', objectFit:'contain', display:'block', mixBlendMode:'multiply', opacity: loading ? 0 : 1, transition:'opacity 0.4s ease' }}
             />
           </div>

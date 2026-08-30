@@ -67,13 +67,18 @@ import React from 'react';
           const playPromise = vid.play();
           if (playPromise && playPromise.catch) playPromise.catch(() => {});
         };
-        if (!vid.src) {
-          vid.src = src;
-          vid.load();
-          vid.addEventListener('loadeddata', start, { once: true });
-        } else {
-          start();
-        }
+        const mio = new IntersectionObserver(entries => {
+          if (!entries.some(e => e.isIntersecting)) return;
+          mio.disconnect();
+          if (!vid.src) {
+            vid.src = src;
+            vid.load();
+            vid.addEventListener('loadeddata', start, { once: true });
+          } else {
+            start();
+          }
+        }, { rootMargin: '400px' });
+        mio.observe(section);
         // Reveal all features immediately on mobile
         FEATURES.forEach((_, i) => {
           const el = featRefs.current[i];
@@ -83,7 +88,7 @@ import React from 'react';
           headRef.current.style.opacity = 1;
           headRef.current.style.transform = 'translateY(0)';
         }
-        return () => { cancelled = true; };
+        return () => { cancelled = true; mio.disconnect(); };
       }
 
       // ── Desktop: scroll-scrub ──
@@ -180,7 +185,7 @@ import React from 'react';
             <video
               ref={videoRef}
               data-src="/uploads/u5144992196_httpss.mj.runp2lqYW_dyJY_Add_a_scroll-triggered_l_531df757-ee28-4368-9a1b-b6f7fa47ff10_2.mp4"
-              muted playsInline preload="metadata"
+              muted playsInline preload="none"
               style={{ width:560, maxHeight:'82vh', objectFit:'contain', display:'block', mixBlendMode:'multiply', opacity: loading ? 0 : 1, transition:'opacity 0.4s ease' }}
             />
           </div>

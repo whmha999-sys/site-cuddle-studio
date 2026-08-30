@@ -54,11 +54,6 @@ export const ProductShowcaseCard: React.FC<Props> = ({
     ? { card: '#1f2937', border: '#374151', text: '#ffffff', sub: '#d1d5db', muted: '#9ca3af', imgBg: '#111827', btn: btnHover ? '#ea580c' : '#f97316' }
     : { card: '#ffffff', border: '#e5e7eb', text: '#111827', sub: '#4b5563', muted: '#6b7280', imgBg: '#ffffff', btn: btnHover ? '#ea580c' : '#f97316' };
 
-  const discount =
-    product.salePrice && product.salePrice < product.price
-      ? Math.round(((product.price - product.salePrice) / product.price) * 100)
-      : null;
-
   return (
     <div
       dir="ltr"

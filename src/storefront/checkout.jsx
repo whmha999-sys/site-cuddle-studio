@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
-  Check, ChevronLeft, Percent, X, Wallet, Tag, Trash2, Minus, Plus,
+  Check, ChevronLeft, Wallet, Trash2, Minus, Plus,
 } from 'lucide-react';
 
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {
@@ -93,8 +93,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const L = (en, arT) => (ar ? arT : en);
 
   const [currentStep, setCurrentStep] = React.useState(1);
-  const [coupon, setCoupon] = React.useState('');
-  const [appliedPromo, setAppliedPromo] = React.useState(null);
   const [agreeToTerms, setAgreeToTerms] = React.useState(false);
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -107,18 +105,10 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const upd = (field, value) => setShipping(prev => ({ ...prev, [field]: value }));
 
   const sub = cart.reduce((s,i)=>s + i.price*i.qty, 0);
-  const discount = appliedPromo ? sub * appliedPromo.pct : 0;
   const tax = 0;
   const ship = 0;
-  const total = sub - discount + tax + ship;
+  const total = sub + tax + ship;
 
-  const applyCoupon = () => {
-    const c = coupon.trim().toUpperCase();
-    if (c === 'SL10') setAppliedPromo({ code: c, pct: 0.10 });
-    else if (c === 'WELCOME') setAppliedPromo({ code: c, pct: 0.05 });
-    else setAppliedPromo({ code: c, pct: 0, invalid: true });
-  };
-  const removePromo = () => { setAppliedPromo(null); setCoupon(''); };
 
   const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
   const isValidPhone = (v) => /^[+\d][\d\s\-()]{6,}$/.test((v || '').trim());
@@ -160,7 +150,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
       // ignored — kept for backwards compatibility / observability only.
       currency: currencyCode,
       exchange_rate: currency.rate,
-      coupon: appliedPromo?.code || null,
       payment_method: paymentMethod,
     };
 
@@ -254,37 +243,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
           })}
         </div>
 
-        {/* Coupon */}
-        <div className="flex gap-2">
-          <Input
-            placeholder={t.coupon_ph || L('Coupon code','رمز الخصم')}
-            value={coupon}
-            onChange={e => setCoupon(e.target.value)}
-            disabled={!!appliedPromo && !appliedPromo.invalid}
-          />
-          <Button type="button" variant="outline" onClick={applyCoupon}>
-            <Tag className="h-4 w-4 mr-1"/>{t.apply || L('Apply','تطبيق')}
-          </Button>
-        </div>
-
-        {appliedPromo && !appliedPromo.invalid && (
-          <div className="flex items-center justify-between p-3 bg-green-50 dark:bg-green-950/30 rounded-md border border-green-200 dark:border-green-900">
-            <div className="flex items-center gap-2">
-              <Percent className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium text-green-800 dark:text-green-300">
-                {appliedPromo.code} · −{(appliedPromo.pct*100).toFixed(0)}%
-              </span>
-            </div>
-            <Button variant="ghost" size="sm" onClick={removePromo} className="h-6 w-6 p-0 text-green-700">
-              <X className="h-3 w-3" />
-            </Button>
-          </div>
-        )}
-        {appliedPromo?.invalid && (
-          <div className="text-xs text-destructive">
-            {L('Invalid coupon. Try SL10 or WELCOME.','رمز غير صالح. جرّب SL10 أو WELCOME.')}
-          </div>
-        )}
 
         {/* Totals */}
         <div className="flex flex-col gap-2 border-t pt-4">
@@ -292,12 +250,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
             <span>{t.sub_total}</span>
             <span><Price value={sub}/></span>
           </div>
-          {discount > 0 && (
-            <div className="flex justify-between text-sm text-green-600">
-              <span>{t.discount}</span>
-              <span>−<Price value={discount}/></span>
-            </div>
-          )}
           <div className="flex justify-between text-sm">
             <span>{t.shipping}</span>
             <span>{ship === 0 ? <span className="text-green-600">{L('Free','مجاناً')}</span> : <Price value={ship}/>}</span>

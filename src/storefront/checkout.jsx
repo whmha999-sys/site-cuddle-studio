@@ -150,7 +150,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
       // ignored — kept for backwards compatibility / observability only.
       currency: currencyCode,
       exchange_rate: currency.rate,
-      coupon: appliedPromo?.code || null,
       payment_method: paymentMethod,
     };
 

@@ -15,7 +15,7 @@ import { cn } from '@/lib/utils';
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
-  Check, ChevronLeft, Percent, X, Wallet, Tag, Trash2, Minus, Plus,
+  Check, ChevronLeft, Wallet, Trash2, Minus, Plus,
 } from 'lucide-react';
 
 function CartDrawer({ t, cart, onClose, onUpdateQty, onRemove, lang }) {

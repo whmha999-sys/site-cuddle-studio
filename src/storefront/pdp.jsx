@@ -1,4 +1,5 @@
 // Product Detail Page
+import { MadaWidget } from './mada.jsx';
 import React from 'react';
 import { Icon, Price, Stars } from './atoms.jsx';
 import { Silhouette, ColorDot } from './silhouettes.jsx';
@@ -83,6 +84,7 @@ export function PDP({ t, product, onAddToCart, onBuyNow, products, lang, onNavig
           <h1 className="pdp-title">{product.name}</h1>
 
           <div className="pdp-price"><Price value={product.price}/></div>
+          <MadaWidget amount={product.price} lang={lang} />
 
           {product.colors.length > 1 && (
             <div className="pdp-field">

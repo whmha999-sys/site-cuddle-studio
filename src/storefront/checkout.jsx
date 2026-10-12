@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
+import { MadaWidget, MadaLogoTile } from './mada.jsx';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
   Check, ChevronLeft, Wallet, Trash2, Minus, Plus,

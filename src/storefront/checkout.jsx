@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { OrderConfirmationCard } from '@/components/ui/order-confirmation-card';
+import { MadaWidget, MadaLogoTile } from './mada.jsx';
 import {
   Truck, Shield, MapPin, User as UserIcon, Mail, Phone, ShoppingBag,
   Check, ChevronLeft, Wallet, Trash2, Minus, Plus,
@@ -172,8 +173,22 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
           templateData: { orderId: row.id },
         },
       }).catch(err => console.warn('admin email failed:', err));
+      if (paymentMethod === 'mada') {
+        const { data: m, error: mErr } = await supabase.functions.invoke('mada-create-order', {
+          body: { orderId: row.id, origin: window.location.origin },
+        });
+        if (mErr || !m?.redirect_url) throw new Error('mada');
+        window.location.href = m.redirect_url;
+        return;
+      }
     } catch (err) {
-      console.error('Order save failed, completing locally:', err);
+      console.error('Order save failed:', err);
+      if (paymentMethod === 'mada') {
+        setSubmitting(false);
+        alert(L('Could not start Mada payment. Please try again or choose cash on delivery.',
+                'تعذّر بدء الدفع عبر مدى. حاول مرة أخرى أو اختر الدفع عند الاستلام.'));
+        return;
+      }
     }
     setSubmitting(false);
     onComplete({
@@ -431,8 +446,31 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                       </div>
                       {paymentMethod === 'pickup' && <Check className="h-5 w-5 text-primary" />}
                     </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setPaymentMethod('mada')}
+                      className={`flex items-center gap-3 p-4 border-2 rounded-md text-start transition ${
+                        paymentMethod === 'mada' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
+                      }`}
+                    >
+                      <MadaLogoTile size={40} />
+                      <div className="flex-1">
+                        <div className="font-medium">{L('Pay with Mada','ادفع مع مدى')}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {L('Pay in 4 simple, interest free','ادفع على 4 دفعات، وبدون فوائد')}
+                        </div>
+                      </div>
+                      {paymentMethod === 'mada' && <Check className="h-5 w-5 text-primary" />}
+                    </button>
+                    <p className="text-xs text-muted-foreground px-1">
+                      <strong>{L("Don't have a Mada account?",'ليس لديك حساب على مدى؟')}</strong>{' '}
+                      {L('Download our app to apply & complete your purchase in minutes.','حمّل تطبيقنا لتقديم طلبك وإتمام عملية الشراء خلال دقائق.')}
+                    </p>
                   </div>
                 </div>
+
+                {paymentMethod === 'mada' && <MadaWidget amount={total} lang={lang} />}
 
                 <div className="rounded-md border border-border bg-muted/30 p-4 flex items-start gap-3">
                   <Shield className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
@@ -440,6 +478,9 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                     {paymentMethod === 'cod'
                       ? L('No payment required now. You will pay the driver upon delivery.',
                           'لا حاجة للدفع الان. ستدفع للسائق عند الاستلام')
+                      : paymentMethod === 'mada'
+                      ? L('You will be taken to Mada to complete your payment securely in JOD.',
+                          'سيتم تحويلك إلى مدى لإتمام الدفع بأمان بالدينار الأردني.')
                       : L('No payment required now. You will pay when you pick up your order at our store.',
                           'لا حاجة للدفع الآن. ستدفع عند استلام طلبك من المتجر.')}
                   </p>

@@ -122,6 +122,24 @@ export type Database = {
         }
         Relationships: []
       }
+      mada_webhook_deliveries: {
+        Row: {
+          delivery_id: string
+          payload: Json | null
+          received_at: string
+        }
+        Insert: {
+          delivery_id: string
+          payload?: Json | null
+          received_at?: string
+        }
+        Update: {
+          delivery_id?: string
+          payload?: Json | null
+          received_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           created_at: string
@@ -137,9 +155,13 @@ export type Database = {
           exchange_rate: number
           id: string
           items: Json
+          mada_order_id: string | null
+          mada_reference: string | null
           notes: string | null
           order_number: number
+          paid_at: string | null
           payment_method: string
+          payment_status: string
           shipping: number
           status: string
           subtotal: number
@@ -161,9 +183,13 @@ export type Database = {
           exchange_rate?: number
           id?: string
           items: Json
+          mada_order_id?: string | null
+          mada_reference?: string | null
           notes?: string | null
           order_number?: number
+          paid_at?: string | null
           payment_method: string
+          payment_status?: string
           shipping?: number
           status?: string
           subtotal: number
@@ -185,9 +211,13 @@ export type Database = {
           exchange_rate?: number
           id?: string
           items?: Json
+          mada_order_id?: string | null
+          mada_reference?: string | null
           notes?: string | null
           order_number?: number
+          paid_at?: string | null
           payment_method?: string
+          payment_status?: string
           shipping?: number
           status?: string
           subtotal?: number

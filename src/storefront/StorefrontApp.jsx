@@ -13,6 +13,7 @@ import BackToTop from './back-to-top.jsx';
 import WhatsAppFab from './whatsapp-fab.jsx';
 import { CurrencyProvider, useCurrency } from './currency-context.jsx';
 import { Checkout, SuccessModal } from './checkout.jsx';
+import { PaymentResult } from './mada.jsx';
 
 function CartLinePrice({ value }) {
   const { formatPrice } = useCurrency();
@@ -51,6 +52,8 @@ export default function StorefrontApp() {
       return { name: 'pdp', params: { id: params.id } };
     }
     if (path === '/checkout') return { name: 'checkout', params: {} };
+    if (path === '/payment/success') return { name: 'pay-success', params: {} };
+    if (path === '/payment/failed') return { name: 'pay-failed', params: {} };
     if (path.startsWith('/p/')) return { name: params.slug, params: {} };
     return { name: 'home', params: {} };
   }, [location.pathname, params.id, params.slug]);
@@ -162,6 +165,9 @@ export default function StorefrontApp() {
         {(() => {
           const InfoPage = INFO_PAGES[route.name];
           if (InfoPage) return <InfoPage lang={lang} />;
+          if (route.name === 'pay-success' || route.name === 'pay-failed') {
+            return <PaymentResult lang={lang} failed={route.name === 'pay-failed'} />;
+          }
           if (route.name === 'checkout') {
             return (
               <Checkout

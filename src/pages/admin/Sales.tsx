@@ -35,6 +35,7 @@ function paymentLabel(p: string) {
   const k = (p || "").toLowerCase();
   if (k === "pickup" || k === "pick-up" || k === "store") return "Pick from store";
   if (k === "cod" || k === "cash" || k === "cash-on-delivery") return "Cash on Delivery";
+  if (k === "mada") return "Mada (4 installments)";
   return p || "—";
 }
 
@@ -254,6 +255,11 @@ function OrdersTable({
                         <Badge variant="outline" className="font-normal">
                           {paymentLabel(o.payment_method)}
                         </Badge>
+                        {o.payment_method === "mada" && (
+                          <Badge variant={o.payment_status === "paid" ? "default" : o.payment_status === "expired" ? "destructive" : "secondary"} className="ms-1 font-normal">
+                            {o.payment_status === "paid" ? "Paid" : o.payment_status === "expired" ? "Expired" : "Awaiting payment"}
+                          </Badge>
+                        )}
                       </td>
                       <td onClick={(e) => e.stopPropagation()}>
                         {showActionButton ? (
@@ -392,6 +398,7 @@ function OrderDetailsDialog({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Section title="Payment">
                 <Row label="Method" value={paymentLabel(order.payment_method)} />
+                {order.payment_method === "mada" && <Row label="Payment status" value={order.payment_status || "—"} />}
                 {order.notes && <Row label="Notes" value={order.notes} />}
               </Section>
               <Section title="Totals">

@@ -18,6 +18,8 @@ export type Order = {
   discount: number;
   total: number;
   payment_method: string;
+  payment_status?: string;
+  mada_order_id?: string | null;
   status: string;
   notes: string | null;
   created_at: string;

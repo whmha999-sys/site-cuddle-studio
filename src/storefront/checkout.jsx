@@ -449,10 +449,9 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
 
                     <button
                       type="button"
-                      onClick={() => setPaymentMethod('mada')}
-                      className={`flex items-center gap-3 p-4 border-2 rounded-md text-start transition ${
-                        paymentMethod === 'mada' ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/50'
-                      }`}
+                      disabled
+                      aria-disabled="true"
+                      className="flex items-center gap-3 p-4 border-2 rounded-md text-start border-border opacity-60 cursor-not-allowed pointer-events-none"
                     >
                       <MadaLogoTile size={40} />
                       <div className="flex-1">
@@ -461,7 +460,9 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                           {L('Pay in 4 simple, interest free','ادفع على 4 دفعات، وبدون فوائد')}
                         </div>
                       </div>
-                      {paymentMethod === 'mada' && <Check className="h-5 w-5 text-primary" />}
+                      <span className="text-xs font-semibold px-2 py-1 rounded-full bg-muted text-muted-foreground">
+                        {L('Coming soon','قريباً')}
+                      </span>
                     </button>
                     <p className="text-xs text-muted-foreground px-1">
                       <strong>{L("Don't have a Mada account?",'ليس لديك حساب على مدى؟')}</strong>{' '}

@@ -1175,6 +1175,7 @@ input, select, textarea { font-family: inherit; color: inherit; }
   font-size: 12px; font-weight: 600; color: var(--fg);
 }
 .pay-badge.pay-cod { background: #1a1200; color: #FFB800; border-color: #1a1200; }
+.pay-badge.pay-mada { background: linear-gradient(135deg,#2b6e8f 0%,#22b8b8 100%); border-color: transparent; padding: 0 8px; }
 
 /* ===== PDP sticky add-to-cart bar (mobile) ===== */
 .pdp-sticky-bar {

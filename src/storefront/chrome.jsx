@@ -4,6 +4,7 @@ import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
 import CurrencySwitcher from './currency-switcher.jsx';
 import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from 'lucide-react';
+import madaLogo from '@/assets/mada-logo-white.png';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 
@@ -211,6 +212,7 @@ function Footer({ t, lang }) {
         <div className="footer-payments-label">{isAr ? 'طرق الدفع المتاحة' : 'We accept'}</div>
         <div className="footer-payments-list" aria-label={isAr ? 'طرق الدفع' : 'Payment methods'}>
           <span className="pay-badge pay-cod">{isAr ? 'الدفع عند الاستلام' : 'Cash on Delivery'}</span>
+          <span className="pay-badge pay-mada" aria-label="Mada"><img src={madaLogo} alt="Mada" style={{ height:20, width:'auto', display:'block' }}/></span>
           <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Visa"><rect width="48" height="32" rx="4" fill="#1a1f71"/><text x="24" y="21" textAnchor="middle" fontFamily="Arial Black, sans-serif" fontSize="12" fill="#fff" fontStyle="italic" fontWeight="900">VISA</text></svg></span>
           <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Mastercard"><rect width="48" height="32" rx="4" fill="#fff" stroke="#e4e4de"/><circle cx="20" cy="16" r="8" fill="#eb001b"/><circle cx="28" cy="16" r="8" fill="#f79e1b" fillOpacity=".9"/></svg></span>
           <span className="pay-badge"><svg viewBox="0 0 48 32" width="38" height="22" aria-label="Apple Pay"><rect width="48" height="32" rx="4" fill="#000"/><text x="24" y="21" textAnchor="middle" fontFamily="Helvetica, Arial, sans-serif" fontSize="11" fill="#fff" fontWeight="600"> Pay</text></svg></span>

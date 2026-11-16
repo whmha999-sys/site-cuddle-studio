@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import madaLogo from '@/assets/mada-logo-white.png.asset.json';
+import madaLogo from '@/assets/mada-logo-white.png';
 
 // Public key from Mada Merchant Portal > API Tokens > Other Keys > Public Key (safe in browser).
 export const MADA_PUBLIC_KEY = 'Gv2jpv-wJhbo7vq6CJLs9eTHxJZ7QfIVNHks5L4oifoTRAVs5YADIbMSnvbQB4YuE03aOTiOleeOE_viCXsYiw';
-export const MADA_ENV = 'sandbox'; // 'sandbox' | 'live'
+export const MADA_ENV = 'live'; // 'sandbox' | 'live'
 const WIDGET_SRC = MADA_ENV === 'live'
   ? 'https://cdn.mada-bnpl.com/widgets/v1/widget.js'
   : 'https://cdn.mada-bnpl.com/sandbox/v1/widget.js';
@@ -51,7 +51,7 @@ export function MadaLogoTile({ size = 56 }) {
       background: 'linear-gradient(135deg, #2b6e8f 0%, #22b8b8 100%)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
     }}>
-      <img src={madaLogo.url} alt="Mada" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
+      <img src={madaLogo} alt="Mada" style={{ width: '80%', height: '80%', objectFit: 'contain' }} />
     </div>
   );
 }

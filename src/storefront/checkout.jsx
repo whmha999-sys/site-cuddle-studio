@@ -463,10 +463,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                       </div>
                       {paymentMethod === 'mada' && <Check className="h-5 w-5 text-primary" />}
                     </button>
-                    <p className="text-xs text-muted-foreground px-1">
-                      <strong>{L("Don't have a Mada account?",'ليس لديك حساب على مدى؟')}</strong>{' '}
-                      {L('Download our app to apply & complete your purchase in minutes.','حمّل تطبيقنا لتقديم طلبك وإتمام عملية الشراء خلال دقائق.')}
-                    </p>
                   </div>
                 </div>
 

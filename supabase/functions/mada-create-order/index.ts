@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
     }));
     const total = items.reduce((s, i) => s + Number(i.total_amount), 0);
     const name = `${o.customer_first} ${o.customer_last}`.trim();
-    const phone = phoneIntl(o.customer_mobile);
+    const phone = /\d{6,}/.test(o.customer_mobile || "") ? phoneIntl(o.customer_mobile) : undefined;
     const body: Record<string, unknown> = {
       reference_id: `SL-${o.order_number}`,
       currency_code: "JOD",
@@ -56,10 +56,10 @@ Deno.serve(async (req) => {
       tax_amount: "0.000",
       description: `Smart Leaders order #${o.order_number}`,
       country_code: "JO",
-      buyer: { name, phone, ...(o.customer_email?.endsWith("@cod.local") ? {} : { email: o.customer_email }) },
+      buyer: { name, ...(phone ? { phone } : {}), ...(o.customer_email?.endsWith("@cod.local") ? {} : { email: o.customer_email }) },
       shipping_address: {
         country: "JO", city: o.customer_city, street_address: o.customer_address,
-        recipient_name: name, phone_number: phone,
+        recipient_name: name, ...(phone ? { phone_number: phone } : {}),
       },
       items,
       cart_validity_mins: 30,

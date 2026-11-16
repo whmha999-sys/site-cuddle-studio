@@ -117,7 +117,7 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
   const validateStep = (step) => {
     if (step === 1) {
       return !!(shipping.firstName && shipping.lastName &&
-        isValidEmail(shipping.email) && isValidPhone(shipping.phone) &&
+        isValidEmail(shipping.email) && (!shipping.phone.trim() || isValidPhone(shipping.phone)) &&
         shipping.address && shipping.city);
     }
     if (step === 2) return true; // COD always valid
@@ -367,7 +367,7 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                       value={shipping.email} onChange={e => upd('email', e.target.value)} />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="phone">{L('Phone','الهاتف')} *</Label>
+                    <Label htmlFor="phone">{L('Phone (optional)','الهاتف (اختياري)')}</Label>
                     <Input id="phone" type="tel" inputMode="tel"
                       pattern="[+\d][\d\s\-()]{6,}"
                       value={shipping.phone}

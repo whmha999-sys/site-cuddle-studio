@@ -463,10 +463,6 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                       </div>
                       {paymentMethod === 'mada' && <Check className="h-5 w-5 text-primary" />}
                     </button>
-                    <p className="text-xs text-muted-foreground px-1">
-                      <strong>{L("Don't have a Mada account?",'ليس لديك حساب على مدى؟')}</strong>{' '}
-                      {L('Download our app to apply & complete your purchase in minutes.','حمّل تطبيقنا لتقديم طلبك وإتمام عملية الشراء خلال دقائق.')}
-                    </p>
                   </div>
                 </div>
 
@@ -479,8 +475,8 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                       ? L('No payment required now. You will pay the driver upon delivery.',
                           'لا حاجة للدفع الان. ستدفع للسائق عند الاستلام')
                       : paymentMethod === 'mada'
-                      ? L('You will be taken to Mada to complete your payment securely in JOD.',
-                          'سيتم تحويلك إلى مدى لإتمام الدفع بأمان بالدينار الأردني.')
+                      ? L('Complete your order to pay with Mada in JOD.',
+                          'أكمل طلبك للدفع عبر مدى بالدينار الأردني.')
                       : L('No payment required now. You will pay when you pick up your order at our store.',
                           'لا حاجة للدفع الآن. ستدفع عند استلام طلبك من المتجر.')}
                   </p>

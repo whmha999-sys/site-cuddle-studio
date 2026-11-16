@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
-import madaLogo from '@/assets/mada-logo-white.png.asset.json';
+import madaLogo from '@/assets/mada-logo-white.png';
 
 // Public key from Mada Merchant Portal > API Tokens > Other Keys > Public Key (safe in browser).
 export const MADA_PUBLIC_KEY = 'Gv2jpv-wJhbo7vq6CJLs9eTHxJZ7QfIVNHks5L4oifoTRAVs5YADIbMSnvbQB4YuE03aOTiOleeOE_viCXsYiw';

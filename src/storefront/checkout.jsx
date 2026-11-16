@@ -539,7 +539,11 @@ export function Checkout({ t, cart, onComplete, lang, user, onUpdateQty, onRemov
                     </Button>
                   </div>
                   <div className="text-sm text-muted-foreground pl-6">
-                    💵 {L('Cash on Delivery','الدفع عند الاستلام')}
+                    {paymentMethod === 'mada'
+                      ? <span className="inline-flex items-center gap-2"><MadaLogoTile size={22} />{L('Pay with Mada','ادفع مع مدى')}</span>
+                      : paymentMethod === 'pickup'
+                      ? <>🏬 {L('Pick from store','الاستلام من المتجر')}</>
+                      : <>💵 {L('Cash on Delivery','الدفع عند الاستلام')}</>}
                   </div>
                 </div>
 
@@ -581,7 +585,9 @@ export function SuccessModal({ order, onClose, t, lang }) {
     lang === 'ar' ? 'ar-JO' : 'en-GB',
     { dateStyle: 'medium', timeStyle: 'short' },
   );
-  const payment = order.pay === 'pickup'
+  const payment = order.pay === 'mada'
+    ? (lang === 'ar' ? 'مدى' : 'Mada')
+    : order.pay === 'pickup'
     ? (lang === 'ar' ? 'الاستلام من المتجر' : 'Pick from store')
     : (lang === 'ar' ? 'الدفع عند الاستلام' : 'Cash on Delivery');
   return (

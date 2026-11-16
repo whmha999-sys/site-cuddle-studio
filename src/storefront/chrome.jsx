@@ -4,6 +4,7 @@ import { Icon, Price, Logo } from './atoms.jsx';
 import { Silhouette } from './silhouettes.jsx';
 import CurrencySwitcher from './currency-switcher.jsx';
 import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from 'lucide-react';
+import madaLogo from '@/assets/mada-logo-white.png.asset.json';
 const { useState: useStateH, useEffect: useEffectH, useMemo: useMemoH, useRef: useRefH } = React;
 
 

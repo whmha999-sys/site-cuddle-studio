@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import madaLogo from '@/assets/mada-logo-white.png.asset.json';
 
 // Public key from Mada Merchant Portal > API Tokens > Other Keys > Public Key (safe in browser).
-export const MADA_PUBLIC_KEY = '';
+export const MADA_PUBLIC_KEY = 'Gv2jpv-wJhbo7vq6CJLs9eTHxJZ7QfIVNHks5L4oifoTRAVs5YADIbMSnvbQB4YuE03aOTiOleeOE_viCXsYiw';
 export const MADA_ENV = 'sandbox'; // 'sandbox' | 'live'
 const WIDGET_SRC = MADA_ENV === 'live'
   ? 'https://cdn.mada-bnpl.com/widgets/v1/widget.js'
